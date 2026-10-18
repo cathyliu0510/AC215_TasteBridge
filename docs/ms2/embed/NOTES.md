@@ -1,6 +1,6 @@
 # Data pipeline: quality checks + embed stage — notes for the team
 
-Owner: YiTong. Code from branch `feature/datapipeline-embed` (PR #3); Cathy's `feature/datapipeline` builds ingest + preprocess on top of it.
+Owner: YiTong. Code merged into `main` via PR #3. Cathy's `feature/datapipeline` (ingest, preprocess, train; PR pending) builds on top of it and produced the real data used below.
 No Goodreads data is in git. The evidence in `docs/ms2/embed/` comes from the full real run (Oct 17) and holds only titles, authors, genres and similarity scores.
 
 ## What this adds
@@ -61,5 +61,5 @@ How to run and test it: `src/datapipeline/embed/README.md`.
 ## Needs a team decision
 
 - **`milestone2` branch.** The course requires a `milestone2` branch and its commit hash on Canvas. Who creates it, and when?
-- **Calling the quality step.** ✅ Done in Cathy's `preprocess.py` (after grouping editions by `work_id`; summary under `manifest.json["quality"]`).
+- **Calling the quality step.** ✅ Done in Cathy's `preprocess.py` on `feature/datapipeline` (after grouping editions by `work_id`; summary under `manifest.json["quality"]`).
 - **Repo visibility.** Make the repo private before any real-data evidence or excerpts are committed.
