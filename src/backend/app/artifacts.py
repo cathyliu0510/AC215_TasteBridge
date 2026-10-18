@@ -31,6 +31,7 @@ class ModelArtifacts:
     embeddings: np.ndarray  # rows L2-normalised, read-only
     coords: np.ndarray  # shape (num_books, 2), read-only
     model_version: str
+    data_version: str | None  # dataset snapshot the model was trained on, if recorded
     index: dict[str, int] = field(repr=False)
 
     def row_of(self, book_id: str) -> int | None:
@@ -53,7 +54,7 @@ def load_artifacts(artifact_dir: str) -> ModelArtifacts:
     books = _load_books(root / BOOKS_FILE)
     embeddings = _load_matrix(root / EMBEDDINGS_FILE)
     coords = _load_matrix(root / COORDS_FILE)
-    model_version = _load_model_version(root / META_FILE)
+    model_version, data_version = _load_versions(root / META_FILE)
 
     _check_shapes(len(books), embeddings, coords)
     index = _build_index(books)
@@ -63,6 +64,7 @@ def load_artifacts(artifact_dir: str) -> ModelArtifacts:
         embeddings=_read_only(_normalise_rows(embeddings)),
         coords=_read_only(coords),
         model_version=model_version,
+        data_version=data_version,
         index=index,
     )
 
@@ -87,15 +89,23 @@ def _load_matrix(path: Path) -> np.ndarray:
     return matrix.astype(np.float32, copy=False)
 
 
-def _load_model_version(path: Path) -> str:
+def _load_versions(path: Path) -> tuple[str, str | None]:
+    """model_version (required) and data_version (optional) from meta.json."""
     try:
         meta = json.loads(_require(path).read_text(encoding="utf-8"))
     except (json.JSONDecodeError, UnicodeDecodeError) as exc:
         raise ArtifactError(f"Invalid {path.name}: {exc}") from exc
-    version = meta.get("model_version") if isinstance(meta, dict) else None
-    if not isinstance(version, str) or not version:
+    if not isinstance(meta, dict):
+        meta = {}
+
+    model_version = meta.get("model_version")
+    if not isinstance(model_version, str) or not model_version:
         raise ArtifactError(f"{path.name} must contain a non-empty 'model_version'")
-    return version
+
+    data_version = meta.get("data_version")
+    if data_version is not None and (not isinstance(data_version, str) or not data_version):
+        raise ArtifactError(f"{path.name} 'data_version' must be a non-empty string if present")
+    return model_version, data_version
 
 
 def _check_shapes(num_books: int, embeddings: np.ndarray, coords: np.ndarray) -> None:

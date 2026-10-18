@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/books/500341"
+  },
+  "status": 200,
+  "response": {
+    "book_id": "500341",
+    "title": "Invented Book 341",
+    "author": "Author 116",
+    "year": 1986,
+    "cover_url": null,
+    "shelves": [
+      "epic-fantasy",
+      "fantasy",
+      "magic",
+      "urban-fantasy",
+      "young-adult"
+    ]
+  }
+}

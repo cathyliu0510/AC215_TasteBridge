@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/health"
+  },
+  "status": 200,
+  "response": {
+    "status": "ok",
+    "model_version": "b2-als-gr-db9936ca43ed",
+    "data_version": "gr-db9936ca43ed",
+    "num_books": 600
+  }
+}

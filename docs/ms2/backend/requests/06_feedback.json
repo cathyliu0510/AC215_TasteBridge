@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/feedback",
+    "body": {
+      "book_id": "500345",
+      "vote": "would_read",
+      "model_version": "b2-als-gr-db9936ca43ed"
+    }
+  },
+  "status": 200,
+  "response": {
+    "ok": true
+  }
+}

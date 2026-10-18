@@ -1,5 +1,5 @@
 import json
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from pathlib import Path
 
 import numpy as np
@@ -19,13 +19,19 @@ def feedback_path(tmp_path: Path) -> Path:
 
 
 @pytest.fixture
-def client(feedback_path: Path) -> Iterator[TestClient]:
+def client_factory(feedback_path: Path) -> Callable[[], TestClient]:
+    """Builds an unstarted client; entering it with `with` runs app startup."""
     settings = Settings(
         artifact_dir=str(DEFAULT_ARTIFACT_DIR),
         feedback_path=feedback_path,
         cors_origins=("*",),
     )
-    with TestClient(create_app(settings)) as test_client:
+    return lambda: TestClient(create_app(settings))
+
+
+@pytest.fixture
+def client(client_factory: Callable[[], TestClient]) -> Iterator[TestClient]:
+    with client_factory() as test_client:
         yield test_client
 
 

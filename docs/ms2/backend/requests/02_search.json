@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "path": "/books/search?q=invented%20book%2012&limit=3"
+  },
+  "status": 200,
+  "response": [
+    {
+      "book_id": "500123",
+      "title": "Invented Book 123",
+      "author": "Author 22",
+      "year": 1970,
+      "cover_url": null
+    },
+    {
+      "book_id": "500124",
+      "title": "Invented Book 124",
+      "author": "Author 84",
+      "year": null,
+      "cover_url": null
+    },
+    {
+      "book_id": "500121",
+      "title": "Invented Book 121",
+      "author": "Author 134",
+      "year": 1982,
+      "cover_url": null
+    }
+  ]
+}

@@ -30,6 +30,7 @@ class Book(BookSummary):
 class HealthResponse(BaseModel):
     status: Literal["ok"] = "ok"
     model_version: str
+    data_version: str | None
     num_books: int
 
 

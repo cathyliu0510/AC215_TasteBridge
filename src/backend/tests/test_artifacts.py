@@ -19,6 +19,28 @@ def test_loads_valid_folder_and_normalises_embeddings(tmp_path) -> None:
     assert not artifacts.embeddings.flags.writeable
 
 
+def test_reads_data_version_from_meta(tmp_path) -> None:
+    meta = {"model_version": "b2-als-gr-1", "data_version": "gr-1"}
+    root = write_artifacts(tmp_path / "m", make_books(1), np.ones((1, 4)), np.zeros((1, 2)), meta=meta)
+
+    assert load_artifacts(str(root)).data_version == "gr-1"
+
+
+def test_data_version_is_none_when_meta_omits_it(tmp_path) -> None:
+    root = write_artifacts(tmp_path / "m", make_books(1), np.ones((1, 4)), np.zeros((1, 2)))
+
+    assert load_artifacts(str(root)).data_version is None
+
+
+@pytest.mark.parametrize("bad", ["", 42, ["gr-1"]])
+def test_rejects_data_version_that_is_not_a_non_empty_string(tmp_path, bad: object) -> None:
+    meta = {"model_version": "m", "data_version": bad}
+    root = write_artifacts(tmp_path / "m", make_books(1), np.ones((1, 4)), np.zeros((1, 2)), meta=meta)
+
+    with pytest.raises(ArtifactError, match="data_version"):
+        load_artifacts(str(root))
+
+
 def test_fails_fast_when_row_counts_differ(tmp_path) -> None:
     root = write_artifacts(tmp_path / "m", make_books(3), np.ones((2, 4)), np.zeros((3, 2)))
 

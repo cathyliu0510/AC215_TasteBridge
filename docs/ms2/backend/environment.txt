@@ -1,0 +1,12 @@
+# Backend MS2 evidence environment (captured 2026-10-18T04:59:59Z)
+backend_commit_base: 5c7e31efb2babf84b71fa3082fae83051424c2e1
+branch: feature/backend-ms2
+docker_client: 29.8.1
+docker_server: 29.5.2 (colima)
+image: tastebridge-backend:ms2-evidence sha256:c40e4b487e9a305824088fe98b5010fde16b91a74fe85ec31c5714852fc386f5
+base_image: python:3.12-slim-bookworm
+host: macOS 27.0.1 arm64
+
+$ docker ps --filter name=tb-ms2
+NAMES     IMAGE                              STATUS          PORTS
+tb-ms2    tastebridge-backend:ms2-evidence   Up 22 seconds   127.0.0.1:9000->9000/tcp
