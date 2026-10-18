@@ -17,6 +17,15 @@ Checked October 12, 2026: A **20261012.1** against backend PR #2 (`a9f1620dc2ea3
 
 The Docker stack served `sample-shelf-toy-v1`, data version `hand-curated-sample-52`. The smaller empty-result fixture was generated temporarily from five rows of those toy artifacts and is not committed. These checks measure integration behavior, not recommendation quality or a user study.
 
+## Real-catalogue check: pending
+
+As of October 18, the real Goodreads model has not been tested in Jenny's local frontend. The evidence below remains the 52-book toy-model run. Once the shared model artifacts are available:
+
+- [ ] Start the frontend and backend in Docker; record `/health` model and data versions (expected data version: `gr-317756d1a1ad`).
+- [ ] Search and choose five books per reader; check recommendations and book details in both ranking modes.
+- [ ] Submit explicit feedback; check empty results and API outage/recovery without losing selected books.
+- [ ] Save screenshots and a short run log with the commit SHA, artifact versions and local Docker environment.
+
 ## Artifacts
 
 - [Sample input and mapped API output](api-check.json)
