@@ -1,2 +1,17 @@
 .integration-runtime/
 .DS_Store
+
+# Python / test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.venv/
+
+# Data lives in DVC (gs://tastebridge-dvc), never in git. Goodreads license: no redistribution.
+# Each data folder is listed by name. Do not replace this with `/data/*` + `!` exceptions:
+# DVC then cannot see the data/*.dvc tickets and `dvc push` silently uploads nothing.
+/data/raw/
+/data/interim/
+/data/processed/
+/data/embeddings/

@@ -16,6 +16,21 @@ services:
       timeout: 5s
       retries: 3
 
+  # Pipeline stage: not started by a plain `docker compose up` (it is a ~3 GB image and needs
+  # data/processed/books.parquet). Run it with:  docker compose run --rm embed
+  embed:
+    build: ./src/datapipeline/embed
+    profiles: ["pipeline"]
+    volumes:
+      - ./data:/data
+    environment:
+      EMBED_INPUT: /data/processed/books.parquet
+      EMBED_OUTPUT_DIR: /data/embeddings
+    # Add when Cathy's preprocess service exists:
+    # depends_on:
+    #   preprocess:
+    #     condition: service_completed_successfully
+
   # Offline evaluation (Min-Recall@10, NDCG@10, coverage). Runs once and exits.
   #   mkdir -p src/evaluation/results
   #   docker compose --profile evaluation run --rm evaluation

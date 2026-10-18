@@ -1,0 +1,40 @@
+[project]
+name = "tastebridge-embed"
+version = "0.1.0"
+description = "TasteBridge pipeline stage: description embeddings + ChromaDB index."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "chromadb>=1.5.9",
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "pyarrow>=26.0.0",
+    "sentence-transformers>=6.1.0",
+    "torch>=2.14.1",
+]
+
+[tool.uv]
+package = false
+
+# CPU-only torch: the default Linux wheel bundles CUDA and makes the image several GB.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["slow: uses the real embedding model (downloads ~90 MB on first run)"]
+addopts = "-m 'not slow'"
+
+[tool.coverage.run]
+source = ["embed"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+]

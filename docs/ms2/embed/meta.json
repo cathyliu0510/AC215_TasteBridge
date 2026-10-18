@@ -1,0 +1,13 @@
+{
+  "stage": "embed",
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "dim": 384,
+  "num_books": 8,
+  "num_fallback_text": 2,
+  "input_file": "/data/processed/books.parquet",
+  "input_sha256": "e2b441870b0eb91bbaafb0daefa2201ee46f55ecd0f7dcd65f2f97c722d18f4f",
+  "input_data_version": "synthetic-0",
+  "code_version": "src-sha256:895d4e5b6273",
+  "created_at": "2026-10-14T03:59:45Z"
+}

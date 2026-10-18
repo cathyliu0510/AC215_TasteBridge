@@ -1,0 +1,4 @@
+2026-10-14 03:59:41,266 INFO embed: read /data/processed/books.parquet
+2026-10-14 03:59:41,266 INFO books=8 fallback_text=2
+2026-10-14 03:59:41,267 INFO loading sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+2026-10-14 03:59:45,009 INFO embed: wrote 8 x 384 embeddings and the vector index
