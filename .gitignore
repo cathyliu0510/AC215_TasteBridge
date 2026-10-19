@@ -1,2 +1,4 @@
 .integration-runtime/
 .DS_Store
+deploy/cloud-run/.artifacts/
+deploy/cloud-run/.state/

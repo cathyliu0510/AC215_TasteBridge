@@ -1,0 +1,8 @@
+# This directory is the derived backend image's complete build context.
+**
+!Dockerfile.backend
+!.artifacts
+!.artifacts/books.json
+!.artifacts/item_embeddings.npy
+!.artifacts/coords_2d.npy
+!.artifacts/meta.json
