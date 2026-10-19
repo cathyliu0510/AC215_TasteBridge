@@ -1,5 +1,9 @@
 # MS2 app integration evidence
 
+**Latest: [October 18 real Goodreads model run](real-model-20261018/).** Version A passed the local Docker flow with 5,000 books and model `b2-als-gr-317756d1a1ad`: search, five picks each, both rankings, reader reasons, galaxy, explicit feedback, and outage/recovery. The dated record includes screenshots, API results and artifact fingerprints. This verifies the app against the exported model, not reproduction of the full data/training pipeline.
+
+## October 12: toy-model app run
+
 Checked October 12, 2026: A **20261012.1** against backend PR #2 (`a9f1620dc2ea3070c600f7cca5128805cc8b74a0`). This records the application skeleton with sample artifacts; it does not establish completion of the data pipeline or trained-model deliverables.
 
 | Check | Result |
@@ -17,16 +21,7 @@ Checked October 12, 2026: A **20261012.1** against backend PR #2 (`a9f1620dc2ea3
 
 The Docker stack served `sample-shelf-toy-v1`, data version `hand-curated-sample-52`. The smaller empty-result fixture was generated temporarily from five rows of those toy artifacts and is not committed. These checks measure integration behavior, not recommendation quality or a user study.
 
-## Real-catalogue check: pending
-
-As of October 18, the real Goodreads model has not been tested in Jenny's local frontend. The evidence below remains the 52-book toy-model run. PR #7 now provides DVC pointers for the shared model. Local download and real-data runtime verification are still pending Google authentication. The frontend's real-model mount and reader-handoff fix are prepared; 41 frontend tests pass. Remaining checks:
-
-- [ ] Start the frontend and backend with the [real-model override](../../backend-integration.md#existing-trained-model-export); record `/health` model version and book count. Record data version from `meta.json`, or `/health` when using PR #5 (expected: `gr-317756d1a1ad`).
-- [ ] Search and choose five books per reader; check recommendations and book details in both ranking modes.
-- [ ] Submit explicit feedback; check empty results and API outage/recovery without losing selected books.
-- [ ] Save screenshots and a short run log with the commit SHA, artifact versions and local Docker environment.
-
-## Artifacts
+### Toy-model artifacts
 
 - [Sample input and mapped API output](api-check.json)
 - [Environment, source and artifact fingerprints](verification.json)

@@ -53,7 +53,7 @@ This preserves the feedback volume. The local API is not published by the hosted
 
 1. Search actual titles and choose five favorites per reader. Continuing to Reader 2 should clear Reader 1's search while keeping their five picks.
 2. Get recommendations, open book details and a galaxy point, and compare **Lower reader match** with **Average reader match**. Check separate reasons for each reader.
-3. Confirm a shared choice. **Send anonymous feedback** submits that choice and model version only when clicked; individual interests stay local.
+3. Confirm a shared choice. **Send anonymous feedback** submits that choice and model version only when clicked. Each reader's Interested / Pass / Not sure reactions stay on the page; favorite book IDs are sent to the recommendation API.
 4. Check a search with no matches, then interrupt and restore the API. Favorites and the previous shortlist should survive an error and retry.
 
 Save the source commit, loaded model/data versions, container status, a small input/output record, and screenshots. See [dated app evidence](ms2/frontend-api/). The older screenshots document toy data and must not be relabeled as real-data results.
