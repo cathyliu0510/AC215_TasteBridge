@@ -36,6 +36,8 @@ Also enable the Cloud Run, Artifact Registry and IAM APIs; create the Docker rep
 An administrator can review and run [admin-setup.sh](admin-setup.sh) from an authenticated Google Cloud Shell:
 
 ```sh
+git clone --branch frontend/cloud-staging --single-branch https://github.com/cathyliu0510/TasteBridge.git TasteBridge-cloud-setup
+cd TasteBridge-cloud-setup
 bash deploy/cloud-run/admin-setup.sh JENNY_GOOGLE_EMAIL
 ```
 
