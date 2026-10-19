@@ -153,7 +153,10 @@ if __name__ == '__main__':
     commands.add_parser('build').add_argument('artifact_dir', type=Path)
     commands.add_parser('publish')
     args = parser.parse_args()
-    if args.command == 'build':
-        build(args.artifact_dir.resolve())
-    else:
-        publish()
+    try:
+        if args.command == 'build':
+            build(args.artifact_dir.resolve())
+        else:
+            publish()
+    except subprocess.CalledProcessError as error:
+        raise SystemExit(f'Stopped: {error.cmd[0]} returned {error.returncode}. Resolve the error above before retrying.') from None
