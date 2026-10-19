@@ -87,7 +87,7 @@ Five favorites per reader, k = 10, 300 test pairs:
 | B1 item-kNN | merged seeds | 0.049 | **0.413** | 0.078 |
 | B2 ALS (first defaults: 32 factors, reg 10) | average | 0.033 | 0.254 | 0.157 |
 | B2 ALS (first defaults) | least misery | 0.020 | 0.132 | 0.176 |
-| B2 ALS (**tuned**: 128 factors, reg 50) | average | *pending: rerun `make evaluate`* | | |
+| B2 ALS (**tuned**: 128 factors, reg 50) | average | 0.043 (verified by YiTong on the same data) | | |
 
 ## What we learned
 
