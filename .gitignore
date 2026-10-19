@@ -17,3 +17,5 @@ __pycache__/
 /data/embeddings/
 /data/synthetic/
 /data/artifacts/
+deploy/cloud-run/.artifacts/
+deploy/cloud-run/.state/

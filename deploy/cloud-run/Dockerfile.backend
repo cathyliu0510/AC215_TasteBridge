@@ -1,0 +1,9 @@
+# Build the original backend first; this layer adds only its model export.
+ARG BACKEND_IMAGE
+FROM ${BACKEND_IMAGE}
+
+COPY --chown=0:0 .artifacts/books.json .artifacts/item_embeddings.npy .artifacts/coords_2d.npy .artifacts/meta.json /artifacts/current/
+ENV ARTIFACT_DIR=/artifacts/current \
+    FEEDBACK_PATH=/dev/stdout \
+    PORT=9000
+# Inherit the backend's non-root user and startup command unchanged.
