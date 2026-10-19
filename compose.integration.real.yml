@@ -1,0 +1,13 @@
+# App-only override: serves an existing model export without running training.
+# Supply the directory containing meta.json, books.json, and the vector files.
+services:
+  backend:
+    environment:
+      ARTIFACT_DIR: /artifacts/current
+    volumes:
+      - type: bind
+        source: ${TASTEBRIDGE_ARTIFACT_DIR:?Set TASTEBRIDGE_ARTIFACT_DIR to the exported model directory}
+        target: /artifacts/current
+        read_only: true
+        bind:
+          create_host_path: false

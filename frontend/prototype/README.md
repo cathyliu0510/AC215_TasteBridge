@@ -4,7 +4,7 @@
 
 A (Reading Desk) is the preferred interface; B (Book Journey) is the comparison. Both demonstrate two readers choosing five favorites each, exploring five new bridge books, inspecting separate reasons, and making a reversible shared choice. Project links carry the selected favorite IDs and ranking mode back to the demo; votes and joint choices remain page-local.
 
-The standalone demo uses 23 curated sample books and deterministic theme vectors. A's optional connected mode now calls the backend's SPEC v0.3 API for search, recommendations, reasons and galaxy coordinates. It uses 52 sample books and toy vectors, with no trained model, RAG backend, accounts or synchronized reading rooms. See the [integration guide](../../docs/backend-integration.md) and [MS2 app evidence](../../docs/ms2/frontend-api/).
+The standalone demo uses 23 curated sample books and deterministic theme vectors. A's optional connected mode now calls the backend's SPEC v0.3 API for search, recommendations, reasons and galaxy coordinates. The default Docker app uses 52 sample books and toy vectors. The real-model Compose override can instead mount the team's exported Goodreads model. Accounts and synchronized reading rooms are not implemented. See the [integration guide](../../docs/backend-integration.md) and [MS2 app evidence](../../docs/ms2/frontend-api/).
 
 The project overview follows the final three-page MS1 proposal shared by the team. Data caps, model comparison, reader-study design, performance criteria, and later milestones are labeled as planned work or targets. It omits architecture alternatives, stretch goals, and later meeting suggestions that have not been adopted. Submission or instructor-approval status is not asserted.
 

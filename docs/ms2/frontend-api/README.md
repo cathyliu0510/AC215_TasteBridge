@@ -19,9 +19,9 @@ The Docker stack served `sample-shelf-toy-v1`, data version `hand-curated-sample
 
 ## Real-catalogue check: pending
 
-As of October 18, the real Goodreads model has not been tested in Jenny's local frontend. The evidence below remains the 52-book toy-model run. Once the shared model artifacts are available:
+As of October 18, the real Goodreads model has not been tested in Jenny's local frontend. The evidence below remains the 52-book toy-model run. PR #7 now provides DVC pointers for the shared model. Local download and real-data runtime verification are still pending Google authentication. The frontend's real-model mount and reader-handoff fix are prepared; 41 frontend tests pass. Remaining checks:
 
-- [ ] Start the frontend and backend in Docker; record `/health` model and data versions (expected data version: `gr-317756d1a1ad`).
+- [ ] Start the frontend and backend with the [real-model override](../../backend-integration.md#existing-trained-model-export); record `/health` model version and book count. Record data version from `meta.json`, or `/health` when using PR #5 (expected: `gr-317756d1a1ad`).
 - [ ] Search and choose five books per reader; check recommendations and book details in both ranking modes.
 - [ ] Submit explicit feedback; check empty results and API outage/recovery without losing selected books.
 - [ ] Save screenshots and a short run log with the commit SHA, artifact versions and local Docker environment.

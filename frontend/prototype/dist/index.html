@@ -1900,7 +1900,11 @@ function motionHook(node,name,duration=450){
 function switchReader(reader,{handoff=false}={}){
  if(state.reader===reader){$('#search').focus({preventScroll:true});return;}
  state.reader=reader;state.handoff=handoff?`${readerName(reader)}, your turn. The first five are kept.`:`Now editing ${readerName(reader)}.`;
- if(handoff){state.query='';state.filter='all';$('#search').value='';syncFilters();renderBooks();if(compactViewport.matches){shelvesOpen=false;$('#selected-shelves').open=false;}}
+ if(handoff){
+  api?.requests.cancel('search');clearTimeout(searchTimer);
+  state.query='';state.filter='all';state.searchResults=[];state.searchBusy=false;state.searchError='';
+  $('#search').value='';syncFilters();renderBooks();if(compactViewport.matches){shelvesOpen=false;$('#selected-shelves').open=false;}
+ }
  syncSelectionChrome();syncCatalogueSelection();$('#search').focus({preventScroll:!handoff});recorder.record('switch_reader',{reader});
 }
 function bindShelf(container){

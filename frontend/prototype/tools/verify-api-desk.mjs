@@ -1,11 +1,63 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 import {LatestRequests} from '../src/a/desk-api.mjs';
 import {enableApiCatalogue,cacheApiBooks,byId} from '../src/a/shared/catalog.mjs';
 import {galaxyLayout} from '../src/a/desk-galaxy.mjs';
 import {bookTile} from '../src/a/shared/ui.mjs';
 import {shortlistText,readerConnection} from '../src/a/desk-interactions.mjs';
 import {voteFor} from '../src/a/desk-decision.mjs';
+
+// Run the real page handlers with a small view port, without introducing a
+// browser dependency into the existing Node tests.
+const appSource=readFileSync(new URL('../src/a/app.mjs',import.meta.url),'utf8');
+function handlerSource(start,end){
+ const from=appSource.indexOf(start),to=appSource.indexOf(end,from);
+ assert(from>=0&&to>from,'Page handlers moved; update this view harness.');
+ return appSource.slice(from,to);
+}
+function readerHandoff({executeSearch=async()=>[],searchTimer}={}){
+ const state={reader:'a',stage:'select',query:'Potter',filter:'all',a:['a1','a2','a3','a4','a5'],b:[],searchResults:[{id:'previous-match'}],searchBusy:false,searchError:''};
+ const requests=new LatestRequests(),renders=[],input={value:state.query,focus(){}};
+ const render=()=>renders.push({query:state.query,results:Array.from(state.searchResults,book=>book.id),busy:state.searchBusy,error:state.searchError});
+ const context={state,searchTimer,clearTimeout,api:{requests,search:query=>requests.run('search',signal=>executeSearch(query,signal))},
+  compactViewport:{matches:false},readerName:reader=>reader==='a'?'Reader 1':'Reader 2',
+  $:()=>input,syncFilters(){},syncSelectionChrome(){},syncCatalogueSelection(){},
+  renderBooks:render,renderApiBooks:render,recorder:{record(){}}};
+ runInNewContext(handlerSource('async function performSearch(){','function syncFilters()')+'\n'+handlerSource('function switchReader(','function bindShelf('),context);
+ return {...context,renders,input};
+}
+
+test('reader handoff cancels an in-flight search and keeps the next reader idle after its late response',async()=>{
+ let finish,searchSignal;
+ const page=readerHandoff({executeSearch:(_query,signal)=>{searchSignal=signal;return new Promise(resolve=>{finish=resolve;});}});
+ const pending=page.performSearch();
+ assert.equal(page.state.searchBusy,true);
+ page.switchReader('b',{handoff:true});
+ assert.equal(searchSignal.aborted,true);
+ assert.equal(page.state.reader,'b');
+ assert.equal(page.input.value,'');
+ assert.deepEqual(page.state.a,['a1','a2','a3','a4','a5']);
+ assert.deepEqual(page.state.b,[]);
+ assert.deepEqual(page.renders.at(-1),{query:'',results:[],busy:false,error:''});
+ const renderCount=page.renders.length;
+ finish([{id:'late-match'}]);await pending;
+ assert.equal(page.renders.length,renderCount);
+ assert.equal(page.state.searchBusy,false);
+ assert.equal(page.state.searchResults.length,0);
+});
+
+test('reader handoff clears old search errors and prevents a queued search from starting',async()=>{
+ let searches=0;
+ const searchTimer=setTimeout(()=>{searches++;},5);
+ const page=readerHandoff({searchTimer});
+ page.state.searchError='Cannot reach the API.';
+ page.switchReader('b',{handoff:true});
+ await new Promise(resolve=>setTimeout(resolve,15));
+ assert.equal(searches,0);
+ assert.deepEqual(page.renders.at(-1),{query:'',results:[],busy:false,error:''});
+});
 
 test('a late response cannot replace a newer search even when its transport ignores abort',async()=>{
  const requests=new LatestRequests();let resolveOld;
