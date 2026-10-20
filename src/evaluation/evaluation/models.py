@@ -103,4 +103,7 @@ class ItemKNN:
         return _scale(self._similarity[rows].sum(axis=0).astype(float))
 
 
-MODELS = {"popularity": Popularity, "item_knn": ItemKNN}
+# B2 lives in als.py (Cathy); imported here so every model is registered in one place.
+from evaluation.als import ALS  # noqa: E402
+
+MODELS = {"popularity": Popularity, "item_knn": ItemKNN, "als": ALS}

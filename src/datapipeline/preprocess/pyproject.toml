@@ -1,0 +1,28 @@
+[project]
+name = "tastebridge-preprocess"
+version = "0.1.0"
+description = "TasteBridge pipeline stage: raw Goodreads files -> work-level catalogue and interactions."
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=2.5.4",
+    "orjson>=3.11.0",   # fast JSON parsing for ~80M raw lines
+    "pandas>=3.0.6",
+    "pyarrow>=26.0.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["tests/*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+]

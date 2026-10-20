@@ -6,10 +6,12 @@ services:
     build:
       context: ${TASTEBRIDGE_BACKEND_DIR:-./src/backend}
     environment:
-      ARTIFACT_DIR: /app/sample_artifacts
+      # Sample artifacts by default; `make app` sets ARTIFACT_DIR=/artifacts/current (trained B2).
+      ARTIFACT_DIR: ${ARTIFACT_DIR:-/app/sample_artifacts}
       CORS_ORIGINS: "http://localhost:${TASTEBRIDGE_UI_PORT:-4176},http://127.0.0.1:${TASTEBRIDGE_UI_PORT:-4176}"
     volumes:
       - feedback:/app/feedback
+      - ./data/artifacts:/artifacts:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9000/health')"]
       interval: 5s

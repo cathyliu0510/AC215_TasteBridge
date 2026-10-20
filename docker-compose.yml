@@ -1,23 +1,61 @@
-# One-command run for TasteBridge:  docker compose up --build  (or: docker-compose up --build)
-# Teammates: add the frontend and pipeline services below.
+# TasteBridge: one-command runs (see Makefile and docs/ms2/datapipeline/README.md)
+#
+#   docker compose up --build                     backend API only (sample artifacts), as before
+#   make pipeline                                 ingest -> preprocess -> embed -> evaluation (real data)
+#   make sample                                   same, but with a small slice of the interaction files
+#
+# Pipeline stages are one-shot jobs: each runs, writes into ./data, and exits.
+# Every stage reads/writes ./data, which is git-ignored and versioned with DVC
+# (gs://tastebridge-dvc). Goodreads license: academic use only, never commit data.
 services:
   backend:
     build: ./src/backend
     ports:
       - "9000:9000"
     environment:
-      ARTIFACT_DIR: /app/sample_artifacts
+      # Default: the 52-book sample. `make serve` sets ARTIFACT_DIR=/artifacts/current (trained B2).
+      ARTIFACT_DIR: ${ARTIFACT_DIR:-/app/sample_artifacts}
       CORS_ORIGINS: "*"
     volumes:
       - feedback:/app/feedback   # keeps votes across restarts and rebuilds
+      - ./data/artifacts:/artifacts:ro   # model artifacts exported by the `train` service
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9000/health')"]
       interval: 30s
       timeout: 5s
       retries: 3
 
-  # Pipeline stage: not started by a plain `docker compose up` (it is a ~3 GB image and needs
-  # data/processed/books.parquet). Run it with:  docker compose run --rm embed
+  # Stage 1 (Cathy): download raw Goodreads files into data/raw/.
+  # INGEST_SAMPLE_LINES=0 -> full files; e.g. 200000 -> first 200k lines of each interaction file.
+  ingest:
+    build: ./src/datapipeline/ingest
+    profiles: ["pipeline"]
+    volumes:
+      - ./data:/data
+    environment:
+      RAW_DIR: /data/raw
+      INGEST_SAMPLE_LINES: ${INGEST_SAMPLE_LINES:-0}
+
+  # Stage 2 (Cathy, with YiTong's quality.py): data/raw -> data/processed/
+  # books.parquet + interactions.parquet + manifest.json (data_version).
+  preprocess:
+    build: ./src/datapipeline/preprocess
+    profiles: ["pipeline"]
+    volumes:
+      - ./data:/data
+    environment:
+      RAW_DIR: /data/raw
+      PROCESSED_DIR: /data/processed
+      PREPROCESS_MAX_WORKS: ${PREPROCESS_MAX_WORKS:-5000}
+      PREPROCESS_MAX_INTERACTIONS: ${PREPROCESS_MAX_INTERACTIONS:-500000}
+      PREPROCESS_MIN_USER_LIKES: ${PREPROCESS_MIN_USER_LIKES:-5}
+      PREPROCESS_SEED: ${PREPROCESS_SEED:-42}
+    depends_on:
+      ingest:
+        condition: service_completed_successfully
+
+  # Stage 3a (YiTong): description embeddings + ChromaDB index. ~3 GB image.
+  # Run alone on existing data with:  docker compose run --rm --no-deps embed
   embed:
     build: ./src/datapipeline/embed
     profiles: ["pipeline"]
@@ -26,15 +64,30 @@ services:
     environment:
       EMBED_INPUT: /data/processed/books.parquet
       EMBED_OUTPUT_DIR: /data/embeddings
-    # Add when Cathy's preprocess service exists:
-    # depends_on:
-    #   preprocess:
-    #     condition: service_completed_successfully
+    depends_on:
+      preprocess:
+        condition: service_completed_successfully
 
-  # Offline evaluation (Min-Recall@10, NDCG@10, coverage). Runs once and exits.
-  #   mkdir -p src/evaluation/results
-  #   docker compose --profile evaluation run --rm evaluation
-  # Defaults to synthetic data; see src/evaluation/README.md for real data.
+  # Stage 3b (Cathy): train B2 ALS on data/processed and export the backend's artifact folder
+  # (SPEC section 5) to data/artifacts/<model_version>/ and data/artifacts/current/.
+  # Same image as evaluation (the model code lives in src/evaluation/evaluation/als.py).
+  train:
+    build: ./src/evaluation
+    profiles: ["pipeline"]
+    entrypoint: ["python", "-m", "evaluation.export"]
+    command: ["--processed", "/app/processed", "--out", "/app/artifacts"]
+    environment:
+      GIT_COMMIT: ${GIT_COMMIT:-}
+    volumes:
+      - ./data/processed:/app/processed:ro
+      - ./data/artifacts:/app/artifacts
+    depends_on:
+      preprocess:
+        condition: service_completed_successfully
+
+  # Stage 3c (Anhad): offline evaluation (Min-Recall@10, NDCG@10, coverage). Runs once and exits.
+  #   synthetic data (default):  docker compose --profile evaluation run --rm evaluation
+  #   real data:                 make evaluate   (passes --interactions/--books from data/processed)
   evaluation:
     build: ./src/evaluation
     profiles: ["evaluation"]
@@ -43,6 +96,7 @@ services:
     volumes:
       - ./src/evaluation/results:/app/results
       - ./src/evaluation/data:/app/data:ro
+      - ./data/${EVAL_DATA:-processed}:/app/processed:ro   # preprocess output (real-data runs)
 
 volumes:
   feedback:

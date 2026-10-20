@@ -15,3 +15,5 @@ __pycache__/
 /data/interim/
 /data/processed/
 /data/embeddings/
+/data/synthetic/
+/data/artifacts/

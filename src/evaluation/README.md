@@ -90,3 +90,13 @@ The tests check metrics against hand-calculated values. They also check that the
 ## AI assistance
 
 The first version of this package was drafted with Claude (Anthropic), then reviewed, run and tested by the committing team member.
+
+## B2 (ALS) and the backend export
+
+`evaluation/als.py` adds **B2, implicit ALS**, through the `Recommender` interface. It scores with the backend's rule (unit mean of seed vectors, cosine), and is part of the default `--models` (popularity, item_knn, als). `evaluation/export.py` refits B2 on all users and writes the backend's artifact folder:
+
+```bash
+python -m evaluation.export --processed /app/processed --out /app/artifacts   # compose service `train`
+```
+
+Details, hyperparameters and early results: [docs/ms2/models/README.md](../../docs/ms2/models/README.md).

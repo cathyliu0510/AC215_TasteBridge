@@ -31,6 +31,7 @@ from evaluation import __version__, synthetic
 from evaluation.aggregate import AGGREGATIONS, recommend_pair
 from evaluation.data import data_version, likes, load_books, load_interactions
 from evaluation.metrics import coverage, long_tail, pair_metrics
+from evaluation.als import ALS, ALSParams
 from evaluation.models import MODELS, ItemKNN
 from evaluation.pairs import sample_pairs
 from evaluation.split import make_eval_readers, split_users
@@ -49,13 +50,18 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     p.add_argument("--out", default="results")
     p.add_argument("--run-id", default=None)
     p.add_argument("--split", choices=("tune", "test"), default="test")
-    p.add_argument("--models", type=csv, default=["popularity", "item_knn"])
+    p.add_argument("--models", type=csv, default=["popularity", "item_knn", "als"])
     p.add_argument("--aggregations", type=csv, default=list(AGGREGATIONS))
     p.add_argument("--favorite-counts", type=csv, default=["5"], help="e.g. 1,2,3,4,5 for robustness")
     p.add_argument("--n-pairs", type=int, default=300)
     p.add_argument("--k", type=int, default=10)
     p.add_argument("--knn-neighbors", type=int, default=100)
     p.add_argument("--seed", type=int, default=42)
+    # B2 ALS hyperparameters (defaults in evaluation/als.py ALSParams)
+    p.add_argument("--als-factors", type=int, default=ALSParams.factors)
+    p.add_argument("--als-reg", type=float, default=ALSParams.regularization)
+    p.add_argument("--als-alpha", type=float, default=ALSParams.alpha)
+    p.add_argument("--als-iterations", type=int, default=ALSParams.iterations)
     args = p.parse_args(argv)
     if not args.synthetic and not (args.interactions and args.books):
         p.error("give --interactions and --books, or --synthetic")
@@ -69,6 +75,11 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     if not all(1 <= n <= 5 for n in args.favorite_counts):
         p.error("--favorite-counts must be between 1 and 5")
     return args
+
+
+def als_params(args: argparse.Namespace) -> ALSParams:
+    return ALSParams(factors=args.als_factors, regularization=args.als_reg, alpha=args.als_alpha,
+                     iterations=args.als_iterations, seed=args.seed)
 
 
 def git_commit() -> str | None:
@@ -169,7 +180,12 @@ def run(args: argparse.Namespace) -> Path:
     models = {}
     for name in args.models:
         tic = time.perf_counter()
-        model = ItemKNN(args.knn_neighbors) if name == "item_knn" else MODELS[name]()
+        if name == "item_knn":
+            model = ItemKNN(args.knn_neighbors)
+        elif name == "als":
+            model = ALS(als_params(args))
+        else:
+            model = MODELS[name]()
         models[name] = model.fit(train)
         log.info("Fitted %s on %d training interactions in %.2fs", name, len(train), time.perf_counter() - tic)
 

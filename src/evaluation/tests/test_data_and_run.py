@@ -82,7 +82,7 @@ def test_run_writes_every_output(small_run: Path) -> None:
 def test_run_covers_every_model_aggregation_and_favorite_count(small_run: Path) -> None:
     summary = pd.read_csv(small_run / "summary.csv")
     combos = set(zip(summary["model"], summary["aggregation"], summary["n_favorites"]))
-    assert len(combos) == 2 * 3 * 2
+    assert len(combos) == 3 * 3 * 2  # popularity, item_knn, als x 3 aggregations x 2 favorite counts
     assert set(summary["pair_kind"]) == {"all", "similar", "different"}
 
 

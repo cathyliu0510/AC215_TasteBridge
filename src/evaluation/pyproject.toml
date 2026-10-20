@@ -9,6 +9,7 @@ dependencies = [
     "pandas>=3.0.6",
     "pyarrow>=26.0.0",
     "scipy>=1.18.1",
+    "umap-learn>=0.5.7",
 ]
 
 [tool.uv]

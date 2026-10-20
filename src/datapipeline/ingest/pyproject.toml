@@ -1,0 +1,24 @@
+[project]
+name = "tastebridge-ingest"
+version = "0.1.0"
+description = "TasteBridge pipeline stage: download raw Goodreads files (full or sampled) into data/raw/."
+requires-python = ">=3.12,<3.13"
+# Standard library only: urllib, gzip, hashlib. Nothing to install at runtime.
+dependencies = []
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["."]
+omit = ["tests/*"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+]
