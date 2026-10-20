@@ -1,0 +1,22 @@
+{
+  "model_version": "b2-als-gr-db9936ca43ed",
+  "model": "B2 implicit ALS (Hu, Koren & Volinsky 2008), numpy implementation",
+  "created_at": "2026-10-18T04:45:40+00:00",
+  "data_version": "gr-db9936ca43ed",
+  "hyperparameters": {
+    "factors": 128,
+    "regularization": 50.0,
+    "alpha": 20.0,
+    "iterations": 15,
+    "seed": 42
+  },
+  "scoring": "taste = unit mean of seed vectors; fit = cosine; served by backend/app/recommender.py",
+  "map_method": "umap",
+  "counts": {
+    "books": 600,
+    "interactions": 70034,
+    "users": 2948
+  },
+  "code_version": "b78a57a",
+  "seconds": 26.5
+}

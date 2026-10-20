@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/recommend",
+    "body": {
+      "reader_a": [
+        "999999999"
+      ],
+      "reader_b": [
+        "500460",
+        "500226",
+        "500238",
+        "500162",
+        "500409"
+      ]
+    }
+  },
+  "status": 404,
+  "response": {
+    "detail": {
+      "message": "Unknown book_id values",
+      "unknown_ids": [
+        "999999999"
+      ]
+    }
+  }
+}

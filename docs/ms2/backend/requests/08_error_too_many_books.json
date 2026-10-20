@@ -1,0 +1,48 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/recommend",
+    "body": {
+      "reader_a": [
+        "500341",
+        "500067",
+        "500081",
+        "500358",
+        "500205",
+        "500460"
+      ],
+      "reader_b": [
+        "500226",
+        "500238",
+        "500162",
+        "500409"
+      ]
+    }
+  },
+  "status": 422,
+  "response": {
+    "detail": [
+      {
+        "type": "too_long",
+        "loc": [
+          "body",
+          "reader_a"
+        ],
+        "msg": "List should have at most 5 items after validation, not 6",
+        "input": [
+          "500341",
+          "500067",
+          "500081",
+          "500358",
+          "500205",
+          "500460"
+        ],
+        "ctx": {
+          "field_type": "List",
+          "max_length": 5,
+          "actual_length": 6
+        }
+      }
+    ]
+  }
+}

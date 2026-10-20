@@ -11,4 +11,8 @@ router = APIRouter(tags=["health"])
 
 @router.get("/health", response_model=HealthResponse)
 def health(artifacts: Annotated[ModelArtifacts, Depends(get_artifacts)]) -> HealthResponse:
-    return HealthResponse(model_version=artifacts.model_version, num_books=len(artifacts.books))
+    return HealthResponse(
+        model_version=artifacts.model_version,
+        data_version=artifacts.data_version,
+        num_books=len(artifacts.books),
+    )

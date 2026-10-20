@@ -1,0 +1,371 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/recommend",
+    "body": {
+      "reader_a": [
+        "500341",
+        "500067",
+        "500081",
+        "500358",
+        "500205"
+      ],
+      "reader_b": [
+        "500460",
+        "500226",
+        "500238",
+        "500162",
+        "500409"
+      ],
+      "aggregation": "average"
+    }
+  },
+  "status": 200,
+  "response": {
+    "model_version": "b2-als-gr-db9936ca43ed",
+    "aggregation": "average",
+    "top_shelves": {
+      "reader_a": [
+        "fantasy",
+        "epic-fantasy",
+        "urban-fantasy"
+      ],
+      "reader_b": [
+        "mystery",
+        "suspense",
+        "detective"
+      ]
+    },
+    "recommendations": [
+      {
+        "rank": 1,
+        "book": {
+          "book_id": "500461",
+          "title": "Invented Book 461 (edition 3)",
+          "author": "Author 4",
+          "year": 1950,
+          "cover_url": null,
+          "shelves": [
+            "psychological-thriller",
+            "noir",
+            "detective",
+            "mystery",
+            "suspense",
+            "thriller",
+            "crime"
+          ]
+        },
+        "score": 0.5302,
+        "fit_a": 0.1612,
+        "fit_b": 0.8992,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500341",
+            "seed_title": "Invented Book 341",
+            "same_author": false,
+            "shared_shelves": [],
+            "text": "Closest to your pick Invented Book 341."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "psychological-thriller",
+              "noir",
+              "mystery"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: psychological-thriller, noir, mystery."
+          }
+        },
+        "position": {
+          "x": 0.8819068670272827,
+          "y": -0.37621262669563293
+        }
+      },
+      {
+        "rank": 2,
+        "book": {
+          "book_id": "500440",
+          "title": "Invented Book 440",
+          "author": "Author 48",
+          "year": 1987,
+          "cover_url": null,
+          "shelves": [
+            "detective",
+            "suspense",
+            "mystery",
+            "noir"
+          ]
+        },
+        "score": 0.5242,
+        "fit_a": 0.1559,
+        "fit_b": 0.8925,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500081",
+            "seed_title": "Invented Book 81",
+            "same_author": false,
+            "shared_shelves": [],
+            "text": "Closest to your pick Invented Book 81."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "suspense",
+              "mystery",
+              "noir"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: suspense, mystery, noir."
+          }
+        },
+        "position": {
+          "x": 0.8929121494293213,
+          "y": -0.3658267557621002
+        }
+      },
+      {
+        "rank": 3,
+        "book": {
+          "book_id": "500410",
+          "title": "Invented Book 410 (edition 2)",
+          "author": "Author 87",
+          "year": 1960,
+          "cover_url": null,
+          "shelves": [
+            "psychological-thriller",
+            "noir",
+            "thriller",
+            "suspense",
+            "detective"
+          ]
+        },
+        "score": 0.5063,
+        "fit_a": 0.1349,
+        "fit_b": 0.8777,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500081",
+            "seed_title": "Invented Book 81",
+            "same_author": false,
+            "shared_shelves": [
+              "thriller"
+            ],
+            "text": "Closest to your pick Invented Book 81; shared shelves: thriller."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "psychological-thriller",
+              "noir",
+              "thriller"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: psychological-thriller, noir, thriller."
+          }
+        },
+        "position": {
+          "x": 0.8972893357276917,
+          "y": -0.38516712188720703
+        }
+      },
+      {
+        "rank": 4,
+        "book": {
+          "book_id": "500514",
+          "title": "Invented Book 514",
+          "author": "Author 19",
+          "year": 1951,
+          "cover_url": null,
+          "shelves": [
+            "crime",
+            "thriller",
+            "suspense",
+            "psychological-thriller",
+            "noir",
+            "mystery"
+          ]
+        },
+        "score": 0.4975,
+        "fit_a": 0.1478,
+        "fit_b": 0.8472,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500081",
+            "seed_title": "Invented Book 81",
+            "same_author": false,
+            "shared_shelves": [
+              "crime",
+              "thriller"
+            ],
+            "text": "Closest to your pick Invented Book 81; shared shelves: crime, thriller."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "crime",
+              "thriller",
+              "suspense"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: crime, thriller, suspense."
+          }
+        },
+        "position": {
+          "x": 0.8810431957244873,
+          "y": -0.35899367928504944
+        }
+      },
+      {
+        "rank": 5,
+        "book": {
+          "book_id": "500523",
+          "title": "Invented Book 523",
+          "author": "Author 80",
+          "year": 1962,
+          "cover_url": null,
+          "shelves": [
+            "crime",
+            "noir",
+            "thriller",
+            "detective",
+            "mystery",
+            "psychological-thriller"
+          ]
+        },
+        "score": 0.4931,
+        "fit_a": 0.16,
+        "fit_b": 0.8262,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500081",
+            "seed_title": "Invented Book 81",
+            "same_author": false,
+            "shared_shelves": [
+              "crime",
+              "thriller"
+            ],
+            "text": "Closest to your pick Invented Book 81; shared shelves: crime, thriller."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "crime",
+              "noir",
+              "thriller"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: crime, noir, thriller."
+          }
+        },
+        "position": {
+          "x": 0.876650333404541,
+          "y": -0.3456953763961792
+        }
+      }
+    ],
+    "galaxy": {
+      "reader_a": [
+        {
+          "book_id": "500341",
+          "title": "Invented Book 341",
+          "x": -0.9612434506416321,
+          "y": -0.028071222826838493
+        },
+        {
+          "book_id": "500067",
+          "title": "Invented Book 67 (edition 2)",
+          "x": -0.925430953502655,
+          "y": -0.03593249246478081
+        },
+        {
+          "book_id": "500081",
+          "title": "Invented Book 81",
+          "x": -0.9688366651535034,
+          "y": -0.04034262150526047
+        },
+        {
+          "book_id": "500358",
+          "title": "Invented Book 358",
+          "x": -0.9416484832763672,
+          "y": -0.041776251047849655
+        },
+        {
+          "book_id": "500205",
+          "title": "Invented Book 205",
+          "x": -0.8434157371520996,
+          "y": 0.021306274458765984
+        }
+      ],
+      "reader_b": [
+        {
+          "book_id": "500460",
+          "title": "Invented Book 460 (edition 2)",
+          "x": 0.8931918740272522,
+          "y": -0.3678218126296997
+        },
+        {
+          "book_id": "500226",
+          "title": "Invented Book 226",
+          "x": 0.8596891760826111,
+          "y": -0.37716376781463623
+        },
+        {
+          "book_id": "500238",
+          "title": "Invented Book 238 (edition 2)",
+          "x": 0.9086669087409973,
+          "y": -0.38356295228004456
+        },
+        {
+          "book_id": "500162",
+          "title": "Invented Book 162",
+          "x": 0.9025839567184448,
+          "y": -0.3433610200881958
+        },
+        {
+          "book_id": "500409",
+          "title": "Invented Book 409",
+          "x": 0.8428183794021606,
+          "y": -0.4094751179218292
+        }
+      ],
+      "bridges": [
+        {
+          "book_id": "500461",
+          "title": "Invented Book 461 (edition 3)",
+          "x": 0.8819068670272827,
+          "y": -0.37621262669563293
+        },
+        {
+          "book_id": "500440",
+          "title": "Invented Book 440",
+          "x": 0.8929121494293213,
+          "y": -0.3658267557621002
+        },
+        {
+          "book_id": "500410",
+          "title": "Invented Book 410 (edition 2)",
+          "x": 0.8972893357276917,
+          "y": -0.38516712188720703
+        },
+        {
+          "book_id": "500514",
+          "title": "Invented Book 514",
+          "x": 0.8810431957244873,
+          "y": -0.35899367928504944
+        },
+        {
+          "book_id": "500523",
+          "title": "Invented Book 523",
+          "x": 0.876650333404541,
+          "y": -0.3456953763961792
+        }
+      ]
+    }
+  }
+}

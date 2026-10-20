@@ -31,8 +31,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.state.artifacts = artifacts
         app.state.feedback_store = FeedbackStore(settings.feedback_path)
         logger.info(
-            "Loaded model %s with %d books from %s",
+            "Loaded model %s (data %s) with %d books from %s",
             artifacts.model_version,
+            artifacts.data_version or "unrecorded",
             len(artifacts.books),
             settings.artifact_dir,
         )

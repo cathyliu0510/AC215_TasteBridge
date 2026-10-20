@@ -8,6 +8,7 @@ def test_health_reports_loaded_model(client: TestClient) -> None:
     assert response.json() == {
         "status": "ok",
         "model_version": "sample-shelf-toy-v1",
+        "data_version": "hand-curated-sample-52",
         "num_books": 52,
     }
 

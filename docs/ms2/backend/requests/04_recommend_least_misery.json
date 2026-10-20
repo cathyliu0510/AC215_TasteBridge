@@ -1,0 +1,363 @@
+{
+  "request": {
+    "method": "POST",
+    "path": "/recommend",
+    "body": {
+      "reader_a": [
+        "500341",
+        "500067",
+        "500081",
+        "500358",
+        "500205"
+      ],
+      "reader_b": [
+        "500460",
+        "500226",
+        "500238",
+        "500162",
+        "500409"
+      ],
+      "aggregation": "least-misery"
+    }
+  },
+  "status": 200,
+  "response": {
+    "model_version": "b2-als-gr-db9936ca43ed",
+    "aggregation": "least_misery",
+    "top_shelves": {
+      "reader_a": [
+        "fantasy",
+        "epic-fantasy",
+        "urban-fantasy"
+      ],
+      "reader_b": [
+        "mystery",
+        "suspense",
+        "detective"
+      ]
+    },
+    "recommendations": [
+      {
+        "rank": 1,
+        "book": {
+          "book_id": "500345",
+          "title": "Invented Book 345",
+          "author": "Author 68",
+          "year": 1975,
+          "cover_url": null,
+          "shelves": [
+            "epic-fantasy",
+            "magic",
+            "mystery",
+            "thriller",
+            "crime",
+            "fantasy"
+          ]
+        },
+        "score": 0.4596,
+        "fit_a": 0.4938,
+        "fit_b": 0.4596,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500341",
+            "seed_title": "Invented Book 341",
+            "same_author": false,
+            "shared_shelves": [
+              "epic-fantasy",
+              "magic",
+              "fantasy"
+            ],
+            "text": "Closest to your pick Invented Book 341; shared shelves: epic-fantasy, magic, fantasy."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "mystery",
+              "thriller",
+              "crime"
+            ],
+            "text": "Closest to your pick Invented Book 460 (edition 2); shared shelves: mystery, thriller, crime."
+          }
+        },
+        "position": {
+          "x": -1.0,
+          "y": -0.07738710939884186
+        }
+      },
+      {
+        "rank": 2,
+        "book": {
+          "book_id": "500316",
+          "title": "Invented Book 316",
+          "author": "Author 104",
+          "year": null,
+          "cover_url": null,
+          "shelves": [
+            "magic",
+            "crime",
+            "epic-fantasy",
+            "fantasy"
+          ]
+        },
+        "score": 0.3033,
+        "fit_a": 0.4238,
+        "fit_b": 0.3033,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500067",
+            "seed_title": "Invented Book 67 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "epic-fantasy",
+              "fantasy"
+            ],
+            "text": "Closest to your pick Invented Book 67 (edition 2); shared shelves: epic-fantasy, fantasy."
+          },
+          "reader_b": {
+            "seed_id": "500162",
+            "seed_title": "Invented Book 162",
+            "same_author": false,
+            "shared_shelves": [],
+            "text": "Closest to your pick Invented Book 162."
+          }
+        },
+        "position": {
+          "x": -0.9927106499671936,
+          "y": -0.06734190136194229
+        }
+      },
+      {
+        "rank": 3,
+        "book": {
+          "book_id": "500442",
+          "title": "Invented Book 442",
+          "author": "Author 34",
+          "year": 1987,
+          "cover_url": null,
+          "shelves": [
+            "urban-fantasy",
+            "young-adult",
+            "epic-fantasy",
+            "fantasy"
+          ]
+        },
+        "score": 0.2925,
+        "fit_a": 0.6635,
+        "fit_b": 0.2925,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500341",
+            "seed_title": "Invented Book 341",
+            "same_author": false,
+            "shared_shelves": [
+              "urban-fantasy",
+              "young-adult",
+              "epic-fantasy"
+            ],
+            "text": "Closest to your pick Invented Book 341; shared shelves: urban-fantasy, young-adult, epic-fantasy."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [],
+            "text": "Closest to your pick Invented Book 460 (edition 2)."
+          }
+        },
+        "position": {
+          "x": -0.9807071685791016,
+          "y": -0.06335543841123581
+        }
+      },
+      {
+        "rank": 4,
+        "book": {
+          "book_id": "500334",
+          "title": "Invented Book 334",
+          "author": "Author 51",
+          "year": 1992,
+          "cover_url": null,
+          "shelves": [
+            "epic-fantasy",
+            "magic",
+            "fantasy",
+            "mystery"
+          ]
+        },
+        "score": 0.2876,
+        "fit_a": 0.3909,
+        "fit_b": 0.2876,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500067",
+            "seed_title": "Invented Book 67 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [
+              "epic-fantasy",
+              "fantasy"
+            ],
+            "text": "Closest to your pick Invented Book 67 (edition 2); shared shelves: epic-fantasy, fantasy."
+          },
+          "reader_b": {
+            "seed_id": "500162",
+            "seed_title": "Invented Book 162",
+            "same_author": false,
+            "shared_shelves": [
+              "mystery"
+            ],
+            "text": "Closest to your pick Invented Book 162; shared shelves: mystery."
+          }
+        },
+        "position": {
+          "x": -0.9526505470275879,
+          "y": -0.08717731386423111
+        }
+      },
+      {
+        "rank": 5,
+        "book": {
+          "book_id": "500105",
+          "title": "Invented Book 105 (edition 2)",
+          "author": "Author 134",
+          "year": 1970,
+          "cover_url": null,
+          "shelves": [
+            "dragons",
+            "heist",
+            "urban-fantasy",
+            "fantasy",
+            "magic",
+            "young-adult"
+          ]
+        },
+        "score": 0.2871,
+        "fit_a": 0.6822,
+        "fit_b": 0.2871,
+        "reasons": {
+          "reader_a": {
+            "seed_id": "500341",
+            "seed_title": "Invented Book 341",
+            "same_author": false,
+            "shared_shelves": [
+              "urban-fantasy",
+              "fantasy",
+              "magic"
+            ],
+            "text": "Closest to your pick Invented Book 341; shared shelves: urban-fantasy, fantasy, magic."
+          },
+          "reader_b": {
+            "seed_id": "500460",
+            "seed_title": "Invented Book 460 (edition 2)",
+            "same_author": false,
+            "shared_shelves": [],
+            "text": "Closest to your pick Invented Book 460 (edition 2)."
+          }
+        },
+        "position": {
+          "x": -0.98024582862854,
+          "y": -0.057841964066028595
+        }
+      }
+    ],
+    "galaxy": {
+      "reader_a": [
+        {
+          "book_id": "500341",
+          "title": "Invented Book 341",
+          "x": -0.9612434506416321,
+          "y": -0.028071222826838493
+        },
+        {
+          "book_id": "500067",
+          "title": "Invented Book 67 (edition 2)",
+          "x": -0.925430953502655,
+          "y": -0.03593249246478081
+        },
+        {
+          "book_id": "500081",
+          "title": "Invented Book 81",
+          "x": -0.9688366651535034,
+          "y": -0.04034262150526047
+        },
+        {
+          "book_id": "500358",
+          "title": "Invented Book 358",
+          "x": -0.9416484832763672,
+          "y": -0.041776251047849655
+        },
+        {
+          "book_id": "500205",
+          "title": "Invented Book 205",
+          "x": -0.8434157371520996,
+          "y": 0.021306274458765984
+        }
+      ],
+      "reader_b": [
+        {
+          "book_id": "500460",
+          "title": "Invented Book 460 (edition 2)",
+          "x": 0.8931918740272522,
+          "y": -0.3678218126296997
+        },
+        {
+          "book_id": "500226",
+          "title": "Invented Book 226",
+          "x": 0.8596891760826111,
+          "y": -0.37716376781463623
+        },
+        {
+          "book_id": "500238",
+          "title": "Invented Book 238 (edition 2)",
+          "x": 0.9086669087409973,
+          "y": -0.38356295228004456
+        },
+        {
+          "book_id": "500162",
+          "title": "Invented Book 162",
+          "x": 0.9025839567184448,
+          "y": -0.3433610200881958
+        },
+        {
+          "book_id": "500409",
+          "title": "Invented Book 409",
+          "x": 0.8428183794021606,
+          "y": -0.4094751179218292
+        }
+      ],
+      "bridges": [
+        {
+          "book_id": "500345",
+          "title": "Invented Book 345",
+          "x": -1.0,
+          "y": -0.07738710939884186
+        },
+        {
+          "book_id": "500316",
+          "title": "Invented Book 316",
+          "x": -0.9927106499671936,
+          "y": -0.06734190136194229
+        },
+        {
+          "book_id": "500442",
+          "title": "Invented Book 442",
+          "x": -0.9807071685791016,
+          "y": -0.06335543841123581
+        },
+        {
+          "book_id": "500334",
+          "title": "Invented Book 334",
+          "x": -0.9526505470275879,
+          "y": -0.08717731386423111
+        },
+        {
+          "book_id": "500105",
+          "title": "Invented Book 105 (edition 2)",
+          "x": -0.98024582862854,
+          "y": -0.057841964066028595
+        }
+      ]
+    }
+  }
+}

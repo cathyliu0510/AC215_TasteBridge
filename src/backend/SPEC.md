@@ -1,6 +1,6 @@
 # TasteBridge API Service — Specification
 
-**Status:** DRAFT v0.3 — needs sign-off from frontend and modeling leads
+**Status:** DRAFT v0.4 — needs sign-off from frontend and modeling leads
 **Owner:** Nikhil (backend & deployment)
 **Lives in:** `src/backend/`
 **Source of truth for scope:** MS1 proposal (Statement of Work)
@@ -43,12 +43,13 @@ modeling pipeline, which hands the API a folder of artifacts (see §5).
 
 ### 4.1 `GET /health`
 
-Shows the service is up and which model is loaded.
+Shows the service is up, which model is loaded and which data snapshot trained it.
 
 **Response 200**
 ```json
-{ "status": "ok", "model_version": "b1-itemknn-2026-10-18", "num_books": 5000 }
+{ "status": "ok", "model_version": "b2-als-gr-317756d1a1ad", "data_version": "gr-317756d1a1ad", "num_books": 5000 }
 ```
+`data_version` comes from `meta.json` and is `null` if the artifact does not record one.
 
 ---
 
@@ -225,8 +226,11 @@ The training pipeline writes one folder per model version. The API loads it at s
   books.json           [{ "book_id", "title", "author", "shelves": [...], "year"?, "cover_url"? }]
   item_embeddings.npy  float32, shape (num_books, dim)   — row i ↔ books.json[i]
   coords_2d.npy        float32, shape (num_books, 2)     — UMAP x, y for the galaxy
-  meta.json            { "model_version": "...", "created_at": "...", "data_version": "..." }
+  meta.json            { "model_version": "...", "created_at": "...", "data_version": "..."?, ... }
 ```
+
+- `meta.json` must have a non-empty `model_version`. `data_version` is optional, but if present it must be a non-empty string. Other keys (hyperparameters, counts, `code_version`) are allowed and ignored by the API.
+- **Producer:** `src/evaluation/evaluation/export.py` (Cathy, B2 ALS) writes this folder to `data/artifacts/<model_version>/` and `data/artifacts/current/`. `make serve` mounts `data/artifacts` into the backend and sets `ARTIFACT_DIR=/artifacts/current`.
 
 - `ARTIFACT_DIR` is set by an environment variable: a local path for MS2, a GCS path for MS3.
 - Any model (B0 popularity, B1 item-kNN, B2 ALS/BPR, M1 hybrid) can be served if it exports this format. Swapping models means pointing at a new folder, with no code change.
@@ -253,8 +257,9 @@ The training pipeline writes one folder per model version. The API loads it at s
 **MS2 (due Oct 20) — skeleton that talks to the frontend**
 - [x] `/health`, `/books/search`, `/books/{id}`, `/recommend`, `/feedback` work against the **sample** artifacts
 - [x] Runs locally via uv and inside Docker
-- [ ] Part of the team's one-command `docker compose up` (backend service added; frontend still to join)
-- [ ] Frontend successfully calls `/recommend` (screenshot or log as evidence)
+- [x] Part of the team's one-command runs: `docker compose up` (backend), `compose.integration.yml` (frontend + backend), `make serve` / `make app` (trained B2 model)
+- [x] Frontend successfully calls `/recommend` (evidence: `docs/ms2/frontend-api/`)
+- [x] Serves the trained B2 ALS artifacts and reports their `data_version` (evidence: `docs/ms2/backend/`)
 
 **MS3 (due Nov 12) — real model, deployed**
 - [ ] Loads real baseline/M1 artifacts from GCS
@@ -274,18 +279,27 @@ The training pipeline writes one folder per model version. The API loads it at s
 
 ## 9. Open questions — need answers from teammates
 
+**Answered**
+
+| # | Question | Answer |
+|---|---|---|
+| 1 | Is `book_id` the Goodreads work_id, and in what format? | Yes: the work_id as a string of digits, e.g. `"500345"` (`export.py`). The sample artifacts keep `w_` IDs. |
+| 2 | Will the model export the §5 format? Which baseline first? | Yes: B2 ALS via `export.py` (128 factors, reg 50, UMAP coords). B0 and B1 have no item vectors, so they are evaluated offline only. |
+| 3 | Do the §4 shapes match the frontend? | Yes, since v0.3. The frontend maps snake_case fields in `frontend/prototype/src/api/client.mjs` (`docs/backend-integration.md`). |
+
+**Still open**
+
 | # | Question | Ask |
 |---|---|---|
-| 1 | Is `book_id` the Goodreads **work_id**? What format (e.g. `"w_1001"` or raw numbers as strings)? | Modeling lead |
-| 2 | Will the model export item embeddings + UMAP coords in the §5 format? Which baseline first, and when? | Modeling lead |
-| 3 | Do the JSON shapes in §4 match what the frontend prototype already expects? (The prototype currently ranks in the browser and makes no HTTP calls, so this is a new integration.) | Frontend lead |
 | 4 | Do we want cover images? If so, where do the URLs come from? | Frontend + modeling |
-| 5 | Default aggregation: `least_misery` or `average`? (The API supports both; this only sets the default.) | Team / eval results |
+| 5 | Default aggregation: `least_misery` or `average`? On real data least-misery lowers Min-Recall@10 for every model but adds long-tail books (`docs/ms2/models/README.md`). | Team, using eval results |
 | 6 | Where should feedback votes be stored at MS3 (GCS file, Firestore, BigQuery)? | Team |
 | 7 | Search: is simple substring matching enough for 5,000 books, or do we want typo tolerance? | Product/UX lead |
+| 8 | Serving rule: cosine on unit vectors drops ALS's popularity signal. Add a popularity term, serve item-kNN, or use raw dot products? Needs one extra artifact field. | Modeling + backend (MS3) |
 
 ## 10. Changelog
 
+- **v0.4 (2026-10-18):** `/health` and the startup log report `data_version` from `meta.json` (optional: `null` if absent, and a malformed value stops startup). Documented the B2 ALS producer (`export.py`) and `make serve`. Answered open questions 1–3; added question 8 (serving rule).
 - **v0.3 (2026-10-11):** aligned with the frontend prototype (`origin/prototype/ms1-scope-and-website`). `aggregation` also accepts `"least-misery"`. Reasons are now objects (`seed_id`, `seed_title`, `same_author`, `shared_shelves`, `text`) instead of plain strings. Added `top_shelves` to the `/recommend` response, and an optional `year` to books. JSON field names stay snake_case; the frontend maps them in its API client.
 - **v0.2 (2026-10-11):** moved to `src/backend/`. Clarified that an empty `q` returns `[]` (v0.1 said both "1–100 chars" and "empty returns `[]`"). Request bodies reject unknown fields and `book_id`s over 64 chars (422). `/feedback` returns 404 for unknown books and 503 on storage failure. Spelled out the reason format, the extra fail-fast artifact checks, and score rounding.
 - **v0.1 (2026-10-10):** first draft from the MS1 proposal and wireframes.

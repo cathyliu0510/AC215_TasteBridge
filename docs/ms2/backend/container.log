@@ -1,0 +1,31 @@
+INFO:     Started server process [1]
+INFO:     Waiting for application startup.
+2026-10-18 04:59:37,210 INFO tastebridge Loaded model b2-als-gr-db9936ca43ed (data gr-db9936ca43ed) with 600 books from /artifacts/current
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:9000 (Press CTRL+C to quit)
+2026-10-18 04:59:37,922 INFO tastebridge.requests GET /health 200 3.4ms
+INFO:     172.17.0.1:59166 - "GET /health HTTP/1.1" 200 OK
+2026-10-18 04:59:51,099 INFO tastebridge.requests GET /health 200 1.1ms
+INFO:     172.17.0.1:50460 - "GET /health HTTP/1.1" 200 OK
+2026-10-18 04:59:51,106 INFO tastebridge.requests GET /books/search 200 5.1ms
+INFO:     172.17.0.1:50472 - "GET /books/search?q=invented%20book%2012&limit=3 HTTP/1.1" 200 OK
+2026-10-18 04:59:51,111 INFO tastebridge.requests GET /books/500341 200 1.3ms
+INFO:     172.17.0.1:50478 - "GET /books/500341 HTTP/1.1" 200 OK
+2026-10-18 04:59:51,117 INFO tastebridge.requests POST /recommend 200 4.7ms
+INFO:     172.17.0.1:50494 - "POST /recommend HTTP/1.1" 200 OK
+2026-10-18 04:59:51,122 INFO tastebridge.requests POST /recommend 200 1.8ms
+INFO:     172.17.0.1:50502 - "POST /recommend HTTP/1.1" 200 OK
+2026-10-18 04:59:51,129 INFO tastebridge.requests POST /feedback 200 4.8ms
+INFO:     172.17.0.1:50510 - "POST /feedback HTTP/1.1" 200 OK
+2026-10-18 04:59:51,132 INFO tastebridge.requests POST /recommend 404 0.9ms
+INFO:     172.17.0.1:50512 - "POST /recommend HTTP/1.1" 404 Not Found
+2026-10-18 04:59:51,134 INFO tastebridge.requests POST /recommend 422 0.9ms
+INFO:     172.17.0.1:50514 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-10-18 05:00:05,776 INFO tastebridge.requests GET /docs 200 0.4ms
+INFO:     172.17.0.1:41636 - "GET /docs HTTP/1.1" 200 OK
+INFO:     172.17.0.1:41636 - "GET /openapi.json HTTP/1.1" 200 OK
+2026-10-18 05:00:06,040 INFO tastebridge.requests GET /openapi.json 200 32.0ms
+2026-10-18 05:00:06,810 INFO tastebridge.requests GET /health 200 1.4ms
+INFO:     172.17.0.1:41654 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.17.0.1:41654 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+2026-10-18 05:00:06,853 INFO tastebridge.requests GET /favicon.ico 404 0.4ms

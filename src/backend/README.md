@@ -72,6 +72,47 @@ Settings are read from environment variables. See [.env.example](.env.example).
 The server refuses to start if the artifact folder is missing files or the row
 counts don't match.
 
+## Serve the trained model
+
+By default the API serves the toy sample artifacts. The data pipeline's `train`
+stage (`src/evaluation/evaluation/export.py`, B2 ALS) writes a real artifact
+folder to `data/artifacts/current/` at the repo root. To serve it, from the repo root:
+
+```bash
+make train
+```
+
+```bash
+make serve
+```
+
+`make serve` mounts `data/artifacts` into the container and sets
+`ARTIFACT_DIR=/artifacts/current`. These targets need the pipeline's `Makefile`
+and compose services (Cathy's `feature/datapipeline` branch) and Docker Compose v2
+(`docker compose`).
+
+Without Docker, from `src/backend/`:
+
+```bash
+ARTIFACT_DIR=../../data/artifacts/current uv run uvicorn app.main:app --port 9000
+```
+
+Check which model and data snapshot are loaded:
+
+```bash
+curl http://localhost:9000/health
+```
+
+The output looks like this (the versions and book count depend on the run):
+
+```json
+{"status":"ok","model_version":"b2-als-gr-317756d1a1ad","data_version":"gr-317756d1a1ad","num_books":5000}
+```
+
+`data_version` comes from `meta.json`. It ties every answer to the preprocessed
+dataset (`data/processed/manifest.json`, tracked with DVC). MS2 evidence is in
+[`docs/ms2/backend/`](../../docs/ms2/backend/).
+
 ## Sample artifacts
 
 `sample_artifacts/` holds 52 hand-picked books (IDs `w_1xxx` fantasy, `w_2xxx`
