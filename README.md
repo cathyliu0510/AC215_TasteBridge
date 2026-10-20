@@ -15,11 +15,11 @@ The app serves a trained **B2 implicit ALS model over 5,000 Goodreads works**. V
 | Description embeddings and retrieval | [MiniLM/Chroma evidence and query examples](docs/ms2/embed/) |
 | Frontend + real-model API | [Docker integration, screenshots and input/output](docs/ms2/frontend-api/real-model-20261018/) · [running containers](docs/ms2/running-containers.png) |
 
-The saved evidence covers real-data stages and a synthetic preprocessing/evaluation demo. A combined end-to-end `make pipeline` run record still needs confirmation; the app check alone does not establish that.
+The saved evidence covers each real-data stage, a synthetic preprocessing/evaluation demo, and a [one-command end-to-end run on the full data](docs/ms2/datapipeline/evidence/e2e-full-windows.log) (ingest → preprocess → embed + train → evaluation, `data_version gr-317756d1a1ad`, exit code 0).
 
 ## Run the app
 
-Requires Docker with Compose and `make`. To use the existing trained export, also install DVC with GCS support and the Google Cloud CLI; your Google account needs read access to the team's DVC bucket.
+Requires Docker with Compose. `make` is optional: every target has a plain `docker compose` equivalent (below, and in the [pipeline guide](docs/ms2/datapipeline/#run-it-from-the-repo-root)), so Windows PowerShell works without it. To use the existing trained export, also install DVC with GCS support and the Google Cloud CLI; your Google account needs read access to the team's DVC bucket. Without bucket access, build everything from the public Goodreads files with the pipeline command below.
 
 From the repository root:
 
@@ -29,9 +29,18 @@ dvc pull data/artifacts.dvc
 make app
 ```
 
+Windows PowerShell, without `make`: replace the last line with `$env:ARTIFACT_DIR="/artifacts/current"; docker compose -f compose.integration.yml up --build`.
+
 This downloads the model artifacts, not the raw dataset, then starts **both frontend and backend**. Open **http://127.0.0.1:4176/a/?api=1**. Check [API health](http://127.0.0.1:4176/api/health) for 5,000 books, model `b2-als-gr-317756d1a1ad` and data version `gr-317756d1a1ad`.
 
-To build the artifacts yourself, `make pipeline` runs ingest → preprocess → embed → train/export → evaluation. `make sample` runs that chain on the first 200,000 lines of each interaction file. See the [pipeline guide](docs/ms2/datapipeline/) for inputs, dependencies and run scope.
+To build the artifacts yourself, one command runs ingest → preprocess → embed + train/export → evaluation, each stage in its own container:
+
+```sh
+docker compose --profile pipeline build
+docker compose --profile pipeline run --rm pipeline     # or: make pipeline
+```
+
+For a quicker run on the first 200,000 lines of each interaction file, set `INGEST_SAMPLE_LINES=200000` first (`make sample`; in PowerShell `$env:INGEST_SAMPLE_LINES=200000`). See the [pipeline guide](docs/ms2/datapipeline/) for inputs, dependencies and run scope.
 
 For the bundled 52-book toy catalogue, use `docker compose -f compose.integration.yml up --build --wait`. Plain `docker compose up --build` starts only the backend. The [integration guide](docs/backend-integration.md) covers alternate artifact locations, shutdown and UI checks.
 

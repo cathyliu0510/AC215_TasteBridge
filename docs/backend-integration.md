@@ -31,6 +31,14 @@ For the downloaded `data/artifacts/current` export, start both containers with:
 make app
 ```
 
+Without `make` (e.g. Windows PowerShell), the same stack is:
+
+```powershell
+$env:ARTIFACT_DIR="/artifacts/current"; docker compose -f compose.integration.yml up --build
+```
+
+In Git Bash, prefix container paths with `MSYS_NO_PATHCONV=1` (e.g. `MSYS_NO_PATHCONV=1 ARTIFACT_DIR=/artifacts/current docker compose …`); otherwise Git Bash rewrites `/artifacts/current` to a Windows path and the backend exits. The Makefile already sets this.
+
 To use an export in a different directory, point the app at the folder containing `books.json`, `item_embeddings.npy`, `coords_2d.npy`, and `meta.json`:
 
 ```sh

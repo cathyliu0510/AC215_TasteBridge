@@ -1,0 +1,386 @@
+﻿# TasteBridge one-command pipeline run: Windows 11, PowerShell 5.1, Docker Desktop; no make, no Git Bash
+# started 2026-10-20T19:14:40.6988951-04:00
+# git commit c9d02d6319ba225a958571f7cc780bd72a738203 (+ uncommitted compose/Makefile change on fix/ms2-e2e-pipeline)
+Docker version 29.8.2, build 7fc2dff
+Docker Compose version v5.6.0
+> docker compose --profile pipeline build
+ Image yitong_pull-ingest Building 
+ Image yitong_pull-preprocess Building 
+ Image yitong_pull-embed Building 
+ Image yitong_pull-train Building 
+ Image yitong_pull-pipeline Building 
+ Image yitong_pull-backend Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 3.66kB done
+#1 DONE 0.0s
+
+#2 [preprocess internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.01kB done
+#2 DONE 0.0s
+
+#3 [pipeline internal] load build definition from Dockerfile
+#3 transferring dockerfile: 1.30kB done
+#3 DONE 0.0s
+
+#4 [embed internal] load build definition from Dockerfile
+#4 transferring dockerfile: 1.20kB done
+#4 DONE 0.0s
+
+#5 [ingest internal] load build definition from Dockerfile
+#5 transferring dockerfile: 869B done
+#5 DONE 0.0s
+
+#6 [backend internal] load build definition from Dockerfile
+#6 transferring dockerfile: 922B done
+#6 DONE 0.1s
+
+#7 [preprocess internal] load metadata for ghcr.io/astral-sh/uv:0.12.19
+#7 DONE 0.1s
+
+#8 [preprocess internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#8 DONE 0.2s
+
+#9 [embed internal] load .dockerignore
+#9 transferring context: 116B done
+#9 DONE 0.0s
+
+#10 [pipeline internal] load .dockerignore
+#10 transferring context: 124B done
+#10 DONE 0.0s
+
+#11 [preprocess internal] load .dockerignore
+#11 transferring context: 107B done
+#11 DONE 0.0s
+
+#12 [backend internal] load .dockerignore
+#12 transferring context: 134B done
+#12 DONE 0.0s
+
+#13 [ingest internal] load .dockerignore
+#13 transferring context: 96B done
+#13 DONE 0.0s
+
+#14 [preprocess internal] load build context
+#14 transferring context: 198B done
+#14 DONE 0.0s
+
+#15 [embed internal] load build context
+#15 transferring context: 399B done
+#15 DONE 0.0s
+
+#16 [embed] FROM ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424
+#16 resolve ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 0.0s done
+#16 DONE 0.0s
+
+#17 [ingest internal] load build context
+#17 transferring context: 126B done
+#17 DONE 0.0s
+
+#18 [train stage-0 1/7] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#18 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 0.0s done
+#18 DONE 0.0s
+
+#19 [preprocess stage-0 5/7] COPY pyproject.toml uv.lock .python-version ./
+#19 CACHED
+
+#20 [preprocess stage-0 6/7] RUN uv sync --frozen --no-dev --no-install-project
+#20 CACHED
+
+#21 [preprocess stage-0 4/7] WORKDIR /app
+#21 CACHED
+
+#22 [preprocess stage-0 3/7] RUN useradd --create-home --uid 1000 app
+#22 CACHED
+
+#23 [ingest stage-0 5/7] COPY pyproject.toml uv.lock .python-version ./
+#23 CACHED
+
+#24 [ingest stage-0 6/7] RUN uv sync --frozen --no-dev --no-install-project
+#24 CACHED
+
+#25 [preprocess stage-0 7/7] COPY preprocess.py quality.py synthetic_raw.py ./
+#25 CACHED
+
+#26 [ingest stage-0 7/7] COPY ingest.py ./
+#26 CACHED
+
+#27 [embed stage-0 3/8] RUN useradd --create-home --uid 1000 app
+#27 CACHED
+
+#28 [embed stage-0 5/8] COPY pyproject.toml uv.lock .python-version ./
+#28 CACHED
+
+#29 [embed stage-0 6/8] RUN uv sync --frozen --no-dev --no-install-project
+#29 CACHED
+
+#30 [embed stage-0 7/8] RUN python -c "from sentence_transformers import SentenceTransformer as S; S('sentence-transformers/all-MiniLM-L6-v2', revision='1110a243fdf4706b3f48f1d95db1a4f5529b4d41', device='cpu')"     && chown -R app:app /models
+#30 CACHED
+
+#31 [embed stage-0 4/8] WORKDIR /app
+#31 CACHED
+
+#32 [embed stage-0 8/8] COPY embed ./embed
+#32 CACHED
+
+#33 [pipeline internal] load build context
+#33 transferring context: 1.32kB done
+#33 DONE 0.0s
+
+#34 [backend internal] load build context
+#34 transferring context: 2.08kB done
+#34 DONE 0.0s
+
+#35 [train stage-0 7/8] COPY evaluation ./evaluation
+#35 CACHED
+
+#36 [train stage-0 6/8] RUN uv sync --frozen --no-dev --no-install-project
+#36 CACHED
+
+#37 [train stage-0 4/8] WORKDIR /app
+#37 CACHED
+
+#38 [train stage-0 5/8] COPY pyproject.toml uv.lock .python-version ./
+#38 CACHED
+
+#39 [train stage-0 3/8] RUN useradd --create-home --uid 1000 app
+#39 CACHED
+
+#40 [train stage-0 8/8] RUN mkdir -p /app/results /app/data /app/artifacts && chown app:app /app/results /app/data /app/artifacts
+#40 CACHED
+
+#41 [backend stage-0 4/9] WORKDIR /app
+#41 CACHED
+
+#42 [backend stage-0 7/9] COPY app ./app
+#42 CACHED
+
+#43 [backend stage-0 3/9] RUN useradd --create-home --uid 1000 app
+#43 CACHED
+
+#44 [backend stage-0 2/7] COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+#44 CACHED
+
+#45 [backend stage-0 6/9] RUN uv sync --frozen --no-dev --no-install-project
+#45 CACHED
+
+#46 [backend stage-0 8/9] COPY sample_artifacts ./sample_artifacts
+#46 CACHED
+
+#47 [backend stage-0 5/9] COPY pyproject.toml uv.lock .python-version ./
+#47 CACHED
+
+#48 [backend stage-0 9/9] RUN mkdir -p /app/feedback && chown app:app /app/feedback
+#48 CACHED
+
+#49 [pipeline] exporting to image
+#49 exporting layers
+#49 exporting layers done
+#49 exporting manifest sha256:961e75524138359b32a02b2fc7f3ec042c62cc67791cc9a0aa318d359d15d0a9 0.0s done
+#49 exporting config sha256:d21759dbdeef3494daa411756e9793a255ca099c284b612947dd0bab1571298a 0.0s done
+#49 exporting attestation manifest sha256:22e2a7ca10c7bc6a3a28fb0211b448e6eead5633bf29fc75d8c381cf80a43d9c
+#49 ...
+
+#50 [ingest] exporting to image
+#50 exporting layers done
+#50 exporting manifest sha256:910eee015c56f86dd9e095cb0973415bc2fdb373c316e8e80fdad53e5938635a done
+#50 exporting config sha256:4bc7ed1a43faa5713d8f01871b69e8b5d2977c752d85c449a4d8cea2efbeb38d done
+#50 exporting attestation manifest sha256:0e3490e4ea7195811e5fb36c7597f86ddf6d3ce616ad1d2a488f0cc6f8f44cd9 0.0s done
+#50 exporting manifest list sha256:f5dd038fd9a1cd4cdca35d319a67a10f3adf8eba832843298799331f425473b9 0.0s done
+#50 naming to docker.io/library/yitong_pull-ingest:latest 0.0s done
+#50 unpacking to docker.io/library/yitong_pull-ingest:latest 0.0s done
+#50 DONE 0.2s
+
+#51 [preprocess] exporting to image
+#51 exporting layers done
+#51 exporting manifest sha256:84fc4195d468f6649e6eb5ccfd631b2084537444f6e049eccbcbaba9e480689b done
+#51 exporting config sha256:19d2af69d7dc527cb3458da45ce16488e7b0f8075024ebfdd0ebf70dbf09e7d7 done
+#51 exporting attestation manifest sha256:cbd9d551208ba9a5fdc73f16724a51bc97eace2479df4cc39917570ddf8a52eb 0.0s done
+#51 exporting manifest list sha256:1f56aa462c5e6fa265d45e57e6a9251455c84f24045e8efd4cc8989f1a10963e 0.1s done
+#51 naming to docker.io/library/yitong_pull-preprocess:latest 0.0s done
+#51 unpacking to docker.io/library/yitong_pull-preprocess:latest 0.0s done
+#51 DONE 0.2s
+
+#52 [embed] exporting to image
+#52 exporting layers done
+#52 exporting manifest sha256:371ebeda9c7dce2b0b2f0072b7e35afabf95cf741906e9e373a7cff207471248 done
+#52 exporting config sha256:233314711cf15a6443e2365772c2c95b1f677d57d8ec21e09bd5a1bcabe38133 done
+#52 exporting attestation manifest sha256:861bc7c9408b54bfea48fe1e4711724ec7f63e1d663a6170ceec8c19dfd497b7 0.1s done
+#52 exporting manifest list sha256:4f02ac12422998670e30e0a8c097808203305e0da7689e3af13f26cf12c46972 0.0s done
+#52 naming to docker.io/library/yitong_pull-embed:latest 0.0s done
+#52 unpacking to docker.io/library/yitong_pull-embed:latest 0.0s done
+#52 DONE 0.3s
+
+#49 [pipeline] exporting to image
+#49 exporting attestation manifest sha256:22e2a7ca10c7bc6a3a28fb0211b448e6eead5633bf29fc75d8c381cf80a43d9c 0.1s done
+#49 exporting manifest list sha256:df9ca85ea9cd1a72659a401cd882ca22faeb64a4ed9eb9022bf26a706dcacfe5 0.0s done
+#49 naming to docker.io/library/yitong_pull-pipeline:latest 0.0s done
+#49 unpacking to docker.io/library/yitong_pull-pipeline:latest
+#49 unpacking to docker.io/library/yitong_pull-pipeline:latest 0.0s done
+#49 DONE 0.3s
+
+#53 [train] exporting to image
+#53 exporting layers done
+#53 exporting manifest sha256:9a12381a47f41d9616235b07595a7cd0c10aa951f48ec72b9c0cc11c06450337 0.0s done
+#53 exporting config sha256:6cdc6982438bd2a5a277a78be0de3726b096468fc4805c9b1e621cc522288168 0.0s done
+#53 exporting attestation manifest sha256:845dcf210e4aa4cb38e89413e5321b174e9bfe27ba438bf1db8799035de9b1d7 0.1s done
+#53 exporting manifest list sha256:39b32b226f59d6c5f63713759d1e4dab62854a4a2e955fd2478b1747a188ea4a 0.0s done
+#53 naming to docker.io/library/yitong_pull-train:latest 0.0s done
+#53 unpacking to docker.io/library/yitong_pull-train:latest 0.0s done
+#53 DONE 0.2s
+
+#54 [backend] exporting to image
+#54 exporting layers done
+#54 exporting manifest sha256:3526d4b8a51e503e2509aac07bf98ab928719d1aefc0764b731052d40e61c658 0.0s done
+#54 exporting config sha256:c9933ff240664ef398ebdea4badc0f3e0b0a105eaff236ebd5874cb57642b24c done
+#54 exporting attestation manifest sha256:71a6d8b45c44880e41b998749faabccfea8d70a95ce89718ed93b59b03dbd4fa 0.0s done
+#54 exporting manifest list sha256:48dc2da6b02b8472b42f3de789e1c139ef9e0f28637ac75e87730a59ff373918 0.1s done
+#54 naming to docker.io/library/yitong_pull-backend:latest 0.0s done
+#54 unpacking to docker.io/library/yitong_pull-backend:latest 0.0s done
+#54 DONE 0.3s
+
+#55 [ingest] resolving provenance for metadata file
+#55 DONE 0.1s
+
+#56 [train] resolving provenance for metadata file
+#56 DONE 0.1s
+
+#57 [pipeline] resolving provenance for metadata file
+#57 DONE 0.1s
+
+#58 [backend] resolving provenance for metadata file
+#58 DONE 0.0s
+
+#59 [preprocess] resolving provenance for metadata file
+#59 DONE 0.1s
+
+#60 [embed] resolving provenance for metadata file
+#60 DONE 0.0s
+ Image yitong_pull-preprocess Built 
+ Image yitong_pull-train Built 
+ Image yitong_pull-backend Built 
+ Image yitong_pull-embed Built 
+ Image yitong_pull-ingest Built 
+ Image yitong_pull-pipeline Built 
+# build exit code 0
+> docker compose --profile pipeline run --rm pipeline    (INGEST_SAMPLE_LINES unset = full files)
+# run started 2026-10-20T19:14:43.1145847-04:00
+ Network yitong_pull_default Creating 
+ Network yitong_pull_default Creating 
+ Network yitong_pull_default Created 
+ Network yitong_pull_default Created 
+ Container yitong_pull-ingest-1 Creating 
+ Container yitong_pull-ingest-1 Created 
+ Container yitong_pull-preprocess-1 Creating 
+ Container yitong_pull-preprocess-1 Created 
+ Container yitong_pull-train-1 Creating 
+ Container yitong_pull-embed-1 Creating 
+ Container yitong_pull-train-1 Created 
+ Container yitong_pull-embed-1 Created 
+ Container yitong_pull-ingest-1 Starting 
+ Container yitong_pull-ingest-1 Started 
+ Container yitong_pull-ingest-1 Waiting 
+ Container yitong_pull-ingest-1 Exited 
+ Container yitong_pull-preprocess-1 Starting 
+ Container yitong_pull-preprocess-1 Started 
+ Container yitong_pull-preprocess-1 Waiting 
+ Container yitong_pull-preprocess-1 Waiting 
+ Container yitong_pull-preprocess-1 Exited 
+ Container yitong_pull-train-1 Starting 
+ Container yitong_pull-preprocess-1 Exited 
+ Container yitong_pull-embed-1 Starting 
+ Container yitong_pull-train-1 Started 
+ Container yitong_pull-embed-1 Started 
+ Container yitong_pull-embed-1 Waiting 
+ Container yitong_pull-train-1 Waiting 
+ Container yitong_pull-embed-1 Exited 
+ Container yitong_pull-train-1 Exited 
+ Container yitong_pull-pipeline-run-c0e6eb02771f Creating 
+ Container yitong_pull-pipeline-run-c0e6eb02771f Created 
+2026-10-20T23:35:08 INFO TasteBridge evaluation 0.1.0, run 20261020T233508Z
+2026-10-20T23:35:08 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-20T23:35:08 INFO User split train/tune/test = 7917/990/989
+2026-10-20T23:35:09 INFO 628 test readers have >=15 likes in the 5000-work catalogue
+2026-10-20T23:35:09 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-20T23:35:09 INFO Fitted popularity on 399269 training interactions in 0.01s
+2026-10-20T23:35:09 INFO Fitted item_knn on 399269 training interactions in 0.58s
+2026-10-20T23:38:14 INFO Fitted als on 399269 training interactions in 185.01s
+2026-10-20T23:38:24 INFO popularity average      Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-20T23:38:24 INFO popularity least_misery Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-20T23:38:24 INFO popularity merged_seeds Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-20T23:38:24 INFO item_knn   average      Min-Recall@10 0.0706  NDCG@10 0.4040  long-tail cov 0.0823
+2026-10-20T23:38:24 INFO item_knn   least_misery Min-Recall@10 0.0421  NDCG@10 0.2929  long-tail cov 0.0568
+2026-10-20T23:38:24 INFO item_knn   merged_seeds Min-Recall@10 0.0489  NDCG@10 0.4133  long-tail cov 0.0780
+2026-10-20T23:38:24 INFO als        average      Min-Recall@10 0.0432  NDCG@10 0.3551  long-tail cov 0.1568
+2026-10-20T23:38:24 INFO als        least_misery Min-Recall@10 0.0236  NDCG@10 0.1686  long-tail cov 0.2057
+2026-10-20T23:38:24 INFO als        merged_seeds Min-Recall@10 0.0365  NDCG@10 0.3490  long-tail cov 0.1560
+2026-10-20T23:38:24 INFO Wrote results to /app/results/20261020T233508Z in 196.4s
+# run exit code 0
+# finished 2026-10-20T19:38:25.0984454-04:00
+
+# ===== stage log: docker compose --profile pipeline logs --no-log-prefix ingest =====
+2026-10-20 23:14:50,986 INFO skip books_fantasy.json.gz (already downloaded, line_cap=0)
+2026-10-20 23:14:56,749 INFO skip books_mystery.json.gz (already downloaded, line_cap=0)
+2026-10-20 23:15:57,033 INFO skip inter_fantasy.json.gz (already downloaded, line_cap=0)
+2026-10-20 23:16:07,382 INFO skip inter_mystery.json.gz (already downloaded, line_cap=0)
+2026-10-20 23:16:07,549 INFO skip authors.json.gz (already downloaded, line_cap=0)
+2026-10-20 23:16:07,554 INFO wrote /data/raw/manifest.json (full mode)
+
+# ===== stage log: docker compose --profile pipeline logs --no-log-prefix preprocess =====
+2026-10-20 23:16:09,479 INFO step 1: reading books_fantasy.json.gz
+2026-10-20 23:16:20,090 INFO step 1: reading books_mystery.json.gz
+2026-10-20 23:16:28,648 INFO step 1: 470776 editions -> 208416 works
+2026-10-20 23:16:28,648 INFO step 2: counting likes in inter_fantasy.json.gz
+2026-10-20 23:16:42,088 INFO   inter_fantasy.json.gz: 5000000 lines read
+2026-10-20 23:16:55,686 INFO   inter_fantasy.json.gz: 10000000 lines read
+2026-10-20 23:17:08,225 INFO   inter_fantasy.json.gz: 15000000 lines read
+2026-10-20 23:17:21,702 INFO   inter_fantasy.json.gz: 20000000 lines read
+2026-10-20 23:17:32,895 INFO   inter_fantasy.json.gz: 25000000 lines read
+2026-10-20 23:17:44,987 INFO   inter_fantasy.json.gz: 30000000 lines read
+2026-10-20 23:17:57,178 INFO   inter_fantasy.json.gz: 35000000 lines read
+2026-10-20 23:18:08,876 INFO   inter_fantasy.json.gz: 40000000 lines read
+2026-10-20 23:18:22,526 INFO   inter_fantasy.json.gz: 45000000 lines read
+2026-10-20 23:18:35,850 INFO   inter_fantasy.json.gz: 50000000 lines read
+2026-10-20 23:18:47,383 INFO   inter_fantasy.json.gz: 55000000 lines read
+2026-10-20 23:18:48,188 INFO step 2: counting likes in inter_mystery.json.gz
+2026-10-20 23:18:59,986 INFO   inter_mystery.json.gz: 5000000 lines read
+2026-10-20 23:19:12,758 INFO   inter_mystery.json.gz: 10000000 lines read
+2026-10-20 23:19:24,926 INFO   inter_mystery.json.gz: 15000000 lines read
+2026-10-20 23:19:37,455 INFO   inter_mystery.json.gz: 20000000 lines read
+2026-10-20 23:19:52,471 INFO step 2: 80197446 interaction lines, 201058 liked works -> catalogue of 5000
+2026-10-20 23:19:52,471 INFO step 3: collecting catalogue interactions from inter_fantasy.json.gz
+2026-10-20 23:20:07,732 INFO   inter_fantasy.json.gz: 5000000 lines read
+2026-10-20 23:20:22,613 INFO   inter_fantasy.json.gz: 10000000 lines read
+2026-10-20 23:20:37,661 INFO   inter_fantasy.json.gz: 15000000 lines read
+2026-10-20 23:20:54,778 INFO   inter_fantasy.json.gz: 20000000 lines read
+2026-10-20 23:21:09,386 INFO   inter_fantasy.json.gz: 25000000 lines read
+2026-10-20 23:21:23,866 INFO   inter_fantasy.json.gz: 30000000 lines read
+2026-10-20 23:21:38,358 INFO   inter_fantasy.json.gz: 35000000 lines read
+2026-10-20 23:21:53,809 INFO   inter_fantasy.json.gz: 40000000 lines read
+2026-10-20 23:22:08,463 INFO   inter_fantasy.json.gz: 45000000 lines read
+2026-10-20 23:22:26,413 INFO   inter_fantasy.json.gz: 50000000 lines read
+2026-10-20 23:22:42,118 INFO   inter_fantasy.json.gz: 55000000 lines read
+2026-10-20 23:22:43,245 INFO step 3: collecting catalogue interactions from inter_mystery.json.gz
+2026-10-20 23:23:01,357 INFO   inter_mystery.json.gz: 5000000 lines read
+2026-10-20 23:23:17,173 INFO   inter_mystery.json.gz: 10000000 lines read
+2026-10-20 23:23:32,782 INFO   inter_mystery.json.gz: 15000000 lines read
+2026-10-20 23:23:47,996 INFO   inter_mystery.json.gz: 20000000 lines read
+2026-10-20 23:24:04,609 INFO step 3: 26547467 raw catalogue rows from 709000 users
+2026-10-20 23:24:13,559 INFO step 3: 26126161 (user, work) rows -> 499915 after user filter and cap
+2026-10-20 23:24:13,564 INFO step 4: reading catalogue editions from books_fantasy.json.gz
+2026-10-20 23:24:25,941 INFO step 4: reading catalogue editions from books_mystery.json.gz
+2026-10-20 23:24:56,874 INFO done: data_version gr-317756d1a1ad | 5000 works, 9896 users, 499915 interactions (349962 likes), 6114 users with >=15 likes
+
+# ===== stage log: docker compose --profile pipeline logs --no-log-prefix embed =====
+2026-10-20 23:24:59,012 INFO embed: read /data/processed/books.parquet
+2026-10-20 23:24:59,075 INFO books=5000 fallback_text=14
+2026-10-20 23:24:59,078 INFO loading sentence-transformers/all-MiniLM-L6-v2 @ 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+2026-10-20 23:25:06,408 INFO Loading SentenceTransformer model from sentence-transformers/all-MiniLM-L6-v2.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 3636.05it/s]
+2026-10-20 23:29:13,871 INFO embed: wrote 5000 x 384 embeddings and the vector index
+2026-10-20 23:29:14,074 INFO embed: output ready at /data/embeddings
+
+# ===== stage log: docker compose --profile pipeline logs --no-log-prefix train =====
+2026-10-20 23:34:42,491 INFO Fitted ALS on 499915 interactions from 9896 users -> 5000 work vectors
+/app/.venv/lib/python3.12/site-packages/umap/umap_.py:1952: UserWarning: n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
+  warn(
+2026-10-20 23:35:06,438 INFO Exported b2-als-gr-317756d1a1ad: 5000 books, umap map -> /app/artifacts/b2-als-gr-317756d1a1ad (and /app/artifacts/current)

@@ -37,7 +37,7 @@ The proposal's later dates match the current course pages: [MS3 Nov 12](https://
 
 ## Data and scope audit
 
-The [UCSD source](https://cseweb.ucsd.edu/~jmcauley/datasets/goodreads.html) confirms the proposal's raw genre counts, public-shelf origin, academic-only use and prohibition on redistribution/commercial use. The two genres overlap. The 5,000-work and 500,000-training-interaction limits are planned caps; retained counts are not yet measured. Dataset files are linked from the root README rather than committed here.
+The [UCSD source](https://cseweb.ucsd.edu/~jmcauley/datasets/goodreads.html) confirms the proposal's raw genre counts, public-shelf origin, academic-only use and prohibition on redistribution/commercial use. The two genres overlap. The 5,000-work and 500,000-interaction caps are now applied: the full-data snapshot `gr-317756d1a1ad` retains 5,000 works, 9,896 readers and 499,915 interactions ([pipeline README](ms2/datapipeline/README.md#real-data-run-oct-16-full-files)). Dataset files are linked from the root README rather than committed here.
 
 The meeting discussed book **metadata**, not full-book embeddings. Goodreads contains individual histories; simulated-pair metrics cannot establish real joint acceptance. The 12–20-pair study remains a proposal plan, with no recruitment or results verified.
 

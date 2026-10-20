@@ -18,18 +18,24 @@ RUN_ID ?= $(shell date +%Y%m%d-%H%M%S)
 COMPOSE = docker compose --profile pipeline
 GIT_COMMIT := $(shell git rev-parse HEAD 2>/dev/null)
 export GIT_COMMIT
+# Windows Git Bash / MSYS2 make: stop the shell rewriting container paths such as
+# /artifacts/current into C:/Program Files/Git/artifacts/current. No effect elsewhere.
+export MSYS_NO_PATHCONV := 1
+export MSYS2_ARG_CONV_EXCL := *
 
 .PHONY: pipeline sample data demo evaluate train serve app test dvc-push clean-processed
 
+# The compose service `pipeline` waits for embed and train (which wait for preprocess,
+# which waits for ingest), then evaluates; see docker-compose.yml.
 pipeline:
+	mkdir -p src/evaluation/results data/artifacts
 	$(COMPOSE) build
-	INGEST_SAMPLE_LINES=0 $(COMPOSE) run --rm embed      # depends_on runs ingest + preprocess first
-	$(MAKE) train evaluate
+	INGEST_SAMPLE_LINES=0 RUN_ID=$(RUN_ID) $(COMPOSE) run --rm pipeline
 
 sample:
+	mkdir -p src/evaluation/results data/artifacts
 	$(COMPOSE) build
-	INGEST_SAMPLE_LINES=$(SAMPLE_LINES) $(COMPOSE) run --rm embed
-	$(MAKE) train evaluate
+	INGEST_SAMPLE_LINES=$(SAMPLE_LINES) RUN_ID=$(RUN_ID) $(COMPOSE) run --rm pipeline
 
 data:
 	INGEST_SAMPLE_LINES=$${INGEST_SAMPLE_LINES:-$(SAMPLE_LINES)} $(COMPOSE) run --rm --build preprocess
