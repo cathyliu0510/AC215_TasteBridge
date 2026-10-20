@@ -21,7 +21,7 @@ Every stage is its own container (Dockerfile + `pyproject.toml` + `uv.lock`, Pyt
 
 ## Run it (from the repo root)
 
-Requirements: a running Docker engine with Compose and `make` for the commands below. Host `uv` is only needed for `make test`; the Python images install their locked dependencies with `uv`.
+Requirements: a running Docker engine with Compose. `make` (macOS/Linux, or Git Bash on Windows) is a shortcut for the commands below; the [plain compose commands](#one-command-without-make-windows-macos-linux) need nothing else. Host `uv` is only needed for `make test`; the Python images install their locked dependencies with `uv`.
 
 | Command | What it does | Time |
 |---|---|---|
@@ -36,13 +36,30 @@ Requirements: a running Docker engine with Compose and `make` for the commands b
 | `make test` | Unit tests for ingest, preprocess and evaluation | seconds |
 | `make dvc-push` | `dvc add` raw/processed plus existing embeddings/artifacts, then push to `gs://tastebridge-dvc` | depends on size |
 
-The following Compose command runs only ingest → preprocess → embed. Use `make sample` or `make pipeline` to include model export and evaluation:
+### One command without `make` (Windows, macOS, Linux)
+
+The compose service `pipeline` is the last stage of the chain, so running it runs everything:
 
 ```bash
-INGEST_SAMPLE_LINES=200000 docker compose --profile pipeline run --rm embed   # ingest -> preprocess -> embed
+docker compose --profile pipeline build
+docker compose --profile pipeline run --rm pipeline   # ingest -> preprocess -> embed + train -> evaluation
 ```
 
-`depends_on: service_completed_successfully` makes compose run ingest, then preprocess, then embed, each starting only after the previous one exits successfully.
+`depends_on: service_completed_successfully` makes compose run ingest, then preprocess, then embed and train, then the evaluation in `pipeline`. Each stage starts only after the previous one exits successfully, and a failing stage stops the chain. `make pipeline` and `make sample` call this same service. Results land in `src/evaluation/results/<RUN_ID or UTC timestamp>/`.
+
+| | bash / macOS / Linux / Git Bash | Windows PowerShell |
+|---|---|---|
+| Full run | `docker compose --profile pipeline run --rm pipeline` | same |
+| Sample run | `INGEST_SAMPLE_LINES=200000 docker compose --profile pipeline run --rm pipeline` | `$env:INGEST_SAMPLE_LINES=200000; docker compose --profile pipeline run --rm pipeline` |
+| App with trained model | `ARTIFACT_DIR=/artifacts/current docker compose -f compose.integration.yml up --build` | `$env:ARTIFACT_DIR="/artifacts/current"; docker compose -f compose.integration.yml up --build` |
+
+Windows notes:
+- **Git Bash rewrites paths** that start with `/` (`/artifacts/current` becomes `C:/Program Files/Git/artifacts/current`) in arguments and environment variables passed to Docker. Prefix such commands with `MSYS_NO_PATHCONV=1`, or use PowerShell. The Makefile sets it for you.
+- PowerShell `$env:` variables persist for the rest of the session; clear one with `Remove-Item Env:INGEST_SAMPLE_LINES`.
+- If a run fails with `failed to set up container networking: network … not found`, a stage container left over from an earlier run points to a deleted network. Run `docker compose --profile pipeline down --remove-orphans` and retry.
+- On Linux, create `src/evaluation/results` and `data/artifacts` before the first run (`make` does it), so Docker does not create them owned by root.
+
+Saved run: [`evidence/e2e-full-windows.log`](evidence/e2e-full-windows.log).
 
 Plain `docker compose up --build` starts only the backend with toy artifacts. `make app` starts both app containers with the trained export; see the [integration guide](../../backend-integration.md#existing-trained-model-export) for downloading it with DVC.
 
@@ -142,7 +159,7 @@ The preprocess tests run the whole stage on invented Goodreads-shaped data (`syn
 
 ## Known limitations
 
-- **Run evidence:** [saved records](evidence/) include real ingestion/preprocessing manifests, a Docker training/export log, and a synthetic `make demo` log. [Embedding](../embed/) and [evaluation](../models/runs/) have separate evidence. These document the stages; a combined end-to-end `make sample` or `make pipeline` run record still needs confirmation.
+- **Run evidence:** [saved records](evidence/) include real ingestion/preprocessing manifests, a Docker training/export log, and a synthetic `make demo` log. [Embedding](../embed/) and [evaluation](../models/runs/) have separate evidence. [`e2e-full-windows.log`](evidence/e2e-full-windows.log) records the whole chain run by one command on the full data (Oct 20, ~24 min, exit code 0); no `make sample` record is saved.
 - **Sample mode is a prefix,** not a random sample: the first N lines of each interaction file. Good for a demo; use `make pipeline` for reported results.
 - **Fewer than 5,000 works:** after the user filter and cap, a few catalogue works can be left with no interactions. They are dropped, so the catalogue can come out slightly under 5,000 (`counts.catalogue_works`).
 - **2017 data:** the dataset was collected in 2017, so newer books are absent.
