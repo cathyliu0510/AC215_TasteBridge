@@ -16,16 +16,22 @@ Open **http://127.0.0.1:4176/a/?api=1**. This default uses **52 hand-curated boo
 
 ### Existing trained model export
 
-First obtain the team's exported model. When the DVC pointers are available in your checkout, this downloads just the model artifacts (about 8 MB), rather than the full raw/processed dataset:
+First obtain the team's exported model. The DVC pointers are included in `main` and `milestone2`. With DVC's GCS support and the Google Cloud CLI installed, this downloads just the model artifacts (about 8 MB), rather than the full raw/processed dataset:
 
 ```sh
 gcloud auth application-default login
 dvc pull data/artifacts.dvc
 ```
 
-Your Google account needs read access to the team's private DVC bucket. Until [PR #7](https://github.com/cathyliu0510/TasteBridge/pull/7) is merged, its `feature/embed-dvc-evidence` branch holds these pointers; it can be a separate data checkout. Downloading this target checks only the exported artifacts, not reproduction of the entire pipeline.
+Your Google account needs read access to the team's private DVC bucket. Downloading this target checks only the exported artifacts, not reproduction of the entire pipeline.
 
-Point the app at the directory containing `books.json`, `item_embeddings.npy`, `coords_2d.npy`, and `meta.json`:
+For the downloaded `data/artifacts/current` export, start both containers with:
+
+```sh
+make app
+```
+
+To use an export in a different directory, point the app at the folder containing `books.json`, `item_embeddings.npy`, `coords_2d.npy`, and `meta.json`:
 
 ```sh
 TASTEBRIDGE_ARTIFACT_DIR=/absolute/path/to/data/artifacts/current \
@@ -35,11 +41,17 @@ TASTEBRIDGE_ARTIFACT_DIR=/absolute/path/to/data/artifacts/current \
 
 The override mounts those files **read-only** at `/artifacts/current`. A missing path fails instead of creating an empty folder or falling back to the toy model. It does not run training or modify the backend code.
 
-Use the same app URL and check **http://127.0.0.1:4176/api/health**. For the snapshot shared on October 18, expect model `b2-als-gr-317756d1a1ad` and 5,000 books. The `data_version` field is added by [PR #5](https://github.com/cathyliu0510/TasteBridge/pull/5); if absent, record the value from the mounted `meta.json` separately. Merely seeing a working UI is not enough to identify the loaded model.
+Use the same app URL and check **http://127.0.0.1:4176/api/health**. For the current export, expect model `b2-als-gr-317756d1a1ad`, data version `gr-317756d1a1ad` and 5,000 books. The current backend reports `data_version` from `meta.json`. The dated October 18 check used an earlier backend and recorded that value separately.
 
 If port 4176 is occupied, set `TASTEBRIDGE_UI_PORT=4186` and use that port. To test a separate backend checkout without changing its code, also set `TASTEBRIDGE_BACKEND_DIR=/absolute/path/to/src/backend`. Record both source commits when doing so.
 
-Stop the real-model app with the same environment variable and project name:
+Stop the default `make app` stack with:
+
+```sh
+ARTIFACT_DIR=/artifacts/current docker compose -f compose.integration.yml down
+```
+
+For the alternate-directory example, use the same environment variable and project name:
 
 ```sh
 TASTEBRIDGE_ARTIFACT_DIR=/absolute/path/to/data/artifacts/current \

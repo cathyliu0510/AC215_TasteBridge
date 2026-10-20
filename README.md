@@ -2,18 +2,38 @@
 
 A book recommender for two readers. Each picks five favorites; TasteBridge suggests five shared reads with a reason for each person.
 
-[Frontend prototype](https://tastebridge-prototype.landenini.chatgpt.site/) · [Final MS1 proposal and source](milestones/ms1/) · [Current work split and meeting notes](docs/team-status.md)
+[MS2 slides](https://docs.google.com/presentation/d/1JUz5bPlGqBAYeBMOLzO22sUbZ3DdYllxlPU6gF_tK54/edit) · [MS1 proposal](milestones/ms1/) · [Standalone frontend prototype](https://tastebridge-prototype.landenini.chatgpt.site/)
 
-The standalone demo uses 23 curated books. A also connects to [backend PR #2](https://github.com/cathyliu0510/TasteBridge/pull/2), using 52 sample books and toy vectors. The [integration guide](docs/backend-integration.md) and [MS2 app evidence](docs/ms2/frontend-api/) cover the working flow and one-command Docker stack. The data pipeline and trained recommender remain planned work.
+## Milestone 2
 
-## Review PR #1 + PR #2
+The app serves a trained **B2 implicit ALS model over 5,000 Goodreads works**. Version A and the FastAPI backend run together in local Docker. The public prototype above is a separate frontend demo.
 
-[Start both branches and check the flow](docs/backend-integration.md#run). No merge is needed for review. PR #2's own Compose file starts the backend; `compose.integration.yml` in PR #1 starts the frontend and backend together. The hosted prototype is the standalone frontend demo.
-
-| Scope | Status |
+| Deliverable | Evidence |
 | --- | --- |
-| Sample-data UI + API in Docker | Tested; [screenshots, logs and sample input/output](docs/ms2/frontend-api/) |
-| Real-data ingestion, baseline training/evaluation and whole MS2 pipeline | Still needs code/artifact verification; app-only startup does not establish completion |
+| Data ingestion, preprocessing and versioning | [Pipeline instructions](docs/ms2/datapipeline/) · [real-data manifests and sample input/output](docs/ms2/datapipeline/evidence/) · [DVC pointers](data/) |
+| B0 popularity, B1 item-kNN and B2 implicit ALS | [Models and results](docs/ms2/models/) · [tuning/test logs](docs/ms2/models/runs/) |
+| Description embeddings and retrieval | [MiniLM/Chroma evidence and query examples](docs/ms2/embed/) |
+| Frontend + real-model API | [Docker integration, screenshots and input/output](docs/ms2/frontend-api/real-model-20261018/) · [running containers](docs/ms2/running-containers.png) |
+
+The saved evidence covers real-data stages and a synthetic preprocessing/evaluation demo. A combined end-to-end `make pipeline` run record still needs confirmation; the app check alone does not establish that.
+
+## Run the app
+
+Requires Docker with Compose and `make`. To use the existing trained export, also install DVC with GCS support and the Google Cloud CLI; your Google account needs read access to the team's DVC bucket.
+
+From the repository root:
+
+```sh
+gcloud auth application-default login
+dvc pull data/artifacts.dvc
+make app
+```
+
+This downloads the model artifacts, not the raw dataset, then starts **both frontend and backend**. Open **http://127.0.0.1:4176/a/?api=1**. Check [API health](http://127.0.0.1:4176/api/health) for 5,000 books, model `b2-als-gr-317756d1a1ad` and data version `gr-317756d1a1ad`.
+
+To build the artifacts yourself, `make pipeline` runs ingest → preprocess → embed → train/export → evaluation. `make sample` runs that chain on the first 200,000 lines of each interaction file. See the [pipeline guide](docs/ms2/datapipeline/) for inputs, dependencies and run scope.
+
+For the bundled 52-book toy catalogue, use `docker compose -f compose.integration.yml up --build --wait`. Plain `docker compose up --build` starts only the backend. The [integration guide](docs/backend-integration.md) covers alternate artifact locations, shutdown and UI checks.
 
 ## Dataset
 
@@ -26,17 +46,18 @@ The standalone demo uses 23 curated books. A also connects to [backend PR #2](ht
 
 These are gzip-compressed JSON files. Counts are before filtering; the genres overlap.
 
-The MVP is capped at **5,000 distinct works** and **500,000 training interactions**. Join records on `book_id`, remove cross-genre duplicates, and group editions by `work_id` before evaluation. Interactions provide `user_id`, `book_id`, `rating` and `is_read`; metadata provides titles, authors, descriptions and shelf tags.
+The processed snapshot **`gr-317756d1a1ad`** contains **5,000 works, 9,896 readers and 499,915 interactions**. Preprocessing groups editions by `work_id`, deduplicates interactions and keeps the most-liked works within the MVP cap. Raw and processed data, text embeddings and model exports are tracked with DVC; GitHub stores pointers and evidence, not the Goodreads files.
 
-## Model and evaluation plan
+## Model and evaluation
 
-- **Models:** popularity, item-kNN and ALS/BPR baselines, compared with a hybrid of interaction factors and book metadata.
-- **Pair ranking:** compare average and least-misery aggregation. The 2D map uses model representations; reasons use retrieved metadata facts.
-- **Evaluation:** simulated pairs with an 80/10/10 user split; primary Min-Recall@10 (the lower reader recall), plus mean NDCG@10 and long-tail coverage. A planned study with 12–20 volunteer pairs checks joint acceptance, decision time and explanation usefulness.
+- **Served model:** B2 implicit ALS, with average or least-misery ranking. Each reader's taste vector is the normalized mean of their five favorites' book vectors.
+- **Evaluation:** an 80/10/10 reader split and simulated pairs; Min-Recall@10, mean NDCG@10 and long-tail coverage. Offline evaluation ranks ten books; the app displays five.
+- **Results:** item-kNN remains the strongest baseline on Min-Recall@10. [Full results](docs/ms2/models/#results-on-the-test-split) distinguish held-out evaluation from the model export refit on all retained readers.
+- **Text retrieval:** MiniLM description vectors and Chroma are prepared separately; the current app ranks using ALS factors.
 
-## Milestone 2
+## Submission
 
-Due **October 20, 10pm ET**: a one-command Docker pipeline, a work-level dataset tracked with DVC, baseline results and run logs, and an app skeleton. The [official requirements](https://harvard-iacs.github.io/2026-AC215/milestone2/) specify a `milestone2` branch, its full commit hash on Canvas, and a 15-minute presentation with slides.
+The [official MS2 requirements](https://harvard-iacs.github.io/2026-AC215/milestone2/) specify the `milestone2` branch and its **full commit hash on Canvas by October 20, 10pm ET**. The final deck is the [shortened presentation](https://docs.google.com/presentation/d/1JUz5bPlGqBAYeBMOLzO22sUbZ3DdYllxlPU6gF_tK54/edit), with 16 main slides and five backup slides. The TF asked for slides with the submission. Repository updates do not confirm Canvas submission.
 
 ## Frontend
 

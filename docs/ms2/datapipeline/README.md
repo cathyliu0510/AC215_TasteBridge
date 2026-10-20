@@ -21,7 +21,7 @@ Every stage is its own container (Dockerfile + `pyproject.toml` + `uv.lock`, Pyt
 
 ## Run it (from the repo root)
 
-Requirements: Docker Desktop running. `uv` and `make` only for tests and the Makefile.
+Requirements: a running Docker engine with Compose and `make` for the commands below. Host `uv` is only needed for `make test`; the Python images install their locked dependencies with `uv`.
 
 | Command | What it does | Time |
 |---|---|---|
@@ -32,11 +32,11 @@ Requirements: Docker Desktop running. `uv` and `make` only for tests and the Mak
 | `make evaluate` | Evaluation of B0, B1, B2 on whatever is in `data/processed/` | ~1–2 min |
 | `make train` | Train B2 ALS on `data/processed/`, export `data/artifacts/current/` for the backend | ~1–2 min |
 | `make serve` | Backend API on http://localhost:9000/docs serving the trained model | — |
-| `make app` | Frontend (http://localhost:4176) + backend with the trained model | — |
-| `make test` | Unit tests for ingest and preprocess | seconds |
-| `make dvc-push` | `dvc add` raw/processed/embeddings and push to `gs://tastebridge-dvc` | depends on size |
+| `make app` | Frontend (http://localhost:4176) + backend; requires an existing `data/artifacts/current` export | — |
+| `make test` | Unit tests for ingest, preprocess and evaluation | seconds |
+| `make dvc-push` | `dvc add` raw/processed plus existing embeddings/artifacts, then push to `gs://tastebridge-dvc` | depends on size |
 
-Without `make`, the same one-command run is:
+The following Compose command runs only ingest → preprocess → embed. Use `make sample` or `make pipeline` to include model export and evaluation:
 
 ```bash
 INGEST_SAMPLE_LINES=200000 docker compose --profile pipeline run --rm embed   # ingest -> preprocess -> embed
@@ -44,7 +44,7 @@ INGEST_SAMPLE_LINES=200000 docker compose --profile pipeline run --rm embed   # 
 
 `depends_on: service_completed_successfully` makes compose run ingest, then preprocess, then embed, each starting only after the previous one exits successfully.
 
-Plain `docker compose up --build` still starts only the backend, as before.
+Plain `docker compose up --build` starts only the backend with toy artifacts. `make app` starts both app containers with the trained export; see the [integration guide](../../backend-integration.md#existing-trained-model-export) for downloading it with DVC.
 
 ## Real-data run (Oct 16, full files)
 
@@ -115,7 +115,8 @@ The 80/10/10 user split is done **inside the evaluation package** with a fixed s
 | preprocess | `data/processed/manifest.json`: **`data_version`**, settings, counts, the ingest manifest, code version |
 | embed | `data/embeddings/meta.json`: upstream `data_version`, model + revision |
 | evaluation | `results/<run>/config.json`: sha256 of the input files (and DVC md5 when `.dvc` files exist) |
-| DVC | `data/raw.dvc`, `data/processed.dvc`, `data/embeddings.dvc` in git point to the exact data in `gs://tastebridge-dvc` |
+| train/export | `data/artifacts/current/meta.json`: upstream `data_version`, hyperparameters and code version |
+| DVC | `data/raw.dvc`, `data/processed.dvc`, `data/embeddings.dvc`, `data/artifacts.dvc` in git point to the exact data in `gs://tastebridge-dvc` |
 
 To version a run:
 
@@ -130,7 +131,7 @@ Teammates get the same data with `dvc pull`.
 ## Tests
 
 ```bash
-make test        # ingest: 7 tests; preprocess: 121 tests (incl. YiTong's quality tests)
+make test        # ingest, preprocess (including quality checks), and evaluation
 ```
 
 The preprocess tests run the whole stage on invented Goodreads-shaped data (`synthetic_raw.py`). They check:
@@ -141,7 +142,7 @@ The preprocess tests run the whole stage on invented Goodreads-shaped data (`syn
 
 ## Known limitations
 
-- **No registry access when drafting.** The Docker images were not built during drafting. Each container's exact file set was run with `uv sync --frozen --no-dev` and the same environment variables. Run `make sample` once on a laptop to record the Docker evidence.
+- **Run evidence:** [saved records](evidence/) include real ingestion/preprocessing manifests, a Docker training/export log, and a synthetic `make demo` log. [Embedding](../embed/) and [evaluation](../models/runs/) have separate evidence. These document the stages; a combined end-to-end `make sample` or `make pipeline` run record still needs confirmation.
 - **Sample mode is a prefix,** not a random sample: the first N lines of each interaction file. Good for a demo; use `make pipeline` for reported results.
 - **Fewer than 5,000 works:** after the user filter and cap, a few catalogue works can be left with no interactions. They are dropped, so the catalogue can come out slightly under 5,000 (`counts.catalogue_works`).
 - **2017 data:** the dataset was collected in 2017, so newer books are absent.
