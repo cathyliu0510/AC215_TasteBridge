@@ -1,5 +1,8 @@
 # MS2 data pipeline: ingest → preprocess → embed / train / evaluation
 
+**Evidence:** run manifests, a synthetic sample input → output and run logs are in [`evidence/`](evidence/).
+
+
 Owners: **Cathy** (ingest, preprocess, compose/Makefile), **YiTong** (`quality.py`, embed, DVC), **Anhad** (evaluation).
 
 ```

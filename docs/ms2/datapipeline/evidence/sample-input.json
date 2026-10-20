@@ -1,0 +1,89 @@
+{
+  "note": "Invented Goodreads-shaped data from synthetic_raw.py (make demo); no real Goodreads records.",
+  "inter_fantasy.json.gz (first 5 lines)": [
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "book_id": "100836",
+      "review_id": "906782d1be1a2932c336255031766d6b",
+      "is_read": true,
+      "rating": 3,
+      "date_added": "Mon Jan 01 00:00:00 -0800 2017"
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "book_id": "100879",
+      "review_id": "8befbce16d8ab04b6f0aeae3d720ca8f",
+      "is_read": true,
+      "rating": 4,
+      "date_added": "Mon Jan 01 00:00:00 -0800 2017"
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "book_id": "100208",
+      "review_id": "ae09f3fa74e3554ac5f07dcd5ccaacd6",
+      "is_read": true,
+      "rating": 5,
+      "date_added": "Mon Jan 01 00:00:00 -0800 2017"
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "book_id": "100950",
+      "review_id": "a77eabb20fecc76d09e94ec0139034cb",
+      "is_read": true,
+      "rating": 5,
+      "date_added": "Mon Jan 01 00:00:00 -0800 2017"
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "book_id": "101029",
+      "review_id": "a0c4f30c721662406cebdf7546c15e5b",
+      "is_read": false,
+      "rating": 0,
+      "date_added": "Mon Jan 01 00:00:00 -0800 2017"
+    }
+  ],
+  "books_fantasy.json.gz (first line)": [
+    {
+      "book_id": "100006",
+      "work_id": "500003",
+      "title": "Invented Book 3",
+      "title_without_series": "Invented Book 3",
+      "authors": [
+        {
+          "author_id": "9053",
+          "role": ""
+        }
+      ],
+      "publication_year": "",
+      "ratings_count": "4217",
+      "description": "<p>Invented description for book 3: a fantasy story with fantasy and epic-fantasy themes.</p>",
+      "popular_shelves": [
+        {
+          "count": "27",
+          "name": "magic"
+        },
+        {
+          "count": "121",
+          "name": "heist"
+        },
+        {
+          "count": "41",
+          "name": "epic-fantasy"
+        },
+        {
+          "count": "257",
+          "name": "fantasy"
+        },
+        {
+          "count": "731",
+          "name": "fiction"
+        },
+        {
+          "count": "733",
+          "name": "kindle"
+        }
+      ],
+      "language_code": "eng"
+    }
+  ]
+}

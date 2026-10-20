@@ -1,0 +1,10 @@
+2026-10-19T21:03:22 INFO TasteBridge evaluation 0.1.0, run test-tuned-f128-r50
+2026-10-19T21:03:23 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-19T21:03:24 INFO User split train/tune/test = 7917/990/989
+2026-10-19T21:03:24 INFO 628 test readers have >=15 likes in the 5000-work catalogue
+2026-10-19T21:03:24 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-19T21:04:17 INFO Fitted als on 399269 training interactions in 52.69s
+2026-10-19T21:04:18 INFO als        average      Min-Recall@10 0.0432  NDCG@10 0.3551  long-tail cov 0.1568
+2026-10-19T21:04:18 INFO als        least_misery Min-Recall@10 0.0236  NDCG@10 0.1686  long-tail cov 0.2057
+2026-10-19T21:04:18 INFO als        merged_seeds Min-Recall@10 0.0365  NDCG@10 0.3490  long-tail cov 0.1560
+2026-10-19T21:04:18 INFO Wrote results to src/evaluation/results/test-tuned-f128-r50 in 55.6s

@@ -1,0 +1,50 @@
+{
+  "stage": "ingest",
+  "source": "UCSD Goodreads Book Graph (Wan & McAuley 2018); academic use only, no redistribution",
+  "base_url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads",
+  "mode": "full",
+  "sample_lines": 0,
+  "created_at": "2026-10-17T03:05:42+00:00",
+  "files": {
+    "books_fantasy.json.gz": {
+      "url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads/byGenre/goodreads_books_fantasy_paranormal.json.gz",
+      "bytes": 278807695,
+      "sha256": "9a0ae2f2493c27c7950f9c172dc53f0fefa8d5164051896178b98715cfb36703",
+      "line_cap": 0,
+      "lines": null,
+      "downloaded_at": "2026-10-17T02:35:22+00:00"
+    },
+    "books_mystery.json.gz": {
+      "url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads/byGenre/goodreads_books_mystery_thriller_crime.json.gz",
+      "bytes": 231310022,
+      "sha256": "8d195323a1a7cfa0d30e5ea621bc69cbcfe48c628e587f8c6d0bf57e02c5aae9",
+      "line_cap": 0,
+      "lines": null,
+      "downloaded_at": "2026-10-17T02:35:33+00:00"
+    },
+    "inter_fantasy.json.gz": {
+      "url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads/byGenre/goodreads_interactions_fantasy_paranormal.json.gz",
+      "bytes": 2800816612,
+      "sha256": "ec6a2444c13aa05b056988ac2671c5d643883c9aca0d8f9e46e413fc5773fa4b",
+      "line_cap": 0,
+      "lines": null,
+      "downloaded_at": "2026-10-17T03:04:41+00:00"
+    },
+    "inter_mystery.json.gz": {
+      "url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads/byGenre/goodreads_interactions_mystery_thriller_crime.json.gz",
+      "bytes": 1334653345,
+      "sha256": "9c3c179ce5e5612cf72dc7aa2e570b49ab655b42a44cb8e9ddd5697393c43c4f",
+      "line_cap": 0,
+      "lines": null,
+      "downloaded_at": "2026-10-17T03:05:41+00:00"
+    },
+    "authors.json.gz": {
+      "url": "https://mcauleylab.ucsd.edu/public_datasets/gdrive/goodreads/goodreads_book_authors.json.gz",
+      "bytes": 17988861,
+      "sha256": "85e6628dee5102c70a4a296f6d68c10ff60b0cf72714444b1e721abeffe9f22d",
+      "line_cap": 0,
+      "lines": null,
+      "downloaded_at": "2026-10-17T02:35:40+00:00"
+    }
+  }
+}

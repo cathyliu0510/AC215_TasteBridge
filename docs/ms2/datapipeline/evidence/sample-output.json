@@ -1,0 +1,91 @@
+{
+  "note": "Same synthetic data after preprocess (data/synthetic/processed).",
+  "manifest_counts": {
+    "editions_mapped": 1157,
+    "works_total": 600,
+    "interaction_lines_read": 79141,
+    "catalogue_works": 600,
+    "users": 2948,
+    "interactions": 70034,
+    "likes": 50922,
+    "users_with_15_plus_likes": 1808,
+    "works_by_genre": {
+      "mystery": 285,
+      "fantasy": 261,
+      "both": 54
+    }
+  },
+  "data_version": "gr-db9936ca43ed",
+  "interactions.parquet (rows for the sample users, first 5)": [
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "work_id": "500021",
+      "rating": 4,
+      "is_read": true
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "work_id": "500057",
+      "rating": 4,
+      "is_read": true
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "work_id": "500065",
+      "rating": 4,
+      "is_read": true
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "work_id": "500089",
+      "rating": 0,
+      "is_read": true
+    },
+    {
+      "user_id": "3d517fe6ebab7b8cfcf98db6259c8a59",
+      "work_id": "500096",
+      "rating": 3,
+      "is_read": true
+    }
+  ],
+  "interactions.parquet columns": [
+    "user_id",
+    "work_id",
+    "rating",
+    "is_read"
+  ],
+  "books.parquet (first row)": [
+    {
+      "work_id": "500345",
+      "title": "Invented Book 345",
+      "author": "Author 68",
+      "author_id": "9068",
+      "year": 1975,
+      "description": null,
+      "description_issue": "missing",
+      "has_description": false,
+      "shelves": "['epic-fantasy' 'magic' 'mystery' 'thriller' 'crime' 'fantasy']",
+      "genre": "both",
+      "genres": "['fantasy' 'mystery']",
+      "n_editions": 3,
+      "n_likes": 1452,
+      "n_ratings": 1937
+    }
+  ],
+  "books.parquet columns": [
+    "work_id",
+    "title",
+    "author",
+    "author_id",
+    "year",
+    "description",
+    "description_issue",
+    "has_description",
+    "shelves",
+    "genre",
+    "genres",
+    "n_editions",
+    "n_likes",
+    "n_ratings"
+  ]
+}

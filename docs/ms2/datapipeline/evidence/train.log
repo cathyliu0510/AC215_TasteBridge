@@ -1,0 +1,73 @@
+mkdir -p data/artifacts
+docker compose --profile pipeline run --rm --no-deps --build train
+ Image tastebridge-train Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 556B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.26kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#3 DONE 0.4s
+
+#4 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.19
+#4 DONE 0.5s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 116B done
+#5 DONE 0.0s
+
+#6 FROM ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424
+#6 resolve ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 done
+#6 DONE 0.0s
+
+#7 [stage-0 1/8] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#7 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 1.32kB done
+#8 DONE 0.0s
+
+#9 [stage-0 2/8] COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+#9 CACHED
+
+#10 [stage-0 5/8] COPY pyproject.toml uv.lock .python-version ./
+#10 CACHED
+
+#11 [stage-0 7/8] COPY evaluation ./evaluation
+#11 CACHED
+
+#12 [stage-0 4/8] WORKDIR /app
+#12 CACHED
+
+#13 [stage-0 3/8] RUN useradd --create-home --uid 1000 app
+#13 CACHED
+
+#14 [stage-0 6/8] RUN uv sync --frozen --no-dev --no-install-project
+#14 CACHED
+
+#15 [stage-0 8/8] RUN mkdir -p /app/results /app/data /app/artifacts && chown app:app /app/results /app/data /app/artifacts
+#15 CACHED
+
+#16 exporting to image
+#16 exporting layers done
+#16 exporting manifest sha256:76c5b592f53482029b8155cfddd2b2a7b0ccbc2b52f5f86ebb65a35bfd6ebbbf done
+#16 exporting config sha256:4793aa79b486ea0a08e610fb9a40f2bd0d3863ddcd5366235ffc76cde88b6baa done
+#16 exporting attestation manifest sha256:9225ca9706c1d56d49e873f878a29e16a53ef98d6271d89eec07315bfdf3519d done
+#16 exporting manifest list sha256:dfef8fa6770c0bae78fde7175b623042ff1b42ea848cf1a7fbf9aed3297cf416 done
+#16 naming to docker.io/library/tastebridge-train:latest done
+#16 unpacking to docker.io/library/tastebridge-train:latest done
+#16 DONE 0.0s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image tastebridge-train Built 
+ Container tastebridge-train-run-e954afee6fc7 Creating 
+ Container tastebridge-train-run-e954afee6fc7 Created 
+2026-10-20 02:05:22,309 INFO Fitted ALS on 499915 interactions from 9896 users -> 5000 work vectors
+/app/.venv/lib/python3.12/site-packages/umap/umap_.py:1952: UserWarning: n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
+  warn(
+2026-10-20 02:05:41,451 INFO Exported b2-als-gr-317756d1a1ad: 5000 books, umap map -> /app/artifacts/b2-als-gr-317756d1a1ad (and /app/artifacts/current)
