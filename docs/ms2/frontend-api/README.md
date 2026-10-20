@@ -1,5 +1,9 @@
 # MS2 app integration evidence
 
+**Latest: [October 18 real Goodreads model run](real-model-20261018/).** Version A passed the local Docker flow with 5,000 books and model `b2-als-gr-317756d1a1ad`: search, five picks each, both rankings, reader reasons, galaxy, explicit feedback, and outage/recovery. The dated record includes screenshots, API results and artifact fingerprints. This verifies the app against the exported model, not reproduction of the full data/training pipeline.
+
+## October 12: toy-model app run
+
 Checked October 12, 2026: A **20261012.1** against backend PR #2 (`a9f1620dc2ea3070c600f7cca5128805cc8b74a0`). This records the application skeleton with sample artifacts; it does not establish completion of the data pipeline or trained-model deliverables.
 
 | Check | Result |
@@ -17,7 +21,7 @@ Checked October 12, 2026: A **20261012.1** against backend PR #2 (`a9f1620dc2ea3
 
 The Docker stack served `sample-shelf-toy-v1`, data version `hand-curated-sample-52`. The smaller empty-result fixture was generated temporarily from five rows of those toy artifacts and is not committed. These checks measure integration behavior, not recommendation quality or a user study.
 
-## Artifacts
+### Toy-model artifacts
 
 - [Sample input and mapped API output](api-check.json)
 - [Environment, source and artifact fingerprints](verification.json)

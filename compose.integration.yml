@@ -1,5 +1,6 @@
-# Requires the backend from PR #2. Override the build context when checking
-# separate frontend and backend checkouts before the team integrates them.
+# Connected app with the bundled toy catalogue by default.
+# Add compose.integration.real.yml to mount an existing trained-model export.
+# TASTEBRIDGE_BACKEND_DIR can select a separate backend checkout for review.
 name: tastebridge-preview
 services:
   backend:

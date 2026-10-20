@@ -1,0 +1,822 @@
+{
+  "checkedAt": "2026-10-19T02:17:15.605Z",
+  "sourceCommit": "2dd7120a8783da32b0a38faa203f8d1fc94135c0",
+  "transport": "Frontend HTTP relay at localhost:4176 -> Docker backend:9000",
+  "health": {
+    "status": "ok",
+    "modelVersion": "b2-als-gr-317756d1a1ad",
+    "numBooks": 5000
+  },
+  "checks": [
+    "5,000-book trained-model identity",
+    "no-match search",
+    "Mistborn search",
+    "10 real book detail requests",
+    "five results in each ranking mode",
+    "per-reader reason ownership and shared shelves",
+    "aggregation scores",
+    "15 server galaxy points per mode",
+    "unknown book ID returns 404"
+  ],
+  "sampleInput": {
+    "reader_a": [
+      "1540236",
+      "66322",
+      "2502879",
+      "113603",
+      "6278977"
+    ],
+    "reader_b": [
+      "13306276",
+      "41107568",
+      "46663",
+      "2285570",
+      "3801"
+    ],
+    "k": 5
+  },
+  "selectedBooks": [
+    {
+      "id": "1540236",
+      "title": "The Hobbit",
+      "year": 1938
+    },
+    {
+      "id": "66322",
+      "title": "The Final Empire (Mistborn, #1)",
+      "year": 2006
+    },
+    {
+      "id": "2502879",
+      "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+      "year": 2007
+    },
+    {
+      "id": "113603",
+      "title": "A Wizard of Earthsea (Earthsea Cycle, #1)",
+      "year": 1968
+    },
+    {
+      "id": "6278977",
+      "title": "The Magicians (The Magicians #1)",
+      "year": 2009
+    },
+    {
+      "id": "13306276",
+      "title": "Gone Girl",
+      "year": 2012
+    },
+    {
+      "id": "41107568",
+      "title": "The Girl on the Train",
+      "year": 1394
+    },
+    {
+      "id": "46663",
+      "title": "Rebecca",
+      "year": 1938
+    },
+    {
+      "id": "2285570",
+      "title": "Murder on the Orient Express (Hercule Poirot, #10)",
+      "year": 1934
+    },
+    {
+      "id": "3801",
+      "title": "Sharp Objects",
+      "year": 2006
+    }
+  ],
+  "outputs": [
+    {
+      "modelVersion": "b2-als-gr-317756d1a1ad",
+      "mode": "least-misery",
+      "topShelves": {
+        "a": [
+          "fantasy",
+          "young-adult",
+          "sci-fi-fantasy"
+        ],
+        "b": [
+          "mystery",
+          "crime",
+          "thriller"
+        ]
+      },
+      "results": [
+        {
+          "rank": 1,
+          "book": {
+            "id": "21825181",
+            "title": "The Martian",
+            "author": "Andy Weir",
+            "year": 2012,
+            "coverUrl": null,
+            "tags": [
+              "science-fiction",
+              "adventure",
+              "science",
+              "adult",
+              "thriller",
+              "sci-fi-fantasy",
+              "audio",
+              "survival"
+            ]
+          },
+          "score": 0.2875,
+          "fitA": 0.2875,
+          "fitB": 0.3007,
+          "reasons": {
+            "a": {
+              "seedId": "66322",
+              "seedTitle": "The Final Empire (Mistborn, #1)",
+              "sameAuthor": false,
+              "tags": [
+                "adult"
+              ],
+              "text": "Closest to your pick The Final Empire (Mistborn, #1); shared shelves: adult.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "41107568",
+              "seedTitle": "The Girl on the Train",
+              "sameAuthor": false,
+              "tags": [
+                "adult",
+                "thriller"
+              ],
+              "text": "Closest to your pick The Girl on the Train; shared shelves: adult, thriller.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.22960564494132996,
+            "y": 0.10432150214910507
+          }
+        },
+        {
+          "rank": 2,
+          "book": {
+            "id": "1466917",
+            "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+            "author": "George R.R. Martin",
+            "year": 1996,
+            "coverUrl": null,
+            "tags": [
+              "sci-fi-fantasy",
+              "fantasy-sci-fi",
+              "science-fiction",
+              "fantasy",
+              "all-time-favorites",
+              "favorite",
+              "fantasy-scifi",
+              "novel"
+            ]
+          },
+          "score": 0.2823,
+          "fitA": 0.4194,
+          "fitB": 0.2823,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": false,
+              "tags": [
+                "sci-fi-fantasy",
+                "fantasy"
+              ],
+              "text": "Closest to your pick The Hobbit; shared shelves: sci-fi-fantasy, fantasy.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "13306276",
+              "seedTitle": "Gone Girl",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick Gone Girl.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.2660050094127655,
+            "y": 0.21039745211601257
+          }
+        },
+        {
+          "rank": 3,
+          "book": {
+            "id": "4640799",
+            "title": "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)",
+            "author": "J.K. Rowling",
+            "year": 1997,
+            "coverUrl": null,
+            "tags": [
+              "fantasy",
+              "young-adult",
+              "harry-potter",
+              "series",
+              "magic",
+              "childrens",
+              "children",
+              "adventure"
+            ]
+          },
+          "score": 0.2765,
+          "fitA": 0.3481,
+          "fitB": 0.2765,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": false,
+              "tags": [
+                "fantasy",
+                "young-adult",
+                "adventure"
+              ],
+              "text": "Closest to your pick The Hobbit; shared shelves: fantasy, young-adult, adventure.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "13306276",
+              "seedTitle": "Gone Girl",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick Gone Girl.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": 0.17813104391098022,
+            "y": 0.22175714373588562
+          }
+        },
+        {
+          "rank": 4,
+          "book": {
+            "id": "6231171",
+            "title": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+            "author": "J.K. Rowling",
+            "year": 1988,
+            "coverUrl": null,
+            "tags": [
+              "fantasy",
+              "young-adult",
+              "harry-potter",
+              "series",
+              "magic",
+              "childrens",
+              "children",
+              "adventure"
+            ]
+          },
+          "score": 0.2699,
+          "fitA": 0.2746,
+          "fitB": 0.2699,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": false,
+              "tags": [
+                "fantasy",
+                "young-adult",
+                "adventure"
+              ],
+              "text": "Closest to your pick The Hobbit; shared shelves: fantasy, young-adult, adventure.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "41107568",
+              "seedTitle": "The Girl on the Train",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick The Girl on the Train.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": 0.17914193868637085,
+            "y": 0.2228543758392334
+          }
+        },
+        {
+          "rank": 5,
+          "book": {
+            "id": "3046572",
+            "title": "Harry Potter and the Goblet of Fire (Harry Potter, #4)",
+            "author": "J.K. Rowling",
+            "year": 2000,
+            "coverUrl": null,
+            "tags": [
+              "childhood",
+              "sci-fi-fantasy",
+              "children-s-books",
+              "favorite-books",
+              "kids",
+              "fantasy-sci-fi",
+              "ya-fantasy",
+              "teen"
+            ]
+          },
+          "score": 0.2598,
+          "fitA": 0.2651,
+          "fitB": 0.2598,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": false,
+              "tags": [
+                "sci-fi-fantasy"
+              ],
+              "text": "Closest to your pick The Hobbit; shared shelves: sci-fi-fantasy.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "41107568",
+              "seedTitle": "The Girl on the Train",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick The Girl on the Train.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": 0.17784973978996277,
+            "y": 0.22372576594352722
+          }
+        }
+      ],
+      "galaxy": {
+        "a": [
+          {
+            "id": "1540236",
+            "title": "The Hobbit",
+            "x": -0.14507098495960236,
+            "y": 0.09639929980039597
+          },
+          {
+            "id": "66322",
+            "title": "The Final Empire (Mistborn, #1)",
+            "x": -0.17808642983436584,
+            "y": 0.299967497587204
+          },
+          {
+            "id": "2502879",
+            "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+            "x": -0.1843605786561966,
+            "y": 0.29067426919937134
+          },
+          {
+            "id": "113603",
+            "title": "A Wizard of Earthsea (Earthsea Cycle, #1)",
+            "x": -0.18610166013240814,
+            "y": 0.13135801255702972
+          },
+          {
+            "id": "6278977",
+            "title": "The Magicians (The Magicians #1)",
+            "x": -0.23264624178409576,
+            "y": 0.13572652637958527
+          }
+        ],
+        "b": [
+          {
+            "id": "13306276",
+            "title": "Gone Girl",
+            "x": -0.11412228643894196,
+            "y": -0.1006942167878151
+          },
+          {
+            "id": "41107568",
+            "title": "The Girl on the Train",
+            "x": -0.11094703525304794,
+            "y": -0.10070355981588364
+          },
+          {
+            "id": "46663",
+            "title": "Rebecca",
+            "x": -0.1896110624074936,
+            "y": -0.016745170578360558
+          },
+          {
+            "id": "2285570",
+            "title": "Murder on the Orient Express (Hercule Poirot, #10)",
+            "x": -0.7715016007423401,
+            "y": 0.34132519364356995
+          },
+          {
+            "id": "3801",
+            "title": "Sharp Objects",
+            "x": -0.11033552139997482,
+            "y": -0.1074083149433136
+          }
+        ],
+        "bridges": [
+          {
+            "id": "21825181",
+            "title": "The Martian",
+            "x": -0.22960564494132996,
+            "y": 0.10432150214910507
+          },
+          {
+            "id": "1466917",
+            "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+            "x": -0.2660050094127655,
+            "y": 0.21039745211601257
+          },
+          {
+            "id": "4640799",
+            "title": "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)",
+            "x": 0.17813104391098022,
+            "y": 0.22175714373588562
+          },
+          {
+            "id": "6231171",
+            "title": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+            "x": 0.17914193868637085,
+            "y": 0.2228543758392334
+          },
+          {
+            "id": "3046572",
+            "title": "Harry Potter and the Goblet of Fire (Harry Potter, #4)",
+            "x": 0.17784973978996277,
+            "y": 0.22372576594352722
+          }
+        ]
+      }
+    },
+    {
+      "modelVersion": "b2-als-gr-317756d1a1ad",
+      "mode": "average",
+      "topShelves": {
+        "a": [
+          "fantasy",
+          "young-adult",
+          "sci-fi-fantasy"
+        ],
+        "b": [
+          "mystery",
+          "crime",
+          "thriller"
+        ]
+      },
+      "results": [
+        {
+          "rank": 1,
+          "book": {
+            "id": "2502882",
+            "title": "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
+            "author": "Patrick Rothfuss",
+            "year": 2011,
+            "coverUrl": null,
+            "tags": [
+              "fantasy",
+              "epic-fantasy",
+              "series",
+              "magic",
+              "high-fantasy",
+              "sci-fi-fantasy",
+              "adventure",
+              "fantasy-sci-fi"
+            ]
+          },
+          "score": 0.3768,
+          "fitA": 0.6956,
+          "fitB": 0.058,
+          "reasons": {
+            "a": {
+              "seedId": "2502879",
+              "seedTitle": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+              "sameAuthor": true,
+              "tags": [
+                "fantasy",
+                "epic-fantasy",
+                "series"
+              ],
+              "text": "Closest to your pick The Name of the Wind (The Kingkiller Chronicle, #1); same author as one of your picks: Patrick Rothfuss; shared shelves: fantasy, epic-fantasy, series.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "2285570",
+              "seedTitle": "Murder on the Orient Express (Hercule Poirot, #10)",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick Murder on the Orient Express (Hercule Poirot, #10).",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.18557147681713104,
+            "y": 0.2910498082637787
+          }
+        },
+        {
+          "rank": 2,
+          "book": {
+            "id": "6873353",
+            "title": "Dark Places",
+            "author": "Gillian Flynn",
+            "year": 2009,
+            "coverUrl": null,
+            "tags": [
+              "mystery",
+              "thriller",
+              "crime",
+              "mystery-thriller",
+              "suspense",
+              "adult",
+              "contemporary",
+              "horror"
+            ]
+          },
+          "score": 0.3767,
+          "fitA": 0.0754,
+          "fitB": 0.6781,
+          "reasons": {
+            "a": {
+              "seedId": "6278977",
+              "seedTitle": "The Magicians (The Magicians #1)",
+              "sameAuthor": false,
+              "tags": [
+                "adult"
+              ],
+              "text": "Closest to your pick The Magicians (The Magicians #1); shared shelves: adult.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "3801",
+              "seedTitle": "Sharp Objects",
+              "sameAuthor": true,
+              "tags": [
+                "mystery",
+                "thriller",
+                "crime"
+              ],
+              "text": "Closest to your pick Sharp Objects; same author as one of your picks: Gillian Flynn; shared shelves: mystery, thriller, crime.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.10823529958724976,
+            "y": -0.1073383092880249
+          }
+        },
+        {
+          "rank": 3,
+          "book": {
+            "id": "3204327",
+            "title": "The Fellowship of the Ring (The Lord of the Rings, #1)",
+            "author": "J.R.R. Tolkien",
+            "year": 1961,
+            "coverUrl": null,
+            "tags": [
+              "fantasy",
+              "classics",
+              "classic",
+              "adventure",
+              "series",
+              "sci-fi-fantasy",
+              "tolkien",
+              "epic-fantasy"
+            ]
+          },
+          "score": 0.359,
+          "fitA": 0.5831,
+          "fitB": 0.1349,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": true,
+              "tags": [
+                "fantasy",
+                "classic",
+                "adventure"
+              ],
+              "text": "Closest to your pick The Hobbit; same author as one of your picks: J.R.R. Tolkien; shared shelves: fantasy, classic, adventure.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "46663",
+              "seedTitle": "Rebecca",
+              "sameAuthor": false,
+              "tags": [
+                "classics",
+                "classic"
+              ],
+              "text": "Closest to your pick Rebecca; shared shelves: classics, classic.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.14542889595031738,
+            "y": 0.09471963346004486
+          }
+        },
+        {
+          "rank": 4,
+          "book": {
+            "id": "1466917",
+            "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+            "author": "George R.R. Martin",
+            "year": 1996,
+            "coverUrl": null,
+            "tags": [
+              "sci-fi-fantasy",
+              "fantasy-sci-fi",
+              "science-fiction",
+              "fantasy",
+              "all-time-favorites",
+              "favorite",
+              "fantasy-scifi",
+              "novel"
+            ]
+          },
+          "score": 0.3509,
+          "fitA": 0.4194,
+          "fitB": 0.2823,
+          "reasons": {
+            "a": {
+              "seedId": "1540236",
+              "seedTitle": "The Hobbit",
+              "sameAuthor": false,
+              "tags": [
+                "sci-fi-fantasy",
+                "fantasy"
+              ],
+              "text": "Closest to your pick The Hobbit; shared shelves: sci-fi-fantasy, fantasy.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "13306276",
+              "seedTitle": "Gone Girl",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick Gone Girl.",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.2660050094127655,
+            "y": 0.21039745211601257
+          }
+        },
+        {
+          "rank": 5,
+          "book": {
+            "id": "8134945",
+            "title": "The Way of Kings (The Stormlight Archive, #1)",
+            "author": "Brandon Sanderson",
+            "year": 2010,
+            "coverUrl": null,
+            "tags": [
+              "fantasy",
+              "epic-fantasy",
+              "high-fantasy",
+              "brandon-sanderson",
+              "series",
+              "sci-fi-fantasy",
+              "cosmere",
+              "epic"
+            ]
+          },
+          "score": 0.3471,
+          "fitA": 0.613,
+          "fitB": 0.0812,
+          "reasons": {
+            "a": {
+              "seedId": "66322",
+              "seedTitle": "The Final Empire (Mistborn, #1)",
+              "sameAuthor": true,
+              "tags": [
+                "fantasy",
+                "epic-fantasy",
+                "high-fantasy"
+              ],
+              "text": "Closest to your pick The Final Empire (Mistborn, #1); same author as one of your picks: Brandon Sanderson; shared shelves: fantasy, epic-fantasy, high-fantasy.",
+              "source": "Catalogue metadata."
+            },
+            "b": {
+              "seedId": "2285570",
+              "seedTitle": "Murder on the Orient Express (Hercule Poirot, #10)",
+              "sameAuthor": false,
+              "tags": [],
+              "text": "Closest to your pick Murder on the Orient Express (Hercule Poirot, #10).",
+              "source": "Catalogue metadata."
+            }
+          },
+          "position": {
+            "x": -0.17954868078231812,
+            "y": 0.29749974608421326
+          }
+        }
+      ],
+      "galaxy": {
+        "a": [
+          {
+            "id": "1540236",
+            "title": "The Hobbit",
+            "x": -0.14507098495960236,
+            "y": 0.09639929980039597
+          },
+          {
+            "id": "66322",
+            "title": "The Final Empire (Mistborn, #1)",
+            "x": -0.17808642983436584,
+            "y": 0.299967497587204
+          },
+          {
+            "id": "2502879",
+            "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+            "x": -0.1843605786561966,
+            "y": 0.29067426919937134
+          },
+          {
+            "id": "113603",
+            "title": "A Wizard of Earthsea (Earthsea Cycle, #1)",
+            "x": -0.18610166013240814,
+            "y": 0.13135801255702972
+          },
+          {
+            "id": "6278977",
+            "title": "The Magicians (The Magicians #1)",
+            "x": -0.23264624178409576,
+            "y": 0.13572652637958527
+          }
+        ],
+        "b": [
+          {
+            "id": "13306276",
+            "title": "Gone Girl",
+            "x": -0.11412228643894196,
+            "y": -0.1006942167878151
+          },
+          {
+            "id": "41107568",
+            "title": "The Girl on the Train",
+            "x": -0.11094703525304794,
+            "y": -0.10070355981588364
+          },
+          {
+            "id": "46663",
+            "title": "Rebecca",
+            "x": -0.1896110624074936,
+            "y": -0.016745170578360558
+          },
+          {
+            "id": "2285570",
+            "title": "Murder on the Orient Express (Hercule Poirot, #10)",
+            "x": -0.7715016007423401,
+            "y": 0.34132519364356995
+          },
+          {
+            "id": "3801",
+            "title": "Sharp Objects",
+            "x": -0.11033552139997482,
+            "y": -0.1074083149433136
+          }
+        ],
+        "bridges": [
+          {
+            "id": "2502882",
+            "title": "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
+            "x": -0.18557147681713104,
+            "y": 0.2910498082637787
+          },
+          {
+            "id": "6873353",
+            "title": "Dark Places",
+            "x": -0.10823529958724976,
+            "y": -0.1073383092880249
+          },
+          {
+            "id": "3204327",
+            "title": "The Fellowship of the Ring (The Lord of the Rings, #1)",
+            "x": -0.14542889595031738,
+            "y": 0.09471963346004486
+          },
+          {
+            "id": "1466917",
+            "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+            "x": -0.2660050094127655,
+            "y": 0.21039745211601257
+          },
+          {
+            "id": "8134945",
+            "title": "The Way of Kings (The Stormlight Archive, #1)",
+            "x": -0.17954868078231812,
+            "y": 0.29749974608421326
+          }
+        ]
+      }
+    }
+  ],
+  "feedback": "No feedback submitted by this probe. Browser feedback is recorded in verification.json.",
+  "limits": [
+    "Fixed test selections, not a recommendation-quality evaluation.",
+    "Only exported artifacts were downloaded; the full DVC pipeline was not reproduced.",
+    "Empty recommendation shortlist was tested with toy artifacts on October 12, not this 5,000-book run."
+  ]
+}

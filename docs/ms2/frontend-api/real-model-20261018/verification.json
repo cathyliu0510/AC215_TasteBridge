@@ -1,0 +1,116 @@
+{
+  "checkedAt": "2026-10-19T02:17:45.281284+00:00",
+  "localDate": "2026-10-18 America/New_York",
+  "sourceCommit": "2dd7120a8783da32b0a38faa203f8d1fc94135c0",
+  "backendTree": "530e39f65c4c85ce22208dabae854c5e27bab6e8",
+  "frontendTree": "f4683c463968b42211447b45713cd646479c5026",
+  "artifactPointerCommit": "0a02704060a31320b52da00076d8d12b5d986322",
+  "artifactTarget": "data/artifacts.dvc",
+  "dvcDirectoryHash": "c7f32e0f5fbecdb4c1633a0a79095934.dir",
+  "downloadScope": "Only data/artifacts.dvc (5 files fetched; 8 files added; pointer size 8,174,576 bytes). No full dataset or training reproduction.",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "modelMetadata": {
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "model": "B2 implicit ALS (Hu, Koren & Volinsky 2008), numpy implementation",
+    "created_at": "2026-10-18T00:15:30+00:00",
+    "data_version": "gr-317756d1a1ad",
+    "hyperparameters": {
+      "factors": 128,
+      "regularization": 50.0,
+      "alpha": 20.0,
+      "iterations": 15,
+      "seed": 42
+    },
+    "scoring": "taste = unit mean of seed vectors; fit = cosine; served by backend/app/recommender.py",
+    "map_method": "umap",
+    "counts": {
+      "books": 5000,
+      "interactions": 499915,
+      "users": 9896
+    },
+    "code_version": "b78a57a97ab645a11816ac7030b71ef1429f3b9e",
+    "seconds": 142.1
+  },
+  "dataVersionSource": "Mounted meta.json; this backend health response does not expose data_version.",
+  "artifactSha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "coords_2d.npy": "71fabfcfb618bd4d1c9ade339b460c078a374115778b950c2247eac619c8a765",
+    "item_embeddings.npy": "87fcc5ac016756682efa4f8f9d84e15668a8ae162a36455bd182ad7c89d6451f",
+    "meta.json": "1003637ca99912d6cfc979665a7070d1510dacca2e1d24e26b559cce005d9684"
+  },
+  "environment": {
+    "runtime": "local Docker on Colima, arm64",
+    "docker": "29.5.2",
+    "compose": "5.6.0",
+    "ui": "http://127.0.0.1:4176/a/?api=1",
+    "publicDeployment": false
+  },
+  "containers": [
+    {
+      "name": "tastebridge-real-check-backend-1",
+      "state": "running",
+      "health": "healthy",
+      "image": "sha256:e32017bffc31d124f0278100df93330202e5872265375333e9aa91f443309444",
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/app/feedback",
+          "readOnly": false
+        },
+        {
+          "type": "bind",
+          "destination": "/artifacts/current",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "name": "tastebridge-real-check-frontend-1",
+      "state": "running",
+      "health": "healthy",
+      "image": "sha256:081142587e9f42f06efe70e9f0f511d80b6b111be649429f53a57af1a6fad0fd",
+      "mounts": []
+    }
+  ],
+  "browserChecks": {
+    "manualSearchAndSelection": "Five real catalogue books per reader; reader handoff cleared search and retained first five picks.",
+    "bothRankingModes": "Five recommendations per mode; different order/results.",
+    "details": "Separate reasons reference each reader's own seeds.",
+    "galaxy": "15 displayed nodes; clicking The Martian opens corresponding details.",
+    "sharedChoice": "Disabled until both Interested; then The Martian chosen.",
+    "feedback": "Explicit Send anonymous feedback produced success UI and exactly one event.",
+    "emptySearch": "zzzz-no-book-ms2 returned zero matches with both 5/5 picks retained.",
+    "outage": "Stopped only the test backend; UI retained 10 picks and prior least-misery shortlist.",
+    "recovery": "Restarted backend; Try again completed requested average ranking without page reload. Absent shared choice was cleared."
+  },
+  "feedbackEvents": [
+    {
+      "book_id": "21825181",
+      "vote": "would_read",
+      "model_version": "b2-als-gr-317756d1a1ad",
+      "timestamp": "2026-10-19T02:15:45.009820+00:00"
+    }
+  ],
+  "metadataFollowup": [
+    {
+      "book_id": "41107568",
+      "title": "The Girl on the Train",
+      "yearInArtifactAndApi": 1394
+    },
+    {
+      "book_id": "6231171",
+      "title": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+      "yearInArtifactAndApi": 1988
+    }
+  ],
+  "limits": [
+    "No backend, model or pipeline code was changed.",
+    "App integration only; no recommendation-quality or user-study claim.",
+    "No real-model empty-shortlist case; older toy-data test remains separate.",
+    "Existing public website remains an independent frontend demo."
+  ]
+}
