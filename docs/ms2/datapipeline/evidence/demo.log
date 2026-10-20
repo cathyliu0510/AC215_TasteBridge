@@ -1,0 +1,174 @@
+docker compose --profile pipeline build preprocess
+ Image tastebridge-preprocess Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.07kB done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 987B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#3 DONE 0.7s
+
+#4 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.19
+#4 DONE 2.7s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 101B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 68.19kB done
+#6 DONE 0.0s
+
+#7 [stage-0 1/7] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#7 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 0.0s done
+#7 DONE 0.0s
+
+#8 FROM ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424
+#8 resolve ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 0.0s done
+#8 DONE 0.0s
+
+#9 [stage-0 2/7] COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+#9 CACHED
+
+#10 [stage-0 3/7] RUN useradd --create-home --uid 1000 app
+#10 CACHED
+
+#11 [stage-0 5/7] COPY pyproject.toml uv.lock .python-version ./
+#11 CACHED
+
+#12 [stage-0 4/7] WORKDIR /app
+#12 CACHED
+
+#13 [stage-0 6/7] RUN uv sync --frozen --no-dev --no-install-project
+#13 CACHED
+
+#14 [stage-0 7/7] COPY preprocess.py quality.py synthetic_raw.py ./
+#14 CACHED
+
+#15 exporting to image
+#15 exporting layers done
+#15 exporting manifest sha256:7815424b50b574671621c5d90b8547900a5ecf11f756f455e3f30dc6d98dd5de done
+#15 exporting config sha256:a0ef5ac69fb637100f1ce30bd4ac671552b8183120abe03587311018c226bcc8 done
+#15 exporting attestation manifest sha256:ffecac8f4adbfae7b719269407528d9a1d8dfa6676386c6831e4826e6a31aa8f done
+#15 exporting manifest list sha256:12ef8e8337f8f46df9513d8a4c26f899d14b902fa4c5f1dfe18da3fd09c8713d done
+#15 naming to docker.io/library/tastebridge-preprocess:latest done
+#15 unpacking to docker.io/library/tastebridge-preprocess:latest done
+#15 DONE 0.0s
+
+#16 resolving provenance for metadata file
+#16 DONE 0.0s
+ Image tastebridge-preprocess Built 
+docker compose --profile pipeline run --rm --no-deps preprocess python synthetic_raw.py --out /data/synthetic/raw --works 600 --users 3000
+ Container tastebridge-preprocess-run-e5f9b6bc56b8 Creating 
+ Container tastebridge-preprocess-run-e5f9b6bc56b8 Created 
+wrote synthetic raw files to /data/synthetic/raw: books_fantasy.json.gz (608 lines), books_mystery.json.gz (651 lines), inter_fantasy.json.gz (37158 lines), inter_mystery.json.gz (41983 lines), authors.json.gz (150 lines)
+docker compose --profile pipeline run --rm --no-deps -e RAW_DIR=/data/synthetic/raw -e PROCESSED_DIR=/data/synthetic/processed preprocess
+ Container tastebridge-preprocess-run-58a3a7bc673f Creating 
+ Container tastebridge-preprocess-run-58a3a7bc673f Created 
+2026-10-20 02:02:27,776 INFO step 1: reading books_fantasy.json.gz
+2026-10-20 02:02:27,778 INFO step 1: reading books_mystery.json.gz
+2026-10-20 02:02:27,780 INFO step 1: 1157 editions -> 600 works
+2026-10-20 02:02:27,780 INFO step 2: counting likes in inter_fantasy.json.gz
+2026-10-20 02:02:27,815 INFO step 2: counting likes in inter_mystery.json.gz
+2026-10-20 02:02:27,856 INFO step 2: 79141 interaction lines, 600 liked works -> catalogue of 600
+2026-10-20 02:02:27,857 INFO step 3: collecting catalogue interactions from inter_fantasy.json.gz
+2026-10-20 02:02:27,907 INFO step 3: collecting catalogue interactions from inter_mystery.json.gz
+2026-10-20 02:02:27,962 INFO step 3: 70605 raw catalogue rows from 3000 users
+2026-10-20 02:02:27,997 INFO step 3: 70432 (user, work) rows -> 70034 after user filter and cap
+2026-10-20 02:02:27,998 INFO step 4: reading catalogue editions from books_fantasy.json.gz
+2026-10-20 02:02:28,007 INFO step 4: reading catalogue editions from books_mystery.json.gz
+2026-10-20 02:02:28,086 INFO done: data_version gr-db9936ca43ed | 600 works, 2948 users, 70034 interactions (50922 likes), 1808 users with >=15 likes
+/Library/Developer/CommandLineTools/usr/bin/make evaluate EVAL_DATA=synthetic/processed RUN_ID=synthetic-20261019-220218
+mkdir -p src/evaluation/results
+EVAL_DATA=synthetic/processed docker compose --profile evaluation run --rm --build evaluation \
+		--interactions /app/processed/interactions.parquet \
+		--books /app/processed/books.parquet \
+		--out /app/results --favorite-counts 1,2,3,4,5 --run-id synthetic-20261019-220218
+ Image tastebridge-evaluation Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 576B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.26kB done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#3 DONE 0.5s
+
+#4 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.19
+#4 DONE 0.6s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 116B done
+#5 DONE 0.0s
+
+#6 FROM ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424
+#6 resolve ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 done
+#6 DONE 0.0s
+
+#7 [stage-0 1/8] FROM docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258
+#7 resolve docker.io/library/python:3.12-slim-bookworm@sha256:34386ef0cb081344d7ec1c103ba398e6e9f64e9ab3a1509accc92a4e24a07258 done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 120.99kB done
+#8 DONE 0.0s
+
+#9 [stage-0 2/8] COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+#9 CACHED
+
+#10 [stage-0 4/8] WORKDIR /app
+#10 CACHED
+
+#11 [stage-0 3/8] RUN useradd --create-home --uid 1000 app
+#11 CACHED
+
+#12 [stage-0 5/8] COPY pyproject.toml uv.lock .python-version ./
+#12 CACHED
+
+#13 [stage-0 6/8] RUN uv sync --frozen --no-dev --no-install-project
+#13 CACHED
+
+#14 [stage-0 7/8] COPY evaluation ./evaluation
+#14 DONE 0.0s
+
+#15 [stage-0 8/8] RUN mkdir -p /app/results /app/data /app/artifacts && chown app:app /app/results /app/data /app/artifacts
+#15 DONE 0.1s
+
+#16 exporting to image
+#16 exporting layers 0.0s done
+#16 exporting manifest sha256:3bbf116dceda937acaef60ab1756d4f9bc31318055b4eae73a49293b68f87f57 done
+#16 exporting config sha256:ff37acdfff5543297599c49d83a54e930ff02581696fb9a221dbdf4e7ce5d9ff done
+#16 exporting attestation manifest sha256:819ebc14e3c4d1e948bd73fa412958bb90b448aaea5898d0983ac31a1f613cbc done
+#16 exporting manifest list sha256:95c3c363ed46d3cdae8aab08d41f6e094c87ea1a15dd2baec7e1644ab6faf102 done
+#16 naming to docker.io/library/tastebridge-evaluation:latest done
+#16 unpacking to docker.io/library/tastebridge-evaluation:latest 0.0s done
+#16 DONE 0.1s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image tastebridge-evaluation Built 
+ Container tastebridge-evaluation-run-439330a2aea7 Creating 
+ Container tastebridge-evaluation-run-439330a2aea7 Created 
+2026-10-20T02:02:30 INFO TasteBridge evaluation 0.1.0, run synthetic-20261019-220218
+2026-10-20T02:02:30 INFO Loaded 70034 interactions from 2948 users; 600 books
+2026-10-20T02:02:30 INFO User split train/tune/test = 2358/295/295
+2026-10-20T02:02:30 INFO 176 test readers have >=15 likes in the 598-work catalogue
+2026-10-20T02:02:30 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-20T02:02:30 INFO Fitted popularity on 55800 training interactions in 0.00s
+2026-10-20T02:02:30 INFO Fitted item_knn on 55800 training interactions in 0.02s
+2026-10-20T02:02:56 INFO Fitted als on 55800 training interactions in 26.02s
+2026-10-20T02:02:58 INFO popularity average      Min-Recall@10 0.1422  NDCG@10 0.3491  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO popularity least_misery Min-Recall@10 0.1422  NDCG@10 0.3491  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO popularity merged_seeds Min-Recall@10 0.1422  NDCG@10 0.3491  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO item_knn   average      Min-Recall@10 0.1942  NDCG@10 0.4448  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO item_knn   least_misery Min-Recall@10 0.1735  NDCG@10 0.4179  long-tail cov 0.0021
+2026-10-20T02:02:58 INFO item_knn   merged_seeds Min-Recall@10 0.1867  NDCG@10 0.4421  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO als        average      Min-Recall@10 0.1890  NDCG@10 0.4199  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO als        least_misery Min-Recall@10 0.1740  NDCG@10 0.4191  long-tail cov 0.0439
+2026-10-20T02:02:58 INFO als        merged_seeds Min-Recall@10 0.1820  NDCG@10 0.4181  long-tail cov 0.0000
+2026-10-20T02:02:58 INFO Wrote results to /app/results/synthetic-20261019-220218 in 27.5s

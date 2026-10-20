@@ -1,0 +1,8 @@
+2026-10-17T03:28:31 INFO TasteBridge evaluation 0.1.0, run tune-f256-r150
+2026-10-17T03:28:32 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-17T03:28:32 INFO User split train/tune/test = 7917/990/989
+2026-10-17T03:28:32 INFO 613 tune readers have >=15 likes in the 5000-work catalogue
+2026-10-17T03:28:32 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-17T03:31:51 INFO Fitted als on 399269 training interactions in 198.57s
+2026-10-17T03:31:51 INFO als        average      Min-Recall@10 0.0344  NDCG@10 0.3097  long-tail cov 0.1435
+2026-10-17T03:31:51 INFO Wrote results to /app/results/tune-f256-r150 in 199.6s

@@ -1,0 +1,10 @@
+2026-10-17T03:21:05 INFO TasteBridge evaluation 0.1.0, run tune-baselines
+2026-10-17T03:21:05 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-17T03:21:05 INFO User split train/tune/test = 7917/990/989
+2026-10-17T03:21:06 INFO 613 tune readers have >=15 likes in the 5000-work catalogue
+2026-10-17T03:21:06 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-17T03:21:06 INFO Fitted popularity on 399269 training interactions in 0.01s
+2026-10-17T03:21:06 INFO Fitted item_knn on 399269 training interactions in 0.68s
+2026-10-17T03:21:07 INFO popularity average      Min-Recall@10 0.0375  NDCG@10 0.3492  long-tail cov 0.0000
+2026-10-17T03:21:07 INFO item_knn   average      Min-Recall@10 0.0669  NDCG@10 0.4254  long-tail cov 0.0747
+2026-10-17T03:21:07 INFO Wrote results to /app/results/tune-baselines in 1.6s

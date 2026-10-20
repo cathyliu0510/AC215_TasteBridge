@@ -1,0 +1,18 @@
+2026-10-17T03:12:03 INFO TasteBridge evaluation 0.1.0, run 20261016-231201
+2026-10-17T03:12:03 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-17T03:12:04 INFO User split train/tune/test = 7917/990/989
+2026-10-17T03:12:04 INFO 628 test readers have >=15 likes in the 5000-work catalogue
+2026-10-17T03:12:04 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-17T03:12:04 INFO Fitted popularity on 399269 training interactions in 0.02s
+2026-10-17T03:12:06 INFO Fitted item_knn on 399269 training interactions in 1.68s
+2026-10-17T03:12:09 INFO Fitted als on 399269 training interactions in 3.04s
+2026-10-17T03:12:14 INFO popularity average      Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-17T03:12:14 INFO popularity least_misery Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-17T03:12:14 INFO popularity merged_seeds Min-Recall@10 0.0378  NDCG@10 0.3358  long-tail cov 0.0000
+2026-10-17T03:12:14 INFO item_knn   average      Min-Recall@10 0.0706  NDCG@10 0.4040  long-tail cov 0.0823
+2026-10-17T03:12:14 INFO item_knn   least_misery Min-Recall@10 0.0421  NDCG@10 0.2929  long-tail cov 0.0568
+2026-10-17T03:12:14 INFO item_knn   merged_seeds Min-Recall@10 0.0489  NDCG@10 0.4133  long-tail cov 0.0780
+2026-10-17T03:12:14 INFO als        average      Min-Recall@10 0.0331  NDCG@10 0.2537  long-tail cov 0.1568
+2026-10-17T03:12:14 INFO als        least_misery Min-Recall@10 0.0201  NDCG@10 0.1323  long-tail cov 0.1757
+2026-10-17T03:12:14 INFO als        merged_seeds Min-Recall@10 0.0275  NDCG@10 0.2585  long-tail cov 0.1485
+2026-10-17T03:12:14 INFO Wrote results to /app/results/20261016-231201 in 10.6s

@@ -1,5 +1,8 @@
 # MS2 baseline models: B0, B1, B2
 
+**Experiment logs:** every tuning and test run (logs, metrics, configs) is in [`runs/`](runs/).
+
+
 Owners: **Cathy** (B2 ALS, tuning, artifact export), **Anhad** (evaluation harness, B0, B1). Code: [`src/evaluation/evaluation/`](../../../src/evaluation/evaluation/).
 
 ## What each model does

@@ -1,0 +1,8 @@
+2026-10-17T03:14:40 INFO TasteBridge evaluation 0.1.0, run tune-f64-r10
+2026-10-17T03:14:40 INFO Loaded 499915 interactions from 9896 users; 5000 books
+2026-10-17T03:14:41 INFO User split train/tune/test = 7917/990/989
+2026-10-17T03:14:41 INFO 613 tune readers have >=15 likes in the 5000-work catalogue
+2026-10-17T03:14:41 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-10-17T03:14:48 INFO Fitted als on 399269 training interactions in 7.04s
+2026-10-17T03:14:48 INFO als        average      Min-Recall@10 0.0348  NDCG@10 0.3064  long-tail cov 0.1770
+2026-10-17T03:14:48 INFO Wrote results to /app/results/tune-f64-r10 in 7.9s
