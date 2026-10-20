@@ -87,14 +87,18 @@ Five favorites per reader, k = 10, 300 test pairs:
 | B1 item-kNN | merged seeds | 0.049 | **0.413** | 0.078 |
 | B2 ALS (first defaults: 32 factors, reg 10) | average | 0.033 | 0.254 | 0.157 |
 | B2 ALS (first defaults) | least misery | 0.020 | 0.132 | 0.176 |
-| B2 ALS (**tuned**: 128 factors, reg 50) | average | 0.043 (verified by YiTong on the same data) | | |
+| B2 ALS (**tuned**: 128 factors, reg 50) | average | 0.043 (verified by YiTong on the same data) | 0.355 | 0.157 |
+| B2 ALS (tuned) | least misery | 0.024 | 0.169 | 0.206 |
+| B2 ALS (tuned) | merged seeds | 0.037 | 0.349 | 0.156 |
+
+Tuned B2 rows come from one test-split run (`--split test --models als --als-factors 128 --als-reg 50`, seed 42, same 300 pairs), data_version `gr-317756d1a1ad`.
 
 ## What we learned
 
 1. **Personalization works on real data.** Item-kNN roughly doubles popularity on Min-Recall@10 (0.071 vs 0.038).
 2. **Tuning ALS helped a lot,** from 0.027 to 0.042 on the tune split (+56%). The tuned model now beats popularity but is still well below item-kNN.
 3. **Why ALS lags: the serving rule.** The backend normalizes every book vector to length 1 and ranks by cosine. That throws away the vector length, which in ALS largely encodes how popular a book is. Popularity alone scores 0.038, so B2 loses a strong signal. The very high regularization the tuning picked fits this explanation: it shrinks noisy vectors of rarely liked books, the part popularity would otherwise correct.
-4. **Least misery has a real cost.** For every model it lowers Min-Recall@10 (item-kNN 0.071 → 0.042), but it recommends more long-tail books. "Protect the less-satisfied reader" is not free on this data. The API's default aggregation (`least_misery`) should be revisited.
+4. **Least misery has a real cost.** For every model it lowers Min-Recall@10 (item-kNN 0.071 → 0.042, tuned ALS 0.043 → 0.024), but it recommends more long-tail books. "Protect the less-satisfied reader" is not free on this data. The API's default aggregation (`least_misery`) should be revisited.
 5. **More favorites help** (robustness runs, 1–5 favorites; see `summary.csv`). This supports asking each reader for five books.
 6. **Speed:** preprocess on 80M lines takes ~6 min. Training B2 (128 factors) takes ~10–20 s. `/recommend` answers in ~6 ms, well under the proposal's 0.5 s target.
 
