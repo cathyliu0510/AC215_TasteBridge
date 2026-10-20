@@ -1,7 +1,7 @@
 # Data pipeline: quality checks + embed stage — notes for the team
 
-Owner: YiTong. Branch `feature/datapipeline-embed`, based on `main` after PRs #1 and #2 were merged.
-All data used here is **synthetic** (8 invented books); no Goodreads data is in git.
+Owner: YiTong. Code merged into `main` via PR #3. Cathy's `feature/datapipeline` (ingest, preprocess, train; PR pending) builds on top of it and produced the real data used below.
+No Goodreads data is in git. The evidence in `docs/ms2/embed/` comes from the full real run (Oct 17) and holds only titles, authors, genres and similarity scores.
 
 ## What this adds
 
@@ -11,7 +11,7 @@ All data used here is **synthetic** (8 invented books); no Goodreads data is in 
 | `src/datapipeline/embed/` | The embed stage (own `pyproject.toml`, `uv.lock`, `Dockerfile`, tests): `books.parquet` → 384-number vector per book → ChromaDB index + retrieval examples |
 | `docker-compose.yml` | New `embed` service, **opt-in** via the `pipeline` profile (see below); the backend service is unchanged |
 | `.dvc/`, `.dvcignore`, `.gitignore` | DVC initialised with remote `gs://tastebridge-dvc`; git ignores `data/raw/`, `data/interim/`, `data/processed/`, `data/embeddings/` by name, so the `data/*.dvc` tickets stay visible to both git and DVC |
-| `docs/ms2/embed/` | MS2 evidence from the synthetic run (`retrieval_example.md`, `run.log`, `meta.json`) |
+| `docs/ms2/embed/` | MS2 evidence from the full real-data run (`retrieval_example.md`, `run.log`, `meta.json`) |
 
 How to run and test it: `src/datapipeline/embed/README.md`.
 
@@ -34,19 +34,32 @@ How to run and test it: `src/datapipeline/embed/README.md`.
 8. **Contract column names.** `add_quality_flags(..., shelves_col="popular_shelves")` now writes its cleaned output to the contract columns `shelves` / `description`. The raw columns are left for preprocess to drop.
 9. **Shelf lists saved as text.** These are parsed, whether JSON or Python repr. A bare name inside a list of `{name, count}` records has no count. It's now counted as unknown instead of as infinitely popular.
 
-## Known limitations (not fixed, by decision)
+## Real-data run (Oct 17, YiTong's Windows laptop, full files)
 
-- **Evidence is synthetic.** `docs/ms2/embed/` was produced from the 8 invented books. Regenerate it from Cathy's preprocess sample before submission.
-- **DVC is configured and rehearsed, not pushed yet.** The bucket `gs://tastebridge-dvc` exists and is private. The full cycle (`dvc add` → `dvc push` → delete → `dvc pull`) was rehearsed against a local test remote, and the files came back byte-identical. The first real `dvc push` waits for (a) Google credentials on the pusher's machine and (b) the real preprocess sample. Setup: `gcloud auth application-default login`, then `dvc add data/processed data/embeddings`, `git add data/*.dvc`, `dvc push`.
+`INGEST_SAMPLE_LINES=0 docker compose --profile pipeline run --rm embed` (ingest → preprocess → embed), then `train` and `evaluation`:
+
+| Check | Result |
+|---|---|
+| Wall time, ingest + preprocess + embed | 12.5 min (4.4 GB download included) |
+| `data_version` | **`gr-317756d1a1ad`**, identical to Cathy's MacBook run, so preprocess is reproducible across machines and OSes |
+| Quality step (`manifest.json["quality"]`) | 5,000 books; 13 missing + 1 too-short descriptions (embedded from title + author + shelves); 8.9 M raw shelf entries → 99,959 kept; 0 books left without shelves |
+| Embed | 5,000 × 384 vectors + Chroma index in 70 s on CPU; `input_data_version` = `gr-317756d1a1ad` |
+| Retrieval examples | heist → *The Art Forger*, *Heist Society*; village murder → mystery series; magic school → *The Wizard Heir*, *Young Wizards* |
+| `train` → backend | `b2-als-gr-317756d1a1ad` served with 5,000 books; `/recommend` answers |
+| Evaluation (test split, 5 favorites) | B0 0.038, B1 item-kNN avg 0.071, B2 tuned ALS avg **0.043** Min-Recall@10, matching `docs/ms2/models/README.md` |
+
+## Known limitations
+
+- **DVC: verified against the real bucket, first push pending.** On Oct 17, a scratch clone pushed 7 files to a temporary `gs://tastebridge-dvc/_verify-…` prefix with Application Default Credentials. It deleted them locally, pulled them back byte-identical, and got "Cache and remote are in sync". The prefix was deleted afterwards. The first real push (`make dvc-push`: raw ≈ 4.4 GB, processed, embeddings, artifacts) should be done by **one** person, so the `.dvc` pointers in git match the bucket. Each pusher needs `gcloud auth application-default login` once. The "no quota project" warning it prints is harmless.
 - **DVC + `.gitignore` gotcha (fixed).** The first version used `/data/*` with `!/data/*.dvc` exceptions. Git accepted it, but DVC then saw no tracked data, and `dvc push` printed "Everything is up to date" while uploading nothing. Keep each data folder listed by name, and add a new line for any new folder under `data/`.
-- **No `depends_on` on preprocess.** `embed` doesn't wait for preprocess yet, because there's no preprocess service in compose. A commented `depends_on` block is ready to enable.
+- **Windows + Git Bash.** Git Bash rewrites container paths such as `ARTIFACT_DIR=/artifacts/current` into `D:/Git/artifacts/current`, and the backend then exits with code 3. Run with `MSYS_NO_PATHCONV=1` (or add `export MSYS_NO_PATHCONV := 1` to the Makefile). `make` is not installed on Windows by default; the README's plain `docker compose` commands work.
 - **Image size is about 3 GB.** It's verified CPU-only torch (`2.x+cpu`) plus the baked model. Slimming it (e.g. ONNX) is deferred.
 - **Windows file locks.** On Windows, keep `embed.query` and notebooks closed while re-running embed, because Chroma holds its files open. The run stops cleanly if you forget.
-- **Unparseable shelf text.** A shelf value that's text but not a parseable list (e.g. `"[broken"`) becomes a single shelf name. Preprocess should hand over lists.
+- **Unparseable shelf text.** A shelf value that's text but not a parseable list (e.g. `"[broken"`) becomes a single shelf name. Preprocess hands over lists, so this doesn't happen on real data (`n_unknown_shelf_entries` = 0).
 - **Excerpts are off.** `EMBED_EVIDENCE_EXCERPTS` stays off while the repo is public, so no description text lands in committed evidence.
 
 ## Needs a team decision
 
 - **`milestone2` branch.** The course requires a `milestone2` branch and its commit hash on Canvas. Who creates it, and when?
-- **Calling the quality step.** Cathy's preprocess should call `add_quality_flags` right after grouping editions by `work_id`, then write the summary under `manifest.json["quality"]`.
+- **Calling the quality step.** ✅ Done in Cathy's `preprocess.py` on `feature/datapipeline` (after grouping editions by `work_id`; summary under `manifest.json["quality"]`).
 - **Repo visibility.** Make the repo private before any real-data evidence or excerpts are committed.
