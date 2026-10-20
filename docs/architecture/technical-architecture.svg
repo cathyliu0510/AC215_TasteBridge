@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">Technical Architecture — TasteBridge</title>
+<desc id="desc">Source-grounded architecture of the implemented TasteBridge MS2 system. See architecture-notes.md for evidence and planned features.</desc>
+<rect width="1600" height="900" fill="white"/>
+<defs><marker id="arrow-256C9F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#256C9F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<defs><marker id="arrow-3A8058" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#3A8058" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<defs><marker id="arrow-8A9EAE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#8A9EAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect id="local" x="30" y="128" width="1095" height="724" rx="14" fill="#F7F9FB" stroke="#D4DFE7" stroke-width="1.5"/>
+<rect id="app-group" x="52" y="227" width="1048" height="285" rx="14" fill="#EDF5FC" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="jobs" x="52" y="566" width="1048" height="152" rx="14" fill="#EDF5FC" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="gcp-boundary" x="1180" y="579" width="390" height="273" rx="14" fill="#F7F9FB" stroke="#D4DFE7" stroke-width="1.5"/>
+<path id="browser-http" d="M260 358 L370 358" fill="none" stroke="#256C9F" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow-256C9F)" marker-start="url(#arrow-256C9F)"/>
+<path id="proxy-http" d="M600 358 L720 358" fill="none" stroke="#256C9F" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow-256C9F)" marker-start="url(#arrow-256C9F)"/>
+<path id="startup-load" d="M700 445 L700 433 L790 433 L790 419" fill="none" stroke="#3A8058" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow-3A8058)"/>
+<path id="feedback-write" d="M962 419 L962 445" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="data-disk" d="M210 708 L210 751" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="model-disk" d="M545 751 L545 708" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="text-disk" d="M910 751 L910 708" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="model-export" d="M545 626 L545 497" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="git-sync" d="M1125 202 L1150 202 L1150 235 L1180 235" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="goodreads-download" d="M1180 359 L1147 359 L1147 543 L65 543 L65 663 L80 663" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="weights-build" d="M1180 474 L1133 474 L1133 557 L910 557 L910 626" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" stroke-dasharray="7 5"/>
+<path id="dvc-sync" d="M1075 790 L1148 790 L1148 741 L1200 741" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<rect id="browser" x="80" y="299" width="180" height="120" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="node" x="370" y="299" width="230" height="120" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="fastapi" x="720" y="299" width="355" height="120" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="artifact-files" x="370" y="445" width="360" height="52" rx="14" fill="#EEF7F0" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="feedback-volume" x="815" y="445" width="260" height="52" rx="14" fill="#EEF7F0" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="data-jobs" x="80" y="626" width="260" height="82" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="model-jobs" x="390" y="626" width="310" height="82" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="embedding-job" x="750" y="626" width="325" height="82" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="disk" x="80" y="751" width="995" height="76" rx="14" fill="#EEF7F0" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="github" x="1180" y="184" width="390" height="103" rx="14" fill="#FFFFFF" stroke="#D4DFE7" stroke-width="1.5"/>
+<rect id="goodreads" x="1180" y="315" width="390" height="88" rx="14" fill="#FFFFFF" stroke="#D4DFE7" stroke-width="1.5"/>
+<rect id="hugging-face" x="1180" y="429" width="390" height="88" rx="14" fill="#FFFFFF" stroke="#D4DFE7" stroke-width="1.5"/>
+<rect id="gcs" x="1200" y="643" width="350" height="182" rx="14" fill="#EEF7F0" stroke="#B8D7C0" stroke-width="1.5"/>
+<text x="40" y="72" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#172B3A">Technical architecture</text>
+<text x="42" y="103" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#526575">Local app · Offline ML · Versioned cloud storage</text>
+<text x="1326" y="69" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#526575">TASTEBRIDGE / MS2</text>
+<g id="local-environment-icon" transform="translate(50 143) scale(1.1666666666666667)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M1 21h22M9 7l-3 3 3 3m6-6 3 3-3 3"/></g>
+<text x="90" y="164" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">DEVELOPER MACHINE</text>
+<text x="50" y="193" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" fill="#526575">Git · DVC CLI · Make · Docker Compose</text>
+<text x="1180" y="160" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">EXTERNAL SERVICES</text>
+<text x="72" y="261" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#256C9F">01   CONNECTED APP</text>
+<g id="browser-icon" transform="translate(97 315) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20M5 5.5h.1M8 5.5h.1M11 5.5h.1"/></g>
+<text x="142" y="340" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Browser</text>
+<text x="98" y="374" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Version A</text>
+<text x="98" y="399" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">HTML · CSS · JS</text>
+<g id="node-icon" transform="translate(387 315) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M12 6h6M12 18h6"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></g>
+<text x="432" y="341" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">Node.js 24</text>
+<text x="388" y="374" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">UI + /api proxy</text>
+<text x="388" y="399" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Container :8080</text>
+<g id="fastapi-icon" transform="translate(737 315) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="12" cy="20" r="3"/><path d="M8 5h8M6 8l5 9m7-9-5 9"/></g>
+<text x="782" y="341" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">FastAPI + Uvicorn</text>
+<text x="738" y="374" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">ALS ranking · :9000</text>
+<text x="738" y="399" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Search · explain · feedback</text>
+<g id="artifact-files-icon" transform="translate(387 458) scale(1.0833333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7v11l-10 5-10-5V7zm0 10L2 7m10 5 10-5M12 12v11M7 4.5l10 5"/></g>
+<text x="425" y="479" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#172B3A">ALS export</text>
+<text x="548" y="479" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">JSON + NPY</text>
+<g id="feedback-volume-icon" transform="translate(832 458) scale(1.0833333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-7l-6 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM7 8h10M7 12h7"/></g>
+<text x="870" y="478" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#172B3A">Feedback · JSONL</text>
+<text x="269" y="345" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">HTTP :4176</text>
+<text x="614" y="345" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">HTTP :9000</text>
+<text x="564" y="436" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">read-only mount</text>
+<text x="72" y="600" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#256C9F">02   OFFLINE ML JOBS</text>
+<g id="data-jobs-icon" transform="translate(97 642) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></g>
+<text x="142" y="667" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Data pipeline</text>
+<text x="98" y="697" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Ingest → preprocess</text>
+<g id="model-jobs-icon" transform="translate(407 642) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="12" cy="20" r="3"/><path d="M8 5h8M6 8l5 9m7-9-5 9"/></g>
+<text x="452" y="667" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Train + evaluate</text>
+<text x="408" y="697" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">B0 · B1 · B2 ALS</text>
+<g id="embedding-job-icon" transform="translate(767 642) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="m15 15 7 7"/></g>
+<text x="812" y="667" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Text retrieval</text>
+<text x="768" y="697" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">MiniLM → Chroma → query</text>
+<g id="local-data-icon" transform="translate(98 766) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></g>
+<text x="145" y="783" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Local data + models</text>
+<text x="145" y="813" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Raw files · Parquet · Chroma · ALS artifacts</text>
+<text x="554" y="521" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">B2 export</text>
+<g id="github-icon" transform="translate(1197 200) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="19" cy="4" r="2"/><path d="M6 6v12m13-12v3c0 6-13 3-13 9"/></g>
+<text x="1242" y="227" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#172B3A">GitHub</text>
+<text x="1198" y="259" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Code · DVC pointers · evidence</text>
+<text x="1094" y="190" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">Git</text>
+<g id="goodreads-icon" transform="translate(1197 331) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5c-3-2-6-3-10-2v17c4-1 7 0 10 2 3-2 6-3 10-2V3c-4-1-7 0-10 2zm0 0v17"/></g>
+<text x="1242" y="358" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#172B3A">UCSD Goodreads</text>
+<text x="1198" y="390" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Books + reader interactions</text>
+<g id="hugging-face-icon" transform="translate(1197 445) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7v11l-10 5-10-5V7zm0 10L2 7m10 5 10-5M12 12v11M7 4.5l10 5"/></g>
+<text x="1242" y="472" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#172B3A">Hugging Face</text>
+<text x="1198" y="504" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Pinned MiniLM encoder</text>
+<text x="905" y="533" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">HTTPS download</text>
+<text x="935" y="597" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#526575">build-time weights</text>
+<text x="1200" y="615" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#172B3A">GOOGLE CLOUD</text>
+<g id="gcs-icon" transform="translate(1217 659) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20a5 5 0 0 1-1-10 7 7 0 0 1 13-3 6.5 6.5 0 0 1 0 13z"/></g>
+<text x="1262" y="687" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" fill="#172B3A">Cloud Storage</text>
+<text x="1218" y="718" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">gs://tastebridge-dvc</text>
+<text x="1218" y="751" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Versioned data + models</text>
+<text x="1218" y="784" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">DVC pull / push</text>
+<text x="1087" y="819" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">DVC</text>
+<text x="42" y="882" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">Solid: runtime / files   ·   Dashed: image-build download   ·   Planned work: see notes.</text>
+</svg>
