@@ -1,0 +1,460 @@
+TAP version 13
+# Subtest: sends exactly five opaque IDs, supports overlap between readers, and normalizes aggregation
+ok 1 - sends exactly five opaque IDs, supports overlap between readers, and normalizes aggregation
+  ---
+  duration_ms: 3.793958
+  type: 'test'
+  ...
+# Subtest: rejects incomplete picks, duplicate picks, oversized IDs and unknown modes
+ok 2 - rejects incomplete picks, duplicate picks, oversized IDs and unknown modes
+  ---
+  duration_ms: 1.033542
+  type: 'test'
+  ...
+# Subtest: maps separate reasons, shelf evidence, top shelves and server coordinates without changing scores or input
+ok 3 - maps separate reasons, shelf evidence, top shelves and server coordinates without changing scores or input
+  ---
+  duration_ms: 2.159417
+  type: 'test'
+  ...
+# Subtest: accepts fewer than five recommendations and an empty shortlist
+ok 4 - accepts fewer than five recommendations and an empty shortlist
+  ---
+  duration_ms: 0.404875
+  type: 'test'
+  ...
+# Subtest: rejects a reason pointing to the other reader and shelves absent from the recommendation
+ok 5 - rejects a reason pointing to the other reader and shelves absent from the recommendation
+  ---
+  duration_ms: 0.326792
+  type: 'test'
+  ...
+# Subtest: rejects seed recommendations, duplicate results, wrong aggregation and malformed scores
+ok 6 - rejects seed recommendations, duplicate results, wrong aggregation and malformed scores
+  ---
+  duration_ms: 0.492
+  type: 'test'
+  ...
+# Subtest: rejects missing seed points and mismatched positions instead of drawing a misleading galaxy
+ok 7 - rejects missing seed points and mismatched positions instead of drawing a misleading galaxy
+  ---
+  duration_ms: 0.482584
+  type: 'test'
+  ...
+# Subtest: handles absent years/covers and does not allow executable cover URLs
+ok 8 - handles absent years/covers and does not allow executable cover URLs
+  ---
+  duration_ms: 0.49375
+  type: 'test'
+  ...
+# Subtest: feedback keeps the returned model version and excludes individual votes and personal fields
+ok 9 - feedback keeps the returned model version and excludes individual votes and personal fields
+  ---
+  duration_ms: 0.506667
+  type: 'test'
+  ...
+# Subtest: search URL-encodes input and preserves API IDs without sending cookies
+ok 10 - search URL-encodes input and preserves API IDs without sending cookies
+  ---
+  duration_ms: 3.089542
+  type: 'test'
+  ...
+# Subtest: POST recommend uses the correct contract and never puts reading lists in the URL
+ok 11 - POST recommend uses the correct contract and never puts reading lists in the URL
+  ---
+  duration_ms: 1.059625
+  type: 'test'
+  ...
+# Subtest: reports all unknown IDs from 404 responses and structured 422 validation failures
+ok 12 - reports all unknown IDs from 404 responses and structured 422 validation failures
+  ---
+  duration_ms: 0.564875
+  type: 'test'
+  ...
+# Subtest: reports 503 without retrying append-only feedback
+ok 13 - reports 503 without retrying append-only feedback
+  ---
+  duration_ms: 0.229375
+  type: 'test'
+  ...
+# Subtest: rejects malformed JSON and unexpected successful responses
+ok 14 - rejects malformed JSON and unexpected successful responses
+  ---
+  duration_ms: 0.8155
+  type: 'test'
+  ...
+# Subtest: reports network failure
+ok 15 - reports network failure
+  ---
+  duration_ms: 0.895959
+  type: 'test'
+  ...
+# Subtest: keeps the native browser fetch receiver when the function is supplied as a dependency
+ok 16 - keeps the native browser fetch receiver when the function is supplied as a dependency
+  ---
+  duration_ms: 0.415958
+  type: 'test'
+  ...
+# Subtest: service outages do not describe search or health failures as feedback failures
+ok 17 - service outages do not describe search or health failures as feedback failures
+  ---
+  duration_ms: 0.303542
+  type: 'test'
+  ...
+# Subtest: cancels a slow request on timeout
+ok 18 - cancels a slow request on timeout
+  ---
+  duration_ms: 17.566542
+  type: 'test'
+  ...
+# Subtest: caller cancellation stays an AbortError so superseded searches can be ignored
+ok 19 - caller cancellation stays an AbortError so superseded searches can be ignored
+  ---
+  duration_ms: 0.730541
+  type: 'test'
+  ...
+# Subtest: reader handoff cancels an in-flight search and keeps the next reader idle after its late response
+ok 20 - reader handoff cancels an in-flight search and keeps the next reader idle after its late response
+  ---
+  duration_ms: 8.184708
+  type: 'test'
+  ...
+# Subtest: reader handoff clears old search errors and prevents a queued search from starting
+ok 21 - reader handoff clears old search errors and prevents a queued search from starting
+  ---
+  duration_ms: 19.043708
+  type: 'test'
+  ...
+# Subtest: a late response cannot replace a newer search even when its transport ignores abort
+ok 22 - a late response cannot replace a newer search even when its transport ignores abort
+  ---
+  duration_ms: 1.795958
+  type: 'test'
+  ...
+# Subtest: changing favorites cancels an outstanding recommendation
+ok 23 - changing favorites cancels an outstanding recommendation
+  ---
+  duration_ms: 0.426958
+  type: 'test'
+  ...
+# Subtest: API metadata uses opaque IDs and a later search summary preserves full evidence
+ok 24 - API metadata uses opaque IDs and a later search summary preserves full evidence
+  ---
+  duration_ms: 0.395375
+  type: 'test'
+  ...
+# Subtest: the API galaxy applies only viewport scaling and works without browser vectors
+ok 25 - the API galaxy applies only viewport scaling and works without browser vectors
+  ---
+  duration_ms: 0.951541
+  type: 'test'
+  ...
+# Subtest: shared favorites draw one star and inconsistent coordinates are rejected
+ok 26 - shared favorites draw one star and inconsistent coordinates are rejected
+  ---
+  duration_ms: 0.547
+  type: 'test'
+  ...
+# Subtest: API books render safely without years/covers or fixture cover requests
+ok 27 - API books render safely without years/covers or fixture cover requests
+  ---
+  duration_ms: 3.705209
+  type: 'test'
+  ...
+# Subtest: negative scores stay signed and partial shortlists can be shared
+ok 28 - negative scores stay signed and partial shortlists can be shared
+  ---
+  duration_ms: 0.907625
+  type: 'test'
+  ...
+# Subtest: opaque IDs named __proto__ remain ordinary per-book votes
+ok 29 - opaque IDs named __proto__ remain ordinary per-book votes
+  ---
+  duration_ms: 2.064
+  type: 'test'
+  ...
+# Subtest: coincident API books remain separately addressable without altering their coordinates
+ok 30 - coincident API books remain separately addressable without altering their coordinates
+  ---
+  duration_ms: 4.092667
+  type: 'test'
+  ...
+# Subtest: map roles distinguish ranked recommendations, separate favorites and shared favorites
+ok 31 - map roles distinguish ranked recommendations, separate favorites and shared favorites
+  ---
+  duration_ms: 0.340084
+  type: 'test'
+  ...
+# Subtest: directional map navigation prefers a nearby book along the intended direction
+ok 32 - directional map navigation prefers a nearby book along the intended direction
+  ---
+  duration_ms: 0.567417
+  type: 'test'
+  ...
+# Subtest: a favorite stays selected through a vote refresh but explicit result changes take priority
+ok 33 - a favorite stays selected through a vote refresh but explicit result changes take priority
+  ---
+  duration_ms: 0.176583
+  type: 'test'
+  ...
+# Subtest: map selection shows context without opening a dialog or claiming a joint choice
+ok 34 - map selection shows context without opening a dialog or claiming a joint choice
+  ---
+  duration_ms: 1.017459
+  type: 'test'
+  ...
+# Subtest: only an inspector link moves focus to the replacement heading
+ok 35 - only an inspector link moves focus to the replacement heading
+  ---
+  duration_ms: 0.30275
+  type: 'test'
+  ...
+# Subtest: numbered annotations separate dense phone clusters while the source points stay exact
+ok 36 - numbered annotations separate dense phone clusters while the source points stay exact
+  ---
+  duration_ms: 6.818792
+  type: 'test'
+  ...
+# Subtest: map inspector escapes API titles, authors and reason references
+ok 37 - map inspector escapes API titles, authors and reason references
+  ---
+  duration_ms: 1.239375
+  type: 'test'
+  ...
+# Subtest: SIGINT during API readiness aborts startup promptly without opening the frontend
+ok 38 - SIGINT during API readiness aborts startup promptly without opening the frontend
+  ---
+  duration_ms: 250.215875
+  type: 'test'
+  ...
+# Subtest: a backend terminated by a signal aborts readiness promptly and reports failure
+ok 39 - a backend terminated by a signal aborts readiness promptly and reports failure
+  ---
+  duration_ms: 251.399375
+  type: 'test'
+  ...
+# Subtest: a backend exit after startup closes the frontend and fails the launcher
+ok 40 - a backend exit after startup closes the frontend and fails the launcher
+  ---
+  duration_ms: 333.325125
+  type: 'test'
+  ...
+# Subtest: shutdown during a pending frontend listen closes it without reporting a connected app
+ok 41 - shutdown during a pending frontend listen closes it without reporting a connected app
+  ---
+  duration_ms: 144.322208
+  type: 'test'
+  ...
+# Subtest: retains every response for surviving candidates and counts removed reader responses
+ok 42 - retains every response for surviving candidates and counts removed reader responses
+  ---
+  duration_ms: 4.556
+  type: 'test'
+  ...
+# Subtest: keeps an explicitly confirmed choice with two Interested responses after reordering
+ok 43 - keeps an explicitly confirmed choice with two Interested responses after reordering
+  ---
+  duration_ms: 0.3155
+  type: 'test'
+  ...
+# Subtest: revokes a retained choice unless both readers remain Interested
+ok 44 - revokes a retained choice unless both readers remain Interested
+  ---
+  duration_ms: 0.421708
+  type: 'test'
+  ...
+# Subtest: drops an absent confirmed book without choosing another mutually Interested book
+ok 45 - drops an absent confirmed book without choosing another mutually Interested book
+  ---
+  duration_ms: 0.33075
+  type: 'test'
+  ...
+# Subtest: two retained Interested responses never create a new joint confirmation
+ok 46 - two retained Interested responses never create a new joint confirmation
+  ---
+  duration_ms: 0.319333
+  type: 'test'
+  ...
+# Subtest: falls back to the first new candidate when the selected book disappears
+ok 47 - falls back to the first new candidate when the selected book disappears
+  ---
+  duration_ms: 0.789084
+  type: 'test'
+  ...
+# Subtest: preserves decide-later unless a valid confirmed choice remains
+ok 48 - preserves decide-later unless a valid confirmed choice remains
+  ---
+  duration_ms: 0.364209
+  type: 'test'
+  ...
+# Subtest: empty results clear candidates and selection while retaining decide-later
+ok 49 - empty results clear candidates and selection while retaining decide-later
+  ---
+  duration_ms: 0.254916
+  type: 'test'
+  ...
+# Subtest: copies vote containers and the ranking array without changing seeds or unrelated state
+ok 50 - copies vote containers and the ranking array without changing seeds or unrelated state
+  ---
+  duration_ms: 0.617542
+  type: 'test'
+  ...
+# Subtest: same-origin API relay preserves IDs, JSON and backend validation without forwarding browser cookies
+ok 51 - same-origin API relay preserves IDs, JSON and backend validation without forwarding browser cookies
+  ---
+  duration_ms: 68.785083
+  type: 'test'
+  ...
+# Subtest: an unavailable API returns a recoverable JSON error
+ok 52 - an unavailable API returns a recoverable JSON error
+  ---
+  duration_ms: 9.025833
+  type: 'test'
+  ...
+# Subtest: static serving defaults to connected A and never exposes files outside the built routes
+ok 53 - static serving defaults to connected A and never exposes files outside the built routes
+  ---
+  duration_ms: 15.48725
+  type: 'test'
+  ...
+# Subtest: a fresh checkout can use bundled samples without DVC access or writing runtime files
+ok 54 - a fresh checkout can use bundled samples without DVC access or writing runtime files
+  ---
+  duration_ms: 8.167625
+  type: 'test'
+  ...
+# Subtest: missing uv and unsupported Node are actionable failures
+ok 55 - missing uv and unsupported Node are actionable failures
+  ---
+  duration_ms: 3.421
+  type: 'test'
+  ...
+# Subtest: missing backend source fails instead of claiming the app can start
+ok 56 - missing backend source fails instead of claiming the app can start
+  ---
+  duration_ms: 4.583666
+  type: 'test'
+  ...
+# Subtest: backend override follows the launcher precedence and repository-relative paths
+ok 57 - backend override follows the launcher precedence and repository-relative paths
+  ---
+  duration_ms: 8.135084
+  type: 'test'
+  ...
+# Subtest: port checks reject equal, out-of-range, nonnumeric and fractional values
+ok 58 - port checks reject equal, out-of-range, nonnumeric and fractional values
+  ---
+  duration_ms: 5.523333
+  type: 'test'
+  ...
+# Subtest: custom artifacts use backend-relative paths and cloud URLs cannot pass as local folders
+ok 59 - custom artifacts use backend-relative paths and cloud URLs cannot pass as local folders
+  ---
+  duration_ms: 7.78375
+  type: 'test'
+  ...
+# Subtest: CLI options reject incomplete or unknown arguments
+ok 60 - CLI options reject incomplete or unknown arguments
+  ---
+  duration_ms: 0.739209
+  type: 'test'
+  ...
+# Subtest: connected launcher rejects bad input before building or creating runtime files
+ok 61 - connected launcher rejects bad input before building or creating runtime files
+  ---
+  duration_ms: 644.783666
+  type: 'test'
+  ...
+# Subtest: preflight and launcher resolve the same bounded ports and backend configuration
+ok 62 - preflight and launcher resolve the same bounded ports and backend configuration
+  ---
+  duration_ms: 2.703625
+  type: 'test'
+  ...
+# Subtest: standalone preview ignores ambient HOST while Docker explicitly binds to its network interface
+ok 63 - standalone preview ignores ambient HOST while Docker explicitly binds to its network interface
+  ---
+  duration_ms: 0.929666
+  type: 'test'
+  ...
+# Subtest: connection, recommendation and pick loading each lock reader navigation while keeping cancellation available
+ok 64 - connection, recommendation and pick loading each lock reader navigation while keeping cancellation available
+  ---
+  duration_ms: 6.224292
+  type: 'test'
+  ...
+# Subtest: an idle render keeps intentionally unavailable actions disabled and restores editable search
+ok 65 - an idle render keeps intentionally unavailable actions disabled and restores editable search
+  ---
+  duration_ms: 4.044542
+  type: 'test'
+  ...
+# Subtest: reader switching is guarded during hydration, recommendation and connection, including calls outside disabled buttons
+ok 66 - reader switching is guarded during hydration, recommendation and connection, including calls outside disabled buttons
+  ---
+  duration_ms: 2.978458
+  type: 'test'
+  ...
+# Subtest: editing an empty shelf slot selects its reader and reveals search without losing the other shelf
+ok 67 - editing an empty shelf slot selects its reader and reveals search without losing the other shelf
+  ---
+  duration_ms: 1.296209
+  type: 'test'
+  ...
+# Subtest: editing the already active reader also closes a phone shelf and reveals search
+ok 68 - editing the already active reader also closes a phone shelf and reveals search
+  ---
+  duration_ms: 1.191458
+  type: 'test'
+  ...
+# Subtest: leaving results cancels requests and restores the top of selection while same-stage editing preserves position
+ok 69 - leaving results cancels requests and restores the top of selection while same-stage editing preserves position
+  ---
+  duration_ms: 1.726583
+  type: 'test'
+  ...
+# Subtest: browsing a different book resets dialog position and does not carry the previous evidence disclosure
+ok 70 - browsing a different book resets dialog position and does not carry the previous evidence disclosure
+  ---
+  duration_ms: 1.151333
+  type: 'test'
+  ...
+# Subtest: responding to the same book preserves dialog position and an expanded evidence disclosure
+ok 71 - responding to the same book preserves dialog position and an expanded evidence disclosure
+  ---
+  duration_ms: 0.977334
+  type: 'test'
+  ...
+# Subtest: an empty recommendation response from map view reveals the shortlist recovery message and selects its tab
+ok 72 - an empty recommendation response from map view reveals the shortlist recovery message and selects its tab
+  ---
+  duration_ms: 1.259291
+  type: 'test'
+  ...
+# Subtest: Keep looking and closing a reviewed choice restore focus to the current visible results view
+ok 73 - Keep looking and closing a reviewed choice restore focus to the current visible results view
+  ---
+  duration_ms: 1.791792
+  type: 'test'
+  ...
+# Subtest: empty shelf slots expose five named actions for the correct reader
+ok 74 - empty shelf slots expose five named actions for the correct reader
+  ---
+  duration_ms: 0.340959
+  type: 'test'
+  ...
+# Subtest: shortlist cards escape opaque IDs and all metadata while preserving signed model scores
+ok 75 - shortlist cards escape opaque IDs and all metadata while preserving signed model scores
+  ---
+  duration_ms: 0.839584
+  type: 'test'
+  ...
+1..75
+# tests 75
+# suites 0
+# pass 75
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1092.080541

@@ -97,7 +97,7 @@ for (const version of ['A', 'B']) {
   new Script(script, { filename: `TasteBridge-Prototype-${version}.embedded.js` });
 
   let css = '';
-  for (const filename of ['shared/base.css', 'style.css']) {
+  for (const filename of ['shared/base.css', 'style.css', ...(version === 'A' ? ['desk-refinement.css', 'desk-galaxy.css'] : [])]) {
     let part = await read(filename);
     for (const match of [...part.matchAll(/url\(\s*(['"]?)([^)'"\s]+)\1\s*\)/g)]) {
       const value = match[2];
@@ -113,7 +113,7 @@ for (const version of ['A', 'B']) {
   if (!sourceRelease) throw Error(`Version ${version} is missing a source release stamp`);
   const styles = /<link\b(?=[^>]*\brel=["']stylesheet["'])[^>]*>/gi;
   const app = /<script\b(?=[^>]*\btype=["']module["'])(?=[^>]*\bsrc=["']\.\/app\.mjs[^"']*["'])[^>]*>\s*<\/script>/i;
-  if ([...html.matchAll(styles)].length !== 2 || !app.test(html)) throw Error('Unexpected entry markup');
+  if ([...html.matchAll(styles)].length !== (version === 'A' ? 4 : 2) || !app.test(html)) throw Error('Unexpected entry markup');
   html = html.replace(styles, '').replace(/<link\b(?=[^>]*\brel=["']preload["'])[^>]*>/gi, '');
   html = html.replace(app, () => `<script>${script.replace(/<\/script/gi, '<\\/script')}</script>`);
   html = html.replace(/<title>[^<]+<\/title>/, `<title>TasteBridge Prototype ${version} · ${version === 'A' ? 'Reading Desk' : 'Book Journey'}</title>`);

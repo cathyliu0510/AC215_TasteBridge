@@ -8,6 +8,12 @@ const here=dirname(fileURLToPath(import.meta.url));
 const routes=new Map([['/','index.html'],['/a/','a/index.html'],['/b/','b/index.html'],['/project/','project/index.html']]);
 const json=(res,status,value)=>{if(!res.headersSent)res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(value));};
 
+export function standaloneConfig(env=process.env){
+ const port=Number(env.PORT||4176);
+ if(!Number.isInteger(port)||port<1||port>65535)throw new Error('PORT must be an integer between 1 and 65535.');
+ return {port,host:env.TASTEBRIDGE_HOST||'127.0.0.1',apiBase:env.API_BASE_URL||'http://127.0.0.1:9000'};
+}
+
 export function createFrontendServer({root=resolve(here,'../dist'),apiBase,log=()=>{}}){
  const backend=new URL(apiBase);
  if(!['http:','https:'].includes(backend.protocol)||backend.username||backend.password||backend.search||backend.hash)throw new Error('Invalid API base URL.');
@@ -53,8 +59,9 @@ export function createFrontendServer({root=resolve(here,'../dist'),apiBase,log=(
 }
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
- const server=createFrontendServer({apiBase:process.env.API_BASE_URL||'http://127.0.0.1:9000',log:line=>console.log(line)});
- server.listen(Number(process.env.PORT||4176),process.env.HOST||'127.0.0.1',()=>console.log(`TasteBridge frontend ready on port ${process.env.PORT||4176}`));
+ const {port,host,apiBase}=standaloneConfig();
+ const server=createFrontendServer({apiBase,log:line=>console.log(line)});
+ server.listen(port,host,()=>console.log(`TasteBridge frontend ready on ${host}:${port}`));
  const stop=()=>{server.closeAllConnections();server.close();};
  process.on('SIGINT',stop);process.on('SIGTERM',stop);
 }

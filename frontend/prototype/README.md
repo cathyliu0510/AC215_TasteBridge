@@ -15,13 +15,57 @@ Requires Node.js. No package installation is needed.
 ```sh
 node scripts/build-prototype.mjs
 node scripts/verify-release.mjs
-node --test tools/verify-ranking.mjs
-node --test tools/verify-api-client.mjs
-node --test tools/verify-api-desk.mjs tools/verify-server.mjs
+node --test tools/verify-*.mjs
 python3 -m http.server 4175 --bind 127.0.0.1 --directory dist
 ```
 
 Open http://127.0.0.1:4175/ for A, `/b/` for B, and `/project/` for the scope page.
+
+### Book connections 20261104.3
+
+Book connections now starts with the current recommendation and the two readers' actual reference books and shared themes. Named controls expose all five recommendations. The original coordinate plot is an optional similarity view; it has no geographic meaning, decorative boundaries or inferred clusters. Mobile secondary controls are compact, responses and explicit shared-choice state stay visible, and dialog focus returns to an available relation action.
+
+An independent UX specialist reviewed desktop, 390px and 320px results. All 80 tests pass; actual browser checks include long titles, reference exploration, confirmation, revocation and the 52-book sample API. [Current UX review, screenshots and downloadable offline preview](../../docs/ms3/connections-ux-20261104.md).
+
+### Reading Desk 20261104.2
+
+A now uses a light mist canvas, dark ink, spruce shared actions and blue/purple reader identities. Instrument Serif is reserved for main headings and book titles; Geist carries functional headings, controls and body text. Control spacing, borders, radii and states are consistent across selection, recommendations, map, dialogs and recovery screens. Motion supports book selection, detail paging and shared-choice feedback; system and application reduced-motion rules remain supported.
+
+A dedicated designer and an independent reviewer checked the actual result and iterated on desktop density, dialog actions, reader badges, disabled controls and selected hover states. [Current screenshots, review and verification](../../docs/ms3/design-review-20261104.md).
+
+At this intermediate release, Shortlist and Taste map became peer views. The projection gained a persistent book inspector, direct title navigation, readable numbered callouts, labeled zoom controls and a phone selection summary. The original projected coordinates and model scores are preserved; displaced numbered annotations use short leaders back to the actual book positions. Release `20261104.3`, above, moves the projection into the optional similarity view within Book connections.
+
+Selection has actionable empty slots, clear search, reader-specific progress and a guided connected-catalogue empty state. Results combine each reader's reference and similarity in one place, with an explicit View reasons & respond action. Busy-state navigation, stage changes, dialog paging and map focus recovery have regression coverage. Version B remains the comparison interface.
+
+[Behavior changes, browser checks and earlier before/after screenshots](../../docs/ms3/ux-refinement-20261104.md).
+
+### Check the connected app setup
+
+From `frontend/prototype`, check local prerequisites before launching the frontend and API:
+
+```sh
+node scripts/check-setup.mjs
+node scripts/dev.mjs
+```
+
+The preflight requires Node 20 or newer and `uv` on PATH. It checks the backend source, configured port ranges and required artifact files without starting services or accessing cloud accounts. It does not read `.env` files, install packages, download data, or validate artifact contents.
+
+The connected launcher repeats these checks before rebuilding files or starting services. Invalid options and port settings fail before either step. Ctrl-C stops startup and both services; a backend exit also closes the frontend. The backend performs full artifact validation at startup; `uv run` may synchronize packages when the app is launched.
+
+The default backend is `src/backend` at the repository root, with its bundled 52-book toy catalogue. A missing real-model export is informational and does not block local UI work. For a separate checkout, pass the same `--backend PATH` to both commands; relative paths are resolved from the repository root. `TASTEBRIDGE_BACKEND_DIR` is also supported, and `--backend` takes precedence.
+
+| Setting | Default | Scope |
+| --- | --- | --- |
+| `TASTEBRIDGE_UI_PORT` | `4176` | Connected frontend on `127.0.0.1` |
+| `TASTEBRIDGE_API_PORT` | `9016` | Local backend on `127.0.0.1`; must differ from UI port |
+| `ARTIFACT_DIR` | Backend's `sample_artifacts` | A local folder; relative paths resolve from the backend directory |
+| `TASTEBRIDGE_HOST` | `127.0.0.1` | Standalone `scripts/serve.mjs` only; the connected launcher always uses loopback |
+
+After an authorized DVC pull or a completed training export, `ARTIFACT_DIR=../../data/artifacts/current` selects the trained artifacts for the local launcher. The preflight only checks file presence; it does not establish model provenance, bucket access, deployment or M3 completion. See the [root instructions](../../README.md#run-the-app) for obtaining the real export separately.
+
+Use `node scripts/dev.mjs --help` for launcher usage. The standalone server and Docker image use `TASTEBRIDGE_HOST`; an ambient `HOST` from a shell or preview environment is ignored. Docker explicitly binds to `0.0.0.0` so its published port is reachable.
+
+Use `node scripts/check-setup.mjs --json` for a machine-readable report. A failed required check exits with status 1. Run prerequisite, configuration and shutdown checks with `node --test tools/verify-setup.mjs tools/verify-launcher.mjs`.
 
 Edit src/a/ and src/b/ for the independent interfaces, and pages/project.html for project content. The build creates self-contained HTML in dist/, embedding the included fonts and original illustrations. Typeface license files are in each version's shared/fonts directory and are preserved in the HTML bundles.
 

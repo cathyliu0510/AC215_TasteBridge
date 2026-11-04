@@ -708,7 +708,15 @@ body{background-color:#041113;background-image:radial-gradient(ellipse at 85% 0%
 .book-check{background-color:#d0cca5;color:#1b332d}.book-object{color:#f2ebde;box-shadow:inset 4px 0 0 #00000024,inset 5px 0 0 #ffffff12,3px 8px 13px #00000035}.book-pick.is-picked .book-object{outline-color:var(--gold)}
 .search-field{padding:.85rem 1rem;border:1px solid #b8c9bd35;border-radius:4px;background-color:#12292b55}.search-field:focus-within{border:1px solid #c0d2bd80;box-shadow:0 0 0 3px #ddcfac0b}
 .reader-tabs button.active{border-color:#d3cda878}.reader-tabs button.active[data-reader="b"]{color:var(--b)}.reader-summary.active .summary-head strong{color:var(--gold)}
-.seed-slot.vacant{background-color:#b0c6b007;border:1px solid #b7c5b52b;color:#9fb4aa}.slot-remove{background-color:#0a2226;color:var(--ink);border:1px solid #c5d0bc44}
+.reader-tabs button.active[data-reader="a"]{color:var(--a)}
+.reader-summary{padding-left:14px;border-left:2px solid transparent}
+.reader-summary.active{border-left-color:var(--a);background:linear-gradient(90deg,#b0c9cc0b,transparent 80%)}
+.reader-summary.active.reader-b{border-left-color:var(--b);background:linear-gradient(90deg,#d2bb940b,transparent 80%)}
+.reader-summary.active.reader-a .summary-head strong{color:var(--a)}
+.reader-summary.active.reader-b .summary-head strong{color:var(--b)}
+.catalogue.reader-a .search-field:focus-within{border-color:var(--a)}
+.catalogue.reader-b .search-field:focus-within{border-color:var(--b)}
+.seed-slot.vacant{background-color:#b0c6b007;border:1px dashed #b7c5b54d;border-radius:2px;color:#9fb4aa}.slot-remove{background-color:#0a2226;color:var(--ink);border:1px solid #c5d0bc44}
 .journey-progress button:after{background-color:var(--gold)}.journey-progress button[aria-current="step"]{color:var(--gold)}
 .result-list .result-card{border-color:#b7c5b52b}.result-list .result-card:is(:hover,:focus-visible){background-color:#b0c6b009}.result-list .result-card.joint-choice{background-color:#ddcfac08;box-shadow:inset 3px 0 0 var(--gold)}
 .result-list .result-card .rank-number{color:#98b29c}.result-list .result-card .result-info h2{color:#f1e9d9}.result-reason-preview.reader-a{border-color:var(--a)}.result-reason-preview.reader-b{border-color:var(--b)}.result-reason-preview strong{color:#e1e6d8}.result-list .result-card .reason-preview-label{color:#b7c0ba}

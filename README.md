@@ -4,6 +4,12 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 [MS2 slides](https://docs.google.com/presentation/d/1JUz5bPlGqBAYeBMOLzO22sUbZ3DdYllxlPU6gF_tK54/edit) · [MS1 proposal](milestones/ms1/) · [Standalone frontend prototype](https://tastebridge-prototype.landenini.chatgpt.site/)
 
+## Milestone 3 preparation
+
+The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. This local preparation branch adds the refined Reading Desk, setup checks and the existing Cloud Run preparation package; it does not establish a completed cloud training run, live model deployment, production monitoring or submission. The last remote check found no `milestone3` branch.
+
+Use `python3 tools/check_ms3.py` to see the recorded evidence gaps. [Changes since MS2, exact reproduction commands, tests and team handoff](docs/ms3/README.md). The separate static UX preview does not count as the deployed model/API.
+
 ## Milestone 2
 
 The app serves a trained **B2 implicit ALS model over 5,000 Goodreads works**. Version A and the FastAPI backend run together in local Docker. The public prototype above is a separate frontend demo.
@@ -71,3 +77,7 @@ The [official MS2 requirements](https://harvard-iacs.github.io/2026-AC215/milest
 ## Frontend
 
 Editable A/B source, standalone HTML and [build/run instructions](frontend/prototype/README.md#build-and-run) are in [frontend/prototype](frontend/prototype/).
+
+Local setup now includes a prerequisite check, consistent launcher validation and explicit Docker host configuration. Reading Desk keeps the active reader's shelf visible and brings search into view when editing on a phone. [M3 readiness and local verification](docs/ms3/local-readiness.md) separates these changes from the cloud training and deployment evidence still to be verified.
+
+The [Book connections UX review](docs/ms3/connections-ux-20261104.md) covers the current named-reference diagram, optional similarity projection, narrow-screen flows and downloadable offline preview. The [design review](docs/ms3/design-review-20261104.md) records the daylight visual system, and the [earlier UI review](docs/ms3/ux-refinement-20261104.md) records the initial selection and map behavior changes.

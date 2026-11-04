@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "route": "/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 540131,
+      "source_sha256": "d750ec2aeb1cedea2650057461119d69924897be0c51838f3083ab5a8d33b484",
+      "hosted_sha256": "e87de0c791f7f6c5d24ac0e741954fe52cb3cc95eb2901b2539c4535723b62f7",
+      "exact_source_match": false,
+      "source_preserved_with_single_insertion": true,
+      "insertion_bytes": 1114,
+      "insertion_tags": []
+    },
+    {
+      "route": "/a/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 540131,
+      "source_sha256": "d750ec2aeb1cedea2650057461119d69924897be0c51838f3083ab5a8d33b484",
+      "hosted_sha256": "875c6f5fea10fdc81688c00c512e6d4b5dfa00bff1591719704f575834b69e79",
+      "exact_source_match": false,
+      "source_preserved_with_single_insertion": true,
+      "insertion_bytes": 1114,
+      "insertion_tags": []
+    },
+    {
+      "route": "/b/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 2747189,
+      "source_sha256": "08d15d720b2b70474e2ac3826f28bb5d2c0553950c426c3d663bb8ad68b7892c",
+      "hosted_sha256": "99987ec2ef6ba3432089786638aebba00b5f7a53f943560a00926399032c44a5",
+      "exact_source_match": false,
+      "source_preserved_with_single_insertion": true,
+      "insertion_bytes": 1114,
+      "insertion_tags": []
+    },
+    {
+      "route": "/project/",
+      "status": 200,
+      "content_type": "text/html",
+      "bytes": 156391,
+      "source_sha256": "21f34bf415f31cb7958a0ead356a4b99aee37f64c63b33d36504753f40de6076",
+      "hosted_sha256": "640f9ba79a92fcdc3cc6c0381b41852b53cd582944632b3b8969ad03c640a2f1",
+      "exact_source_match": false,
+      "source_preserved_with_single_insertion": true,
+      "insertion_bytes": 1114,
+      "insertion_tags": []
+    }
+  ],
+  "scope": "HTTP delivery only; not visitor sign-in or interaction QA",
+  "checked_at": "2026-11-04",
+  "url": "https://tastebridge-reading-desk-20261104.landenini.chatgpt.site",
+  "access": "owner-private; audience choice pending"
+}

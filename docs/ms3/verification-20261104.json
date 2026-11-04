@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-11-04",
+  "local_branch": "jenny/ms3-readiness",
+  "remote_snapshot": {
+    "main": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+    "milestone2": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+    "milestone3_present": false,
+    "open_pr": 11,
+    "cloud_staging_source": "df64cdbe0ac3dff72cda9bf64f251d1e89973e1b"
+  },
+  "tests": {
+    "frontend": {
+      "passed": 80,
+      "report": "connections-ux-20261104/frontend-tests.tap"
+    },
+    "backend": {
+      "passed": 77,
+      "command": "uv run --offline --frozen pytest -q"
+    },
+    "evaluation": {
+      "passed": 54,
+      "warnings": 2,
+      "command": "uv run --frozen pytest -q"
+    },
+    "ms3_readiness_and_configuration": {
+      "passed": 4,
+      "command": "python3 -m unittest discover -s tools/tests -v"
+    }
+  },
+  "limits": {
+    "docker_daemon": "Configured Colima socket absent",
+    "gcloud": "Not on PATH",
+    "processed_data": "Absent locally",
+    "trained_export": "Absent locally",
+    "cloud_training": "Not verified",
+    "deployed_model_service": "Not verified",
+    "production_logs": "Not verified",
+    "canvas_submission": "Not verified"
+  },
+  "site": {
+    "url": "https://tastebridge-reading-desk-20261104.landenini.chatgpt.site",
+    "prototype_release": "20261104.3",
+    "audience": "owner-private; awaiting sharing choice",
+    "deployment": "succeeded",
+    "service_http_check": "Four routes return 200 and preserve all original source with a hosting insertion; see site-http-20261104.json",
+    "hosted_flow_verification": "Sign-in account selection returned platform route error",
+    "model_api": false
+  }
+}

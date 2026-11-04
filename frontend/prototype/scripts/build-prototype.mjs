@@ -30,5 +30,5 @@ for (const [placeholder, file, mime] of [
 ]) project = project.replaceAll(placeholder, `data:${mime};base64,${readFileSync(resolve(root, 'src/a', file)).toString('base64')}`);
 mkdirSync(resolve(root, 'dist/project'), { recursive: true });
 writeFileSync(resolve(root, 'dist/project/index.html'), project);
-writeFileSync(resolve(root, 'release.json'), JSON.stringify({ preferred: 'A', release: '20261012.2', routes: ['/', '/a/', '/b/', '/project/'], versions: releases, project_sha256: hash(project) }, null, 2) + '\n');
+writeFileSync(resolve(root, 'release.json'), JSON.stringify({ preferred: 'A', release: releases.find(item => item.version === 'A').release, routes: ['/', '/a/', '/b/', '/project/'], versions: releases, project_sha256: hash(project) }, null, 2) + '\n');
 console.log('Built A, B, and the project scope page from editable source.');

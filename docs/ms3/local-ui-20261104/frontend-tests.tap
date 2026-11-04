@@ -1,0 +1,340 @@
+TAP version 13
+# Subtest: sends exactly five opaque IDs, supports overlap between readers, and normalizes aggregation
+ok 1 - sends exactly five opaque IDs, supports overlap between readers, and normalizes aggregation
+  ---
+  duration_ms: 2.164125
+  type: 'test'
+  ...
+# Subtest: rejects incomplete picks, duplicate picks, oversized IDs and unknown modes
+ok 2 - rejects incomplete picks, duplicate picks, oversized IDs and unknown modes
+  ---
+  duration_ms: 0.854125
+  type: 'test'
+  ...
+# Subtest: maps separate reasons, shelf evidence, top shelves and server coordinates without changing scores or input
+ok 3 - maps separate reasons, shelf evidence, top shelves and server coordinates without changing scores or input
+  ---
+  duration_ms: 1.644583
+  type: 'test'
+  ...
+# Subtest: accepts fewer than five recommendations and an empty shortlist
+ok 4 - accepts fewer than five recommendations and an empty shortlist
+  ---
+  duration_ms: 0.303833
+  type: 'test'
+  ...
+# Subtest: rejects a reason pointing to the other reader and shelves absent from the recommendation
+ok 5 - rejects a reason pointing to the other reader and shelves absent from the recommendation
+  ---
+  duration_ms: 0.365709
+  type: 'test'
+  ...
+# Subtest: rejects seed recommendations, duplicate results, wrong aggregation and malformed scores
+ok 6 - rejects seed recommendations, duplicate results, wrong aggregation and malformed scores
+  ---
+  duration_ms: 0.371375
+  type: 'test'
+  ...
+# Subtest: rejects missing seed points and mismatched positions instead of drawing a misleading galaxy
+ok 7 - rejects missing seed points and mismatched positions instead of drawing a misleading galaxy
+  ---
+  duration_ms: 0.222583
+  type: 'test'
+  ...
+# Subtest: handles absent years/covers and does not allow executable cover URLs
+ok 8 - handles absent years/covers and does not allow executable cover URLs
+  ---
+  duration_ms: 0.165958
+  type: 'test'
+  ...
+# Subtest: feedback keeps the returned model version and excludes individual votes and personal fields
+ok 9 - feedback keeps the returned model version and excludes individual votes and personal fields
+  ---
+  duration_ms: 0.254125
+  type: 'test'
+  ...
+# Subtest: search URL-encodes input and preserves API IDs without sending cookies
+ok 10 - search URL-encodes input and preserves API IDs without sending cookies
+  ---
+  duration_ms: 1.768792
+  type: 'test'
+  ...
+# Subtest: POST recommend uses the correct contract and never puts reading lists in the URL
+ok 11 - POST recommend uses the correct contract and never puts reading lists in the URL
+  ---
+  duration_ms: 1.436333
+  type: 'test'
+  ...
+# Subtest: reports all unknown IDs from 404 responses and structured 422 validation failures
+ok 12 - reports all unknown IDs from 404 responses and structured 422 validation failures
+  ---
+  duration_ms: 0.36975
+  type: 'test'
+  ...
+# Subtest: reports 503 without retrying append-only feedback
+ok 13 - reports 503 without retrying append-only feedback
+  ---
+  duration_ms: 0.200166
+  type: 'test'
+  ...
+# Subtest: rejects malformed JSON and unexpected successful responses
+ok 14 - rejects malformed JSON and unexpected successful responses
+  ---
+  duration_ms: 1.13575
+  type: 'test'
+  ...
+# Subtest: reports network failure
+ok 15 - reports network failure
+  ---
+  duration_ms: 0.671917
+  type: 'test'
+  ...
+# Subtest: keeps the native browser fetch receiver when the function is supplied as a dependency
+ok 16 - keeps the native browser fetch receiver when the function is supplied as a dependency
+  ---
+  duration_ms: 0.423375
+  type: 'test'
+  ...
+# Subtest: service outages do not describe search or health failures as feedback failures
+ok 17 - service outages do not describe search or health failures as feedback failures
+  ---
+  duration_ms: 0.188125
+  type: 'test'
+  ...
+# Subtest: cancels a slow request on timeout
+ok 18 - cancels a slow request on timeout
+  ---
+  duration_ms: 18.297167
+  type: 'test'
+  ...
+# Subtest: caller cancellation stays an AbortError so superseded searches can be ignored
+ok 19 - caller cancellation stays an AbortError so superseded searches can be ignored
+  ---
+  duration_ms: 0.560833
+  type: 'test'
+  ...
+# Subtest: reader handoff cancels an in-flight search and keeps the next reader idle after its late response
+ok 20 - reader handoff cancels an in-flight search and keeps the next reader idle after its late response
+  ---
+  duration_ms: 9.298625
+  type: 'test'
+  ...
+# Subtest: reader handoff clears old search errors and prevents a queued search from starting
+ok 21 - reader handoff clears old search errors and prevents a queued search from starting
+  ---
+  duration_ms: 16.82775
+  type: 'test'
+  ...
+# Subtest: a late response cannot replace a newer search even when its transport ignores abort
+ok 22 - a late response cannot replace a newer search even when its transport ignores abort
+  ---
+  duration_ms: 1.164167
+  type: 'test'
+  ...
+# Subtest: changing favorites cancels an outstanding recommendation
+ok 23 - changing favorites cancels an outstanding recommendation
+  ---
+  duration_ms: 0.393542
+  type: 'test'
+  ...
+# Subtest: API metadata uses opaque IDs and a later search summary preserves full evidence
+ok 24 - API metadata uses opaque IDs and a later search summary preserves full evidence
+  ---
+  duration_ms: 0.424792
+  type: 'test'
+  ...
+# Subtest: the API galaxy applies only viewport scaling and works without browser vectors
+ok 25 - the API galaxy applies only viewport scaling and works without browser vectors
+  ---
+  duration_ms: 0.622667
+  type: 'test'
+  ...
+# Subtest: shared favorites draw one star and inconsistent coordinates are rejected
+ok 26 - shared favorites draw one star and inconsistent coordinates are rejected
+  ---
+  duration_ms: 0.257291
+  type: 'test'
+  ...
+# Subtest: API books render safely without years/covers or fixture cover requests
+ok 27 - API books render safely without years/covers or fixture cover requests
+  ---
+  duration_ms: 0.519542
+  type: 'test'
+  ...
+# Subtest: negative scores stay signed and partial shortlists can be shared
+ok 28 - negative scores stay signed and partial shortlists can be shared
+  ---
+  duration_ms: 0.538834
+  type: 'test'
+  ...
+# Subtest: opaque IDs named __proto__ remain ordinary per-book votes
+ok 29 - opaque IDs named __proto__ remain ordinary per-book votes
+  ---
+  duration_ms: 0.288709
+  type: 'test'
+  ...
+# Subtest: SIGINT during API readiness aborts startup promptly without opening the frontend
+ok 30 - SIGINT during API readiness aborts startup promptly without opening the frontend
+  ---
+  duration_ms: 222.364917
+  type: 'test'
+  ...
+# Subtest: a backend terminated by a signal aborts readiness promptly and reports failure
+ok 31 - a backend terminated by a signal aborts readiness promptly and reports failure
+  ---
+  duration_ms: 317.188584
+  type: 'test'
+  ...
+# Subtest: a backend exit after startup closes the frontend and fails the launcher
+ok 32 - a backend exit after startup closes the frontend and fails the launcher
+  ---
+  duration_ms: 356.320709
+  type: 'test'
+  ...
+# Subtest: shutdown during a pending frontend listen closes it without reporting a connected app
+ok 33 - shutdown during a pending frontend listen closes it without reporting a connected app
+  ---
+  duration_ms: 132.393084
+  type: 'test'
+  ...
+# Subtest: retains every response for surviving candidates and counts removed reader responses
+ok 34 - retains every response for surviving candidates and counts removed reader responses
+  ---
+  duration_ms: 3.937416
+  type: 'test'
+  ...
+# Subtest: keeps an explicitly confirmed choice with two Interested responses after reordering
+ok 35 - keeps an explicitly confirmed choice with two Interested responses after reordering
+  ---
+  duration_ms: 0.631
+  type: 'test'
+  ...
+# Subtest: revokes a retained choice unless both readers remain Interested
+ok 36 - revokes a retained choice unless both readers remain Interested
+  ---
+  duration_ms: 0.957166
+  type: 'test'
+  ...
+# Subtest: drops an absent confirmed book without choosing another mutually Interested book
+ok 37 - drops an absent confirmed book without choosing another mutually Interested book
+  ---
+  duration_ms: 0.685542
+  type: 'test'
+  ...
+# Subtest: two retained Interested responses never create a new joint confirmation
+ok 38 - two retained Interested responses never create a new joint confirmation
+  ---
+  duration_ms: 0.640916
+  type: 'test'
+  ...
+# Subtest: falls back to the first new candidate when the selected book disappears
+ok 39 - falls back to the first new candidate when the selected book disappears
+  ---
+  duration_ms: 0.171791
+  type: 'test'
+  ...
+# Subtest: preserves decide-later unless a valid confirmed choice remains
+ok 40 - preserves decide-later unless a valid confirmed choice remains
+  ---
+  duration_ms: 0.244583
+  type: 'test'
+  ...
+# Subtest: empty results clear candidates and selection while retaining decide-later
+ok 41 - empty results clear candidates and selection while retaining decide-later
+  ---
+  duration_ms: 0.160958
+  type: 'test'
+  ...
+# Subtest: copies vote containers and the ranking array without changing seeds or unrelated state
+ok 42 - copies vote containers and the ranking array without changing seeds or unrelated state
+  ---
+  duration_ms: 1.131834
+  type: 'test'
+  ...
+# Subtest: same-origin API relay preserves IDs, JSON and backend validation without forwarding browser cookies
+ok 43 - same-origin API relay preserves IDs, JSON and backend validation without forwarding browser cookies
+  ---
+  duration_ms: 55.327666
+  type: 'test'
+  ...
+# Subtest: an unavailable API returns a recoverable JSON error
+ok 44 - an unavailable API returns a recoverable JSON error
+  ---
+  duration_ms: 9.988834
+  type: 'test'
+  ...
+# Subtest: static serving defaults to connected A and never exposes files outside the built routes
+ok 45 - static serving defaults to connected A and never exposes files outside the built routes
+  ---
+  duration_ms: 30.836125
+  type: 'test'
+  ...
+# Subtest: a fresh checkout can use bundled samples without DVC access or writing runtime files
+ok 46 - a fresh checkout can use bundled samples without DVC access or writing runtime files
+  ---
+  duration_ms: 7.962209
+  type: 'test'
+  ...
+# Subtest: missing uv and unsupported Node are actionable failures
+ok 47 - missing uv and unsupported Node are actionable failures
+  ---
+  duration_ms: 4.228708
+  type: 'test'
+  ...
+# Subtest: missing backend source fails instead of claiming the app can start
+ok 48 - missing backend source fails instead of claiming the app can start
+  ---
+  duration_ms: 3.458125
+  type: 'test'
+  ...
+# Subtest: backend override follows the launcher precedence and repository-relative paths
+ok 49 - backend override follows the launcher precedence and repository-relative paths
+  ---
+  duration_ms: 3.520958
+  type: 'test'
+  ...
+# Subtest: port checks reject equal, out-of-range, nonnumeric and fractional values
+ok 50 - port checks reject equal, out-of-range, nonnumeric and fractional values
+  ---
+  duration_ms: 4.092375
+  type: 'test'
+  ...
+# Subtest: custom artifacts use backend-relative paths and cloud URLs cannot pass as local folders
+ok 51 - custom artifacts use backend-relative paths and cloud URLs cannot pass as local folders
+  ---
+  duration_ms: 4.552875
+  type: 'test'
+  ...
+# Subtest: CLI options reject incomplete or unknown arguments
+ok 52 - CLI options reject incomplete or unknown arguments
+  ---
+  duration_ms: 0.528416
+  type: 'test'
+  ...
+# Subtest: connected launcher rejects bad input before building or creating runtime files
+ok 53 - connected launcher rejects bad input before building or creating runtime files
+  ---
+  duration_ms: 803.129583
+  type: 'test'
+  ...
+# Subtest: preflight and launcher resolve the same bounded ports and backend configuration
+ok 54 - preflight and launcher resolve the same bounded ports and backend configuration
+  ---
+  duration_ms: 3.110416
+  type: 'test'
+  ...
+# Subtest: standalone preview ignores ambient HOST while Docker explicitly binds to its network interface
+ok 55 - standalone preview ignores ambient HOST while Docker explicitly binds to its network interface
+  ---
+  duration_ms: 1.306708
+  type: 'test'
+  ...
+1..55
+# tests 55
+# suites 0
+# pass 55
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1138.8355

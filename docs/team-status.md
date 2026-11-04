@@ -1,5 +1,7 @@
 # Team status
 
+November 4 continuation: the [root README](../README.md) and [MS2 app evidence](ms2/frontend-api/real-model-20261018/) establish the later 5,000-work trained-model integration. The work-split notes below are the October snapshot; the [MS3 runbook](ms3/README.md) records the current requirements, repository state, tests and remaining evidence.
+
 Checked October 12, 2026. Sources: the [MS1 proposal](../milestones/ms1/), Nikhil's October 7 meeting summary (19:48) and full transcript (22:38), and the October 8 and 12 WhatsApp work-split messages. The October 12 TF transcript was also read in full; transcription errors are paraphrased here. Official course requirements take precedence over informal meeting wording.
 
 October 12 update: [Nikhil's backend PR #2](https://github.com/cathyliu0510/TasteBridge/pull/2) establishes his API/deployment workstream. Its SPEC and implementation were checked against the frontend; [results, joint review instructions and open integration choices](backend-integration.md).
@@ -45,4 +47,4 @@ The meeting discussed book **metadata**, not full-book embeddings. Goodreads con
 
 The hybrid architecture remains open: MS1 lists LightFM-style and two-tower approaches; a transformer was mentioned in the meeting without a selection. Sparse/dense retrieval, an agent exploring preferences, LLM metadata enrichment, and reading-account/MCP integration were exploratory suggestions. No replacement architecture or additional product commitment was established.
 
-The two-reader scope, five favorites each, metadata-grounded reasons and a 2D model map remain the MS1 starting point. A 3D map, groups of 3–5, and LLM rephrasing are stretch goals. The standalone prototype uses 23 curated sample books and fixed theme vectors; connected A uses the backend's 52 hand-picked books and toy shelf vectors. Neither mode uses a trained model yet.
+The two-reader scope, five favorites each, metadata-grounded reasons and a 2D model map remain the MS1 starting point. A 3D map, groups of 3–5, and LLM rephrasing are stretch goals. The standalone prototype uses 23 curated sample books and fixed theme vectors. Connected A defaults to the backend's 52 hand-picked books and toy shelf vectors; with the real export mounted it serves the trained B2 model over 5,000 Goodreads works, verified in the [October 18 evidence](ms2/frontend-api/real-model-20261018/).

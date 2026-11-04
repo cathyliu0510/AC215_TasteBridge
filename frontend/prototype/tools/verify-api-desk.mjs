@@ -21,7 +21,7 @@ function readerHandoff({executeSearch=async()=>[],searchTimer}={}){
  const state={reader:'a',stage:'select',query:'Potter',filter:'all',a:['a1','a2','a3','a4','a5'],b:[],searchResults:[{id:'previous-match'}],searchBusy:false,searchError:''};
  const requests=new LatestRequests(),renders=[],input={value:state.query,focus(){}};
  const render=()=>renders.push({query:state.query,results:Array.from(state.searchResults,book=>book.id),busy:state.searchBusy,error:state.searchError});
- const context={state,searchTimer,clearTimeout,api:{requests,search:query=>requests.run('search',signal=>executeSearch(query,signal))},
+ const context={state,searchTimer,clearTimeout,apiConnection:{pending:false},api:{requests,search:query=>requests.run('search',signal=>executeSearch(query,signal))},
   compactViewport:{matches:false},readerName:reader=>reader==='a'?'Reader 1':'Reader 2',
   $:()=>input,syncFilters(){},syncSelectionChrome(){},syncCatalogueSelection(){},
   renderBooks:render,renderApiBooks:render,recorder:{record(){}}};

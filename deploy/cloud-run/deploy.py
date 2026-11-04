@@ -87,7 +87,7 @@ def service_spec(images):
                      'containers': [
                          {'name': 'frontend', 'image': images['frontend'],
                           'ports': [{'containerPort': 8080}],
-                          'env': env(HOST='0.0.0.0', API_BASE_URL='http://127.0.0.1:9000'),
+                          'env': env(TASTEBRIDGE_HOST='0.0.0.0', API_BASE_URL='http://127.0.0.1:9000'),
                           'resources': {'limits': {'cpu': '1000m', 'memory': '256Mi'}},
                           'startupProbe': probe('/healthz', 8080)},
                          {'name': 'backend', 'image': images['backend'],

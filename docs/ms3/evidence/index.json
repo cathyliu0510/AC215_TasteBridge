@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-04",
+  "official_requirements": "https://harvard-iacs.github.io/2026-AC215/milestone3/",
+  "requirements": [
+    {"id": "tracked_serverless_training", "status": "pending", "evidence": [], "note": "Local MS2 runs exist; a successful tracked serverless training execution and screenshot have not been verified."},
+    {"id": "deployed_model_api", "status": "pending", "evidence": [], "note": "Cloud Run preparation has historical local verification; no live model API URL and response screenshot were verified in this task."},
+    {"id": "automated_ml_workflow", "status": "pending", "evidence": [], "note": "The local Compose pipeline exists; verify the selected cloud workflow or document the accepted equivalent."},
+    {"id": "production_monitoring", "status": "pending", "evidence": [], "note": "Logging code and access instructions exist; actual production logs and access remain unverified."},
+    {"id": "working_api", "status": "local_only", "evidence": ["src/backend/SPEC.md", "src/backend/tests/test_recommend_api.py"], "note": "77 backend tests passed locally; this is not deployed-service evidence."},
+    {"id": "milestone3_branch", "status": "pending", "evidence": [], "note": "Remote branch inventory had no milestone3 branch; local preparation is on jenny/ms3-readiness."},
+    {"id": "presentation", "status": "pending", "evidence": [], "note": "The MS2 deck exists; MS3 slides were not verified."}
+  ]
+}

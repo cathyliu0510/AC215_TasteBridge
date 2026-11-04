@@ -1,0 +1,57 @@
+[
+  {
+    "overflow": false,
+    "scrollWidth": 320,
+    "view": "map",
+    "width": 320
+  },
+  {
+    "dialogScrollWidth": 298,
+    "dialogWidth": 300,
+    "overflow": false,
+    "scrollWidth": 320,
+    "view": "dialog",
+    "width": 320
+  },
+  {
+    "overflow": false,
+    "scrollWidth": 768,
+    "view": "map",
+    "width": 768
+  },
+  {
+    "overflow": false,
+    "scrollWidth": 1280,
+    "view": "map",
+    "width": 1280
+  },
+  {
+    "overflow": false,
+    "scrollWidth": 1280,
+    "view": "shortlist",
+    "width": 1280
+  },
+  {
+    "overflow": false,
+    "scrollWidth": 1280,
+    "view": "selection",
+    "width": 1280
+  },
+  {
+    "overflow": false,
+    "scrollWidth": 390,
+    "view": "map",
+    "width": 390
+  },
+  {
+    "focus": "search",
+    "overflow": false,
+    "reader1Count": "Reader 1 5/5",
+    "reader2Active": "true",
+    "scrollWidth": 320,
+    "searchVisible": true,
+    "shelfOpen": false,
+    "view": "selection",
+    "width": 320
+  }
+]
