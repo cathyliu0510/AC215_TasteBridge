@@ -18,6 +18,7 @@ import argparse
 import datetime as dt
 import gzip
 import hashlib
+import io
 import json
 from pathlib import Path
 
@@ -30,7 +31,10 @@ GENERIC_SHELVES = ["to-read", "currently-reading", "favorites", "owned", "kindle
 
 def _write_jsonl_gz(path: Path, records) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with gzip.open(path, "wt", encoding="utf-8") as handle:
+    # A fixed seed should also produce stable compressed bytes and input hashes.
+    # gzip.open otherwise embeds the current time and the destination filename.
+    with path.open("wb") as raw, gzip.GzipFile(filename="", fileobj=raw, mode="wb", mtime=0) as zipped, \
+            io.TextIOWrapper(zipped, encoding="utf-8", newline="\n") as handle:
         for rec in records:
             handle.write(json.dumps(rec) + "\n")
 

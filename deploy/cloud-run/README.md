@@ -95,3 +95,14 @@ gcloud run services update-traffic tastebridge-staging \
 Use the existing service; deleting and recreating services is not the update workflow.
 
 References: [Cloud Run containers](https://docs.cloud.google.com/run/docs/configuring/services/containers), [container contract](https://docs.cloud.google.com/run/docs/container-contract), [deployment](https://docs.cloud.google.com/run/docs/deploying), [logging](https://docs.cloud.google.com/run/docs/logging).
+
+## Catalogue-independent verification
+
+When the approved catalogue does not contain the default example titles, use two actual IDs from that catalogue:
+
+```sh
+python3 deploy/cloud-run/smoke.py --url "$SERVICE_URL" \
+  --reader-a-id "$READER_A_BOOK_ID" --reader-b-id "$READER_B_BOOK_ID"
+```
+
+Supply both IDs. The verifier checks the served model identity, both ranking rules and their score calculation, seed exclusion, matching map coordinates and private-route isolation. Feedback remains opt-in for a deployed URL. The [local integration runner](../../docs/ms3/reproduce.md) reuses this check without Docker and without writing deployment state.

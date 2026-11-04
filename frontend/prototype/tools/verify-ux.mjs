@@ -14,6 +14,16 @@ function handlers(start,end){
  assert(from>=0&&to>from,'Page handlers moved; update the UX harness.');
  return appSource.slice(from,to);
 }
+
+test('the connected UI distinguishes trained synthetic data from the fixed fixture and other exports',()=>{
+ for(const [modelVersion,label] of [['b2-als-synthetic-example','Synthetic training data'],['sample-shelf-toy-v1','Sample model'],['b2-als-gr-example','']]){
+  const context={apiMode:true,apiConnection:{health:{numBooks:160,modelVersion}},state:{a:[],b:[],mode:'least-misery'}};
+  runInNewContext(handlers('function footer(){','function connectionHTML(){'),context);
+  const html=context.footer();
+  if(label)assert(html.includes(label));
+  else {assert(!html.includes('Synthetic training data'));assert(!html.includes('Sample model'));}
+ }
+});
 function control(id,attributes=[]){
  return {id,attributes:new Set(attributes),disabled:false,toggleAttribute(name,enabled){this[name]=enabled;}};
 }

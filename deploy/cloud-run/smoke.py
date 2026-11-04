@@ -3,6 +3,7 @@
 import argparse
 from datetime import datetime, timezone
 import json
+import math
 from pathlib import Path
 import subprocess
 import time
@@ -36,7 +37,7 @@ def require(condition, message):
         raise RuntimeError(message)
 
 
-def check(base, release, feedback):
+def check(base, release, feedback, seed_ids=None):
     health = read_json(base, '/api/health')
     require(health['status'] == 'ok' and health['num_books'] == release['num_books']
             and health['model_version'] == release['model_version'], f'Wrong model: {health}')
@@ -47,10 +48,19 @@ def check(base, release, feedback):
     require(b'TasteBridge' in html, 'Missing frontend HTML')
     require(read_json(base, '/healthz')['status'] == 'ok', 'Frontend health failed')
     picks = []
-    for query in ('The Hobbit', 'Gone Girl'):
-        matches = read_json(base, '/api/books/search?' + urllib.parse.urlencode({'q': query}))
-        require(bool(matches), f'No matches for {query}')
-        book = read_json(base, '/api/books/' + matches[0]['book_id'])
+    require(seed_ids is None or len(seed_ids) == 2, 'Supply exactly one book ID per reader')
+    for index, query in enumerate(('The Hobbit', 'Gone Girl')):
+        if seed_ids is None:
+            matches = read_json(base, '/api/books/search?' + urllib.parse.urlencode({'q': query}))
+            require(bool(matches), f'No matches for {query}')
+            seed = matches[0]['book_id']
+        else:
+            seed = seed_ids[index]
+        book = read_json(base, '/api/books/' + urllib.parse.quote(seed, safe=''))
+        require(book['book_id'] == seed, 'Book detail ID mismatch')
+        if seed_ids is not None:
+            require(bool(read_json(base, '/api/books/search?' + urllib.parse.urlencode({'q': book['title']}))),
+                    'The selected catalogue title must be searchable')
         picks.append(book['book_id'])
     require(picks[0] != picks[1], 'Expected distinct reader selections')
     outputs = []
@@ -59,7 +69,21 @@ def check(base, release, feedback):
         require(result['model_version'] == release['model_version'], 'Recommendation model mismatch')
         require(result['aggregation'] == mode and len(result['recommendations']) == 5, 'Recommendation count/mode failed')
         require(len(result['galaxy']['bridges']) == 5, 'Missing map coordinates')
+        ids = [item['book']['book_id'] for item in result['recommendations']]
+        require(len(set(ids)) == 5 and not set(ids).intersection(picks), 'Recommendations duplicate or include favorites')
+        bridge_positions = {point['book_id']: point for point in result['galaxy']['bridges']}
+        require(set(bridge_positions) == set(ids), 'Map book IDs do not match recommendations')
+        previous_score = math.inf
         for item in result['recommendations']:
+            expected = min(item['fit_a'], item['fit_b']) if mode == 'least_misery' else (item['fit_a'] + item['fit_b']) / 2
+            require(all(math.isfinite(item[key]) for key in ('score', 'fit_a', 'fit_b')) and
+                    abs(item['score'] - expected) < 1e-6 and item['score'] <= previous_score + 1e-6,
+                    'Recommendation score/ordering does not match the aggregation')
+            previous_score = item['score']
+            position = bridge_positions[item['book']['book_id']]
+            require(all(math.isfinite(position[key]) and math.isfinite(item['position'][key]) and
+                        abs(position[key] - item['position'][key]) < 1e-6 for key in ('x', 'y')),
+                    'Map coordinates disagree with recommendation positions')
             require(item['reasons']['reader_a']['seed_id'] == picks[0] and
                     item['reasons']['reader_b']['seed_id'] == picks[1], 'Reasons assigned to wrong reader')
         outputs.append(dict(mode=mode, ids=[r['book']['book_id'] for r in result['recommendations']]))
@@ -67,7 +91,10 @@ def check(base, release, feedback):
         try:
             request(base, path)
         except urllib.error.HTTPError as error:
-            require(error.code == 404, f'Unexpected {error.code} at {path}')
+            try:
+                require(error.code == 404, f'Unexpected {error.code} at {path}')
+            finally:
+                error.close()
         else:
             raise RuntimeError(f'Private or unsupported route exposed: {path}')
     event = None
@@ -78,10 +105,11 @@ def check(base, release, feedback):
                 base_url=base, health=health, recommendation_checks=outputs, feedback_event=event,
                 checks=['root enters real API mode', 'frontend health', 'model identity and count',
                         'search and book details', 'both ranking modes', 'per-reader reasons',
-                        'map coordinates', 'private artifact and unsupported routes return 404'])
+                        'favorites excluded and unique recommendations', 'finite scores and aggregation/ordering parity',
+                        'matching map IDs and coordinates', 'private artifact and unsupported routes return 404'])
 
 
-def local(release):
+def local(release, seed_ids=None):
     suffix = uuid.uuid4().hex[:10]
     backend, frontend = f'tastebridge-cloud-check-api-{suffix}', f'tastebridge-cloud-check-ui-{suffix}'
     try:
@@ -104,7 +132,7 @@ def local(release):
                 time.sleep(1)
         else:
             raise RuntimeError('Packaged app did not start within 90 seconds')
-        result = check(base, release, feedback=True)
+        result = check(base, release, feedback=True, seed_ids=seed_ids)
         logs = docker('logs', backend)
         events = []
         for line in logs.splitlines():
@@ -133,11 +161,16 @@ if __name__ == '__main__':
     mode.add_argument('--local', action='store_true')
     mode.add_argument('--url', help='Explicit deployed URL to test without login')
     parser.add_argument('--feedback', action='store_true', help='Send one test feedback event to the supplied public URL')
+    parser.add_argument('--reader-a-id', help='Known catalogue ID for Reader 1; supply both reader IDs')
+    parser.add_argument('--reader-b-id', help='Known catalogue ID for Reader 2; supply both reader IDs')
     args = parser.parse_args()
+    if bool(args.reader_a_id) != bool(args.reader_b_id):
+        parser.error('Supply both --reader-a-id and --reader-b-id')
+    seed_ids = [args.reader_a_id, args.reader_b_id] if args.reader_a_id else None
     release = json.loads((STATE / 'release.json').read_text())
     if args.local:
-        local(release)
+        local(release, seed_ids=seed_ids)
     else:
-        result = check(args.url.rstrip('/'), release, args.feedback)
+        result = check(args.url.rstrip('/'), release, args.feedback, seed_ids=seed_ids)
         (STATE / 'public-smoke.json').write_text(json.dumps(result, indent=2) + '\n')
         print(json.dumps(result, indent=2))
