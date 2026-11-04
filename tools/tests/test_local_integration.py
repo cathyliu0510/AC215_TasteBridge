@@ -75,6 +75,8 @@ class CatalogueIndependentSmoke(unittest.TestCase):
                                   "reader_b": {"seed_id": data["reader_b"][0]}}})
             if getattr(self, "bad_score", False):
                 items[0]["score"] = -2
+            if getattr(self, "rounded_score", False) and data["aggregation"] == "average":
+                items[0].update(fit_a=.9001, fit_b=.5, score=.7)
             return {"model_version": "synthetic-model", "aggregation": data["aggregation"],
                     "galaxy": {"bridges": [{"book_id": str(i), "x": i*.1, "y": i*.2} for i in range(5)]},
                     "recommendations": items}
@@ -109,3 +111,10 @@ class CatalogueIndependentSmoke(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "score/ordering"):
                 self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
                                  feedback=False, seed_ids=["a", "b"])
+
+    def test_valid_four_decimal_api_serialization_is_accepted(self):
+        self.searches, self.rounded_score = [], True
+        with patch.object(self.smoke, "read_json", self.fake_read), patch.object(self.smoke, "request", self.fake_request):
+            result = self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
+                                      feedback=False, seed_ids=["a", "b"])
+        self.assertTrue(result["passed"])

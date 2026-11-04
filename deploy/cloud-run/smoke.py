@@ -76,8 +76,10 @@ def check(base, release, feedback, seed_ids=None):
         previous_score = math.inf
         for item in result['recommendations']:
             expected = min(item['fit_a'], item['fit_b']) if mode == 'least_misery' else (item['fit_a'] + item['fit_b']) / 2
+            # SPEC responses independently round score and fits to four decimals.
+            # Averaging the rounded fits can differ by up to 0.0001 from score.
             require(all(math.isfinite(item[key]) for key in ('score', 'fit_a', 'fit_b')) and
-                    abs(item['score'] - expected) < 1e-6 and item['score'] <= previous_score + 1e-6,
+                    abs(item['score'] - expected) <= 1.00001e-4 and item['score'] <= previous_score + 1e-6,
                     'Recommendation score/ordering does not match the aggregation')
             previous_score = item['score']
             position = bridge_positions[item['book']['book_id']]

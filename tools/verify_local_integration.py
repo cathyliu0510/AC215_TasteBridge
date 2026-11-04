@@ -198,15 +198,28 @@ def run(args: argparse.Namespace) -> Path:
         spec = importlib.util.spec_from_file_location("cloud_run_contract_smoke", ROOT / "deploy/cloud-run/smoke.py")
         smoke = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(smoke)
-        api_check = smoke.check(ui_base, {"num_books": len(books), "model_version": meta["model_version"],
-                                        "tag": out.name}, feedback=False,
-                                seed_ids=[books[0]["book_id"], books[5]["book_id"]])
+        http_stage = {"name": "http-integration", "status": "running"}
+        record["stages"].append(http_stage)
+        write_json(out / "run.json", record)
+        try:
+            api_check = smoke.check(ui_base, {"num_books": len(books), "model_version": meta["model_version"],
+                                            "tag": out.name}, feedback=False,
+                                    seed_ids=[books[0]["book_id"], books[5]["book_id"]])
+            examples = []
+            for mode in ("least_misery", "average"):
+                request = {"reader_a": [b["book_id"] for b in books[:5]],
+                           "reader_b": [b["book_id"] for b in books[5:10]], "k": 5, "aggregation": mode}
+                examples.append({"request": request, "response": smoke.read_json(ui_base, "/api/recommend", request)})
+            write_json(out / "api-examples.json", {"input_kind": record["input_kind"], "examples": examples})
+            http_stage.update(status="passed", checks=api_check["checks"])
+        except Exception as error:
+            http_stage.update(status="failed", error=portable(str(error)))
+            raise
         write_json(out / "api-check.json", api_check)
         query = {"api": "1", "a": ",".join(b["book_id"] for b in books[:5]),
                  "b": ",".join(b["book_id"] for b in books[5:10]), "view": "map"}
         from urllib.parse import urlencode
         record["preview_url"] = ui_base + "/a/?" + urlencode(query)
-        record["stages"].append({"name": "http-integration", "status": "passed", "checks": api_check["checks"]})
         record.update(status="passed", services_stopped=False,
                       completed_at=datetime.now(timezone.utc).isoformat())
         write_json(out / "run.json", record)
