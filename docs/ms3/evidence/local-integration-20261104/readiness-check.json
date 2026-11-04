@@ -1,0 +1,42 @@
+{
+  "recorded_evidence_complete": false,
+  "errors": [],
+  "gaps": [
+    {
+      "id": "tracked_serverless_training",
+      "status": "local_only",
+      "note": "Two successful local synthetic fits with tracked configuration and reproducibility; no cloud execution or approved tracker evidence."
+    },
+    {
+      "id": "deployed_model_api",
+      "status": "local_only",
+      "note": "Actual trained-synthetic API/relay passed locally. Live model deployment remains unverified."
+    },
+    {
+      "id": "automated_ml_workflow",
+      "status": "local_only",
+      "note": "The automated local B2 path passed twice. An approved cloud workflow/equivalent still needs implementation/adaptation and execution."
+    },
+    {
+      "id": "production_monitoring",
+      "status": "local_only",
+      "note": "Actual local model/API logs only; no production log or deployed access proof."
+    },
+    {
+      "id": "working_api",
+      "status": "local_only",
+      "note": "Documented API and actual local trained-model responses pass. Deployed endpoint verification remains required."
+    },
+    {
+      "id": "milestone3_branch",
+      "status": "pending",
+      "note": "Remote milestone3 remains absent. Local work is on jenny/ms3-readiness; pushing was denied by security review and was not retried."
+    },
+    {
+      "id": "presentation",
+      "status": "local_only",
+      "note": "12-slide, 15-minute review draft with sources and browser layout checks. Cloud evidence and native presentation rendering remain pending."
+    }
+  ],
+  "scope": "Manifest coverage and file presence only; not cloud execution, content quality or Canvas submission verification."
+}

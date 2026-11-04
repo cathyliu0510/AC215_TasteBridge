@@ -3,12 +3,65 @@
   "checked_at": "2026-11-04",
   "official_requirements": "https://harvard-iacs.github.io/2026-AC215/milestone3/",
   "requirements": [
-    {"id": "tracked_serverless_training", "status": "pending", "evidence": [], "note": "Local MS2 runs exist; a successful tracked serverless training execution and screenshot have not been verified."},
-    {"id": "deployed_model_api", "status": "pending", "evidence": [], "note": "Cloud Run preparation has historical local verification; no live model API URL and response screenshot were verified in this task."},
-    {"id": "automated_ml_workflow", "status": "pending", "evidence": [], "note": "The local Compose pipeline exists; verify the selected cloud workflow or document the accepted equivalent."},
-    {"id": "production_monitoring", "status": "pending", "evidence": [], "note": "Logging code and access instructions exist; actual production logs and access remain unverified."},
-    {"id": "working_api", "status": "local_only", "evidence": ["src/backend/SPEC.md", "src/backend/tests/test_recommend_api.py"], "note": "77 backend tests passed locally; this is not deployed-service evidence."},
-    {"id": "milestone3_branch", "status": "pending", "evidence": [], "note": "Remote branch inventory had no milestone3 branch; local preparation is on jenny/ms3-readiness."},
-    {"id": "presentation", "status": "pending", "evidence": [], "note": "The MS2 deck exists; MS3 slides were not verified."}
+    {
+      "id": "tracked_serverless_training",
+      "status": "local_only",
+      "evidence": [
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
+        "docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json"
+      ],
+      "note": "Two successful local synthetic fits with tracked configuration and reproducibility; no cloud execution or approved tracker evidence."
+    },
+    {
+      "id": "deployed_model_api",
+      "status": "local_only",
+      "evidence": [
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json"
+      ],
+      "note": "Actual trained-synthetic API/relay passed locally. Live model deployment remains unverified."
+    },
+    {
+      "id": "automated_ml_workflow",
+      "status": "local_only",
+      "evidence": [
+        "tools/verify_local_integration.py",
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json"
+      ],
+      "note": "The automated local B2 path passed twice. An approved cloud workflow/equivalent still needs implementation/adaptation and execution."
+    },
+    {
+      "id": "production_monitoring",
+      "status": "local_only",
+      "evidence": [
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log"
+      ],
+      "note": "Actual local model/API logs only; no production log or deployed access proof."
+    },
+    {
+      "id": "working_api",
+      "status": "local_only",
+      "evidence": [
+        "src/backend/SPEC.md",
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-examples.json",
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json"
+      ],
+      "note": "Documented API and actual local trained-model responses pass. Deployed endpoint verification remains required."
+    },
+    {
+      "id": "milestone3_branch",
+      "status": "pending",
+      "evidence": [],
+      "note": "Remote milestone3 remains absent. Local work is on jenny/ms3-readiness; pushing was denied by security review and was not retried."
+    },
+    {
+      "id": "presentation",
+      "status": "local_only",
+      "evidence": [
+        "docs/ms3/presentation/TasteBridge-MS3-review.pptx",
+        "docs/ms3/rehearsal.md",
+        "docs/ms3/evidence/local-integration-20261104/presentation-qa/geometry.json"
+      ],
+      "note": "12-slide, 15-minute review draft with sources and browser layout checks. Cloud evidence and native presentation rendering remain pending."
+    }
   ]
 }

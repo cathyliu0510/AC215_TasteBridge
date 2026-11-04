@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "scope": "local integration only",
+  "input_kind": "synthetic",
+  "cloud_training": false,
+  "cloud_deployment": false,
+  "production_monitoring": false,
+  "created_at": "2026-11-04T22:14:21.802397+00:00",
+  "source_commit": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+  "source_dirty": false,
+  "source_sha256": {
+    "deploy/cloud-run/smoke.py": "62737fdbb63586e3d2c063b444c2ddeae691f096a364243cd5bf049519584357",
+    "frontend/prototype/scripts/build-prototype.mjs": "a651e993d53d394b57904a6cbd7ec7dfcf6b212ac76aa33216cfcc3dfb4af14f",
+    "frontend/prototype/scripts/serve.mjs": "3f78ecb7a30405f5143d1fdcfa34ee5c44b43f79b118959409fd2542b8d5e087",
+    "frontend/prototype/tools/build-standalone.mjs": "8bbcf7e78b3f7d2ce5779a6520ed14062eb1571ccaae4c12fa8542f69e4572ad",
+    "src/backend/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/backend/app/artifacts.py": "b0a7dec96662e960aaff800b3d7c4454cb7daef3caa0ede1f742c7780461ab8c",
+    "src/backend/app/config.py": "7c0f7d83b690fb99c76a2c95233e58265be672fafec8fea0545f1229ede56045",
+    "src/backend/app/dependencies.py": "297acdad639515986ff758e4e4508b1e907908175fd147c127d1368c8f58fc26",
+    "src/backend/app/explanations.py": "429169625a011f2b6a9448cdd3b99da1721fc28ad021c6765b74f43e77089327",
+    "src/backend/app/feedback.py": "a87ff5255613bf8994b32604f36440c6fe26ab9604a883b05363eea110bb348a",
+    "src/backend/app/main.py": "84df9b86f3c9d1c6739a3559bf7093156d8059896cdd2879ad45ad4a137e65dc",
+    "src/backend/app/recommend_service.py": "2261f9efef43210c517e6b241100b638c1c8028442ada51b2a662fedd25771c3",
+    "src/backend/app/recommender.py": "4019de15f0db24e3850bf21b9213d86a3d82c1471d12b873b2831622c50568c0",
+    "src/backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/backend/app/routers/books.py": "c9eab96fa0ec1fb6061b894d1067094be8286063b8cd0f5b36e301111e8324f5",
+    "src/backend/app/routers/feedback.py": "3f4f58df0d86f19a4279d41064d076021128c82bc0c413b1a76065b0707d11c7",
+    "src/backend/app/routers/health.py": "b86562921fea257fef31aa01bd75b72db98b95d2303dbde4177e3b7ccfd22179",
+    "src/backend/app/routers/recommend.py": "17ab1766550150292bf91a6b57932a19bffeb9ab688365d1077d3095b744b73b",
+    "src/backend/app/schemas.py": "c84f60b9d20c0a2c9d2e8015e3f8467f701ea91b2dc94577714bb93ea6e5ad37",
+    "src/backend/app/search.py": "4c53999e6d256d875ddd17f26c927cf61f447595f82c4019aefa72feaf2dafc7",
+    "src/backend/pyproject.toml": "4fc750ea99a20bc6b4e80997799cdfce827a3e3a3ce5451524aac76f4964afac",
+    "src/backend/uv.lock": "586d4c14917b6e4aed30ba88cdb7372568749d4776f8b29ce6a3c4b743acf4b7",
+    "src/datapipeline/preprocess/preprocess.py": "fbab18ccefbd6dd01c70664b57ae83ec1f85d640218f7dacfcd96a772b304922",
+    "src/datapipeline/preprocess/pyproject.toml": "55154cd6dde306f9c456450f20455cec9cf7ade54cde78358fe4dac7d52fb266",
+    "src/datapipeline/preprocess/quality.py": "bbc1b72ae40125fc5b2d6e6670719ebcdf48fa624c362ddb9bb4f78e31076f4e",
+    "src/datapipeline/preprocess/synthetic_raw.py": "58d140cea0dbc8689e91dff2b1614c25a0af6c7db9a0040cbd66d5f62edfb611",
+    "src/datapipeline/preprocess/tests/test_preprocess.py": "c0c751e3ec7933edf20135cac3dc125559fd38d5bd3fdcca804ddba7e0053991",
+    "src/datapipeline/preprocess/tests/test_quality.py": "7558f67e49c5916ebd2734ff791965a0d200273cd3aff7838b9d4b4252a05453",
+    "src/datapipeline/preprocess/tests/test_synthetic_reproducibility.py": "8a9d9dbc01272501949033b26775b7f43682d638634da24d797210ad44274161",
+    "src/datapipeline/preprocess/uv.lock": "5f29847b0305ecb663a0beab2bc13e057a40d7030473a0157d575ec4dc75b9b0",
+    "src/evaluation/evaluation/__init__.py": "9c67a729c2d6216a9c3f823fd90d5950c048eebdccfbda8a9c4ebadccd65a8d3",
+    "src/evaluation/evaluation/aggregate.py": "8c66cadf94708e7892bc3c7ee528c9bd1efb7b54a93e811f4dc51fbbaf013600",
+    "src/evaluation/evaluation/als.py": "de56fb4611e937b9dd1c919ee449469cc2b3c3e8e2e356feef265c9fb49848f1",
+    "src/evaluation/evaluation/data.py": "b3aed6c362855317353cf0c8aa365e8c094051ce992cfaaa329bef292fe96572",
+    "src/evaluation/evaluation/export.py": "3e17f3f28016d98e747ffa165ce0cdf717bb11180ab5a98dcab1fd099c779530",
+    "src/evaluation/evaluation/metrics.py": "94ab6590401e455c8a6bf8d7663347029c8ad2c8bef95ea096e3d37a2de8d3d0",
+    "src/evaluation/evaluation/models.py": "9779b74549a9b40a9d6bb2bc2b00ae9588ed1bdec978c2c5724be5316826adad",
+    "src/evaluation/evaluation/pairs.py": "5fd5e0d9a8bcc28d75ff3081efd89f38126161b15fdf5ac9662485f476c0f945",
+    "src/evaluation/evaluation/run.py": "69077e7b8ff8798b9d78d41a8300213595effbd577e98536fa48f8a573badab5",
+    "src/evaluation/evaluation/split.py": "710d4e8037bbc6b0472964e005c89385660f8cbb18418b39bcc39a9bad678d66",
+    "src/evaluation/evaluation/synthetic.py": "c84804fa35d2733b5779706b89245220cf9a6aaaf4ce8e84c0a1d83e9c2518d1",
+    "src/evaluation/pyproject.toml": "b180cc938e21873250af21355d9aa05df3b8537b2d52a32fac7c9ba12e68de17",
+    "src/evaluation/uv.lock": "5751e9a542c5c3541d61f064df283f7ffc3b7a5c313c9f1623bcbd6d8e27d446",
+    "tools/verify_local_integration.py": "04de51ca8a21ab731f32f5b7dc82d23046d90b3d80930748fefce81a068b804a"
+  },
+  "parameters": {
+    "seed": 42,
+    "works": 160,
+    "users": 400,
+    "factors": 16,
+    "iterations": 8,
+    "n_pairs": 20
+  },
+  "stages": [
+    {
+      "name": "generate",
+      "command": [
+        "<checkout>/src/datapipeline/preprocess/.venv/bin/python",
+        "synthetic_raw.py",
+        "--out",
+        "<run>/raw",
+        "--works",
+        "160",
+        "--users",
+        "400",
+        "--seed",
+        "42"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 0.554
+    },
+    {
+      "name": "preprocess",
+      "command": [
+        "<checkout>/src/datapipeline/preprocess/.venv/bin/python",
+        "preprocess.py"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 0.917
+    },
+    {
+      "name": "train",
+      "command": [
+        "<checkout>/src/evaluation/.venv/bin/python",
+        "-m",
+        "evaluation.export",
+        "--processed",
+        "<run>/processed",
+        "--out",
+        "<run>/artifacts",
+        "--als-factors",
+        "16",
+        "--als-iterations",
+        "8",
+        "--seed",
+        "42"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 15.44
+    },
+    {
+      "name": "evaluate",
+      "command": [
+        "<checkout>/src/evaluation/.venv/bin/python",
+        "-m",
+        "evaluation.run",
+        "--interactions",
+        "<run>/processed/interactions.parquet",
+        "--books",
+        "<run>/processed/books.parquet",
+        "--out",
+        "<run>/evaluation",
+        "--run-id",
+        "held-out",
+        "--models",
+        "popularity,item_knn,als",
+        "--aggregations",
+        "least_misery,average",
+        "--favorite-counts",
+        "5",
+        "--n-pairs",
+        "20",
+        "--als-factors",
+        "16",
+        "--als-iterations",
+        "8",
+        "--seed",
+        "42"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 0.858
+    },
+    {
+      "name": "frontend-build",
+      "command": [
+        "/opt/homebrew/bin/node",
+        "scripts/build-prototype.mjs"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 0.235
+    },
+    {
+      "name": "frontend-release",
+      "command": [
+        "/opt/homebrew/bin/node",
+        "scripts/verify-release.mjs"
+      ],
+      "status": "passed",
+      "exit_code": 0,
+      "seconds": 0.08
+    },
+    {
+      "name": "http-integration",
+      "status": "passed",
+      "checks": [
+        "root enters real API mode",
+        "frontend health",
+        "model identity and count",
+        "search and book details",
+        "both ranking modes",
+        "per-reader reasons",
+        "favorites excluded and unique recommendations",
+        "finite scores and aggregation/ordering parity",
+        "matching map IDs and coordinates",
+        "private artifact and unsupported routes return 404"
+      ]
+    }
+  ],
+  "data_version": "synthetic-244f05111efd",
+  "processed_sha256": {
+    "books.parquet": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+    "interactions.parquet": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+    "manifest.json": "65b2025273d1a10b76216946e90f0dadb0918bc4596ae089c2ed2015ae3ae475"
+  },
+  "model_version": "b2-als-synthetic-244f05111efd",
+  "export_sha256": {
+    "books.json": "7e73c05e84cfed3940e97dba70faa1dc3f20548f4d3f240b1c9981ac215798aa",
+    "item_embeddings.npy": "cc19de50efec2279b6f125a9a74603fbb97619dbb46c8a39e108d416418684a3",
+    "coords_2d.npy": "d3a38a6fcdeeb19982708645ed33d73889ad39b6be0768a5e1e3ed9f950970bd",
+    "meta.json": "1e90b91cca794fccf300fb30d9634b29938b44628cbd3753b65b09953531e52e"
+  },
+  "frontend_sha256": "f746521c9daa6156659ab57d9c687ff2664408da8e15a45ff1949a3eb08156e6",
+  "preview_url": "http://127.0.0.1:4182/a/?api=1&a=500022%2C500152%2C500143%2C500148%2C500102&b=500134%2C500036%2C500110%2C500039%2C500087&view=map",
+  "services_stopped": false,
+  "completed_at": "2026-11-04T22:14:40.501101+00:00"
+}

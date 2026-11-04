@@ -1,0 +1,19 @@
+test_failed_or_operator_data_cannot_enter_the_synthetic_evidence_package (test_integration_summary.ReproductionEvidence.test_failed_or_operator_data_cannot_enter_the_synthetic_evidence_package) ... ok
+test_successful_runs_with_changed_vectors_fail_reproduction (test_integration_summary.ReproductionEvidence.test_successful_runs_with_changed_vectors_fail_reproduction) ... ok
+test_a_responding_service_with_wrong_ranking_scores_fails_the_contract (test_local_integration.CatalogueIndependentSmoke.test_a_responding_service_with_wrong_ranking_scores_fails_the_contract) ... ok
+test_duplicate_reader_ids_do_not_count_as_two_reader_integration (test_local_integration.CatalogueIndependentSmoke.test_duplicate_reader_ids_do_not_count_as_two_reader_integration) ... ok
+test_explicit_opaque_catalogue_ids_work_without_fixture_titles (test_local_integration.CatalogueIndependentSmoke.test_explicit_opaque_catalogue_ids_work_without_fixture_titles) ... ok
+test_valid_four_decimal_api_serialization_is_accepted (test_local_integration.CatalogueIndependentSmoke.test_valid_four_decimal_api_serialization_is_accepted) ... ok
+test_dead_service_fails_before_using_another_listener (test_local_integration.LocalEvidenceRunner.test_dead_service_fails_before_using_another_listener) ... ok
+test_existing_output_is_never_overwritten (test_local_integration.LocalEvidenceRunner.test_existing_output_is_never_overwritten) ... ok
+test_input_origin_must_be_explicit (test_local_integration.LocalEvidenceRunner.test_input_origin_must_be_explicit) ... ok
+test_synthetic_export_identity_preserves_the_original_fingerprint (test_local_integration.LocalEvidenceRunner.test_synthetic_export_identity_preserves_the_original_fingerprint) ... ok
+test_current_frontend_host_contract_and_internal_api_are_explicit (test_ms3_readiness.DeploymentConfiguration.test_current_frontend_host_contract_and_internal_api_are_explicit) ... ok
+test_evidence_cannot_escape_the_repository (test_ms3_readiness.EvidenceChecks.test_evidence_cannot_escape_the_repository) ... ok
+test_local_or_historical_results_cannot_complete_the_manifest (test_ms3_readiness.EvidenceChecks.test_local_or_historical_results_cannot_complete_the_manifest) ... ok
+test_verified_without_a_file_or_missing_requirements_cannot_pass (test_ms3_readiness.EvidenceChecks.test_verified_without_a_file_or_missing_requirements_cannot_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.031s
+
+OK

@@ -1,7 +1,7 @@
 {
   "checked_at": "2026-11-04",
   "local_branch": "jenny/ms3-readiness",
-  "local_prototype_release": "20261104.4",
+  "local_prototype_release": "20261104.5",
   "remote_snapshot": {
     "main": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
     "milestone2": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
@@ -11,8 +11,8 @@
   },
   "tests": {
     "frontend": {
-      "passed": 81,
-      "report": "local-continuation-20261104/frontend-tests.txt"
+      "passed": 82,
+      "report": "evidence/local-integration-20261104/frontend-tests.tap"
     },
     "backend": {
       "passed": 77,
@@ -26,9 +26,13 @@
       "report": "local-continuation-20261104/evaluation-tests.txt"
     },
     "ms3_readiness_and_configuration": {
-      "passed": 4,
+      "passed": 14,
       "command": "python3 -m unittest discover -s tools/tests -v",
-      "report": "local-continuation-20261104/readiness-tests.txt"
+      "report": "evidence/local-integration-20261104/integration-tests.txt"
+    },
+    "preprocessing": {
+      "passed": 122,
+      "report": "evidence/local-integration-20261104/preprocess-tests.txt"
     }
   },
   "limits": {
@@ -49,5 +53,26 @@
     "service_http_check": "Four routes return 200 and preserve all original source with a hosting insertion; see site-http-20261104.json",
     "hosted_flow_verification": "Sign-in account selection returned platform route error",
     "model_api": false
-  }
+  },
+  "local_trained_integration": {
+    "successful_runs": 2,
+    "input_kind": "synthetic",
+    "source_commit": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+    "model_version": "b2-als-synthetic-244f05111efd",
+    "books": 160,
+    "users": 395,
+    "interactions": 9072,
+    "reproducibility": "evidence/local-integration-20261104/runs/reproducibility.json",
+    "cloud_evidence": false
+  },
+  "presentation": {
+    "file": "presentation/TasteBridge-MS3-review.pptx",
+    "slides": 12,
+    "planned_seconds": 900,
+    "package_and_geometry": "passed",
+    "all_browser_layouts": "passed",
+    "native_renderer": "unverified; Keynote application control timed out",
+    "cloud_evidence": "pending"
+  },
+  "push": "Denied by security review per parent; no push or bypass attempted"
 }

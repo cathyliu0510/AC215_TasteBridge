@@ -1,0 +1,43 @@
+{
+  "release": "20261104.5",
+  "model_version": "b2-als-synthetic-244f05111efd",
+  "input_kind": "synthetic",
+  "num_books": 160,
+  "browser": "ChatGPT in-app browser over loopback HTTP",
+  "desktop": {
+    "recommendations": 5,
+    "actual_export_ids": true,
+    "per_reader_references_visible": true,
+    "synthetic_footer_visible": true
+  },
+  "phone": {
+    "width": 320,
+    "scroll_width": 320,
+    "explicit_joint_choice": true,
+    "pass_revokes_choice": true,
+    "focus_after_close": "Review & respond",
+    "average_ranking_titles": [
+      "Invented Book 153",
+      "Invented Book 101 (edition 2)",
+      "Invented Book 62 (edition 2)",
+      "Invented Book 13 (edition 2)",
+      "Invented Book 111"
+    ],
+    "projection_nodes": 15,
+    "decorative_orbits": 0,
+    "console_warning_error_entries": 0,
+    "viewport_override_reset": true
+  },
+  "external_feedback_submitted": false,
+  "chrome": {
+    "verified": false,
+    "previous_review_tab": "not found",
+    "new_attempt": "Created an about:blank tab but navigation timed out; subsequent binding returned timeoutMs error",
+    "interaction_qa": "not completed",
+    "security_rejections_bypassed": false
+  },
+  "native_deck_renderer": {
+    "verified": false,
+    "reason": "Keynote application control timed out, including after the app appeared in running-app inventory"
+  }
+}

@@ -6,7 +6,9 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 ## Milestone 3 preparation
 
-The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. This local preparation branch adds the refined Reading Desk, setup checks and the existing Cloud Run preparation package; it does not establish a completed cloud training run, live model deployment, production monitoring or submission. The last remote check found no `milestone3` branch.
+The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. The local review package includes a one-command trained-model integration run, two-run reproducibility evidence, API checks, the refined Reading Desk and the existing Cloud Run preparation package. The actual local runs use synthetic data; no cloud training, live deployment, production monitoring or submission is claimed. The last remote check found no `milestone3` branch.
+
+[Reproduce the trained model/API/UI path](docs/ms3/reproduce.md) · [saved evidence](docs/ms3/evidence/local-integration-20261104/) · [12-slide review deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) · [operator handoff](docs/ms3/operator-handoff.md).
 
 Use `python3 tools/check_ms3.py` to see the recorded evidence gaps. [Changes since MS2, exact reproduction commands, tests and team handoff](docs/ms3/README.md). The separate static UX preview does not count as the deployed model/API.
 

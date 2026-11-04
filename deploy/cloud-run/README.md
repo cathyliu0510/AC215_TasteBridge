@@ -1,8 +1,8 @@
 # TasteBridge shared demo
 
-**Status: prepared and tested in local Docker; cloud deployment awaits project permissions.** [Local verification](verification.local.json). No public URL has been created by this package yet.
+**Status: cloud deployment unverified.** [Historical local Docker verification](verification.local.json) predates the current branch. The [current local integration evidence](../../docs/ms3/evidence/local-integration-20261104/) exercises Python/Node services, not the new container images. Rebuild and smoke-test the actual images before publication. This continuation did not publish a service.
 
-Deploys the PR #6 frontend and the existing backend with the real 5,000-book model to **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. Updating that service keeps its Cloud Run URL. This does not update the older static prototype website.
+Prepares the current frontend and existing backend with the team's approved model export for **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. The historical configuration used the real 5,000-book model; that export is absent locally. Updating an existing service keeps its Cloud Run URL. This does not update the static prototype website.
 
 ```text
 One public HTTPS link
@@ -17,7 +17,7 @@ One public HTTPS link
 └────────────────────────────────────────────┘
 ```
 
-No files in `src/backend/`, model training or data pipelines are changed. The derived backend image adds only `books.json`, `item_embeddings.npy`, `coords_2d.npy` and `meta.json`. The model files stay outside Git and inside a **private** image repository. The app exposes search/recommendation endpoints; it does not expose raw model downloads.
+The derived backend image adds only `books.json`, `item_embeddings.npy`, `coords_2d.npy` and `meta.json`. The model files stay outside Git and inside a **private** image repository. The app exposes search/recommendation endpoints; it does not expose raw model downloads.
 
 ## Administrator: one-time access
 

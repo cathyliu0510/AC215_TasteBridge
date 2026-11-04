@@ -1,0 +1,61 @@
+{
+  "run_id": "held-out",
+  "package_version": "0.1.0",
+  "git_commit": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+  "python": "3.12.2",
+  "arguments": {
+    "interactions": "<run>/processed/interactions.parquet",
+    "books": "<run>/processed/books.parquet",
+    "synthetic": false,
+    "out": "<run>/evaluation",
+    "run_id": "held-out",
+    "split": "test",
+    "models": [
+      "popularity",
+      "item_knn",
+      "als"
+    ],
+    "aggregations": [
+      "least_misery",
+      "average"
+    ],
+    "favorite_counts": [
+      5
+    ],
+    "n_pairs": 20,
+    "k": 10,
+    "knn_neighbors": 100,
+    "seed": 42,
+    "als_factors": 16,
+    "als_reg": 50.0,
+    "als_alpha": 20.0,
+    "als_iterations": 8
+  },
+  "data": {
+    "interactions": {
+      "path": "<run>/processed/interactions.parquet",
+      "sha256": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551"
+    },
+    "books": {
+      "path": "<run>/processed/books.parquet",
+      "sha256": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758"
+    }
+  },
+  "counts": {
+    "interactions": 9072,
+    "train_interactions": 7255,
+    "users": {
+      "train": 316,
+      "tune": 40,
+      "test": 39
+    },
+    "catalogue_works": 160,
+    "long_tail_works": 128,
+    "eligible_readers": 23,
+    "pairs": {
+      "similar": 10,
+      "different": 10
+    }
+  },
+  "seconds": 0.2
+}

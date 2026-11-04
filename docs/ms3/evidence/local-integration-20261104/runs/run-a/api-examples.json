@@ -1,0 +1,758 @@
+{
+  "input_kind": "synthetic",
+  "examples": [
+    {
+      "request": {
+        "reader_a": [
+          "500022",
+          "500152",
+          "500143",
+          "500148",
+          "500102"
+        ],
+        "reader_b": [
+          "500134",
+          "500036",
+          "500110",
+          "500039",
+          "500087"
+        ],
+        "k": 5,
+        "aggregation": "least_misery"
+      },
+      "response": {
+        "model_version": "b2-als-synthetic-244f05111efd",
+        "aggregation": "least_misery",
+        "top_shelves": {
+          "reader_a": [
+            "epic-fantasy",
+            "fantasy",
+            "magic"
+          ],
+          "reader_b": [
+            "thriller",
+            "mystery",
+            "detective"
+          ]
+        },
+        "recommendations": [
+          {
+            "rank": 1,
+            "book": {
+              "book_id": "500131",
+              "title": "Invented Book 131",
+              "author": "Author 11",
+              "year": 1967,
+              "cover_url": null,
+              "shelves": [
+                "crime",
+                "mystery",
+                "thriller",
+                "fantasy",
+                "epic-fantasy",
+                "magic"
+              ]
+            },
+            "score": 0.6999,
+            "fit_a": 0.7197,
+            "fit_b": 0.6999,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500022",
+                "seed_title": "Invented Book 22 (edition 2)",
+                "same_author": false,
+                "shared_shelves": [
+                  "crime",
+                  "thriller",
+                  "fantasy"
+                ],
+                "text": "Closest to your pick Invented Book 22 (edition 2); shared shelves: crime, thriller, fantasy."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "crime",
+                  "mystery",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: crime, mystery, thriller."
+              }
+            },
+            "position": {
+              "x": -0.12855298817157745,
+              "y": -0.21119660139083862
+            }
+          },
+          {
+            "rank": 2,
+            "book": {
+              "book_id": "500153",
+              "title": "Invented Book 153",
+              "author": "Author 13",
+              "year": 1959,
+              "cover_url": null,
+              "shelves": [
+                "psychological-thriller",
+                "noir",
+                "suspense",
+                "thriller",
+                "detective",
+                "crime"
+              ]
+            },
+            "score": 0.6795,
+            "fit_a": 0.6795,
+            "fit_b": 0.9766,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": false,
+                "shared_shelves": [
+                  "psychological-thriller",
+                  "suspense",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 143; shared shelves: psychological-thriller, suspense, thriller."
+              },
+              "reader_b": {
+                "seed_id": "500087",
+                "seed_title": "Invented Book 87",
+                "same_author": false,
+                "shared_shelves": [
+                  "noir",
+                  "thriller",
+                  "detective"
+                ],
+                "text": "Closest to your pick Invented Book 87; shared shelves: noir, thriller, detective."
+              }
+            },
+            "position": {
+              "x": 0.9881477355957031,
+              "y": 0.5482233762741089
+            }
+          },
+          {
+            "rank": 3,
+            "book": {
+              "book_id": "500101",
+              "title": "Invented Book 101 (edition 2)",
+              "author": "Author 23",
+              "year": 1951,
+              "cover_url": null,
+              "shelves": [
+                "noir",
+                "detective",
+                "thriller",
+                "suspense",
+                "psychological-thriller"
+              ]
+            },
+            "score": 0.6491,
+            "fit_a": 0.6491,
+            "fit_b": 0.9664,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": true,
+                "shared_shelves": [
+                  "detective",
+                  "thriller",
+                  "suspense"
+                ],
+                "text": "Closest to your pick Invented Book 143; same author as one of your picks: Author 23; shared shelves: detective, thriller, suspense."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "noir",
+                  "detective",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: noir, detective, thriller."
+              }
+            },
+            "position": {
+              "x": 0.9599945545196533,
+              "y": 0.5264360308647156
+            }
+          },
+          {
+            "rank": 4,
+            "book": {
+              "book_id": "500142",
+              "title": "Invented Book 142 (edition 2)",
+              "author": "Author 28",
+              "year": 2004,
+              "cover_url": null,
+              "shelves": [
+                "mystery",
+                "epic-fantasy",
+                "fantasy",
+                "crime",
+                "magic"
+              ]
+            },
+            "score": 0.63,
+            "fit_a": 0.6693,
+            "fit_b": 0.63,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500022",
+                "seed_title": "Invented Book 22 (edition 2)",
+                "same_author": true,
+                "shared_shelves": [
+                  "epic-fantasy",
+                  "fantasy",
+                  "crime"
+                ],
+                "text": "Closest to your pick Invented Book 22 (edition 2); same author as one of your picks: Author 28; shared shelves: epic-fantasy, fantasy, crime."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "mystery",
+                  "crime"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: mystery, crime."
+              }
+            },
+            "position": {
+              "x": -0.13484811782836914,
+              "y": -0.19759343564510345
+            }
+          },
+          {
+            "rank": 5,
+            "book": {
+              "book_id": "500062",
+              "title": "Invented Book 62 (edition 2)",
+              "author": "Author 38",
+              "year": 1998,
+              "cover_url": null,
+              "shelves": [
+                "suspense",
+                "noir",
+                "thriller",
+                "mystery",
+                "psychological-thriller",
+                "detective"
+              ]
+            },
+            "score": 0.6269,
+            "fit_a": 0.6269,
+            "fit_b": 0.952,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "thriller",
+                  "psychological-thriller"
+                ],
+                "text": "Closest to your pick Invented Book 143; shared shelves: suspense, thriller, psychological-thriller."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "noir",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: suspense, noir, thriller."
+              }
+            },
+            "position": {
+              "x": 0.8668475151062012,
+              "y": 0.4801814556121826
+            }
+          }
+        ],
+        "galaxy": {
+          "reader_a": [
+            {
+              "book_id": "500022",
+              "title": "Invented Book 22 (edition 2)",
+              "x": -0.14354614913463593,
+              "y": -0.2029920220375061
+            },
+            {
+              "book_id": "500152",
+              "title": "Invented Book 152 (edition 2)",
+              "x": -0.6281160116195679,
+              "y": -0.6618469953536987
+            },
+            {
+              "book_id": "500143",
+              "title": "Invented Book 143",
+              "x": 1.0,
+              "y": 0.5367330312728882
+            },
+            {
+              "book_id": "500148",
+              "title": "Invented Book 148",
+              "x": -0.6312512755393982,
+              "y": -0.6597883105278015
+            },
+            {
+              "book_id": "500102",
+              "title": "Invented Book 102",
+              "x": -0.6135873794555664,
+              "y": -0.6766387224197388
+            }
+          ],
+          "reader_b": [
+            {
+              "book_id": "500134",
+              "title": "Invented Book 134",
+              "x": 0.991151750087738,
+              "y": 0.5470733642578125
+            },
+            {
+              "book_id": "500036",
+              "title": "Invented Book 36",
+              "x": -0.6406850218772888,
+              "y": -0.646421492099762
+            },
+            {
+              "book_id": "500110",
+              "title": "Invented Book 110",
+              "x": 0.9533990025520325,
+              "y": 0.5242181420326233
+            },
+            {
+              "book_id": "500039",
+              "title": "Invented Book 39",
+              "x": 0.9770098328590393,
+              "y": 0.5540488362312317
+            },
+            {
+              "book_id": "500087",
+              "title": "Invented Book 87",
+              "x": 0.9817405343055725,
+              "y": 0.5274869799613953
+            }
+          ],
+          "bridges": [
+            {
+              "book_id": "500131",
+              "title": "Invented Book 131",
+              "x": -0.12855298817157745,
+              "y": -0.21119660139083862
+            },
+            {
+              "book_id": "500153",
+              "title": "Invented Book 153",
+              "x": 0.9881477355957031,
+              "y": 0.5482233762741089
+            },
+            {
+              "book_id": "500101",
+              "title": "Invented Book 101 (edition 2)",
+              "x": 0.9599945545196533,
+              "y": 0.5264360308647156
+            },
+            {
+              "book_id": "500142",
+              "title": "Invented Book 142 (edition 2)",
+              "x": -0.13484811782836914,
+              "y": -0.19759343564510345
+            },
+            {
+              "book_id": "500062",
+              "title": "Invented Book 62 (edition 2)",
+              "x": 0.8668475151062012,
+              "y": 0.4801814556121826
+            }
+          ]
+        }
+      }
+    },
+    {
+      "request": {
+        "reader_a": [
+          "500022",
+          "500152",
+          "500143",
+          "500148",
+          "500102"
+        ],
+        "reader_b": [
+          "500134",
+          "500036",
+          "500110",
+          "500039",
+          "500087"
+        ],
+        "k": 5,
+        "aggregation": "average"
+      },
+      "response": {
+        "model_version": "b2-als-synthetic-244f05111efd",
+        "aggregation": "average",
+        "top_shelves": {
+          "reader_a": [
+            "epic-fantasy",
+            "fantasy",
+            "magic"
+          ],
+          "reader_b": [
+            "thriller",
+            "mystery",
+            "detective"
+          ]
+        },
+        "recommendations": [
+          {
+            "rank": 1,
+            "book": {
+              "book_id": "500153",
+              "title": "Invented Book 153",
+              "author": "Author 13",
+              "year": 1959,
+              "cover_url": null,
+              "shelves": [
+                "psychological-thriller",
+                "noir",
+                "suspense",
+                "thriller",
+                "detective",
+                "crime"
+              ]
+            },
+            "score": 0.8281,
+            "fit_a": 0.6795,
+            "fit_b": 0.9766,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": false,
+                "shared_shelves": [
+                  "psychological-thriller",
+                  "suspense",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 143; shared shelves: psychological-thriller, suspense, thriller."
+              },
+              "reader_b": {
+                "seed_id": "500087",
+                "seed_title": "Invented Book 87",
+                "same_author": false,
+                "shared_shelves": [
+                  "noir",
+                  "thriller",
+                  "detective"
+                ],
+                "text": "Closest to your pick Invented Book 87; shared shelves: noir, thriller, detective."
+              }
+            },
+            "position": {
+              "x": 0.9881477355957031,
+              "y": 0.5482233762741089
+            }
+          },
+          {
+            "rank": 2,
+            "book": {
+              "book_id": "500101",
+              "title": "Invented Book 101 (edition 2)",
+              "author": "Author 23",
+              "year": 1951,
+              "cover_url": null,
+              "shelves": [
+                "noir",
+                "detective",
+                "thriller",
+                "suspense",
+                "psychological-thriller"
+              ]
+            },
+            "score": 0.8077,
+            "fit_a": 0.6491,
+            "fit_b": 0.9664,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": true,
+                "shared_shelves": [
+                  "detective",
+                  "thriller",
+                  "suspense"
+                ],
+                "text": "Closest to your pick Invented Book 143; same author as one of your picks: Author 23; shared shelves: detective, thriller, suspense."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "noir",
+                  "detective",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: noir, detective, thriller."
+              }
+            },
+            "position": {
+              "x": 0.9599945545196533,
+              "y": 0.5264360308647156
+            }
+          },
+          {
+            "rank": 3,
+            "book": {
+              "book_id": "500062",
+              "title": "Invented Book 62 (edition 2)",
+              "author": "Author 38",
+              "year": 1998,
+              "cover_url": null,
+              "shelves": [
+                "suspense",
+                "noir",
+                "thriller",
+                "mystery",
+                "psychological-thriller",
+                "detective"
+              ]
+            },
+            "score": 0.7894,
+            "fit_a": 0.6269,
+            "fit_b": 0.952,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "thriller",
+                  "psychological-thriller"
+                ],
+                "text": "Closest to your pick Invented Book 143; shared shelves: suspense, thriller, psychological-thriller."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "noir",
+                  "thriller"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: suspense, noir, thriller."
+              }
+            },
+            "position": {
+              "x": 0.8668475151062012,
+              "y": 0.4801814556121826
+            }
+          },
+          {
+            "rank": 4,
+            "book": {
+              "book_id": "500013",
+              "title": "Invented Book 13 (edition 2)",
+              "author": "Author 33",
+              "year": 1962,
+              "cover_url": null,
+              "shelves": [
+                "suspense",
+                "noir",
+                "crime",
+                "mystery",
+                "psychological-thriller"
+              ]
+            },
+            "score": 0.7892,
+            "fit_a": 0.6266,
+            "fit_b": 0.9517,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500143",
+                "seed_title": "Invented Book 143",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "psychological-thriller"
+                ],
+                "text": "Closest to your pick Invented Book 143; shared shelves: suspense, psychological-thriller."
+              },
+              "reader_b": {
+                "seed_id": "500110",
+                "seed_title": "Invented Book 110",
+                "same_author": false,
+                "shared_shelves": [
+                  "suspense",
+                  "noir",
+                  "crime"
+                ],
+                "text": "Closest to your pick Invented Book 110; shared shelves: suspense, noir, crime."
+              }
+            },
+            "position": {
+              "x": 0.889938473701477,
+              "y": 0.5003718733787537
+            }
+          },
+          {
+            "rank": 5,
+            "book": {
+              "book_id": "500111",
+              "title": "Invented Book 111",
+              "author": "Author 39",
+              "year": 1986,
+              "cover_url": null,
+              "shelves": [
+                "young-adult",
+                "heist",
+                "epic-fantasy",
+                "magic"
+              ]
+            },
+            "score": 0.7639,
+            "fit_a": 0.9386,
+            "fit_b": 0.5892,
+            "reasons": {
+              "reader_a": {
+                "seed_id": "500152",
+                "seed_title": "Invented Book 152 (edition 2)",
+                "same_author": false,
+                "shared_shelves": [
+                  "young-adult",
+                  "epic-fantasy",
+                  "magic"
+                ],
+                "text": "Closest to your pick Invented Book 152 (edition 2); shared shelves: young-adult, epic-fantasy, magic."
+              },
+              "reader_b": {
+                "seed_id": "500036",
+                "seed_title": "Invented Book 36",
+                "same_author": false,
+                "shared_shelves": [
+                  "young-adult",
+                  "magic"
+                ],
+                "text": "Closest to your pick Invented Book 36; shared shelves: young-adult, magic."
+              }
+            },
+            "position": {
+              "x": -0.6321966052055359,
+              "y": -0.6568013429641724
+            }
+          }
+        ],
+        "galaxy": {
+          "reader_a": [
+            {
+              "book_id": "500022",
+              "title": "Invented Book 22 (edition 2)",
+              "x": -0.14354614913463593,
+              "y": -0.2029920220375061
+            },
+            {
+              "book_id": "500152",
+              "title": "Invented Book 152 (edition 2)",
+              "x": -0.6281160116195679,
+              "y": -0.6618469953536987
+            },
+            {
+              "book_id": "500143",
+              "title": "Invented Book 143",
+              "x": 1.0,
+              "y": 0.5367330312728882
+            },
+            {
+              "book_id": "500148",
+              "title": "Invented Book 148",
+              "x": -0.6312512755393982,
+              "y": -0.6597883105278015
+            },
+            {
+              "book_id": "500102",
+              "title": "Invented Book 102",
+              "x": -0.6135873794555664,
+              "y": -0.6766387224197388
+            }
+          ],
+          "reader_b": [
+            {
+              "book_id": "500134",
+              "title": "Invented Book 134",
+              "x": 0.991151750087738,
+              "y": 0.5470733642578125
+            },
+            {
+              "book_id": "500036",
+              "title": "Invented Book 36",
+              "x": -0.6406850218772888,
+              "y": -0.646421492099762
+            },
+            {
+              "book_id": "500110",
+              "title": "Invented Book 110",
+              "x": 0.9533990025520325,
+              "y": 0.5242181420326233
+            },
+            {
+              "book_id": "500039",
+              "title": "Invented Book 39",
+              "x": 0.9770098328590393,
+              "y": 0.5540488362312317
+            },
+            {
+              "book_id": "500087",
+              "title": "Invented Book 87",
+              "x": 0.9817405343055725,
+              "y": 0.5274869799613953
+            }
+          ],
+          "bridges": [
+            {
+              "book_id": "500153",
+              "title": "Invented Book 153",
+              "x": 0.9881477355957031,
+              "y": 0.5482233762741089
+            },
+            {
+              "book_id": "500101",
+              "title": "Invented Book 101 (edition 2)",
+              "x": 0.9599945545196533,
+              "y": 0.5264360308647156
+            },
+            {
+              "book_id": "500062",
+              "title": "Invented Book 62 (edition 2)",
+              "x": 0.8668475151062012,
+              "y": 0.4801814556121826
+            },
+            {
+              "book_id": "500013",
+              "title": "Invented Book 13 (edition 2)",
+              "x": 0.889938473701477,
+              "y": 0.5003718733787537
+            },
+            {
+              "book_id": "500111",
+              "title": "Invented Book 111",
+              "x": -0.6321966052055359,
+              "y": -0.6568013429641724
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

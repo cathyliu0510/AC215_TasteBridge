@@ -1,0 +1,15 @@
+2026-11-04T17:14:39 INFO TasteBridge evaluation 0.1.0, run held-out
+2026-11-04T17:14:39 INFO Loaded 9072 interactions from 395 users; 160 books
+2026-11-04T17:14:39 INFO User split train/tune/test = 316/40/39
+2026-11-04T17:14:39 INFO 23 test readers have >=15 likes in the 160-work catalogue
+2026-11-04T17:14:39 INFO Sampled 20 pairs {'similar': 10, 'different': 10}
+2026-11-04T17:14:39 INFO Fitted popularity on 7255 training interactions in 0.00s
+2026-11-04T17:14:39 INFO Fitted item_knn on 7255 training interactions in 0.01s
+2026-11-04T17:14:39 INFO Fitted als on 7255 training interactions in 0.07s
+2026-11-04T17:14:39 INFO popularity least_misery Min-Recall@10 0.1501  NDCG@10 0.2973  long-tail cov 0.0000
+2026-11-04T17:14:39 INFO popularity average      Min-Recall@10 0.1501  NDCG@10 0.2973  long-tail cov 0.0000
+2026-11-04T17:14:39 INFO item_knn   least_misery Min-Recall@10 0.1547  NDCG@10 0.3703  long-tail cov 0.0938
+2026-11-04T17:14:39 INFO item_knn   average      Min-Recall@10 0.1619  NDCG@10 0.3952  long-tail cov 0.0391
+2026-11-04T17:14:39 INFO als        least_misery Min-Recall@10 0.1161  NDCG@10 0.2778  long-tail cov 0.2969
+2026-11-04T17:14:39 INFO als        average      Min-Recall@10 0.1267  NDCG@10 0.3066  long-tail cov 0.2656
+2026-11-04T17:14:39 INFO Wrote results to <run>/evaluation/held-out in 0.2s

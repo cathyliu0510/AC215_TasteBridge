@@ -2,34 +2,37 @@
 
 Checked November 4, 2026 against the [official MS3 instructions](https://harvard-iacs.github.io/2026-AC215/milestone3/) and the remote repository. **This is a preparation branch, not a completed submission.**
 
-Remote `main` and `milestone2` both point to `fccfbac53a96de18b71ca1c3f668a6bea115e51e`; no remote `milestone3` branch was listed. The course requires that branch and its full commit hash on Canvas by **November 12, 10pm ET**, plus a 15-minute TF presentation with slides. Canvas and presentation submission have not been verified.
+Remote `main` and `milestone2` both point to `fccfbac53a96de18b71ca1c3f668a6bea115e51e`; a fresh remote check still lists no `milestone3` branch. The course requires that branch and its full commit hash on Canvas by **November 12, 10pm ET**, plus a 15-minute TF presentation with slides. A [12-slide review deck](presentation/TasteBridge-MS3-review.pptx), [15-minute rehearsal plan](rehearsal.md) and [local evidence package](evidence/local-integration-20261104/) now exist. The deck retains the missing cloud evidence explicitly. No Canvas or remote submission was performed.
 
 ## Requirement → evidence → gap
 
 | Area | Available implementation/evidence | Remaining evidence |
 | --- | --- | --- |
-| Tracked, reproducible serverless training | [Existing ALS runs, configuration and metrics](../ms2/models/runs/) · [Training/export code](../../src/evaluation/evaluation/) | A successful cloud training execution, tracking record and screenshot; local MS2 runs do not establish this |
+| Tracked, reproducible serverless training | [Two reproducible local synthetic fits with source/configuration/input hashes](evidence/local-integration-20261104/runs/) · [Existing MS2 results](../ms2/models/runs/) | A successful cloud training execution, approved tracking record and screenshot; local files do not establish cloud execution |
 | Deployed model/API | [Cloud Run preparation](../../deploy/cloud-run/) · [historical local container verification](../../deploy/cloud-run/verification.local.json) | Authorized deployment URL, revision/configuration and request/response screenshot |
-| Automated ML workflow | [One-command Compose pipeline](../ms2/datapipeline/) covering ingest → preprocess → embed/train → evaluation | Verify the selected cloud workflow or document the accepted equivalent with the TF |
-| Production monitoring | [Backend request/feedback logging](../../src/backend/app/) · Cloud Logging configuration in the deployment guide | Actual deployed logs, access instructions and a captured example |
-| Documented, tested prediction API | [SPEC](../../src/backend/SPEC.md) · [backend instructions](../../src/backend/README.md) · current local tests | Run the same contract checks against the authorized deployed service |
+| Automated ML workflow | [One-command local B2 integration](reproduce.md) and the existing [Compose pipeline](../ms2/datapipeline/) | Implement/adapt and execute the selected cloud workflow, or document the accepted equivalent with the TF |
+| Production monitoring | [Actual local model/API request logs](evidence/local-integration-20261104/runs/run-a/backend.log) · Cloud Logging configuration in the deployment guide | Actual deployed logs, access instructions and a captured example |
+| Documented, tested prediction API | [SPEC](../../src/backend/SPEC.md) · [actual trained-synthetic HTTP checks](evidence/local-integration-20261104/runs/run-a/api-check.json) · component suites | Run the same contract checks against the authorized deployed service |
 
 [Evidence index](evidence/index.json) is intentionally incomplete. Run `python3 tools/check_ms3.py` to list gaps; a nonzero result means the recorded submission evidence is not complete. The checker validates manifest coverage and repository-relative evidence paths; it does not certify cloud execution, screenshot contents or Canvas submission.
 
 ## What changed after MS2
 
+- [One-command local integration](reproduce.md) reuses preprocessing, B2 export, held-out evaluation, the backend and the real frontend relay. It preserves prior output, records source/input/artifact hashes and failures, and isolates its loopback services. Two clean runs reproduce raw/processed/vector/projection/metric outputs and API rankings. [Actual evidence](evidence/local-integration-20261104/).
+- Seeded synthetic gzip output now fixes the timestamp and filename header, making compressed input hashes reproducible across clock/destination changes. The smoke verifier supports actual catalogue IDs and checks ranking/coordinate consistency with the API's four-decimal serialization.
+- A `20261104.5` identifies trained-synthetic exports in the footer. No model algorithm or B ranking rule changed. The [12-slide deck](presentation/TasteBridge-MS3-review.pptx) contains source notes, native tables/diagrams and actual UI evidence; native Keynote/PowerPoint rendering remains unverified after Keynote application control timed out.
 - Local A `20261104.4`: search shortcuts follow loading state and clear-search consistently cancels old requests/timers, preserving both shelves. [Current local verification and Chrome limitation](local-continuation-20261104.md). The hosted Site remains `20261104.3`.
 - Reading Desk A `20261104.3`: [named book connections, response/choice state, responsive checks and independent UX review](connections-ux-20261104.md). The model scores and returned coordinates are preserved. B remains the comparison.
 - Frontend prerequisite checks, explicit container host configuration and cancellation/child-process cleanup: [local setup record](local-readiness.md).
 - Existing Cloud Run preparation commits `3b7dafa` and `df64cdbe` were brought into this isolated branch, retaining the original authorship. The `.gitignore` conflict was resolved by keeping both the current DVC/data protections and deployment-state exclusions. No cloud deployment or access change was performed.
 - The Cloud Run frontend environment now uses `TASTEBRIDGE_HOST`, matching the current server/container contract. A pure configuration test checks the ingress and internal API settings without contacting Google Cloud.
-- This README, evidence index and completeness checker make the missing MS3 proof explicit. No new hybrid model, serving-rule change, team allocation or claimed experiment result is introduced.
+- This README, evidence index and completeness checker make the missing MS3 proof explicit. No new hybrid model, serving-rule change, team allocation or Goodreads-quality claim is introduced.
 
 The proposed next model steps in the [MS2 model notes](../ms2/models/README.md#next-iteration-ms3) remain proposals. The inspected shared notes confirm Jenny's frontend/API integration contribution; no later adopted model replacement or finalized MS3 work split was established by the accessible sources. Unpushed teammate work and existing cloud executions remain unknown.
 
 ## Reproduce locally
 
-From a fresh checkout, follow the [root app instructions](../../README.md#run-the-app). Python components use their committed `pyproject.toml` and `uv.lock`.
+Start with the [complete trained-model integration guide](reproduce.md), including locked environment setup, synthetic/approved-data modes and actual evidence outputs. From a fresh checkout, the [root app instructions](../../README.md#run-the-app) cover the simpler app launcher. Python components use their committed `pyproject.toml` and `uv.lock`.
 
 ```sh
 # Frontend and bundled API preflight
@@ -90,10 +93,11 @@ After an approved service deployment, capture a responding API and the correspon
 
 ## Current verification limits
 
-- Frontend: 81 tests passed in the current checkout; [current report](local-continuation-20261104/frontend-tests.txt). The [Book connections review](connections-ux-20261104.md) retains the full desktop/390px/320px visual pass, and the [continuation](local-continuation-20261104.md) records the new 320px search recovery check.
+- Frontend: 82 tests passed; [current report](evidence/local-integration-20261104/frontend-tests.tap). The [Book connections review](connections-ux-20261104.md) retains the earlier full visual pass, and the [new trained-model evidence](evidence/local-integration-20261104/) records current desktop/320px checks.
+- Preprocessing: 122 tests passed. Local integration/evidence tools: 14 tests passed. Two complete training/evaluation/HTTP runs passed with matching hashes/rankings in this environment.
 - Backend: 77 tests passed in the current checkout.
 - Existing model/evaluation package: 54 tests passed. Two UMAP warnings state that the fixed random seed uses one job; neither was a failure.
-- MS3 evidence/configuration checks: `python3 -m unittest discover -s tools/tests`.
+- MS3 evidence/configuration checks: `python3 -m unittest discover -s tools/tests`. The evidence completeness checker intentionally still fails while cloud/submission proof is absent.
 - Docker daemon: configured Colima socket is absent; this task did not rerun the real-model container smoke.
 - Google Cloud CLI: not on PATH; no fresh cloud service, training execution or production log state was verified.
 - Real processed data and trained export: absent locally. Historical MS2 evidence is retained as historical evidence.
@@ -104,4 +108,6 @@ After an approved service deployment, capture a responding API and the correspon
 1. Reconcile this branch and [architecture PR #11](https://github.com/cathyliu0510/AC215_TasteBridge/pull/11) through review; do not overwrite either workstream.
 2. Confirm the training/workflow choice, existing cloud runs and responsible operators; collect the missing evidence rather than relabeling local fixtures.
 3. Update [evidence/index.json](evidence/index.json), run the checker and component tests, then review the exact final diff.
-4. The authorized maintainer creates/updates `milestone3` from the reviewed state and submits the full hash on Canvas. Prepare the required slides. This document does not perform or confirm those actions.
+4. The authorized maintainer creates/updates `milestone3` from the reviewed state and submits the full hash on Canvas. Finalize the review slides with actual cloud evidence and a native presentation check. This document does not perform or confirm those actions.
+
+The [operator handoff](operator-handoff.md) lists exact inputs, missing access and the remaining implementation/evidence. The parent reports a security-review denial of branch pushing; no push or alternate publishing route was attempted. All work remains local.

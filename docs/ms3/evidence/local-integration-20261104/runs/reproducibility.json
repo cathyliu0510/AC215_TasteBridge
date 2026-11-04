@@ -1,0 +1,75 @@
+{
+  "checked_at": "2026-11-04T22:22:12.546139+00:00",
+  "scope": "two local synthetic runs on this environment",
+  "passed": true,
+  "source_commit": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+  "data_version": "synthetic-244f05111efd",
+  "checks": {
+    "same_source_commit_and_files": true,
+    "clean_sources": true,
+    "same_data_version": true,
+    "same_full_shelf_api_rankings": true,
+    "all_compared_content_hashes_match": true
+  },
+  "content_hashes": {
+    "raw/authors.json.gz": {
+      "a_sha256": "c7cfcd27506dae0de8f2cd84ca8038e33c8eaa94022e3d7e8e6056fc0b08956b",
+      "b_sha256": "c7cfcd27506dae0de8f2cd84ca8038e33c8eaa94022e3d7e8e6056fc0b08956b",
+      "equal": true
+    },
+    "raw/books_fantasy.json.gz": {
+      "a_sha256": "c141666c6fcdad2deca039c2d97d4277441cbe201685691e697138b4ba3e53fb",
+      "b_sha256": "c141666c6fcdad2deca039c2d97d4277441cbe201685691e697138b4ba3e53fb",
+      "equal": true
+    },
+    "raw/books_mystery.json.gz": {
+      "a_sha256": "1a941b0a6f87f9b2de8f5cfa00e5addb2b6608d7b2dfbaa24b6b00acf276fd46",
+      "b_sha256": "1a941b0a6f87f9b2de8f5cfa00e5addb2b6608d7b2dfbaa24b6b00acf276fd46",
+      "equal": true
+    },
+    "raw/inter_fantasy.json.gz": {
+      "a_sha256": "99162afd06bdf42aee17e984472cb3e1afe9de6ec5ccd887b710e752e6295d5f",
+      "b_sha256": "99162afd06bdf42aee17e984472cb3e1afe9de6ec5ccd887b710e752e6295d5f",
+      "equal": true
+    },
+    "raw/inter_mystery.json.gz": {
+      "a_sha256": "ed5c10d286fe6be30453d063bdc83c768886c7f508340acd4ef4474a55e07b7f",
+      "b_sha256": "ed5c10d286fe6be30453d063bdc83c768886c7f508340acd4ef4474a55e07b7f",
+      "equal": true
+    },
+    "processed/books.parquet": {
+      "a_sha256": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+      "b_sha256": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+      "equal": true
+    },
+    "processed/interactions.parquet": {
+      "a_sha256": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+      "b_sha256": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+      "equal": true
+    },
+    "artifacts/current/item_embeddings.npy": {
+      "a_sha256": "cc19de50efec2279b6f125a9a74603fbb97619dbb46c8a39e108d416418684a3",
+      "b_sha256": "cc19de50efec2279b6f125a9a74603fbb97619dbb46c8a39e108d416418684a3",
+      "equal": true
+    },
+    "artifacts/current/coords_2d.npy": {
+      "a_sha256": "d3a38a6fcdeeb19982708645ed33d73889ad39b6be0768a5e1e3ed9f950970bd",
+      "b_sha256": "d3a38a6fcdeeb19982708645ed33d73889ad39b6be0768a5e1e3ed9f950970bd",
+      "equal": true
+    },
+    "evaluation/held-out/summary.csv": {
+      "a_sha256": "635c2011007e90f2167e2c6377b14afac4c28eaf30c0cf91d15ae622c0606165",
+      "b_sha256": "635c2011007e90f2167e2c6377b14afac4c28eaf30c0cf91d15ae622c0606165",
+      "equal": true
+    }
+  },
+  "cloud_training_evidence": false,
+  "production_quality_evidence": false,
+  "excluded_from_exact_comparison": [
+    "timestamps",
+    "duration",
+    "manifest creation fields",
+    "service ports"
+  ],
+  "limits": "No cross-platform determinism, Goodreads quality, cloud execution or deployment claim."
+}

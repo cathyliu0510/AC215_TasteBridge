@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "user_split_matches_serving_count": true,
+    "displayed_metrics_match_saved_csv": true,
+    "displayed_test_counts_match_reports": true,
+    "speaker_notes_on_all_slides": true,
+    "picture_transforms_precede_geometry": true
+  },
+  "final_sha256": "1527f731af4c0c685376382a7f99312cd61a4c544dc1ce083da8e51055b705d9",
+  "native_renderer_verified": false
+}

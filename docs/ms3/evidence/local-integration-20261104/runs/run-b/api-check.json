@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "tag": "ms3-synthetic-20261104-r3",
+  "checked_at": "2026-11-04T22:15:27.533219+00:00",
+  "base_url": "http://127.0.0.1:54381",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-synthetic-244f05111efd",
+    "data_version": "synthetic-244f05111efd",
+    "num_books": 160
+  },
+  "recommendation_checks": [
+    {
+      "mode": "least_misery",
+      "ids": [
+        "500039",
+        "500013",
+        "500143",
+        "500153",
+        "500023"
+      ]
+    },
+    {
+      "mode": "average",
+      "ids": [
+        "500039",
+        "500153",
+        "500143",
+        "500013",
+        "500110"
+      ]
+    }
+  ],
+  "feedback_event": null,
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ]
+}

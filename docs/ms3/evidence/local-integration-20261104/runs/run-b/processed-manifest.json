@@ -1,0 +1,90 @@
+{
+  "stage": "preprocess",
+  "created_at": "2026-11-04T22:15:10+00:00",
+  "code_version": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+  "params": {
+    "max_works": 160,
+    "max_interactions": 500000,
+    "min_user_likes": 5,
+    "like_threshold": 4,
+    "seed": 42
+  },
+  "inputs": {
+    "stage": "ingest",
+    "source": "SYNTHETIC (invented data, not Goodreads)",
+    "mode": "synthetic",
+    "created_at": "2026-11-04T22:15:09+00:00",
+    "files": {
+      "books_fantasy.json.gz": {
+        "url": "synthetic",
+        "bytes": 7077,
+        "sha256": "c141666c6fcdad2deca039c2d97d4277441cbe201685691e697138b4ba3e53fb",
+        "line_cap": 0,
+        "lines": 154
+      },
+      "books_mystery.json.gz": {
+        "url": "synthetic",
+        "bytes": 7791,
+        "sha256": "1a941b0a6f87f9b2de8f5cfa00e5addb2b6608d7b2dfbaa24b6b00acf276fd46",
+        "line_cap": 0,
+        "lines": 171
+      },
+      "inter_fantasy.json.gz": {
+        "url": "synthetic",
+        "bytes": 128634,
+        "sha256": "99162afd06bdf42aee17e984472cb3e1afe9de6ec5ccd887b710e752e6295d5f",
+        "line_cap": 0,
+        "lines": 4829
+      },
+      "inter_mystery.json.gz": {
+        "url": "synthetic",
+        "bytes": 145659,
+        "sha256": "ed5c10d286fe6be30453d063bdc83c768886c7f508340acd4ef4474a55e07b7f",
+        "line_cap": 0,
+        "lines": 5468
+      },
+      "authors.json.gz": {
+        "url": "synthetic",
+        "bytes": 328,
+        "sha256": "c7cfcd27506dae0de8f2cd84ca8038e33c8eaa94022e3d7e8e6056fc0b08956b",
+        "line_cap": 0,
+        "lines": 40
+      }
+    }
+  },
+  "counts": {
+    "editions_mapped": 305,
+    "works_total": 160,
+    "interaction_lines_read": 10297,
+    "catalogue_works": 160,
+    "users": 395,
+    "interactions": 9072,
+    "likes": 6631,
+    "users_with_15_plus_likes": 221,
+    "works_by_genre": {
+      "mystery": 78,
+      "fantasy": 71,
+      "both": 11
+    }
+  },
+  "quality": {
+    "n_books": 160,
+    "n_missing_description": 18,
+    "n_too_short_description": 0,
+    "n_books_no_shelves_after_clean": 0,
+    "shelves_raw_total": 1830,
+    "shelves_kept_total": 836,
+    "n_unknown_shelf_entries": 0,
+    "min_description_chars": 40,
+    "min_shelf_count": 3,
+    "top_n_shelves": 20,
+    "shelf_blocklist_version": "2026-10-12.1"
+  },
+  "data_version": "synthetic-244f05111efd",
+  "files": {
+    "books.parquet": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+    "interactions.parquet": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551"
+  },
+  "preprocessor_data_version": "gr-244f05111efd",
+  "input_kind": "synthetic"
+}

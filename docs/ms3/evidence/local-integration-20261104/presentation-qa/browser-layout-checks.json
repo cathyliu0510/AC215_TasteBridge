@@ -1,0 +1,66 @@
+{
+  "renderer": "DrawingML browser review, not PowerPoint or Keynote",
+  "slides": [
+    {
+      "slide": 1,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 2,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 3,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 4,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 5,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 6,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 7,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 8,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 9,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 10,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 11,
+      "tableOverflow": 0,
+      "textOverflow": []
+    },
+    {
+      "slide": 12,
+      "tableOverflow": 0,
+      "textOverflow": []
+    }
+  ],
+  "native_renderer_verified": false
+}

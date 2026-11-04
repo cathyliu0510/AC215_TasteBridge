@@ -1,0 +1,16 @@
+{
+  "slides": 12,
+  "timing_seconds": 900,
+  "fonts": {
+    "basis": "design",
+    "families": [
+      "Georgia",
+      "Arial",
+      "Menlo"
+    ]
+  },
+  "source_commit": "e8a31285afc12b052b7f11f5b440358f89fa1b42",
+  "data_version": "synthetic-244f05111efd",
+  "runtime_limit": "Artifact Tool runtime unavailable in delegated environment; pandoc packaging and native DrawingML used.",
+  "draft": "<checkout>/.integration-runtime/ms3-slides-build/review-v4.pptx"
+}

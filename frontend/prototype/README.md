@@ -21,6 +21,10 @@ python3 -m http.server 4175 --bind 127.0.0.1 --directory dist
 
 Open http://127.0.0.1:4175/ for A, `/b/` for B, and `/project/` for the scope page.
 
+### Trained-synthetic provenance 20261104.5
+
+The connected footer identifies B2 exports whose model identity is explicitly synthetic. The [complete local integration](../../docs/ms3/reproduce.md) trained the existing B2 model twice, served it through the actual API/relay and exercised the UI at 320px. [Model identity, actual screenshots and test evidence](../../docs/ms3/evidence/local-integration-20261104/). The frontend suite now has 82 passing tests. The hosted static Site remains unchanged.
+
 ### Local search recovery 20261104.4
 
 Author shortcuts and search recovery controls now respect connection/pick loading. All clear-search paths cancel the previous request and debounce timer, restore the catalogue and return focus without changing either shelf. The current suite has 81 passing tests. [Local flow checks, Chrome limitation and current MS3 state](../../docs/ms3/local-continuation-20261104.md). This local revision has not replaced the hosted `20261104.3` preview.

@@ -1,0 +1,51 @@
+INFO:     Started server process [30541]
+INFO:     Waiting for application startup.
+2026-11-04 17:14:40,364 INFO tastebridge Loaded model b2-als-synthetic-244f05111efd (data synthetic-244f05111efd) with 160 books from <run>/artifacts/current
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9920 (Press CTRL+C to quit)
+2026-11-04 17:14:40,459 INFO tastebridge.requests GET /health 200 2.5ms
+INFO:     127.0.0.1:54163 - "GET /health HTTP/1.1" 200 OK
+2026-11-04 17:14:40,473 INFO tastebridge.requests GET /health 200 0.7ms
+INFO:     127.0.0.1:54166 - "GET /health HTTP/1.1" 200 OK
+2026-11-04 17:14:40,481 INFO tastebridge.requests GET /books/500022 200 3.0ms
+INFO:     127.0.0.1:54166 - "GET /books/500022 HTTP/1.1" 200 OK
+2026-11-04 17:14:40,483 INFO tastebridge.requests GET /books/search 200 1.0ms
+INFO:     127.0.0.1:54166 - "GET /books/search?q=Invented+Book+22+%28edition+2%29 HTTP/1.1" 200 OK
+2026-11-04 17:14:40,485 INFO tastebridge.requests GET /books/500134 200 0.5ms
+INFO:     127.0.0.1:54166 - "GET /books/500134 HTTP/1.1" 200 OK
+2026-11-04 17:14:40,487 INFO tastebridge.requests GET /books/search 200 0.6ms
+INFO:     127.0.0.1:54166 - "GET /books/search?q=Invented+Book+134 HTTP/1.1" 200 OK
+2026-11-04 17:14:40,491 INFO tastebridge.requests POST /recommend 200 2.7ms
+INFO:     127.0.0.1:54166 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-04 17:14:40,493 INFO tastebridge.requests POST /recommend 200 1.1ms
+INFO:     127.0.0.1:54166 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-04 17:14:40,497 INFO tastebridge.requests POST /recommend 200 1.4ms
+INFO:     127.0.0.1:54166 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-04 17:14:40,499 INFO tastebridge.requests POST /recommend 200 1.1ms
+INFO:     127.0.0.1:54166 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-04 17:17:17,061 INFO tastebridge.requests GET /health 200 5.2ms
+INFO:     127.0.0.1:54881 - "GET /health HTTP/1.1" 200 OK
+2026-11-04 17:17:17,311 INFO tastebridge.requests GET /books/500022 200 31.8ms
+INFO:     127.0.0.1:54881 - "GET /books/500022 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,312 INFO tastebridge.requests GET /books/500152 200 12.5ms
+INFO:     127.0.0.1:54884 - "GET /books/500152 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,313 INFO tastebridge.requests GET /books/500143 200 11.9ms
+INFO:     127.0.0.1:54888 - "GET /books/500143 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,315 INFO tastebridge.requests GET /books/500148 200 12.3ms
+INFO:     127.0.0.1:54889 - "GET /books/500148 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,317 INFO tastebridge.requests GET /books/500102 200 11.9ms
+INFO:     127.0.0.1:54890 - "GET /books/500102 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,320 INFO tastebridge.requests GET /books/500134 200 14.3ms
+INFO:     127.0.0.1:54891 - "GET /books/500134 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,326 INFO tastebridge.requests GET /books/500036 200 3.6ms
+INFO:     127.0.0.1:54888 - "GET /books/500036 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,328 INFO tastebridge.requests GET /books/500110 200 5.2ms
+INFO:     127.0.0.1:54889 - "GET /books/500110 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,330 INFO tastebridge.requests GET /books/500039 200 5.9ms
+INFO:     127.0.0.1:54890 - "GET /books/500039 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,331 INFO tastebridge.requests GET /books/500087 200 4.2ms
+INFO:     127.0.0.1:54891 - "GET /books/500087 HTTP/1.1" 200 OK
+2026-11-04 17:17:17,403 INFO tastebridge.requests POST /recommend 200 59.4ms
+INFO:     127.0.0.1:54891 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-04 17:18:20,494 INFO tastebridge.requests POST /recommend 200 9.0ms
+INFO:     127.0.0.1:55180 - "POST /recommend HTTP/1.1" 200 OK

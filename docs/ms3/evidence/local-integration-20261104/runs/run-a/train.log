@@ -1,0 +1,4 @@
+2026-11-04 17:14:24,286 INFO Fitted ALS on 9072 interactions from 395 users -> 160 work vectors
+<checkout>/src/evaluation/.venv/lib/python3.12/site-packages/umap/umap_.py:1952: UserWarning: n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
+  warn(
+2026-11-04 17:14:38,300 INFO Exported b2-als-synthetic-244f05111efd: 160 books, umap map -> <run>/artifacts/b2-als-synthetic-244f05111efd (and <run>/artifacts/current)
