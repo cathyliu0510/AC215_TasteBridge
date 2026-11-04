@@ -1,0 +1,23 @@
+{
+  "release": "20261104.4",
+  "checked_at": "2026-11-04",
+  "browser": "ChatGPT in-app browser over loopback HTTP",
+  "connected_model": "sample-shelf-toy-v1; 52 books",
+  "checks": [
+    {"flow":"fifth connected recommendation at 320x640","title":"Something Wicked This Way Comes","title_top":54.8359375,"title_bottom":152.03125,"scroll_width":320,"viewport_width":320},
+    {"flow":"empty connected search -> Clear search","query":"","focus":"search","aria_busy":"false","reader_1_count":5,"reader_2_count":5,"scroll_width":320,"viewport_width":320},
+    {"flow":"Tolkien shortcut -> remove and add The Hobbit","reader_1_counts":[5,4,5],"reader_2_count":5},
+    {"flow":"final clear query","query":"","focus":"search","aria_busy":"false","reader_1_count":5,"reader_2_count":5},
+    {"flow":"offline review with both example shelves","books":23,"selected_view":"Book connections","viewport_override_reset":true,"console_warning_error_entries":0}
+  ],
+  "chrome": {
+    "local_tab_opened":true,
+    "rendered_interaction_verification":false,
+    "extension_error":"Cannot read properties of undefined (reading 'timeoutMs')",
+    "native_limit":"Title and URL available; screenshot blank, page body unavailable",
+    "later_offline_navigation":"Interrupted by user app change; not claimed complete; control stopped"
+  },
+  "published":false,
+  "sharing_changed":false,
+  "external_feedback_submitted":false
+}

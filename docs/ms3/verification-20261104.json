@@ -1,6 +1,7 @@
 {
   "checked_at": "2026-11-04",
   "local_branch": "jenny/ms3-readiness",
+  "local_prototype_release": "20261104.4",
   "remote_snapshot": {
     "main": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
     "milestone2": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
@@ -10,21 +11,24 @@
   },
   "tests": {
     "frontend": {
-      "passed": 80,
-      "report": "connections-ux-20261104/frontend-tests.tap"
+      "passed": 81,
+      "report": "local-continuation-20261104/frontend-tests.txt"
     },
     "backend": {
       "passed": 77,
-      "command": "uv run --offline --frozen pytest -q"
+      "command": "uv run --offline --frozen pytest -q",
+      "report": "local-continuation-20261104/backend-tests.txt"
     },
     "evaluation": {
       "passed": 54,
       "warnings": 2,
-      "command": "uv run --frozen pytest -q"
+      "command": "uv run --offline --frozen pytest -q",
+      "report": "local-continuation-20261104/evaluation-tests.txt"
     },
     "ms3_readiness_and_configuration": {
       "passed": 4,
-      "command": "python3 -m unittest discover -s tools/tests -v"
+      "command": "python3 -m unittest discover -s tools/tests -v",
+      "report": "local-continuation-20261104/readiness-tests.txt"
     }
   },
   "limits": {

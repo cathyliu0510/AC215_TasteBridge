@@ -1,0 +1,9 @@
+test_current_frontend_host_contract_and_internal_api_are_explicit (test_ms3_readiness.DeploymentConfiguration.test_current_frontend_host_contract_and_internal_api_are_explicit) ... ok
+test_evidence_cannot_escape_the_repository (test_ms3_readiness.EvidenceChecks.test_evidence_cannot_escape_the_repository) ... ok
+test_local_or_historical_results_cannot_complete_the_manifest (test_ms3_readiness.EvidenceChecks.test_local_or_historical_results_cannot_complete_the_manifest) ... ok
+test_verified_without_a_file_or_missing_requirements_cannot_pass (test_ms3_readiness.EvidenceChecks.test_verified_without_a_file_or_missing_requirements_cannot_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.022s
+
+OK

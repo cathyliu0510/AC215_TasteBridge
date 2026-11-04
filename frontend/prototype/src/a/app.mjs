@@ -28,8 +28,8 @@ let detailMode='recommendation';
 compactViewport.addEventListener('change',event=>{shelvesOpen=!event.matches;const shelves=$('#selected-shelves');if(shelves)shelves.open=shelvesOpen;const options=$('#result-options');if(options)options.open=!event.matches;});
 if(!apiMode&&state.a.length===5&&state.b.length===5){state.stage='results';state.results=recommend(state.a,state.b,state.mode);state.selected=state.results[0].book.id;}
 
-function header(){return `<header class="site-header"><a class="brand" href="./?v=20261104.3&api=${apiMode?1:0}" aria-label="TasteBridge home">${brand}</a><nav class="site-nav" aria-label="Main navigation"><button id="nav-select" class="${state.stage==='select'?'active':''}">Pick books</button><button id="nav-results" class="${state.stage==='results'?'active':''}">Recommendations</button><a class="project-link" href="/project/">Project</a></nav></header>`;}
-function footer(){return `<footer class="footer-line"><span>${apiMode?`Connected demo · ${apiConnection.health?.numBooks??'…'} books${apiConnection.health?.modelVersion==='sample-shelf-toy-v1'?' · Sample model':''}`:`Frontend prototype · ${CATALOG.length} sample books`}</span><div class="footer-actions"><a class="project-link" href="/project/">About the project</a><a id="other-version" class="other-version" href="../b/?v=20261104.3&${apiMode?'':seedQuery(state.a,state.b,state.mode)}">Compare version B</a>${apiMode?'<a href="./?api=0">Use offline demo</a>':''}</div></footer>`;}
+function header(){return `<header class="site-header"><a class="brand" href="./?v=20261104.4&api=${apiMode?1:0}" aria-label="TasteBridge home">${brand}</a><nav class="site-nav" aria-label="Main navigation"><button id="nav-select" class="${state.stage==='select'?'active':''}">Pick books</button><button id="nav-results" class="${state.stage==='results'?'active':''}">Recommendations</button><a class="project-link" href="/project/">Project</a></nav></header>`;}
+function footer(){return `<footer class="footer-line"><span>${apiMode?`Connected demo · ${apiConnection.health?.numBooks??'…'} books${apiConnection.health?.modelVersion==='sample-shelf-toy-v1'?' · Sample model':''}`:`Frontend prototype · ${CATALOG.length} sample books`}</span><div class="footer-actions"><a class="project-link" href="/project/">About the project</a><a id="other-version" class="other-version" href="../b/?v=20261104.4&${apiMode?'':seedQuery(state.a,state.b,state.mode)}">Compare version B</a>${apiMode?'<a href="./?api=0">Use offline demo</a>':''}</div></footer>`;}
 function connectionHTML(){
  if(!apiMode)return '';
  if(apiConnection.pending)return '<div class="api-status" role="status"><span class="loading-dot" aria-hidden="true"></span>Connecting to the book catalogue…</div>';
@@ -42,7 +42,7 @@ function requestStatusHTML(){
 }
 function applyBusyState(){
  const busy=apiConnection.pending||state.pending||state.picking;
- $$('[data-book],[data-remove],[data-add-reader],[data-clear-reader],[data-reader],[data-step],[data-filter],#nav-results,#undo-selection,#demo,#sample-inline,#pair-next').forEach(button=>{if(busy)button.disabled=true;});
+ $$('[data-book],[data-remove],[data-add-reader],[data-clear-reader],[data-reader],[data-step],[data-filter],[data-search-author],#retry-search,#clear-search,#nav-results,#undo-selection,#demo,#sample-inline,#pair-next').forEach(button=>{if(busy)button.disabled=true;});
  $('#search')?.toggleAttribute('disabled',busy);
  if($('#nav-results'))$('#nav-results').disabled=busy||state.a.length!==5||state.b.length!==5;
  if($('#clear-query'))$('#clear-query').disabled=busy;
@@ -144,7 +144,7 @@ function renderBooks(){
  $('#catalogue-feedback').textContent=query?`${books.length} ${books.length===1?'match':'matches'} for “${query}”${category?` in ${category}`:''}.`:category?`${books.length} ${category} books.`:'';
  $('#book-grid').innerHTML=books.length?books.map(bookPickHTML).join(''):`<div class="empty-message"><p>That book is not in this sample catalogue.</p><p>You can browse the 23 sample books or try an example pair.</p><div class="empty-actions"><button id="clear-search" class="secondary">Browse sample books</button><button id="empty-sample" class="primary">Try a sample pair</button></div></div>`;
  $$('[data-book]').forEach(button=>button.onclick=()=>toggleBook(button.dataset.book));
- $('#clear-search')?.addEventListener('click',()=>{state.query='';state.filter='all';$('#search').value='';if($('#clear-query'))$('#clear-query').hidden=true;syncFilters();renderBooks();$('#search').focus({preventScroll:true});});
+ $('#clear-search')?.addEventListener('click',()=>clearCatalogueSearch({resetFilter:true}));
  $('#empty-sample')?.addEventListener('click',event=>requestSamplePair(event.currentTarget));
  pageObserver=revealItems($$('[data-book]'),'catalogue');
 }
@@ -158,8 +158,16 @@ function renderApiBooks(){
  $$('[data-book]').forEach(button=>{button.disabled=state.picking||apiConnection.pending;button.onclick=()=>toggleBook(button.dataset.book);});
  $$('[data-search-author]').forEach(button=>button.onclick=()=>{state.query=button.dataset.searchAuthor;$('#search').value=state.query;$('#clear-query').hidden=false;performSearch();$('#search').focus({preventScroll:true});});
  $('#retry-search')?.addEventListener('click',performSearch);
- $('#clear-search')?.addEventListener('click',()=>{api.requests.cancel('search');state.query='';state.searchResults=[];state.searchError='';$('#search').value='';$('#clear-query').hidden=true;renderApiBooks();$('#search').focus();});
+ $('#clear-search')?.addEventListener('click',()=>clearCatalogueSearch());
  pageObserver=revealItems($$('[data-book]'),'api-catalogue');
+ applyBusyState();
+}
+function clearCatalogueSearch({resetFilter=false}={}){
+ api?.requests.cancel('search');clearTimeout(searchTimer);
+ state.query='';state.searchResults=[];state.searchBusy=false;state.searchError='';
+ if(resetFilter){state.filter='all';syncFilters();}
+ $('#search').value='';if($('#clear-query'))$('#clear-query').hidden=true;
+ renderBooks();$('#search').focus({preventScroll:true});
 }
 async function performSearch(){
  const query=state.query;state.searchBusy=true;state.searchError='';renderApiBooks();
@@ -183,7 +191,7 @@ function syncSelectionChrome(){
  $('.shelf-counts').innerHTML=shelfCountsHTML();$('#selection-status').textContent=selectionStatus();$('#handoff-note').textContent=state.handoff;
  $('#nav-results').disabled=state.a.length!==5||state.b.length!==5;
  $('#pair-next').disabled=state[state.reader].length<5;$('#pair-next').innerHTML=`${continueLabel()} <span aria-hidden="true">→</span>`;$('#undo-selection').hidden=!state.undo;
- $('#other-version').href=`../b/?v=20261104.3&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`;
+ $('#other-version').href=`../b/?v=20261104.4&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`;
 }
 function updateShelf(reader){const summary=$(`.reader-summary.reader-${reader}`);$('.seed-slots',summary).innerHTML=readingShelf(state[reader],reader);bindShelf(summary);}
 function motionHook(node,name,duration=450){
@@ -228,7 +236,7 @@ function bindSelect(){
  $('#undo-selection').onclick=()=>{const change=state.undo;if(!change)return;state[change.reader]=[...change.before];state.undo=null;invalidateInput();updateShelf(change.reader);syncSelectionChrome();syncCatalogueSelection();$('#selected-shelves summary').focus({preventScroll:true});toast('Last selection change undone.');};
  $('#pair-next').onclick=()=>{if(state.a.length===5&&state.b.length===5)showResults();else switchReader(state.reader==='a'?'b':'a',{handoff:true});};
  $('#demo').onclick=event=>requestSamplePair(event.currentTarget);
- $('#clear-query').onclick=()=>{api?.requests.cancel('search');clearTimeout(searchTimer);state.query='';state.searchResults=[];state.searchBusy=false;state.searchError='';$('#search').value='';$('#clear-query').hidden=true;renderBooks();$('#search').focus({preventScroll:true});};
+ $('#clear-query').onclick=()=>clearCatalogueSearch();
 }
 function invalidateInput(){api?.requests.cancel('recommend');state.pending=false;state.requestError='';state.samplePair=false;clearDecision(state);state.results=[];state.selected=null;state.exploration=null;state.galaxy=null;state.topShelves=null;}
 function changeFavorites(reader,ids){state.undo={reader,before:[...state[reader]]};state[reader]=[...ids];state.handoff='';invalidateInput();updateShelf(reader);syncSelectionChrome();syncCatalogueSelection();}
@@ -357,7 +365,7 @@ function renderResultsContent(){
  pageObserver?.disconnect();$('#decision-panel').innerHTML=decisionHTML();bindDecision();
  $('#result-list').innerHTML=state.results.map((result,index)=>shortlistCardHTML(result,index,{votes:state.votes[result.book.id]||{},selected:state.selected===result.book.id,chosen:state.choice===result.book.id,api:apiMode})).join('');
  $$('.result-card[data-result]',$('#result-list')).forEach(button=>button.onclick=()=>openDetail(button.dataset.result));
- $$('a[href^="../b/"]').forEach(link=>link.href=`../b/?v=20261104.3&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`);
+ $$('a[href^="../b/"]').forEach(link=>link.href=`../b/?v=20261104.4&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`);
  resultMap.update(state.a,state.b,state.results,state.selected,state.galaxy,{votes:state.votes,choice:state.choice});pageObserver=revealItems($$('.result-card[data-result]',$('#result-list')),'recommendation');
  if(!$('#copy-fallback').hidden)$('#shortlist-text').value=shortlistText(state.results,state.choice);
 }

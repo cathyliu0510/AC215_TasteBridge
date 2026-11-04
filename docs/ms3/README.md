@@ -18,6 +18,7 @@ Remote `main` and `milestone2` both point to `fccfbac53a96de18b71ca1c3f668a6bea1
 
 ## What changed after MS2
 
+- Local A `20261104.4`: search shortcuts follow loading state and clear-search consistently cancels old requests/timers, preserving both shelves. [Current local verification and Chrome limitation](local-continuation-20261104.md). The hosted Site remains `20261104.3`.
 - Reading Desk A `20261104.3`: [named book connections, response/choice state, responsive checks and independent UX review](connections-ux-20261104.md). The model scores and returned coordinates are preserved. B remains the comparison.
 - Frontend prerequisite checks, explicit container host configuration and cancellation/child-process cleanup: [local setup record](local-readiness.md).
 - Existing Cloud Run preparation commits `3b7dafa` and `df64cdbe` were brought into this isolated branch, retaining the original authorship. The `.gitignore` conflict was resolved by keeping both the current DVC/data protections and deployment-state exclusions. No cloud deployment or access change was performed.
@@ -89,7 +90,7 @@ After an approved service deployment, capture a responding API and the correspon
 
 ## Current verification limits
 
-- Frontend: 80 tests and actual desktop/390px/320px flows passed; [full report](connections-ux-20261104/frontend-tests.tap).
+- Frontend: 81 tests passed in the current checkout; [current report](local-continuation-20261104/frontend-tests.txt). The [Book connections review](connections-ux-20261104.md) retains the full desktop/390px/320px visual pass, and the [continuation](local-continuation-20261104.md) records the new 320px search recovery check.
 - Backend: 77 tests passed in the current checkout.
 - Existing model/evaluation package: 54 tests passed. Two UMAP warnings state that the fixed random seed uses one job; neither was a failure.
 - MS3 evidence/configuration checks: `python3 -m unittest discover -s tools/tests`.

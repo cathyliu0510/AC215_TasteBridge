@@ -1,0 +1,9 @@
+......................................................                   [100%]
+=============================== warnings summary ===============================
+tests/test_als_and_export.py::test_export_writes_a_folder_the_backend_accepts
+tests/test_als_and_export.py::test_export_keeps_catalogue_order
+  <checkout>/src/evaluation/.venv/lib/python3.12/site-packages/umap/umap_.py:1952: UserWarning: n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
+    warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+54 passed, 2 warnings in 36.85s

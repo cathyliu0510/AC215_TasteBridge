@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 import {readingShelf,shortlistCardHTML} from '../src/a/desk-presentation.mjs';
 import {bothWilling} from '../src/a/desk-decision.mjs';
+import {LatestRequests} from '../src/a/desk-api.mjs';
 
 // Exercise the real page handlers with small view doubles. The doubles model
 // only focus/scroll/control state; these tests do not claim visual browser QA.
@@ -20,7 +21,8 @@ function busyView({picking=false,pending=false,connecting=false,ready=false}={})
  const controls=[control('pick',['data-book']),control('remove',['data-remove']),control('empty',['data-add-reader']),
   control('clear',['data-clear-reader']),control('reader',['data-reader']),control('step',['data-step']),
   control('filter',['data-filter']),control('nav-results'),control('nav-select'),control('undo-selection'),
-  control('demo'),control('sample-inline'),control('pair-next'),control('search'),control('clear-query')];
+  control('demo'),control('sample-inline'),control('pair-next'),control('search'),control('clear-query'),
+  control('author',['data-search-author']),control('retry-search'),control('clear-search')];
  const byId=new Map(controls.map(button=>[button.id,button]));
  const context={state:{picking,pending,a:Array.from({length:ready?5:1},(_,index)=>`reader-a-${index}`),b:Array.from({length:ready?5:0},(_,index)=>`reader-b-${index}`)},apiConnection:{pending:connecting},
   $:selector=>byId.get(selector.slice(1))||null,
@@ -32,10 +34,33 @@ function busyView({picking=false,pending=false,connecting=false,ready=false}={})
 test('connection, recommendation and pick loading each lock reader navigation while keeping cancellation available',()=>{
  for(const flags of [{connecting:true},{pending:true},{picking:true}]){
   const page=busyView({...flags,ready:true});page.applyBusyState();
-  for(const id of ['pick','remove','empty','clear','reader','step','filter','nav-results','undo-selection','demo','sample-inline','pair-next','search','clear-query'])
+  for(const id of ['pick','remove','empty','clear','reader','step','filter','nav-results','undo-selection','demo','sample-inline','pair-next','search','clear-query','author','retry-search','clear-search'])
    assert.equal(page.byId.get(id).disabled,true,`${id} must not change context during ${JSON.stringify(flags)}`);
   assert.equal(page.byId.get('nav-select').disabled,false,'Pick books must remain available to cancel and recover.');
  }
+});
+
+test('clearing an API search cancels a late result, restores the catalogue and keeps both shelves',async()=>{
+ const requests=new LatestRequests(),renders=[],events=[],a=['first-pick'],b=['second-pick'];
+ let resolveOld;
+ const state={stage:'select',query:'Tolkien',filter:'mystery',searchResults:[],searchBusy:false,searchError:'',a,b};
+ const search={value:state.query,focus:()=>events.push('focus-search')},clear={hidden:false};
+ const render=()=>renders.push({query:state.query,busy:state.searchBusy,results:[...state.searchResults]});
+ const context={state,api:{requests,search:()=>requests.run('search',()=>new Promise(resolve=>{resolveOld=resolve;}))},
+  $:selector=>selector==='#search'?search:selector==='#clear-query'?clear:null,
+  searchTimer:42,clearTimeout:timer=>events.push(`cancel-timer:${timer}`),syncFilters:()=>events.push('filters'),
+  renderBooks:render,renderApiBooks:render};
+ runInNewContext(handlers('function clearCatalogueSearch(','function syncFilters(){'),context);
+ const pending=context.performSearch();
+ assert.equal(renders.at(-1).busy,true);
+ context.clearCatalogueSearch();resolveOld([{id:'stale-book'}]);await pending;
+ assert.equal(state.query,'');assert.equal(search.value,'');assert.equal(clear.hidden,true);
+ assert.equal(state.searchBusy,false);assert.equal(state.searchError,'');assert.equal(state.searchResults.length,0);
+ assert.equal(state.filter,'mystery','Clearing text preserves the selected category.');
+ assert.strictEqual(state.a,a);assert.strictEqual(state.b,b);
+ assert.equal(renders.length,2,'A cancelled response must not redraw stale results.');
+ assert.deepEqual(events,['cancel-timer:42','focus-search']);
+ context.clearCatalogueSearch({resetFilter:true});assert.equal(state.filter,'all');assert(events.includes('filters'));
 });
 
 test('an idle render keeps intentionally unavailable actions disabled and restores editable search',()=>{

@@ -21,6 +21,10 @@ python3 -m http.server 4175 --bind 127.0.0.1 --directory dist
 
 Open http://127.0.0.1:4175/ for A, `/b/` for B, and `/project/` for the scope page.
 
+### Local search recovery 20261104.4
+
+Author shortcuts and search recovery controls now respect connection/pick loading. All clear-search paths cancel the previous request and debounce timer, restore the catalogue and return focus without changing either shelf. The current suite has 81 passing tests. [Local flow checks, Chrome limitation and current MS3 state](../../docs/ms3/local-continuation-20261104.md). This local revision has not replaced the hosted `20261104.3` preview.
+
 ### Book connections 20261104.3
 
 Book connections now starts with the current recommendation and the two readers' actual reference books and shared themes. Named controls expose all five recommendations. The original coordinate plot is an optional similarity view; it has no geographic meaning, decorative boundaries or inferred clusters. Mobile secondary controls are compact, responses and explicit shared-choice state stay visible, and dialog focus returns to an available relation action.
