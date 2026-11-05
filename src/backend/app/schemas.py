@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 MAX_SEEDS_PER_READER = 5
 MAX_K = 20
 BookId = Annotated[str, Field(min_length=1, max_length=64)]
+ArtifactFingerprint = Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 Aggregation = Literal["least_misery", "average"]
 # The frontend prototype spells this mode with a hyphen
 AGGREGATION_ALIASES = {"least-misery": "least_misery"}
@@ -30,6 +31,7 @@ class Book(BookSummary):
 class HealthResponse(BaseModel):
     status: Literal["ok"] = "ok"
     model_version: str
+    artifact_fingerprint: ArtifactFingerprint
     data_version: str | None
     num_books: int
 
@@ -105,6 +107,7 @@ class Galaxy(BaseModel):
 
 class RecommendResponse(BaseModel):
     model_version: str
+    artifact_fingerprint: ArtifactFingerprint
     aggregation: Aggregation
     top_shelves: TopShelves
     recommendations: list[Recommendation]
@@ -117,6 +120,7 @@ class FeedbackRequest(BaseModel):
     book_id: BookId
     vote: Vote
     model_version: str = Field(min_length=1, max_length=128)
+    artifact_fingerprint: ArtifactFingerprint | None = None
 
 
 class FeedbackResponse(BaseModel):

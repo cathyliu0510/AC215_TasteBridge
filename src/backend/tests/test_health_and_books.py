@@ -1,11 +1,21 @@
+import re
+from urllib.parse import quote
+
+import numpy as np
 from fastapi.testclient import TestClient
+
+from app.config import Settings
+from app.main import create_app
+from tests.conftest import make_books, write_artifacts
 
 
 def test_health_reports_loaded_model(client: TestClient) -> None:
     response = client.get("/health")
 
     assert response.status_code == 200
-    assert response.json() == {
+    body = response.json()
+    assert re.fullmatch(r"[0-9a-f]{64}", body.pop("artifact_fingerprint"))
+    assert body == {
         "status": "ok",
         "model_version": "sample-shelf-toy-v1",
         "data_version": "hand-curated-sample-52",
@@ -93,3 +103,35 @@ def test_search_fills_limit_with_title_prefix_matches_first(client: TestClient) 
 
     assert len(titles) == 3
     assert all(title.lower().startswith("the") for title in titles)
+
+
+def test_book_search_and_detail_preserve_opaque_ids_and_display_text(tmp_path) -> None:
+    books = make_books(3)
+    books[0].update(
+        book_id="opaque/A?", title="Café—Tales", author="China Miéville"
+    )
+    root = write_artifacts(tmp_path / "m", books, np.ones((3, 4)), np.zeros((3, 2)))
+    settings = Settings(
+        artifact_dir=str(root), feedback_path=tmp_path / "feedback.jsonl", cors_origins=("*",)
+    )
+
+    with TestClient(create_app(settings)) as client:
+        for query in ("cafe tales", "Café: Tales", "Mieville", "Miéville"):
+            response = client.get("/books/search", params={"q": query})
+            assert response.status_code == 200
+            [summary] = response.json()
+            assert summary["book_id"] == "opaque/A?"
+            assert summary["title"] == "Café—Tales"
+            assert summary["author"] == "China Miéville"
+
+        response = client.get(f"/books/{quote(summary['book_id'], safe='')}")
+        assert response.status_code == 200
+        assert response.json()["book_id"] == "opaque/A?"
+        assert response.json()["title"] == "Café—Tales"
+        assert client.get("/books/unknown%2Fid").status_code == 404
+
+        response = client.post(
+            "/recommend", json={"reader_a": [summary["book_id"]], "reader_b": ["b1"]}
+        )
+        assert response.status_code == 200
+        assert response.json()["galaxy"]["reader_a"][0]["book_id"] == "opaque/A?"

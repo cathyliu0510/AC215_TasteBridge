@@ -363,7 +363,13 @@ def build(output: Path, work: Path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--historical-synthetic", action="store_true",
+                        help="Explicitly reproduce the dated November 4 synthetic review, not the current MS3 deck")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
     args = parser.parse_args()
+    if not args.historical_synthetic:
+        parser.error("This generator describes the historical November 4 synthetic review. "
+                     "Use the current reviewed PPTX and presentation-source.md. "
+                     "Pass --historical-synthetic only when deliberately reproducing that archived review.")
     build(args.output.resolve(), args.work.resolve())

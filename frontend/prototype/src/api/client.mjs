@@ -26,6 +26,12 @@ const modelVersion = value => {
   if ([...text].length > 128) fail('A model version must have at most 128 characters.');
   return text;
 };
+const artifactFingerprint = value => {
+  // Older backends can serve recommendations without a verified file identity.
+  if (value === undefined || value === null) return null;
+  if (typeof value !== 'string' || !/^[0-9a-f]{64}$/.test(value)) fail('Invalid API artifact fingerprint.');
+  return value;
+};
 const modeToApi = mode => mode === 'least-misery' || mode === 'least_misery'
   ? 'least_misery' : mode === 'average' ? 'average' : fail('Unknown ranking method.');
 const position = value => {
@@ -122,16 +128,17 @@ export function mapRecommendationResponse(value, request) {
       fail('The recommendation and galaxy positions disagree.');
   }
   return {
-    modelVersion: model, mode: aggregation === 'average' ? 'average' : 'least-misery',
+    modelVersion: model, artifactFingerprint: artifactFingerprint(body.artifact_fingerprint), mode: aggregation === 'average' ? 'average' : 'least-misery',
     topShelves: { a: strings(shelves.reader_a, 'Reader 1 shelves'), b: strings(shelves.reader_b, 'Reader 2 shelves') },
     results, galaxy
   };
 }
 
-export function makeFeedbackRequest({ bookId, vote, modelVersion: model }) {
+export function makeFeedbackRequest({ bookId, vote, modelVersion: model, artifactFingerprint: fingerprint }) {
   // An explicit joint action only. Individual yes/no/unsure answers stay local.
   if (!['would_read', 'not_for_us'].includes(vote)) fail('Choose an explicit joint feedback action.');
-  return { book_id: id(bookId), vote, model_version: modelVersion(model) };
+  const verified = artifactFingerprint(fingerprint);
+  return { book_id: id(bookId), vote, model_version: modelVersion(model), ...(verified ? { artifact_fingerprint: verified } : {}) };
 }
 
 export class TasteBridgeClient {
@@ -192,7 +199,7 @@ export class TasteBridgeClient {
     const value = record(await this.request('/health', options), 'health');
     if (value.status !== 'ok' || !Number.isInteger(value.num_books) || value.num_books < 1)
       fail('Invalid API health response.');
-    return { status: 'ok', modelVersion: modelVersion(value.model_version), numBooks: value.num_books };
+    return { status: 'ok', modelVersion: modelVersion(value.model_version), artifactFingerprint: artifactFingerprint(value.artifact_fingerprint), numBooks: value.num_books };
   }
 
   async searchBooks(query, { limit = 10, signal } = {}) {

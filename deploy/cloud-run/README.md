@@ -33,15 +33,17 @@ In [TasteBridge IAM](https://console.cloud.google.com/iam-admin/iam?project=tast
 
 Also enable the Cloud Run, Artifact Registry and IAM APIs; create the Docker repository and runtime service account if absent. The runtime identity needs **no application roles**, because the model is packaged with the app.
 
+The publishing operator also needs read access to both IAM policies: `resourcemanager.projects.getIamPolicy` on this project and `artifactregistry.repositories.getIamPolicy` on this repository. The image-writer grant alone does not establish these permissions. An administrator can supply them through an existing suitable role or a scoped custom role; the publisher never grants them itself.
+
 An administrator can review and run [admin-setup.sh](admin-setup.sh) from an authenticated Google Cloud Shell:
 
 ```sh
-git clone --branch frontend/cloud-staging --single-branch https://github.com/cathyliu0510/TasteBridge.git TasteBridge-cloud-setup
+git clone --branch milestone3 --single-branch https://github.com/cathyliu0510/AC215_TasteBridge.git TasteBridge-cloud-setup
 cd TasteBridge-cloud-setup
 bash deploy/cloud-run/admin-setup.sh JENNY_GOOGLE_EMAIL
 ```
 
-Replace `JENNY_GOOGLE_EMAIL` with Jenny's actual Google account. The script adds these scoped grants, checks project/repository IAM for public bindings and leaves existing policies intact. An administrator should also confirm there is no inherited public Artifact Registry access from a folder or organization; those ancestor policies are not inspected by this script. Keep the agreed teaching-staff/public audience. Publication does not grant invocation or disable the Invoker IAM check; any access-policy change is a separate administrator decision.
+Replace `JENNY_GOOGLE_EMAIL` with Jenny's actual Google account. The script adds these scoped grants, checks project/repository IAM for public bindings and leaves existing policies intact. It creates a repository or service account only after an explicit `NOT_FOUND` lookup result; permission and transient failures stop the script. An administrator should also confirm there is no inherited public Artifact Registry access from a folder or organization; those ancestor policies are not inspected by this script. Keep the agreed teaching-staff/public audience. Publication does not grant invocation or disable the Invoker IAM check; any access-policy change is a separate administrator decision.
 
 ## Build and check locally
 
@@ -52,7 +54,7 @@ python3 deploy/cloud-run/deploy.py build /absolute/path/to/data/artifacts/curren
 python3 deploy/cloud-run/smoke.py --local
 ```
 
-The build targets **linux/amd64**, including on an Apple Silicon Mac. The smoke check uses temporary containers sharing a localhost network, like Cloud Run. It checks the exact image IDs, model identity/count, search, both ranking modes, reader-specific reasons, map coordinates, one feedback event and blocked private routes. It removes its temporary containers and leaves any existing app running.
+The build targets **linux/amd64**, including on an Apple Silicon Mac. Commit changes in `src/backend`, `frontend/prototype` and `deploy/cloud-run` before building: both application and deployment packaging trees are recorded and must remain clean through publication. Older release records without the packaging tree must be rebuilt and retested. The smoke check uses temporary containers sharing a localhost network, like Cloud Run. It checks the exact image IDs, model identity/count, search, both ranking modes, reader-specific reasons, map coordinates, one feedback event and blocked private routes. It removes its temporary containers and leaves any existing app running.
 
 Build records and test evidence stay in ignored `.state/`; staged model files stay in ignored `.artifacts/`. No cloud resources are created by these commands. The actual model used for the October 18 test was `b2-als-gr-317756d1a1ad` (B2 ALS, 5,000 books, 128 factors).
 
@@ -66,6 +68,8 @@ python3 deploy/cloud-run/deploy.py publish
 ```
 
 `publish` checks access before uploading, verifies the tested images, pushes to the private repository, deploys by image digest, and tests the returned URL. It preserves existing IAM, ingress, Invoker IAM-check and default-URL settings. It never adds `allUsers`, changes an invocation grant or disables authentication. A new service retains Cloud Run’s default authentication requirement. It refuses to overwrite an existing service with a different owner label. The resulting URL is saved to `.state/url.txt`; keep sharing that URL for future updates.
+
+Before each image push and again before replacing the service, publication reads the current project and repository IAM policies. A public binding (`allUsers` or `allAuthenticatedUsers`), denied query or unverifiable response stops further pushes and service updates. Policy hashes and check times are saved with that attempt, without saving member lists. This check covers those two policies at query time; it does not inspect inherited folder/organization policies or prevent an administrator from changing access afterward. Have an administrator confirm ancestor access before publication. Publication changes no IAM policy.
 
 For an already authorized operator verifying an authenticated service, use:
 
@@ -96,15 +100,15 @@ The service uses request-based CPU, zero minimum instances, a maximum of one ins
 
 After committing frontend changes, repeat **build → local smoke → publish**. Replace the model-export directory only when the team approves a new model. Source commit, model hashes and exact Docker image IDs are saved with each build; each deployed revision uses immutable image digests.
 
-Before updating, `publish` saves the previous service description in `.state/previous-service.json`. To roll back, use its `status.latestReadyRevisionName`:
+Before uploading, `publish` saves an independent snapshot under `.state/attempts/ATTEMPT_ID/`. Each attempt contains the prior service, release identity, privacy checks and a `rollback.txt` operator command. Retries preserve earlier attempt directories. The compatibility file `.state/previous-service.json` is only a copy of the latest attempt's snapshot.
+
+Read the rollback instructions for the specific update you want to reverse:
 
 ```sh
-gcloud run services update-traffic tastebridge-staging \
-  --project=tastebridge-511403 --region=us-central1 \
-  --to-revisions=PREVIOUS_REVISION=100
+cat deploy/cloud-run/.state/attempts/ATTEMPT_ID/rollback.txt
 ```
 
-Use the existing service; deleting and recreating services is not the update workflow.
+The printed command uses the resolved `status.traffic` revision names and percentages. For example, if revision A served 100% while newer revision B was ready, it restores A; a 90/10 split stays 90/10. Publication refuses to proceed when an existing service's traffic cannot be resolved to 100%. Review the saved service before an operator executes rollback: the command restores traffic allocations, while tags and other configuration need separate review. A first deployment has no previous service to roll back to. The script prints instructions and never runs rollback. Use the existing service; deleting and recreating services is not the update workflow.
 
 References: [Cloud Run containers](https://docs.cloud.google.com/run/docs/configuring/services/containers), [container contract](https://docs.cloud.google.com/run/docs/container-contract), [deployment](https://docs.cloud.google.com/run/docs/deploying), [logging](https://docs.cloud.google.com/run/docs/logging).
 

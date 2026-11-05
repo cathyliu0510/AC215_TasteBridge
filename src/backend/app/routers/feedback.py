@@ -23,8 +23,23 @@ def post_feedback(
         raise HTTPException(
             status.HTTP_404_NOT_FOUND, detail=f"Unknown book_id: {vote.book_id}"
         )
+    if vote.model_version != artifacts.model_version:
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            detail="Feedback model_version does not match the loaded model. "
+            "Refresh recommendations and try again.",
+        )
+    if (
+        vote.artifact_fingerprint is not None
+        and vote.artifact_fingerprint != artifacts.artifact_fingerprint
+    ):
+        raise HTTPException(
+            status.HTTP_409_CONFLICT,
+            detail="Feedback artifact_fingerprint does not match the loaded model. "
+            "Refresh recommendations and try again.",
+        )
     try:
-        store.record(vote.book_id, vote.vote, vote.model_version)
+        store.record(vote.book_id, vote.vote, artifacts.model_version)
     except FeedbackStoreError:
         logger.exception("Failed to store feedback vote")
         raise HTTPException(

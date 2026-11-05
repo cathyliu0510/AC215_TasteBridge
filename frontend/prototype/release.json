@@ -1,6 +1,6 @@
 {
   "preferred": "A",
-  "release": "20261104.6",
+  "release": "20261105.1",
   "routes": [
     "/",
     "/a/",
@@ -10,8 +10,8 @@
   "versions": [
     {
       "version": "A",
-      "release": "20261104.6",
-      "sha256": "dba7998214238bfbe80246e300ddaa8eab8a033bfca0086fb10e4413022480e3"
+      "release": "20261105.1",
+      "sha256": "22ffea638f09175cd284ab451fcbc14c3048d9564f9fe8ee4ec3af8fffd65c0b"
     },
     {
       "version": "B",

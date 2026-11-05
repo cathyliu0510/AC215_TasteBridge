@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-11-05T05:33:09.173692+00:00",
+  "status": "candidate_code_ready_for_integrated_acceptance",
+  "frontend_release": "20261105.1",
+  "frontend_tests": 107,
+  "backend_tests": 111,
+  "tools_tests": 68,
+  "offline_workflow_tests": 36,
+  "new_training_executed": false,
+  "cloud_mutations": false,
+  "paid_jobs": 0,
+  "pending": [
+    "Independent browser desktop/mobile refresh/recovery verification",
+    "Current clean-source local image build and HTTP smoke",
+    "Current source/model/screenshot/log/test binding",
+    "Presentation final evidence replacement/render/validation",
+    "Exact reviewed milestone3 update and original Site publication verification"
+  ],
+  "new_features": [
+    "Same-tab24h favorite/choice recovery and explicit clear",
+    "Accent/punctuation-aware search",
+    "Immutable four-file model fingerprint in API and recovery/feedback",
+    "Robust malformed-model startup rejection",
+    "Packaging identity/registry policy checks and traffic-based rollback",
+    "Honest offline Vertex-compatible candidate with bounded runtime and source checks",
+    "Stronger reproducibility comparison and full evidence identity binding"
+  ]
+}

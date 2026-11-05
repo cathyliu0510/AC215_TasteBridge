@@ -2,7 +2,7 @@
 
 [Live prototype](https://tastebridge-prototype.landenini.chatgpt.site/) · [Project scope](https://tastebridge-prototype.landenini.chatgpt.site/project/)
 
-A (Reading Desk) is the preferred interface; B (Book Journey) is the comparison. Both demonstrate two readers choosing five favorites each, exploring five new bridge books, inspecting separate reasons, and making a reversible shared choice. Project links carry the selected favorite IDs and ranking mode back to the demo; votes and joint choices remain page-local.
+A (Reading Desk) is the preferred interface; B (Book Journey) is the comparison. Both demonstrate two readers choosing five favorites each, exploring five new bridge books, inspecting separate reasons, and making a reversible shared choice. Project links carry the selected favorite IDs and ranking mode back to the demo. A recovers favorites, opinions and a shared choice in the same tab for up to 24 hours; B keeps its current-page behavior.
 
 The standalone demo uses 23 curated sample books and deterministic theme vectors. A's optional connected mode now calls the backend's SPEC v0.3 API for search, recommendations, reasons and galaxy coordinates. The default Docker app uses 52 sample books and toy vectors. The real-model Compose override can instead mount the team's exported Goodreads model. Accounts and synchronized reading rooms are not implemented. See the [integration guide](../../docs/backend-integration.md) and [MS2 app evidence](../../docs/ms2/frontend-api/).
 
@@ -21,9 +21,15 @@ python3 -m http.server 4175 --bind 127.0.0.1 --directory dist
 
 Open http://127.0.0.1:4175/ for A, `/b/` for B, and `/project/` for the scope page.
 
+### Session recovery 20261105.1
+
+Reading Desk uses same-origin, same-tab `sessionStorage` with a 24-hour inactivity limit. **Start over** asks before clearing both readers' saved favorites, opinions and shared choice. Offline and API sessions are separate. Incoming link selections take precedence and are consumed so later refreshes recover current edits. Storage contains only book IDs, interface choices, opinions and the model's single fingerprint; it excludes search text, book metadata, embeddings, credentials and sent-feedback state. If browser storage is unavailable, the page warns that changes may not survive a refresh.
+
+API opinions and shared choices are restored only when the model name and actual artifact fingerprint still match and the books remain in the current shortlist. Changed or unverified identity keeps valid favorites and asks readers to review and choose again. Older APIs without fingerprints remain usable, but their saved opinions and joint choice cannot be verified after refresh. Choosing a book never sends feedback automatically. **Send anonymous feedback** is a separate action; when available, it includes the recommendation's fingerprint so the backend can reject feedback for a changed model before writing it.
+
 ### Trained-synthetic provenance 20261104.5
 
-The connected footer identifies B2 exports whose model identity is explicitly synthetic. The [complete local integration](../../docs/ms3/reproduce.md) trained the existing B2 model twice, served it through the actual API/relay and exercised the UI at 320px. [Model identity, actual screenshots and test evidence](../../docs/ms3/evidence/local-integration-20261104/). The frontend suite now has 82 passing tests. The hosted static Site remains unchanged.
+The connected footer identifies B2 exports whose model identity is explicitly synthetic. The [complete local integration](../../docs/ms3/reproduce.md) trained the existing B2 model twice, served it through the actual API/relay and exercised the UI at 320px. [Model identity, actual screenshots and test evidence](../../docs/ms3/evidence/local-integration-20261104/). The latest local release `20261105.1` has 107 passing frontend tests. Browser verification and hosted-release status are recorded in the current MS3 continuation evidence; a local build alone does not establish publication.
 
 ### Local search recovery 20261104.4
 

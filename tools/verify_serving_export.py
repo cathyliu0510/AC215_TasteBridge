@@ -17,8 +17,7 @@ from urllib.parse import urlencode
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.verify_local_integration import available_port, reserve_output, sha256, stop_owned, wait_for_service, write_json
-
-EXPORTS = ('books.json', 'item_embeddings.npy', 'coords_2d.npy', 'meta.json')
+from tools.evidence_contracts import EXPORTS, capture_serving_sources
 
 
 def input_kind(meta):
@@ -69,9 +68,17 @@ def verify(args):
                 subprocess.run([node, 'scripts/' + script], cwd=ROOT / 'frontend/prototype', env=env,
                                stdout=log, stderr=subprocess.STDOUT, check=True)
         record['frontend_release'] = json.loads((ROOT / 'frontend/prototype/release.json').read_text())['release']
-        files = [*sorted((ROOT / 'src/backend/app').glob('*.py')), ROOT / 'frontend/prototype/dist/a/index.html',
-                 Path(__file__), ROOT / 'deploy/cloud-run/smoke.py']
-        record['source_sha256'] = {str(path.relative_to(ROOT)): sha256(path) for path in files}
+        source = capture_serving_sources(ROOT)
+        write_json(out / 'source-manifest.json', source)
+        record['source_manifest_sha256'] = source['sha256']
+        record['source_sha256'] = source['files']
+        record['source_commit'] = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+        record['source_dirty'] = bool(subprocess.check_output(['git', 'status', '--porcelain'], cwd=ROOT, text=True).strip())
+        record['runtime_versions'] = {
+            'python': subprocess.check_output([str(python), '--version'], text=True).strip(),
+            'node': subprocess.check_output([node, '--version'], text=True).strip(),
+        }
+        write_json(out / 'run.json', record)
         api_port, ui_port = available_port(), available_port()
         while api_port == ui_port:
             ui_port = available_port()
@@ -100,6 +107,8 @@ def verify(args):
                       checks=proof['checks'], completed_at=datetime.now(timezone.utc).isoformat())
         if record['artifact_sha256'] != {name: sha256(artifact_dir / name) for name in EXPORTS}:
             raise RuntimeError('The input export changed during verification')
+        if capture_serving_sources(ROOT) != source:
+            raise RuntimeError('Serving source changed during verification; rerun on stable source')
         write_json(out / 'run.json', record)
         print(json.dumps({'status': record['status'], 'input_kind': record['input_kind'], 'model': meta['model_version'],
                           'frontend_release': record['frontend_release'], 'ui_url': record['ui_url'],
@@ -111,6 +120,10 @@ def verify(args):
                 raise RuntimeError('An owned service exited while the preview was open')
             except KeyboardInterrupt:
                 pass
+            if capture_serving_sources(ROOT) != source:
+                raise RuntimeError('Serving source changed while the preview was open; rerun verification')
+            if record['artifact_sha256'] != {name: sha256(artifact_dir / name) for name in EXPORTS}:
+                raise RuntimeError('The input export changed while the preview was open')
     except BaseException as error:
         record.update(status='failed', error=type(error).__name__ + ': ' + str(error))
         write_json(out / 'run.json', record)
@@ -120,6 +133,8 @@ def verify(args):
             stop_owned(child)
         for handle in handles:
             handle.close()
+        record['services_stopped'] = True
+        write_json(out / 'run.json', record)
     return out
 
 

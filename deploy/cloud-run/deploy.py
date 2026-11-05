@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """Build locally; publish explicitly after project access has been granted."""
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
 from pathlib import Path
 import re
+import shlex
 import shutil
 import subprocess
 import sys
 import tempfile
 import urllib.parse
+import uuid
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -23,6 +26,9 @@ REPOSITORY = f'{REGISTRY}/{PROJECT}/tastebridge-app'
 IDENTITY = f'tastebridge-runtime@{PROJECT}.iam.gserviceaccount.com'
 OWNER = 'tastebridge-frontend'
 FILES = ('books.json', 'item_embeddings.npy', 'coords_2d.npy', 'meta.json')
+SOURCE_PATHS = ('src/backend', 'frontend/prototype', 'deploy/cloud-run')
+POLICY_LIMITATION = ('Project and repository policies checked; inherited folder/organization '
+                     'policies are not inspected. An administrator must confirm those separately.')
 
 
 def run(*args, capture=False, env=None, input=None):
@@ -37,7 +43,93 @@ def inspect(image, expression):
 
 def source_trees():
     return {part: run('git', 'rev-parse', f'HEAD:{part}', capture=True).strip()
-            for part in ('src/backend', 'frontend/prototype')}
+            for part in SOURCE_PATHS}
+
+
+def source_dirty():
+    return run('git', 'status', '--porcelain', '--', *SOURCE_PATHS, capture=True).strip()
+
+
+def private_registry_proof(gcloud):
+    """Read current policies; never infer privacy from a successful upload permission."""
+    commands = {
+        'project': (gcloud, 'projects', 'get-iam-policy', PROJECT, '--format=json'),
+        'repository': (gcloud, 'artifacts', 'repositories', 'get-iam-policy', 'tastebridge-app',
+                       '--project', PROJECT, '--location', REGION, '--format=json'),
+    }
+    policies = {}
+    for scope, command in commands.items():
+        try:
+            policy = json.loads(run(*command, capture=True))
+            if (not isinstance(policy, dict) or
+                    ('bindings' not in policy and not isinstance(policy.get('etag'), str)) or
+                    not isinstance(policy.get('bindings', []), list)):
+                raise ValueError('Invalid IAM policy')
+            for binding in policy.get('bindings', []):
+                if (not isinstance(binding, dict) or not isinstance(binding.get('role'), str) or
+                        not isinstance(binding.get('members'), list) or
+                        any(not isinstance(member, str) for member in binding['members'])):
+                    raise ValueError('Invalid IAM binding')
+                if {'allUsers', 'allAuthenticatedUsers'}.intersection(binding['members']):
+                    raise SystemExit(f'Public {scope} IAM binding found. No further images or service updates will be sent; ask an administrator to review access.')
+        except (subprocess.CalledProcessError, ValueError, TypeError):
+            raise SystemExit(f'Cannot verify {scope} registry access policy. No further images or service updates will be sent; obtain policy-read access or resolve the query failure.') from None
+        # Preserve proof without saving private member lists.
+        policies[scope] = hashlib.sha256(json.dumps(policy, sort_keys=True).encode()).hexdigest()
+    return dict(checked_at=datetime.now(timezone.utc).isoformat(), project=PROJECT,
+                repository=REPOSITORY, policy_sha256=policies,
+                public_bindings_found=False, inherited_policy_verified=False,
+                limitation=POLICY_LIMITATION)
+
+
+def rollback_plan(current):
+    """Use resolved traffic, which can differ from the latest ready revision."""
+    if current is None:
+        return dict(available=False, reason='No service existed before this attempt; inspect the new service manually.')
+    traffic = current.get('status', {}).get('traffic')
+    allocations = {}
+    if not isinstance(traffic, list):
+        raise SystemExit('Existing service traffic could not be resolved; inspect it before publishing.')
+    for target in traffic:
+        if not isinstance(target, dict):
+            raise SystemExit('Existing service traffic could not be resolved; inspect it before publishing.')
+        percent = target.get('percent', 0)
+        if isinstance(percent, bool) or not isinstance(percent, int) or not 0 <= percent <= 100:
+            raise SystemExit('Existing service traffic percentages are invalid; inspect it before publishing.')
+        if percent == 0:
+            continue
+        revision = target.get('revisionName')
+        if not isinstance(revision, str) or not re.fullmatch('[a-z][a-z0-9-]*', revision):
+            raise SystemExit('Existing service traffic lacks resolved revision names; inspect it before publishing.')
+        allocations[revision] = allocations.get(revision, 0) + percent
+    if sum(allocations.values()) != 100:
+        raise SystemExit('Existing service traffic does not total 100%; inspect it before publishing.')
+    command = ['gcloud', 'run', 'services', 'update-traffic', SERVICE,
+               '--project', PROJECT, '--region', REGION,
+               '--to-revisions=' + ','.join(f'{revision}={percent}' for revision, percent in allocations.items())]
+    return dict(available=True, allocations=allocations, command=command,
+                limitation='Restores revision traffic percentages only; inspect saved service configuration and tags separately.')
+
+
+def save_attempt(current, release, privacy):
+    attempt_id = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ') + '-' + uuid.uuid4().hex[:8]
+    directory = STATE / 'attempts' / attempt_id
+    plan = rollback_plan(current)
+    directory.mkdir(parents=True)
+    (directory / 'release.json').write_text(json.dumps(release, indent=2) + '\n')
+    (directory / 'registry-privacy.json').write_text(json.dumps([privacy], indent=2) + '\n')
+    (directory / 'rollback.json').write_text(json.dumps(plan, indent=2) + '\n')
+    if current is not None:
+        snapshot = json.dumps(current, indent=2) + '\n'
+        (directory / 'previous-service.json').write_text(snapshot)
+        # Compatibility copy; the per-attempt snapshot remains unchanged on retry.
+        (STATE / 'previous-service.json').write_text(snapshot)
+    instructions = ('Review the saved service before running this operator command. This script does not execute rollback.\n' +
+                    shlex.join(plan['command']) + '\n' + plan['limitation'] + '\n') if plan['available'] else plan['reason'] + '\n'
+    (directory / 'rollback.txt').write_text(instructions)
+    print(f'Publication attempt: {directory}')
+    print(instructions, end='')
+    return directory
 
 
 def read_artifact_lock(path):
@@ -53,10 +145,9 @@ def read_artifact_lock(path):
 
 def build(source, artifact_lock=None):
     expected, lock_sha256 = read_artifact_lock(artifact_lock) if artifact_lock is not None else (None, None)
-    # A reproducible release must point to committed app code.
-    dirty = run('git', 'status', '--porcelain', '--', 'src/backend', 'frontend/prototype', capture=True)
-    if dirty.strip():
-        raise SystemExit('Commit app changes before building a release.')
+    # Packaging and deployment files affect the bytes and behavior being verified.
+    if source_dirty():
+        raise SystemExit('Commit app and deployment packaging changes before building a release. No images were built.')
     (STATE / 'local-smoke.json').unlink(missing_ok=True)
     run(sys.executable, str(HERE / 'prepare-artifacts.py'), str(source), str(HERE / '.artifacts'))
     hashes = {name: hashlib.sha256((HERE / '.artifacts' / name).read_bytes()).hexdigest() for name in FILES}
@@ -138,9 +229,9 @@ def publish(authenticated=False, allow_demo_model=False):
     if (proof.get('tag') != release['tag'] or proof.get('passed') is not True
             or proof.get('image_ids') != release['image_ids']):
         raise SystemExit('Run smoke.py --local for this release first.')
-    dirty = run('git', 'status', '--porcelain', '--', 'src/backend', 'frontend/prototype', capture=True)
-    if release['source_trees'] != source_trees() or dirty.strip():
-        raise SystemExit('App source changed since build; rebuild and retest.')
+    dirty = source_dirty()
+    if release['source_trees'] != source_trees() or dirty:
+        raise SystemExit('App or deployment packaging source changed since build; rebuild and retest (including older releases without packaging identity).')
     for name, image in release['images'].items():
         if inspect(image, '{{.Id}}') != release['image_ids'][name]:
             raise SystemExit('A local image changed since verification; rebuild and retest.')
@@ -154,8 +245,13 @@ def publish(authenticated=False, allow_demo_model=False):
     if current and current['metadata'].get('labels', {}).get('managed-by') != OWNER:
         raise SystemExit(f'{SERVICE} already exists with another owner label. Inspect it before proceeding.')
     run(gcloud, 'artifacts', 'repositories', 'describe', 'tastebridge-app', '--project', PROJECT, '--location', REGION, '--format=value(name)')
+    privacy = private_registry_proof(gcloud)
     if current:
-        (STATE / 'previous-service.json').write_text(json.dumps(current, indent=2) + '\n')
+        current = json.loads(run(gcloud, 'run', 'services', 'describe', SERVICE, *flags, '--format=json', capture=True))
+        if current.get('metadata', {}).get('labels', {}).get('managed-by') != OWNER:
+            raise SystemExit(f'{SERVICE} owner changed; inspect it before proceeding.')
+    attempt = save_attempt(current, release, privacy)
+    privacy_checks = [privacy]
     # The helper retrieves tokens in memory. Temporary Docker config contains no token.
     endpoint = os.environ.get('DOCKER_HOST') or run('docker', 'context', 'inspect', '--format', '{{.Endpoints.docker.Host}}', capture=True).strip()
     remote_images = {}
@@ -163,16 +259,22 @@ def publish(authenticated=False, allow_demo_model=False):
         Path(tmp, 'config.json').write_text(json.dumps({'credHelpers': {REGISTRY: 'gcloud'}}))
         push_env = dict(os.environ, DOCKER_CONFIG=tmp, DOCKER_HOST=endpoint)
         for name in ('frontend', 'backend'):
+            if remote_images:
+                privacy_checks.append(private_registry_proof(gcloud))
+                (attempt / 'registry-privacy.json').write_text(json.dumps(privacy_checks, indent=2) + '\n')
             remote = f'{REPOSITORY}/{name}:{release["tag"]}'
             run('docker', 'tag', release['images'][name], remote)
             run('docker', 'push', remote, env=push_env)
             digests = json.loads(inspect(remote, '{{json .RepoDigests}}'))
             remote_images[name] = next(d for d in digests if d.startswith(f'{REPOSITORY}/{name}@'))
+    privacy_checks.append(private_registry_proof(gcloud))
+    (attempt / 'registry-privacy.json').write_text(json.dumps(privacy_checks, indent=2) + '\n')
     spec = STATE / 'service.json'  # JSON is also a valid YAML service document.
     spec.write_text(json.dumps(service_spec(remote_images, current), indent=2) + '\n')
     run(gcloud, 'run', 'services', 'replace', str(spec), *flags, '--dry-run')
     status = dict(status='update_outcome_uncertain', access_policy='preserved', model_kind=model_kind,
-                  project=PROJECT, region=REGION, service=SERVICE, tag=release['tag'])
+                  project=PROJECT, region=REGION, service=SERVICE, tag=release['tag'],
+                  attempt=str(attempt), registry_privacy=privacy_checks[-1])
     (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
     try:
         run(gcloud, 'run', 'services', 'replace', str(spec), *flags)

@@ -47,9 +47,12 @@ Shows the service is up, which model is loaded and which data snapshot trained i
 
 **Response 200**
 ```json
-{ "status": "ok", "model_version": "b2-als-gr-317756d1a1ad", "data_version": "gr-317756d1a1ad", "num_books": 5000 }
+{ "status": "ok", "model_version": "b2-als-gr-317756d1a1ad", "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164", "data_version": "gr-317756d1a1ad", "num_books": 5000 }
 ```
 `data_version` comes from `meta.json` and is `null` if the artifact does not record one.
+`artifact_fingerprint` is a lowercase 64-character SHA256 digest of the four loaded
+files (§5). Unlike the human-readable `model_version`, it changes whenever any
+file bytes change. This example identifies the current 5,000-book export.
 
 ---
 
@@ -61,7 +64,7 @@ Search the catalogue as the user types.
 
 | Name | Type | Default | Rules |
 |---|---|---|---|
-| `q` | string | — | must be present, 0–100 chars, matches title **or** author, case-insensitive |
+| `q` | string | — | must be present, 0–100 chars, matches title **or** author; ignores case and accents and treats punctuation as whitespace |
 | `limit` | int | 10 | 1–25 |
 
 **Ordering:** titles that *start with* `q` come first, then other matches, each in catalogue order.
@@ -78,7 +81,8 @@ Search the catalogue as the user types.
   }
 ]
 ```
-An empty (or whitespace-only) query or no matches returns `[]`, not an error.
+Catalogue titles and authors keep their original spelling in responses.
+An empty query after this normalization or no matches returns `[]`, not an error.
 A missing `q`, `q` over 100 chars, or `limit` out of range returns 422.
 
 ---
@@ -86,6 +90,10 @@ A missing `q`, `q` over 100 chars, or `limit` out of range returns 422.
 ### 4.3 `GET /books/{book_id}`
 
 Full details for one book (used by the explanation card).
+URL-encode the complete `book_id` when constructing the path; opaque IDs containing
+slashes or question marks are looked up as catalogue keys.
+`search` is reserved for the search endpoint. HTTP path dot segments (`.` and `..`)
+cannot be used reliably as IDs; the current numeric Goodreads IDs are unaffected.
 
 **Response 200**
 ```json
@@ -134,7 +142,8 @@ The same book appearing for both readers is allowed.
 **Response 200**
 ```json
 {
-  "model_version": "b1-itemknn-2026-10-18",
+  "model_version": "sample-shelf-toy-v1",
+  "artifact_fingerprint": "94da8d1c4de63db15d00a8dd82c2e6ea9011ba2524ba2a254d4dea99535b11fc",
   "aggregation": "least_misery",
   "top_shelves": {
     "reader_a": ["fantasy", "coming-of-age", "adventure"],
@@ -207,11 +216,17 @@ Anonymous vote from the "We'd read this / Not for us" buttons.
 { "book_id": "w_3001", "vote": "would_read", "model_version": "b1-itemknn-2026-10-18" }
 ```
 `vote` is `"would_read"` or `"not_for_us"`.
+`model_version` must match the currently loaded model; use the version from the
+recommendation response and refresh recommendations if the model changes.
+Clients may also send `artifact_fingerprint` from that response (64 lowercase hex
+characters). When supplied, it must match the loaded files; omitting it keeps
+existing clients compatible. It is validated but is not added to stored events.
 
 **Response 200** → `{ "ok": true }`
 
 **Errors:** 422 for a bad `vote`, unknown fields or a `book_id` over 64 chars, 404 for an unknown `book_id`,
-503 if the vote cannot be written to storage.
+409 for a mismatched `model_version` or supplied `artifact_fingerprint` (no event is written),
+503 if the vote cannot be written to storage. A malformed fingerprint returns 422.
 
 **Privacy (from the proposal's ethics section):** store **only** `book_id`, `vote`,
 `model_version` and a timestamp. No names, IP addresses, reading lists or session IDs.
@@ -230,13 +245,25 @@ The training pipeline writes one folder per model version. The API loads it at s
 ```
 
 - `meta.json` must have a non-empty `model_version`. `data_version` is optional, but if present it must be a non-empty string. Other keys (hyperparameters, counts, `code_version`) are allowed and ignored by the API.
+- `artifact_fingerprint` is calculated once at startup from the same file bytes
+  that are parsed into the serving snapshot. It is returned at the top level of
+  both `/health` and `/recommend`; clients should reconcile both fingerprint and
+  version from the actual recommendation response, since requests may reach
+  different deployed revisions. Files changed on disk do not change a running
+  process's identity. No file paths, file-hash map or weights are returned.
+  The formula matches the full deployment model hash:
+  `SHA256(json.dumps({filename: SHA256(file_bytes).hexdigest() for each of the four files}, sort_keys=True).encode("utf-8")).hexdigest()`.
+  The default JSON separators (including spaces) are part of this formula.
 - **Producer:** `src/evaluation/evaluation/export.py` (Cathy, B2 ALS) writes this folder to `data/artifacts/<model_version>/` and `data/artifacts/current/`. `make serve` mounts `data/artifacts` into the backend and sets `ARTIFACT_DIR=/artifacts/current`.
 
 - `ARTIFACT_DIR` is set by an environment variable: a local path for MS2, a GCS path for MS3.
 - Any model (B0 popularity, B1 item-kNN, B2 ALS/BPR, M1 hybrid) can be served if it exports this format. Swapping models means pointing at a new folder, with no code change.
 - The API must **fail fast at startup** if the three files have different row counts. It also refuses
   to start on: a missing file, duplicate `book_id`s, an empty catalogue, NaN/infinite values,
+  values that overflow or collapse to zero on float32 conversion, embeddings with zero factor columns,
   `coords_2d.npy` without exactly 2 columns, or a `meta.json` without `model_version`.
+  Finite float32 rows are normalized using float64 norms to preserve direction at extreme magnitudes;
+  an all-zero embedding row remains zero.
 - **Until the modeling lead delivers real artifacts, the backend ships a small sample artifact set**
   (`src/backend/sample_artifacts/`, 52 books with toy shelf-tag embeddings) so the frontend can integrate.
 

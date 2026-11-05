@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "status": "unexecuted_candidate",
+  "cloud_actions_performed": false,
+  "existing_team_workflow": {
+    "status": "unknown_due_to_read_access",
+    "pipeline_or_job_resource": null,
+    "owner_confirmation_reference": null,
+    "decision": "reuse existing work if present; do not create a duplicate",
+    "read_limit": "aiplatform.customJobs.list and aiplatform.pipelineJobs.list were denied in the team audit; this does not prove that no runs exist"
+  },
+  "processed_snapshot": {
+    "status": "historical_manifest_only_tables_not_verified_here",
+    "historical_manifest": "docs/ms2/datapipeline/evidence/real-preprocess-manifest.json",
+    "data_version": "gr-317756d1a1ad",
+    "books_sha256": "2068541233a9f01eab3e0ae265c81b1654fad6169f48e33194f511111137613b",
+    "interactions_sha256": "ab2f71b4aa4f829587f68c2f8b5fe975b5888a3b8d8590cc00f45f2c22424824",
+    "approved_processed_uri": null,
+    "actual_staged_manifest_sha256": null,
+    "input_approval_reference": null,
+    "regional_bucket_and_mount_verified": false
+  },
+  "execution": {
+    "selected_project": null,
+    "selected_region": null,
+    "existing_service_account": null,
+    "immutable_built_image_uri": null,
+    "source_hashes_match_built_image": false,
+    "private_output_prefix": null,
+    "existing_permissions_verified": false,
+    "bounded_cpu_cost_approved": false,
+    "execution_authorization_reference": null,
+    "instruction": "use existing scoped access; this candidate changes no credentials or IAM"
+  },
+  "tracking_and_workflow": {
+    "existing_tracker": null,
+    "team_tf_workflow_equivalence_decision": null,
+    "team_tf_tracking_equivalence_decision": null,
+    "proposed_workflow": "single Vertex CustomJob running input verification, B2 export, held-out evaluation and output verification",
+    "limitations": [
+      "not a compiled Vertex AI Pipeline",
+      "local structured receipts are not yet an accepted external experiment tracker",
+      "no online W&B run or new tracking dependency is introduced"
+    ]
+  },
+  "evidence_after_authorized_execution": {
+    "actual_job_resource_and_success_state": null,
+    "actual_tracker_run_url_and_screenshot": null,
+    "actual_job_log_reference": null,
+    "persisted_hash_verified_receipt": null,
+    "scope_label": null
+  }
+}

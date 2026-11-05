@@ -1,7 +1,10 @@
 import numpy as np
 import pytest
+from fastapi.testclient import TestClient
 
 from app.artifacts import ArtifactError, load_artifacts
+from app.config import Settings
+from app.main import create_app
 from tests.conftest import make_books, write_artifacts
 
 
@@ -140,3 +143,43 @@ def test_rejects_truncated_npy_and_non_utf8_json(tmp_path) -> None:
     (root / "books.json").write_bytes(b"\xff\xfe\x00bad")
     with pytest.raises(ArtifactError, match="books.json"):
         load_artifacts(str(root))
+
+
+@pytest.mark.parametrize(
+    ("filename", "values", "message"),
+    [
+        ("item_embeddings.npy", np.empty((2, 0)), "at least 1 factor"),
+        ("item_embeddings.npy", np.full((2, 4), 1e100), "float32 range"),
+        ("coords_2d.npy", np.full((2, 2), -1e100), "float32 range"),
+        ("item_embeddings.npy", np.full((2, 4), 1e-100), "too small for float32"),
+        ("coords_2d.npy", np.full((2, 2), 1e-100), "too small for float32"),
+    ],
+)
+def test_invalid_model_prevents_api_startup(tmp_path, filename, values, message) -> None:
+    root = write_artifacts(tmp_path / "m", make_books(2), np.ones((2, 4)), np.zeros((2, 2)))
+    np.save(root / filename, values)
+    settings = Settings(
+        artifact_dir=str(root), feedback_path=tmp_path / "feedback.jsonl", cors_origins=("*",)
+    )
+
+    with pytest.raises(ArtifactError, match=message):
+        with TestClient(create_app(settings)):
+            pytest.fail("An invalid model must never start serving requests")
+
+
+def test_normalises_extreme_finite_float32_rows_without_losing_direction(tmp_path) -> None:
+    maximum = np.finfo(np.float32).max
+    smallest = np.nextafter(np.float32(0), np.float32(1))
+    embeddings = np.array(
+        [[1e30, -1e30], [maximum, maximum], [smallest, -smallest], [0, 0]],
+        dtype=np.float32,
+    )
+    root = write_artifacts(tmp_path / "m", make_books(4), embeddings, np.zeros((4, 2)))
+
+    artifacts = load_artifacts(str(root))
+
+    expected = np.array([[1, -1], [1, 1], [1, -1]], dtype=np.float64) / np.sqrt(2)
+    assert artifacts.embeddings.dtype == np.float32
+    assert np.all(np.isfinite(artifacts.embeddings))
+    np.testing.assert_allclose(artifacts.embeddings[:3], expected, rtol=1e-6)
+    np.testing.assert_array_equal(artifacts.embeddings[3], [0, 0])

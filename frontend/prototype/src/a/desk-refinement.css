@@ -425,6 +425,10 @@ button,select,summary{font-weight:500}
 }
 
 .choice-confirmation{display:flex;align-items:center;gap:8px;margin:0;color:var(--gold);font-size:var(--text-control);font-weight:500}
+.session-recovery{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-6px 0 20px;color:var(--muted);font-size:var(--text-control)}
+.session-recovery p{margin:0;line-height:1.5;overflow-wrap:anywhere}
+.session-recovery button{flex-shrink:0;min-height:44px}
+@media(max-width:480px){.session-recovery{align-items:flex-start;gap:8px}.session-recovery button{padding-inline:8px}}
 .choice-confirmation svg{width:20px;height:20px}
 .results-views button{min-height:44px}
 .detail-dialog .close-dialog{width:44px;height:44px}

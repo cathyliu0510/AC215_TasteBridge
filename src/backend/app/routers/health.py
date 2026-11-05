@@ -13,6 +13,7 @@ router = APIRouter(tags=["health"])
 def health(artifacts: Annotated[ModelArtifacts, Depends(get_artifacts)]) -> HealthResponse:
     return HealthResponse(
         model_version=artifacts.model_version,
+        artifact_fingerprint=artifacts.artifact_fingerprint,
         data_version=artifacts.data_version,
         num_books=len(artifacts.books),
     )

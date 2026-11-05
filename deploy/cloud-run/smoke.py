@@ -94,7 +94,9 @@ def check(base, release, feedback, seed_ids=None):
         book = read_json(base, '/api/books/' + urllib.parse.quote(seed, safe=''))
         require(book['book_id'] == seed, 'Book detail ID mismatch')
         if seed_ids is not None:
-            require(bool(read_json(base, '/api/books/search?' + urllib.parse.urlencode({'q': book['title']}))),
+            # The API accepts at most 100 characters, even when a catalogue title is longer.
+            title_query = book['title'][:100]
+            require(bool(read_json(base, '/api/books/search?' + urllib.parse.urlencode({'q': title_query}))),
                     'The selected catalogue title must be searchable')
         picks.append(book['book_id'])
     require(picks[0] != picks[1], 'Expected distinct reader selections')

@@ -14,7 +14,7 @@ MAX_SEARCH_LIMIT = 25
 router = APIRouter(prefix="/books", tags=["books"])
 
 
-# Declared before /{book_id} so "search" is not treated as a book ID.
+# Declared before /{book_id:path} so "search" is not treated as a book ID.
 @router.get("/search", response_model=list[BookSummary])
 def search(
     artifacts: Annotated[ModelArtifacts, Depends(get_artifacts)],
@@ -24,7 +24,7 @@ def search(
     return search_books(artifacts.books, q, limit)
 
 
-@router.get("/{book_id}", response_model=Book)
+@router.get("/{book_id:path}", response_model=Book)
 def get_book(
     book_id: str, artifacts: Annotated[ModelArtifacts, Depends(get_artifacts)]
 ) -> Book:

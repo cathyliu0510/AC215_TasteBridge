@@ -1,4 +1,4 @@
-// A keeps opinions and the explicit joint decision in the current page only.
+// A keeps opinions and the explicit joint decision in the current tab only.
 export const VOTE_OPTIONS=[['yes','Interested'],['no','Pass'],['unsure','Not sure']];
 export const voteLabel=value=>VOTE_OPTIONS.find(([key])=>key===value)?.[1]||'No response yet';
 export const bothWilling=(votes={})=>votes.a==='yes'&&votes.b==='yes';

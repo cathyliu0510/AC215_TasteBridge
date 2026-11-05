@@ -32,18 +32,32 @@ class PublicationAccess(unittest.TestCase):
                                                                image_ids=self.release['image_ids'])))
         self.calls = []
         self.url = 'https://tastebridge-staging-test.us-central1.run.app'
+        self.policies = {'project': {'bindings': []}, 'repository': {'bindings': []}}
+        self.current_service = None
+        self.updated = False
 
     def tearDown(self):
         self.directory.cleanup()
 
     def command(self, *args, **kwargs):
         self.calls.append((args, kwargs))
+        scope = ('project' if args[:3] == ('gcloud', 'projects', 'get-iam-policy') else
+                 'repository' if args[:4] == ('gcloud', 'artifacts', 'repositories', 'get-iam-policy') else None)
+        if scope:
+            if getattr(self, 'fail_policy', None) == scope:
+                raise subprocess.CalledProcessError(1, args)
+            policy = self.policies[scope]
+            return policy if isinstance(policy, str) else json.dumps(policy)
         if args[:4] == ('gcloud', 'run', 'services', 'list'):
-            return '[]'
+            return json.dumps([self.current_service] if self.current_service else [])
         if args[:4] == ('gcloud', 'run', 'services', 'describe'):
             if getattr(self, 'fail_describe', False):
                 raise subprocess.CalledProcessError(1, args)
+            if self.current_service and not self.updated:
+                return json.dumps(self.current_service)
             return json.dumps({'status': {'url': self.url, 'latestReadyRevisionName': 'test-revision'}})
+        if args[:4] == ('gcloud', 'run', 'services', 'replace') and '--dry-run' not in args:
+            self.updated = True
         if args[:3] == ('gcloud', 'auth', 'print-identity-token'):
             return 'dummy-test-identity-token'
         if args[:3] == ('docker', 'context', 'inspect'):
@@ -87,8 +101,81 @@ class PublicationAccess(unittest.TestCase):
         verification = next((args, kwargs) for args, kwargs in self.calls if '--identity-token-stdin' in args)
         self.assertEqual(verification[1]['input'], 'dummy-test-identity-token\n')
         self.assertNotIn('dummy-test-identity-token', str(verification[0]))
-        for file in self.state.iterdir():
-            self.assertNotIn('dummy-test-identity-token', file.read_text())
+        for file in self.state.rglob('*'):
+            if file.is_file():
+                self.assertNotIn('dummy-test-identity-token', file.read_text())
+
+    def assert_no_publication(self):
+        self.assertFalse(any(args[:2] == ('docker', 'push') for args, _ in self.calls))
+        self.assertFalse(any(args[:4] == ('gcloud', 'run', 'services', 'replace') for args, _ in self.calls))
+
+    def test_public_project_or_repository_policy_stops_before_upload_or_update(self):
+        for scope in ('project', 'repository'):
+            for member in ('allUsers', 'allAuthenticatedUsers'):
+                with self.subTest(scope=scope, member=member):
+                    self.calls.clear()
+                    self.policies = {'project': {'bindings': []}, 'repository': {'bindings': []}}
+                    self.policies[scope] = {'bindings': [{'role': 'roles/artifactregistry.reader', 'members': [member]}]}
+                    with self.assertRaisesRegex(SystemExit, 'Public ' + scope):
+                        self.publish()
+                    self.assert_no_publication()
+
+    def test_denied_or_unverifiable_policy_stops_before_upload_or_update(self):
+        for scope in ('project', 'repository'):
+            for value in ('denied', '', '{}', '[]', '{"bindings":null}', '{"bindings":[{}]}'):
+                with self.subTest(scope=scope, policy=value):
+                    self.calls.clear()
+                    self.policies = {'project': {'bindings': []}, 'repository': {'bindings': []}}
+                    self.fail_policy = scope if value == 'denied' else None
+                    if value != 'denied':
+                        self.policies[scope] = value
+                    with self.assertRaisesRegex(SystemExit, 'Cannot verify ' + scope):
+                        self.publish()
+                    self.assert_no_publication()
+
+    def test_policies_are_reread_before_each_push_and_before_service_replace(self):
+        self.publish()
+        project_reads = [i for i, (args, _) in enumerate(self.calls) if args[:3] == ('gcloud', 'projects', 'get-iam-policy')]
+        repository_reads = [i for i, (args, _) in enumerate(self.calls) if args[:4] == ('gcloud', 'artifacts', 'repositories', 'get-iam-policy')]
+        pushes = [i for i, (args, _) in enumerate(self.calls) if args[:2] == ('docker', 'push')]
+        update = next(i for i, (args, _) in enumerate(self.calls) if args[:4] == ('gcloud', 'run', 'services', 'replace'))
+        self.assertEqual(len(project_reads), 3)
+        self.assertEqual(len(repository_reads), 3)
+        self.assertLess(project_reads[0], pushes[0])
+        self.assertLess(repository_reads[0], pushes[0])
+        self.assertTrue(pushes[0] < project_reads[1] < repository_reads[1] < pushes[1])
+        self.assertTrue(pushes[1] < project_reads[2] < repository_reads[2] < update)
+        proof = json.loads((self.state / 'deployment.json').read_text())['registry_privacy']
+        self.assertFalse(proof['inherited_policy_verified'])
+        self.assertIn('folder/organization', proof['limitation'])
+
+    def test_new_public_binding_after_first_push_blocks_remaining_push_and_service_update(self):
+        command = self.command
+        reads = 0
+
+        def change_policy(*args, **kwargs):
+            nonlocal reads
+            if args[:4] == ('gcloud', 'artifacts', 'repositories', 'get-iam-policy'):
+                reads += 1
+                if reads == 2:
+                    self.policies['repository'] = {'bindings': [
+                        {'role': 'roles/artifactregistry.reader', 'members': ['allUsers']}]}
+            return command(*args, **kwargs)
+
+        self.command = change_policy
+        with self.assertRaisesRegex(SystemExit, 'Public repository'):
+            self.publish()
+        self.assertEqual(sum(args[:2] == ('docker', 'push') for args, _ in self.calls), 1)
+        self.assertFalse(any(args[:4] == ('gcloud', 'run', 'services', 'replace') for args, _ in self.calls))
+
+    def test_existing_service_snapshot_uses_active_allocations_before_update(self):
+        self.current_service = dict(metadata={'name': self.deploy.SERVICE, 'labels': {'managed-by': self.deploy.OWNER}},
+                                    status={'latestReadyRevisionName': 'revision-b',
+                                            'traffic': [{'revisionName': 'revision-a', 'percent': 100}]})
+        self.publish()
+        attempt = Path(json.loads((self.state / 'deployment.json').read_text())['attempt'])
+        self.assertEqual(json.loads((attempt / 'rollback.json').read_text())['allocations'], {'revision-a': 100})
+        self.assertEqual(json.loads((attempt / 'previous-service.json').read_text()), self.current_service)
 
     def test_failed_verification_keeps_the_actual_deployment_outcome(self):
         self.fail_smoke = True

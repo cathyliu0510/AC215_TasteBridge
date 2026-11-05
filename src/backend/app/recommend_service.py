@@ -43,6 +43,7 @@ def recommend(artifacts: ModelArtifacts, request: RecommendRequest) -> Recommend
     )
     return RecommendResponse(
         model_version=artifacts.model_version,
+        artifact_fingerprint=artifacts.artifact_fingerprint,
         aggregation=request.aggregation,
         top_shelves=TopShelves(
             reader_a=top_shelves([artifacts.books[row] for row in rows_a]),

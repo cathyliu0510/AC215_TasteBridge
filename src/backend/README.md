@@ -58,6 +58,19 @@ curl -X POST http://localhost:9000/feedback -H "Content-Type: application/json" 
 | POST | `/recommend` | Ranked bridge books, reasons and galaxy coordinates |
 | POST | `/feedback` | Anonymous "would read / not for us" vote |
 
+Search ignores accents and punctuation while preserving catalogue display text.
+URL-encode book IDs in detail paths. Feedback must use the loaded model version;
+a stale version returns 409 without recording a vote, so refresh recommendations before retrying.
+
+`/health` and `/recommend` also return `artifact_fingerprint`, a SHA256 identity of
+the four files loaded at startup. Reconcile it together with `model_version` from
+the recommendation response, which identifies the model that actually answered
+the request. Same-version exports can have different fingerprints. Feedback may
+include that fingerprint for an additional check; older requests still work.
+See [the artifact contract](SPEC.md#5-model-artifact-contract-hand-off-from-modeling--backend)
+for the exact hashing formula. The detail path reserves `search` and cannot
+reliably represent HTTP dot segments (`.` and `..`); numeric catalogue IDs work.
+
 ## Configuration
 
 Settings are read from environment variables. See [.env.example](.env.example).

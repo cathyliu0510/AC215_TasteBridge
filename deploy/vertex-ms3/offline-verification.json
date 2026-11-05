@@ -1,0 +1,114 @@
+{
+  "checks": {
+    "config_round_trip_passed": true,
+    "dry_run_status": "dry_run_validated",
+    "python": "3.12.2",
+    "source_only_context_staged": true,
+    "unit_tests_exit_code": 0,
+    "unit_tests_passed": 36
+  },
+  "evidence_scope": "Synthetic invalid-parquet fixture and mocked subprocesses; configuration, provenance, budget and failure behavior only. Local evidence folders are ignored and reproducible.",
+  "fixture_inputs_sha256": {
+    "books.parquet": "9f84db118f45e2cea2ecc355b8f501fb224bf6211cc499012b0c0134b575ccd4",
+    "interactions.parquet": "0d80a2df5b2c24393c13d1e912d70c9efde2a2c424c02331ac519d519767ed5f",
+    "manifest.json": "6cea4c887de63eff809277e3e1003a66246f685625906be11a35fefbd1df0bba"
+  },
+  "fixture_plan_sha256": "019bb38caacd6ff4852dbc61af766d8cef9ec042642346fcb906807e3fbc30dd",
+  "implementation_checksums": {
+    "README.md": "ec537a5ad059072ffac8ad6479868403b87981998f19a25f46b957dbe5af65d3",
+    "review-intake.json": "8ef6fc7bdf906567e6293d649ae963fea936a203f9e3c43dce17a4840b659f92",
+    "tests/test_workflow.py": "a36bc1e89c1d64c91e668d199e740ede1c2120f2d86d5df1c490a4c576c17d23",
+    "verify_offline.py": "047f60c8e1f44fb1e12369ace8a6338cb9325c247e9cf73ec64faacfed963d14"
+  },
+  "local_evidence": {
+    "fixture-custom-job-request.json": {
+      "path": "deploy/vertex-ms3/.local-offline-review-v2/fixture-custom-job-request.json",
+      "sha256": "32be8194a19f6630cb7c149684587ac54e867f8adcbc0a07d78a568d9a1c584a"
+    },
+    "fixture-dry-run/receipt.json": {
+      "path": "deploy/vertex-ms3/.local-offline-review-v2/fixture-dry-run/receipt.json",
+      "sha256": "42700a8e8561d01cb32913061436f3a8283f715a48eb6d59c18c2b6671a88118"
+    },
+    "fixture-plan.json": {
+      "path": "deploy/vertex-ms3/.local-offline-review-v2/fixture-plan.json",
+      "sha256": "bfc4dca0e1c98c718e2c36cbe82387c9e20fd6273a82197bb84237c19d7f79e5"
+    },
+    "tests.log": {
+      "path": "deploy/vertex-ms3/.local-offline-review-v2/tests.log",
+      "sha256": "ef511f53c16c586a6aa7b4468c440152af40963a5f99b4014739556b4829b7ec"
+    }
+  },
+  "parameters": {
+    "als": {
+      "alpha": 20.0,
+      "factors": 128,
+      "iterations": 15,
+      "regularization": 50.0,
+      "seed": 42
+    },
+    "evaluation": {
+      "aggregations": [
+        "average",
+        "least_misery",
+        "merged_seeds"
+      ],
+      "favorite_counts": [
+        5
+      ],
+      "k": 10,
+      "knn_neighbors": 100,
+      "models": [
+        "popularity",
+        "item_knn",
+        "als"
+      ],
+      "n_pairs": 300,
+      "split": "test"
+    }
+  },
+  "parameters_sha256": "012b5f1697443fd87175e31ff718144db54b9c642892f445c9181642beaeb7d6",
+  "remaining_limits": [
+    "No parquet schema/model fit verified by this candidate check.",
+    "Vertex request shape checked locally, not accepted by a cloud API.",
+    "Actual team jobs/pipelines and tracking platform remain unknown.",
+    "Single CustomJob workflow and structured receipts require team/TF equivalence decisions.",
+    "No cloud execution, external experiment-tracking success or MS3 completion established."
+  ],
+  "schema_version": 1,
+  "source": {
+    "base_commit": "98972df9d7ffbdbf74ad4c4d8c80cd4625336a86",
+    "files_sha256": {
+      "deploy/vertex-ms3/Dockerfile": "e234be4d102b5de7c1bad37a4b50973b506698cfe8a73ffec74edfc638f2a965",
+      "deploy/vertex-ms3/workflow.py": "c9b8e66520c7b3eb07369ec2e25914113d93327c7612bf711f2cc8bc6c835b19",
+      "src/evaluation/.python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "src/evaluation/Dockerfile": "c889f28de9cbf715a95049965af4b1642a9f0cafd80c42082ec24c11b13b29c5",
+      "src/evaluation/evaluation/__init__.py": "9c67a729c2d6216a9c3f823fd90d5950c048eebdccfbda8a9c4ebadccd65a8d3",
+      "src/evaluation/evaluation/aggregate.py": "8c66cadf94708e7892bc3c7ee528c9bd1efb7b54a93e811f4dc51fbbaf013600",
+      "src/evaluation/evaluation/als.py": "de56fb4611e937b9dd1c919ee449469cc2b3c3e8e2e356feef265c9fb49848f1",
+      "src/evaluation/evaluation/data.py": "b3aed6c362855317353cf0c8aa365e8c094051ce992cfaaa329bef292fe96572",
+      "src/evaluation/evaluation/export.py": "3e17f3f28016d98e747ffa165ce0cdf717bb11180ab5a98dcab1fd099c779530",
+      "src/evaluation/evaluation/metrics.py": "94ab6590401e455c8a6bf8d7663347029c8ad2c8bef95ea096e3d37a2de8d3d0",
+      "src/evaluation/evaluation/models.py": "9779b74549a9b40a9d6bb2bc2b00ae9588ed1bdec978c2c5724be5316826adad",
+      "src/evaluation/evaluation/pairs.py": "5fd5e0d9a8bcc28d75ff3081efd89f38126161b15fdf5ac9662485f476c0f945",
+      "src/evaluation/evaluation/run.py": "69077e7b8ff8798b9d78d41a8300213595effbd577e98536fa48f8a573badab5",
+      "src/evaluation/evaluation/split.py": "710d4e8037bbc6b0472964e005c89385660f8cbb18418b39bcc39a9bad678d66",
+      "src/evaluation/evaluation/synthetic.py": "c84804fa35d2733b5779706b89245220cf9a6aaaf4ce8e84c0a1d83e9c2518d1",
+      "src/evaluation/pyproject.toml": "b180cc938e21873250af21355d9aa05df3b8537b2d52a32fac7c9ba12e68de17",
+      "src/evaluation/uv.lock": "5751e9a542c5c3541d61f064df283f7ffc3b7a5c313c9f1623bcbd6d8e27d446"
+    },
+    "fingerprint_sha256": "298c299401b3168653efd08c0b8005f2aa84ea49ba3967787a2ae87e9a9189be"
+  },
+  "status": "unexecuted_candidate_offline_checks_passed",
+  "verified_at": "2026-11-05T05:27:49+00:00",
+  "workload_actions": {
+    "cloud_api_write": false,
+    "cloud_job_submission": false,
+    "credential_or_iam_change": false,
+    "git_commit_or_push": false,
+    "image_build": false,
+    "image_upload": false,
+    "online_tracking_run": false,
+    "package_installation": false,
+    "real_model_fit": false
+  }
+}

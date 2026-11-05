@@ -171,7 +171,7 @@ test('responding to the same book preserves dialog position and an expanded evid
 test('an empty recommendation response from map view reveals the shortlist recovery message and selects its tab',()=>{
  const list={hidden:true,innerHTML:''},map={hidden:false},decision={innerHTML:'old decision'};
  const tabs=['shortlist','map'].map(view=>({dataset:{resultsView:view},attributes:{},setAttribute(name,value){this.attributes[name]=value;}}));
- const context={state:{view:'map',pending:false,results:[]},
+ const context={state:{view:'map',pending:false,results:[]},persistSession(){},
   $:selector=>({'#result-list':list,'#taste-map-panel':map,'#decision-panel':decision}[selector]||null),
   $$:selector=>selector==='[data-results-view]'?tabs:[],recorder:{record(){}},
   resultMap:{update(){assert.fail('An empty response must not initialize map geometry.');}}};

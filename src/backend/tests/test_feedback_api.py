@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import pytest
 from fastapi.testclient import TestClient
 
 from app.feedback import FeedbackStore
@@ -36,6 +37,58 @@ def test_feedback_rejects_extra_fields_such_as_names(client: TestClient) -> None
 
 def test_feedback_for_unknown_book_returns_404(client: TestClient) -> None:
     assert client.post("/feedback", json={**VOTE, "book_id": "w_9999"}).status_code == 404
+
+
+def test_feedback_rejects_wrong_model_before_creating_event_file(
+    client: TestClient, feedback_path: Path
+) -> None:
+    response = client.post("/feedback", json={**VOTE, "model_version": "stale-model"})
+
+    assert response.status_code == 409
+    assert "Refresh recommendations" in response.json()["detail"]
+    assert not feedback_path.exists()
+
+
+def test_feedback_rejection_does_not_change_existing_events(
+    client: TestClient, feedback_path: Path
+) -> None:
+    assert client.post("/feedback", json=VOTE).status_code == 200
+    before = feedback_path.read_bytes()
+
+    response = client.post("/feedback", json={**VOTE, "model_version": "other-model"})
+
+    assert response.status_code == 409
+    assert feedback_path.read_bytes() == before
+
+
+def test_feedback_accepts_current_fingerprint_without_storing_extra_fields(
+    client: TestClient, feedback_path: Path
+) -> None:
+    fingerprint = client.get("/health").json()["artifact_fingerprint"]
+
+    response = client.post("/feedback", json={**VOTE, "artifact_fingerprint": fingerprint})
+
+    assert response.status_code == 200
+    record = json.loads(feedback_path.read_text(encoding="utf-8"))
+    assert set(record) == {"book_id", "vote", "model_version", "timestamp"}
+
+
+def test_feedback_rejects_different_fingerprint_with_same_version_before_writing(
+    client: TestClient, feedback_path: Path
+) -> None:
+    current = client.get("/health").json()["artifact_fingerprint"]
+    other = ("1" if current[0] == "0" else "0") + current[1:]
+
+    response = client.post("/feedback", json={**VOTE, "artifact_fingerprint": other})
+
+    assert response.status_code == 409
+    assert "artifact_fingerprint" in response.json()["detail"]
+    assert not feedback_path.exists()
+
+
+@pytest.mark.parametrize("bad", ["x" * 64, "A" * 64, "0" * 63, "0" * 65])
+def test_feedback_rejects_malformed_fingerprint(client: TestClient, bad: str) -> None:
+    assert client.post("/feedback", json={**VOTE, "artifact_fingerprint": bad}).status_code == 422
 
 
 def test_feedback_storage_failure_returns_503(client: TestClient, monkeypatch) -> None:

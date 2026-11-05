@@ -8,16 +8,28 @@ import {installBridge} from './shared/bridge.mjs';
 import {VOTE_OPTIONS,voteLabel,bothWilling,clearDecision,voteFor,confirmChoice,deferChoice} from './desk-decision.mjs';
 import {readingShelf,readerName,catalogueSelection,readerEvidenceHTML,shortlistCardHTML} from './desk-presentation.mjs';
 import {themeFavorites,favoriteReferences,shortlistText,copyShortlistText,sampleFit} from './desk-interactions.mjs';
+import {createDeskSessionStore,restoreDeskDecision} from './desk-session.mjs';
+import {matchesBookSearch} from './desk-search.mjs';
 
 document.documentElement.dataset.embedded=String(window.parent!==window);
 const apiMode=new URLSearchParams(location.search).get('api')==='1';
 if(apiMode)enableApiCatalogue();
 const api=apiMode&&/^https?:$/.test(location.protocol)?new ApiDesk(new URL('/api',location.href).href):null;
 const apiConnection={pending:apiMode,health:null,error:''};
-const input=sessionFromURL({api:apiMode});
+const sessionStore=createDeskSessionStore({storage:()=>window.sessionStorage,api:apiMode});
+const recovery=sessionStore.load({search:location.search,knownId:byId});
+let pendingRecovery=recovery.snapshot;
+let sessionNotice={invalid:'The saved session could not be restored. Choose favorites to begin.',expired:'Your saved session expired after 24 hours. Start a new pair.',missing:'Some saved books are unavailable. Your other favorites are kept.'}[recovery.reason]||'';
+const input=pendingRecovery||sessionFromURL({api:apiMode});
 const findData=(attribute,value,root=document)=>$$(`[${attribute}]`,root).find(node=>node.getAttribute(attribute)===value)||null;
 let searchTimer,connectionEpoch=0;
-const state={...input,reader:'a',stage:'select',view:new URLSearchParams(location.search).get('view')==='map'?'map':'shortlist',query:'',filter:'all',mode:input.mode,results:[],selected:null,votes:{},choice:null,deferred:false,undo:null,handoff:'',exploration:null,samplePair:false,pending:false,picking:false,searchBusy:false,searchError:'',searchResults:[],requestError:'',requestedMode:input.mode,galaxy:null,topShelves:null,modelVersion:null,feedback:{}};
+const state={...input,reader:'a',stage:'select',view:new URLSearchParams(location.search).get('view')==='map'?'map':'shortlist',query:'',filter:'all',mode:input.mode,results:[],selected:null,votes:{},choice:null,deferred:false,undo:null,handoff:'',exploration:null,samplePair:false,pending:false,picking:false,searchBusy:false,searchError:'',searchResults:[],requestError:'',requestedMode:input.mode,galaxy:null,topShelves:null,modelVersion:null,artifactFingerprint:null,feedback:{}};
+if(pendingRecovery){state.reader=input.reader;state.view=input.view;state.samplePair=input.samplePair;}
+if(recovery.reason==='url'){
+ // Consume incoming shelf parameters once; later refreshes recover this tab's
+ // current picks rather than replaying the original link after they were edited.
+ try{const url=new URL(location.href);for(const key of ['a','b','mode'])url.searchParams.delete(key);history.replaceState(history.state,'',url);}catch{sessionNotice='Selections in this link override saved picks when it is reopened.';}
+}
 const recorder=makeRecorder('reading-desk');
 const seenReveals=new Set();
 const compactViewport=matchMedia('(max-width: 760px)');
@@ -26,10 +38,46 @@ let shelvesOpen=!compactViewport.matches;
 let resultMap,pageObserver,detailObserver,lastDetailTrigger,explorerTrigger,shelfObserver,sampleTrigger;
 let detailMode='recommendation';
 compactViewport.addEventListener('change',event=>{shelvesOpen=!event.matches;const shelves=$('#selected-shelves');if(shelves)shelves.open=shelvesOpen;});
-if(!apiMode&&state.a.length===5&&state.b.length===5){state.stage='results';state.results=recommend(state.a,state.b,state.mode);state.selected=state.results[0].book.id;}
+if(!apiMode){
+ if(state.a.length===5&&state.b.length===5){state.stage=pendingRecovery?.stage||'results';state.results=recommend(state.a,state.b,state.mode);state.selected=state.results[0]?.book.id??null;}
+ finishSessionRecovery();
+}
 
-function header(){return `<header class="site-header"><a class="brand" href="./?v=20261104.6&api=${apiMode?1:0}" aria-label="TasteBridge home">${brand}</a><nav class="site-nav" aria-label="Main navigation"><button id="nav-select" class="${state.stage==='select'?'active':''}">Pick books</button><button id="nav-results" class="${state.stage==='results'?'active':''}">Recommendations</button><a class="project-link" href="/project/">Project</a></nav></header>`;}
-function footer(){return `<footer class="footer-line"><span>${apiMode?`Connected demo · ${apiConnection.health?.numBooks??'…'} books${apiConnection.health?.modelVersion?.startsWith('b2-als-synthetic-')?' · Synthetic training data':apiConnection.health?.modelVersion==='sample-shelf-toy-v1'?' · Sample model':''}`:`Frontend prototype · ${CATALOG.length} sample books`}</span><div class="footer-actions"><a class="project-link" href="/project/">About the project</a><a id="other-version" class="other-version" href="../b/?v=20261104.6&${apiMode?'':seedQuery(state.a,state.b,state.mode)}">Compare version B</a>${apiMode?'<a href="./?api=0">Use offline demo</a>':''}</div></footer>`;}
+function sessionIdentity(){
+ // A recommendation response is authoritative, including a missing fingerprint.
+ // Never fill an unverified response identity from an earlier health response.
+ return state.modelVersion!==null?{modelVersion:state.modelVersion,artifactFingerprint:state.artifactFingerprint}:{modelVersion:apiConnection.health?.modelVersion??null,artifactFingerprint:apiConnection.health?.artifactFingerprint??null};
+}
+function persistSession(){
+ if(pendingRecovery)return;
+ const identity=sessionIdentity();sessionStore.save(state,identity.modelVersion,identity.artifactFingerprint);
+ const note=$('#session-status'),status=sessionStatus();if(note&&note.textContent!==status)note.textContent=status;
+ const reset=$('#start-over');if(reset)reset.hidden=!state.a.length&&!state.b.length;
+}
+function sessionStatus(){
+ if(!sessionStore.available)return 'This browser cannot save this tab. Refreshing may lose changes or restore an older session.';
+ if(pendingRecovery&&apiMode)return apiConnection.error||state.requestError?'Your saved session is kept. Retry to finish restoring it.':'Restoring your saved books…';
+ return [sessionNotice,state.a.length||state.b.length?'Saved in this tab for up to 24 hours.':'Your picks stay in this tab for up to 24 hours.'].filter(Boolean).join(' ');
+}
+function finishSessionRecovery(){
+ if(!pendingRecovery)return;
+ const saved=pendingRecovery;pendingRecovery=null;
+ const identity=sessionIdentity(),recoveryResult=restoreDeskDecision(state,saved,{api:apiMode,...identity});
+ if(recoveryResult.changed)sessionNotice=apiMode&&(!saved.artifactFingerprint||!identity.artifactFingerprint)?'Your favorites were restored. The saved model could not be verified; review the shortlist and choose again.':'Your saved favorites were restored. The books or model changed, so review the shortlist and choose again.';
+ else if(!sessionNotice)sessionNotice=state.choice?'Your favorites and shared choice were restored.':'Your saved favorites were restored.';
+}
+function startOver(){
+ for(const lane of ['health','recommend','search','favorites','pick'])api?.requests.cancel(lane);
+ ++connectionEpoch;clearTimeout(searchTimer);pendingRecovery=null;sessionStore.clear();
+ Object.assign(state,{a:[],b:[],reader:'a',stage:'select',view:'shortlist',query:'',filter:'all',mode:'least-misery',requestedMode:'least-misery',results:[],selected:null,votes:{},choice:null,deferred:false,undo:null,handoff:'',exploration:null,samplePair:false,pending:false,picking:false,searchBusy:false,searchError:'',searchResults:[],requestError:'',galaxy:null,topShelves:null,modelVersion:null,artifactFingerprint:null,feedback:{}});
+ sessionNotice='Your saved books and shared choice were cleared.';apiConnection.pending=false;apiConnection.error='';
+ try{const url=new URL(location.href);for(const key of ['a','b','mode','view'])url.searchParams.delete(key);history.replaceState(history.state,'',url);}catch{sessionNotice+=' Clear the book selections from the link before reopening it.';}
+ render();window.scrollTo({top:0,behavior:'instant'});titleFocus();
+ if(apiMode&&!apiConnection.health)connectApi();
+}
+
+function header(){return `<header class="site-header"><a class="brand" href="./?v=20261105.1&api=${apiMode?1:0}" aria-label="TasteBridge home">${brand}</a><nav class="site-nav" aria-label="Main navigation"><button id="nav-select" class="${state.stage==='select'?'active':''}">Pick books</button><button id="nav-results" class="${state.stage==='results'?'active':''}">Recommendations</button><a class="project-link" href="/project/">Project</a></nav></header>`;}
+function footer(){return `<footer class="footer-line"><span>${apiMode?`Connected demo · ${apiConnection.health?.numBooks??'…'} books${apiConnection.health?.modelVersion?.startsWith('b2-als-synthetic-')?' · Synthetic training data':apiConnection.health?.modelVersion==='sample-shelf-toy-v1'?' · Sample model':''}`:`Frontend prototype · ${CATALOG.length} sample books`}</span><div class="footer-actions"><a class="project-link" href="/project/">About the project</a><a id="other-version" class="other-version" href="../b/?v=20261105.1&${apiMode?'':seedQuery(state.a,state.b,state.mode)}">Compare version B</a>${apiMode?'<a href="./?api=0">Use offline demo</a>':''}</div></footer>`;}
 function connectionHTML(){
  if(!apiMode)return '';
  if(apiConnection.pending)return '<div class="api-status" role="status"><span class="loading-dot" aria-hidden="true"></span>Connecting to the book catalogue…</div>';
@@ -55,15 +103,16 @@ async function connectApi(){
  try{
   if(!api)throw new Error('Open the connected demo through the local app server.');
   const health=await api.health();if(epoch!==connectionEpoch)return;
-  if(apiConnection.health&&apiConnection.health.modelVersion!==health.modelVersion){enableApiCatalogue();invalidateInput();}
+  if(apiConnection.health&&(apiConnection.health.modelVersion!==health.modelVersion||apiConnection.health.artifactFingerprint!==health.artifactFingerprint)){enableApiCatalogue();invalidateInput();}
   apiConnection.health=health;
   const ids=[...new Set([...state.a,...state.b])];
   const metadata=await Promise.allSettled(ids.map(id=>api.book(id)));if(epoch!==connectionEpoch)return;
   const missing=ids.filter((id,index)=>metadata[index].status==='rejected'&&metadata[index].reason?.status===404);
   const failed=metadata.find(item=>item.status==='rejected'&&item.reason?.status!==404);if(failed)throw failed.reason;
   if(missing.length){state.a=state.a.filter(id=>!missing.includes(id));state.b=state.b.filter(id=>!missing.includes(id));state.handoff='Some books in this link are unavailable. Your other favorites are kept.';}
-  apiConnection.pending=false;render();
-  if(state.a.length===5&&state.b.length===5)await showResults();
+  apiConnection.pending=false;
+  if(state.a.length===5&&state.b.length===5){render();await showResults();}
+  else{finishSessionRecovery();render();}
  }catch(error){if(epoch!==connectionEpoch||error.name==='AbortError')return;apiConnection.pending=false;apiConnection.error=error.message;render();}
 }
 function revealItems(nodes,context,root=null){
@@ -73,8 +122,9 @@ function revealItems(nodes,context,root=null){
  return observer;
 }
 function render(){
+ persistSession();
  pageObserver?.disconnect();detailObserver?.disconnect();shelfObserver?.disconnect();resultMap?.destroy();resultMap=null;
- $('#app').innerHTML=header()+`<main class="desk-main"><nav class="journey-progress" aria-label="Your shared reading journey">${journeyProgressHTML()}</nav>${connectionHTML()}${requestStatusHTML()}${state.stage==='select'?selectHTML():resultsHTML()}${footer()}</main><dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><button class="close-dialog" aria-label="Close book details">${svg('close')}</button><div id="detail-body"></div></dialog><dialog id="sample-dialog" class="flow-dialog" aria-labelledby="sample-title"><h2 id="sample-title">Try a sample pair?</h2><p>This replaces the favorites you have chosen with an example pair for exploring the demo.</p><div class="flow-actions"><button id="keep-favorites" class="secondary">Keep my books</button><button id="use-sample-pair" class="primary">Use sample pair</button></div></dialog>`;
+ $('#app').innerHTML=header()+`<main class="desk-main"><nav class="journey-progress" aria-label="Your shared reading journey">${journeyProgressHTML()}</nav><div class="session-recovery"><p id="session-status" role="status">${escape(sessionStatus())}</p><button id="start-over" class="quiet" ${state.a.length||state.b.length?'':'hidden'}>Start over</button></div>${connectionHTML()}${requestStatusHTML()}${state.stage==='select'?selectHTML():resultsHTML()}${footer()}</main><dialog id="detail-dialog" class="detail-dialog" aria-labelledby="detail-title"><button class="close-dialog" aria-label="Close book details">${svg('close')}</button><div id="detail-body"></div></dialog><dialog id="sample-dialog" class="flow-dialog" aria-labelledby="sample-title"><h2 id="sample-title">Try a sample pair?</h2><p>This replaces the favorites you have chosen with an example pair for exploring the demo.</p><div class="flow-actions"><button id="keep-favorites" class="secondary">Keep my books</button><button id="use-sample-pair" class="primary">Use sample pair</button></div></dialog><dialog id="start-over-dialog" class="flow-dialog" aria-labelledby="start-over-title"><h2 id="start-over-title">Start a new pair?</h2><p>This clears both readers’ favorites, interests and shared choice saved in this tab.</p><div class="flow-actions"><button id="keep-session" class="secondary">Keep my books</button><button id="clear-session" class="primary">Clear and start over</button></div></dialog>`;
  $$('a.project-link').forEach(link=>link.addEventListener('click',()=>{link.href=`/project/?${seedQuery(state.a,state.b,state.mode,{api:apiMode})}`;}));
  $('#nav-select').onclick=editPicks;
  $('#nav-results').onclick=()=>{if(state.stage==='results'){window.scrollTo({top:0,behavior:'instant'});titleFocus();return;}if(state.a.length!==5||state.b.length!==5)return;showResults();};
@@ -84,6 +134,7 @@ function render(){
  dialog.addEventListener('keydown',event=>{if(detailMode!=='recommendation'||state.exploration||event.altKey||event.ctrlKey||event.metaKey||event.shiftKey||event.target.closest('input,textarea,select,button,a,summary,[contenteditable]'))return;if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();navigateCandidate(event.key==='ArrowLeft'?-1:1);}});
  bindJourneyProgress();
  const sampleDialog=$('#sample-dialog');bindDialog(sampleDialog);$('#keep-favorites').onclick=()=>sampleDialog.close();$('#use-sample-pair').onclick=loadSamplePair;sampleDialog.addEventListener('close',()=>{if(sampleTrigger?.isConnected)sampleTrigger.focus({preventScroll:true});});
+ const resetDialog=$('#start-over-dialog');bindDialog(resetDialog);$('#start-over').onclick=()=>{resetDialog.showModal();$('#keep-session').focus();};$('#keep-session').onclick=()=>resetDialog.close();$('#clear-session').onclick=startOver;resetDialog.addEventListener('close',()=>$('#start-over')?.focus({preventScroll:true}));
  if(state.stage==='select')bindSelect();else bindResults();
  trackShelfHeight();applyBusyState();
 }
@@ -105,6 +156,7 @@ function requestSamplePair(trigger){
  loadSamplePair();
 }
 async function loadSamplePair(){
+ pendingRecovery=null;
  if(apiMode){
   if(apiConnection.health?.modelVersion!=='sample-shelf-toy-v1')return;
   state.picking=true;state.searchError='';render();
@@ -117,7 +169,7 @@ async function loadSamplePair(){
 }
 
 function titleFocus(){$('#page-title')?.focus({preventScroll:true});}
-function editPicks(){const changedStage=state.stage!=='select';api?.requests.cancel('recommend');api?.requests.cancel('search');api?.requests.cancel('favorites');api?.requests.cancel('pick');state.picking=false;clearTimeout(searchTimer);state.pending=false;state.requestError='';state.stage='select';state.query='';state.searchResults=[];state.searchBusy=false;state.searchError='';state.filter='all';state.exploration=null;render();if(changedStage)window.scrollTo({top:0,behavior:'instant'});titleFocus();}
+function editPicks(){pendingRecovery=null;const changedStage=state.stage!=='select';api?.requests.cancel('recommend');api?.requests.cancel('search');api?.requests.cancel('favorites');api?.requests.cancel('pick');state.picking=false;clearTimeout(searchTimer);state.pending=false;state.requestError='';state.stage='select';state.query='';state.searchResults=[];state.searchBusy=false;state.searchError='';state.filter='all';state.exploration=null;render();if(changedStage)window.scrollTo({top:0,behavior:'instant'});titleFocus();}
 function selectionStatus(){if(state.a.length===5&&state.b.length===5)return 'Both shelves are ready. Find your shared reads.';const count=state[state.reader].length;return count===5?`${readerName(state.reader)}’s shelf is ready.`:`Choose ${5-count} more ${count===4?'favorite':'favorites'} for ${readerName(state.reader)}.`;}
 
 function continueLabel(){if(state.a.length===5&&state.b.length===5)return 'Find our shared reads';if(state[state.reader].length<5){const remaining=5-state[state.reader].length;return `Choose ${remaining} more ${remaining===1?'book':'books'}`;}return `Continue to ${readerName(state.reader==='a'?'b':'a')}`;}
@@ -138,7 +190,7 @@ function bookPickHTML(book){const view=catalogueSelection(book,state.a,state.b,s
 function renderBooks(){
  pageObserver?.disconnect();
  if(apiMode){renderApiBooks();return;}
- const books=CATALOG.filter(book=>(state.filter==='all'||book.kind===state.filter)&&`${book.title} ${book.author}`.toLowerCase().includes(state.query.toLowerCase().trim()));
+ const books=CATALOG.filter(book=>(state.filter==='all'||book.kind===state.filter)&&matchesBookSearch(book,state.query));
  $('#catalogue-count').textContent=`${books.length} ${books.length===1?'book':'books'}`;
  const category={fantasy:'Fantasy',mystery:'Mystery',bridge:'Fantasy / Mystery'}[state.filter],query=state.query.trim();
  $('#catalogue-feedback').textContent=query?`${books.length} ${books.length===1?'match':'matches'} for “${query}”${category?` in ${category}`:''}.`:category?`${books.length} ${category} books.`:'';
@@ -191,7 +243,8 @@ function syncSelectionChrome(){
  $('.shelf-counts').innerHTML=shelfCountsHTML();$('#selection-status').textContent=selectionStatus();$('#handoff-note').textContent=state.handoff;
  $('#nav-results').disabled=state.a.length!==5||state.b.length!==5;
  $('#pair-next').disabled=state[state.reader].length<5;$('#pair-next').innerHTML=`${continueLabel()} <span aria-hidden="true">→</span>`;$('#undo-selection').hidden=!state.undo;
- $('#other-version').href=`../b/?v=20261104.6&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`;
+ $('#other-version').href=`../b/?v=20261105.1&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`;
+ persistSession();
 }
 function updateShelf(reader){const summary=$(`.reader-summary.reader-${reader}`);$('.seed-slots',summary).innerHTML=readingShelf(state[reader],reader);bindShelf(summary);}
 function motionHook(node,name,duration=450){
@@ -238,7 +291,7 @@ function bindSelect(){
  $('#demo').onclick=event=>requestSamplePair(event.currentTarget);
  $('#clear-query').onclick=()=>clearCatalogueSearch();
 }
-function invalidateInput(){api?.requests.cancel('recommend');state.pending=false;state.requestError='';state.samplePair=false;clearDecision(state);state.results=[];state.selected=null;state.exploration=null;state.galaxy=null;state.topShelves=null;}
+function invalidateInput(){pendingRecovery=null;sessionNotice='';api?.requests.cancel('recommend');state.pending=false;state.requestError='';state.samplePair=false;clearDecision(state);state.results=[];state.selected=null;state.exploration=null;state.galaxy=null;state.topShelves=null;state.modelVersion=null;state.artifactFingerprint=null;}
 function changeFavorites(reader,ids){state.undo={reader,before:[...state[reader]]};state[reader]=[...ids];state.handoff='';invalidateInput();updateShelf(reader);syncSelectionChrome();syncCatalogueSelection();}
 async function toggleBook(id){
  if(state.picking)return;
@@ -267,16 +320,19 @@ async function showResults({mode=state.mode,rerank=false}={}){
   state.pending=true;state.requestError='';state.requestedMode=mode;render();
   try{
    const reply=await api.recommend([...state.a],[...state.b],mode);
+   const modelChanged=state.modelVersion!==null&&(state.modelVersion!==reply.modelVersion||state.artifactFingerprint!==(reply.artifactFingerprint??null));
+   if(modelChanged)clearDecision(state);
    const summary=reconcileRanking(state,reply.results,reply.mode);
-   state.galaxy=reply.galaxy;state.topShelves=reply.topShelves;state.modelVersion=reply.modelVersion;
-   if(rerank&&summary.choiceChanged)toast('The shortlist changed. Your previous choice is no longer available.');
+   state.galaxy=reply.galaxy;state.topShelves=reply.topShelves;state.modelVersion=reply.modelVersion;state.artifactFingerprint=reply.artifactFingerprint??null;
+   if(modelChanged)toast('The model changed. Review the shortlist and choose again.');
+   else if(rerank&&summary.choiceChanged)toast('The shortlist changed. Your previous choice is no longer available.');
   }catch(error){
    if(error.name==='AbortError')return;
    state.pending=false;state.requestError=error.status===404?`${error.message} Change books to replace unavailable favorites.`:rerank?`${error.message} Your previous shortlist is kept.`:error.message;render();return;
   }
   state.pending=false;
  }
- state.stage='results';state.query='';state.searchResults=[];state.exploration=null;recorder.record('show_results',{aggregation:state.mode});render();
+ state.stage=pendingRecovery?.stage||'results';state.query='';state.searchResults=[];state.exploration=null;finishSessionRecovery();recorder.record('show_results',{aggregation:state.mode});render();
  if(rerank){animateRanking(previous);$('#aggregation').focus({preventScroll:true});}else{window.scrollTo({top:0,behavior:'instant'});titleFocus();}
 }
 
@@ -291,6 +347,7 @@ function resultsHTML(){
 function setResultsView(view,{focus=false}={}){
  if(!['shortlist','map'].includes(view)||state.pending||view==='map'&&!state.results.length)return;
  state.view=view;
+ persistSession();
  $$('[data-results-view]').forEach(button=>{const active=button.dataset.resultsView===view;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;if(active&&focus)button.focus({preventScroll:true});});
  $('#result-list').hidden=view!=='shortlist';$('#taste-map-panel').hidden=view!=='map';
  if(view==='map')resultMap.update(state.a,state.b,state.results,state.selected,state.galaxy,{votes:state.votes,choice:state.choice});
@@ -339,16 +396,16 @@ function decisionHTML(){
  if(!count)return '';
  return `<section class="decision-strip open" aria-labelledby="decision-heading"><div class="decision-copy"><h2 id="decision-heading" tabindex="-1">Choose one together</h2>${count?`<p>${count} ${count===1?'book you both want':'books you both want'} to read.</p>`:''}</div><button id="defer-choice" class="quiet">Decide later</button></section>`;
 }
-function feedbackKey(id){return JSON.stringify([state.modelVersion,id]);}
+function feedbackKey(id){return JSON.stringify([state.modelVersion,state.artifactFingerprint,id]);}
 function feedbackHTML(id){
  const status=state.feedback[feedbackKey(id)];
- return `<div class="anonymous-feedback"><p>${status==='sent'?'Thanks. Anonymous feedback sent.':status==='pending'?'Sending anonymous feedback…':status==='unknown'?'Delivery could not be confirmed. Your choice is kept here.':'Your choice stays on this page. You can also send it as anonymous feedback.'}</p><button id="send-feedback" class="quiet" ${status?'disabled':''}>${status==='sent'?'Feedback sent':'Send anonymous feedback'}</button></div>`;
+ return `<div class="anonymous-feedback"><p>${status==='sent'?'Thanks. Anonymous feedback sent.':status==='pending'?'Sending anonymous feedback…':status==='unknown'?'Delivery could not be confirmed. Your choice is kept here.':'Your choice stays in this tab. You can also send it as anonymous feedback.'}</p><button id="send-feedback" class="quiet" ${status?'disabled':''}>${status==='sent'?'Feedback sent':'Send anonymous feedback'}</button></div>`;
 }
 async function sendFeedback(){
  const id=state.choice;if(!id||!bothWilling(state.votes[id])||!state.modelVersion)return;
  const key=feedbackKey(id);if(state.feedback[key])return;
  state.feedback[key]='pending';renderResultsContent();
- try{await api.feedback({bookId:id,vote:'would_read',modelVersion:state.modelVersion});state.feedback[key]='sent';}
+ try{await api.feedback({bookId:id,vote:'would_read',modelVersion:state.modelVersion,artifactFingerprint:state.artifactFingerprint});state.feedback[key]='sent';}
  catch{state.feedback[key]='unknown';}
  if(state.stage==='results'&&!state.pending)renderResultsContent();
 }
@@ -360,12 +417,13 @@ function bindDecision(){
  $('#reopen-choice')?.addEventListener('click',()=>{state.deferred=false;renderResultsContent();const target=state.view==='map'?mapNode(state.selected):findData('data-result',state.selected,$('#result-list'));(target||$('#view-map'))?.focus({preventScroll:true});});
 }
 function renderResultsContent(){
+ persistSession();
  if(state.pending){$('#result-list').innerHTML='<div class="empty-message">Updating your shortlist…</div>';$('#decision-panel').innerHTML='';return;}
  if(!state.results.length){setResultsView('shortlist');$('#result-list').innerHTML='<div class="empty-message"><p>No new books are available for this pair.</p><p>Your favorites are kept. Try another set of books.</p></div>';$('#decision-panel').innerHTML='';$('#taste-map-panel').hidden=true;return;}
  pageObserver?.disconnect();$('#decision-panel').innerHTML=decisionHTML();bindDecision();
  $('#result-list').innerHTML=state.results.map((result,index)=>shortlistCardHTML(result,index,{votes:state.votes[result.book.id]||{},selected:state.selected===result.book.id,chosen:state.choice===result.book.id,api:apiMode})).join('');
  $$('.result-card[data-result]',$('#result-list')).forEach(button=>button.onclick=()=>openDetail(button.dataset.result));
- $$('a[href^="../b/"]').forEach(link=>link.href=`../b/?v=20261104.6&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`);
+ $$('a[href^="../b/"]').forEach(link=>link.href=`../b/?v=20261105.1&${apiMode?'':seedQuery(state.a,state.b,state.mode)}`);
  resultMap.update(state.a,state.b,state.results,state.selected,state.galaxy,{votes:state.votes,choice:state.choice});pageObserver=revealItems($$('.result-card[data-result]',$('#result-list')),'recommendation');
  if(!$('#copy-fallback').hidden)$('#shortlist-text').value=shortlistText(state.results,state.choice);
 }
@@ -433,6 +491,7 @@ function openFavorite(id,trigger){
 installBridge({
  read:()=>({a:[...state.a],b:[...state.b],mode:state.mode,stage:state.stage,fixture:apiMode?(state.modelVersion||apiConnection.health?.modelVersion||'api'):'manual-tags-v1',recommendations:state.results.map(result=>result.book.id)}),
  apply:async data=>{
+  pendingRecovery=null;
   api?.requests.cancel('favorites');api?.requests.cancel('pick');api?.requests.cancel('search');clearTimeout(searchTimer);state.picking=false;state.searchBusy=false;state.searchError='';
   api?.requests.cancel('recommend');state.pending=false;state.a=data.a;state.b=data.b;state.mode=data.mode;state.samplePair=false;clearDecision(state);state.undo=null;state.handoff='';state.exploration=null;state.query='';state.searchResults=[];state.filter='all';state.reader='a';state.stage='select';state.results=[];state.selected=null;render();
   if(state.a.length===5&&state.b.length===5)await showResults();

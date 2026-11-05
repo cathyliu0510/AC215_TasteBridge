@@ -23,6 +23,23 @@ const response = () => ({
 const reply = (value, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => value });
 const clientFor = fetchImpl => new TasteBridgeClient({ baseUrl: 'http://127.0.0.1:9000', fetchImpl });
 
+test('maps optional canonical artifact fingerprints in health and recommendations without inventing identity',async()=>{
+ const fingerprint='0123456789abcdef'.repeat(4);
+ for(const value of [undefined,null,fingerprint]){
+  const health=await clientFor(async()=>reply({status:'ok',model_version:'same-label',num_books:5000,...(value===undefined?{}:{artifact_fingerprint:value})})).health();
+  const mapped=mapRecommendationResponse({...response(),...(value===undefined?{}:{artifact_fingerprint:value})},request);
+  assert.equal(health.artifactFingerprint,value??null);assert.equal(mapped.artifactFingerprint,value??null);
+  assert.equal(health.modelVersion,'same-label');
+ }
+});
+
+test('rejects malformed, uppercase, truncated and structured artifact fingerprints',async()=>{
+ for(const artifact_fingerprint of ['a'.repeat(63),'a'.repeat(65),'A'.repeat(64),'g'.repeat(64),1,{hashes:{}}]){
+  assert.throws(()=>mapRecommendationResponse({...response(),artifact_fingerprint},request),/artifact fingerprint/);
+  await assert.rejects(clientFor(async()=>reply({status:'ok',model_version:'same-label',num_books:5000,artifact_fingerprint})).health(),/artifact fingerprint/);
+ }
+});
+
 test('sends exactly five opaque IDs, supports overlap between readers, and normalizes aggregation', () => {
   assert.deepEqual(makeRecommendationRequest(a, a, 'least-misery'), { reader_a: a, reader_b: a, k: 5, aggregation: 'least_misery' });
   const value = makeRecommendationRequest(a, b, 'average');
@@ -99,6 +116,16 @@ test('feedback keeps the returned model version and excludes individual votes an
   assert.equal(makeFeedbackRequest({ ...action, vote: 'not_for_us' }).vote, 'not_for_us');
   for (const vote of ['yes', 'no', 'unsure']) assert.throws(() => makeFeedbackRequest({ ...action, vote }), /joint/);
   assert.throws(() => makeFeedbackRequest({ ...action, modelVersion: '' }), /model version/);
+});
+
+test('explicit feedback sends the validated recommendation fingerprint and omits it for legacy responses',async()=>{
+ const fingerprint='0123456789abcdef'.repeat(4),bodies=[];
+ const client=clientFor(async(_url,options)=>{bodies.push(JSON.parse(options.body));return reply({ok:true});});
+ for(const artifactFingerprint of [fingerprint,null,undefined])await client.feedback({bookId:'c1',vote:'would_read',modelVersion:'same-label',artifactFingerprint,reader:'a',seeds:a});
+ assert.deepEqual(bodies[0],{book_id:'c1',vote:'would_read',model_version:'same-label',artifact_fingerprint:fingerprint});
+ for(const body of bodies.slice(1))assert.deepEqual(body,{book_id:'c1',vote:'would_read',model_version:'same-label'});
+ for(const artifactFingerprint of ['bad','A'.repeat(64),{hashes:{}}])assert.throws(()=>makeFeedbackRequest({bookId:'c1',vote:'would_read',modelVersion:'same-label',artifactFingerprint}),/artifact fingerprint/);
+ assert.equal(bodies.length,3,'Invalid fingerprints must fail before any transport call.');
 });
 
 test('search URL-encodes input and preserves API IDs without sending cookies', async () => {
