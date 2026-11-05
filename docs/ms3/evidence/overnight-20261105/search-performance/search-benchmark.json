@@ -1,0 +1,220 @@
+{
+  "recorded_at_utc": "2026-11-05T05:47:13.364904+00:00",
+  "scope": "host in-process; direct pure helper versus implemented startup index",
+  "limitations": "Excludes HTTP, serialization, Docker/emulation, concurrency and production infrastructure. Seven samples per controlled probe; no production latency claim.",
+  "system": "Darwin",
+  "machine": "arm64",
+  "python": "3.12.2",
+  "num_books": 5000,
+  "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+  "source_files_sha256": {
+    "app/artifacts.py": "06c5969fb5824a00b3dde1fca711de9f255f4acd9b8146bb6df6708986365306",
+    "app/search.py": "7660399687a03f2654eb5123d717811058d8aaf322c068d2d0e92c7807b83618",
+    "app/routers/books.py": "d18cfcff6312c0108bcf9178f446f1842f8a30299443a6867c36594e114ea0ba"
+  },
+  "repetitions_per_case": 7,
+  "catalogue_index_build_ms": 85.3125,
+  "all_results_and_book_object_identity_equal": true,
+  "cases": [
+    {
+      "controlled_query": "Mieville",
+      "limit": 10,
+      "matches": 7,
+      "baseline_median_ms": 84.182417,
+      "implemented_index_median_ms": 0.913625,
+      "baseline_samples_ms": [
+        81.110333,
+        80.973083,
+        84.596833,
+        103.098166,
+        85.207084,
+        84.182417,
+        80.748958
+      ],
+      "implemented_index_samples_ms": [
+        1.064375,
+        0.913625,
+        1.118833,
+        0.8695,
+        1.235708,
+        0.896959,
+        0.908666
+      ]
+    },
+    {
+      "controlled_query": "Miéville",
+      "limit": 10,
+      "matches": 7,
+      "baseline_median_ms": 79.617958,
+      "implemented_index_median_ms": 0.90125,
+      "baseline_samples_ms": [
+        80.089333,
+        79.617958,
+        78.68675,
+        78.535208,
+        79.671958,
+        78.788958,
+        80.826875
+      ],
+      "implemented_index_samples_ms": [
+        0.891333,
+        0.873083,
+        0.929709,
+        0.887166,
+        0.960042,
+        0.902541,
+        0.90125
+      ]
+    },
+    {
+      "controlled_query": "the",
+      "limit": 10,
+      "matches": 10,
+      "baseline_median_ms": 0.407417,
+      "implemented_index_median_ms": 0.006667,
+      "baseline_samples_ms": [
+        0.408208,
+        0.408041,
+        0.411834,
+        0.40425,
+        0.407125,
+        0.407417,
+        0.406042
+      ],
+      "implemented_index_samples_ms": [
+        0.007416,
+        0.0065,
+        0.006792,
+        0.006292,
+        0.006833,
+        0.006667,
+        0.006583
+      ]
+    },
+    {
+      "controlled_query": "harry potter",
+      "limit": 10,
+      "matches": 10,
+      "baseline_median_ms": 18.782708,
+      "implemented_index_median_ms": 0.221958,
+      "baseline_samples_ms": [
+        19.045958,
+        18.673833,
+        18.782708,
+        18.788875,
+        18.744792,
+        18.306334,
+        18.876417
+      ],
+      "implemented_index_samples_ms": [
+        0.22675,
+        0.218666,
+        0.221958,
+        0.217791,
+        0.262625,
+        0.215042,
+        0.229875
+      ]
+    },
+    {
+      "controlled_query": "sherlock",
+      "limit": 25,
+      "matches": 15,
+      "baseline_median_ms": 78.9185,
+      "implemented_index_median_ms": 0.918625,
+      "baseline_samples_ms": [
+        77.851459,
+        78.351541,
+        79.250459,
+        80.132083,
+        79.224584,
+        78.903166,
+        78.9185
+      ],
+      "implemented_index_samples_ms": [
+        0.936917,
+        0.911958,
+        0.901,
+        0.991167,
+        0.940458,
+        0.90725,
+        0.918625
+      ]
+    },
+    {
+      "controlled_query": "café",
+      "limit": 10,
+      "matches": 1,
+      "baseline_median_ms": 79.785541,
+      "implemented_index_median_ms": 1.048833,
+      "baseline_samples_ms": [
+        79.617083,
+        79.391584,
+        79.785541,
+        81.769833,
+        81.952583,
+        82.848458,
+        78.729042
+      ],
+      "implemented_index_samples_ms": [
+        1.048667,
+        1.018042,
+        1.085792,
+        1.036708,
+        1.358583,
+        1.0775,
+        1.048833
+      ]
+    },
+    {
+      "controlled_query": "unmatched-probe-215",
+      "limit": 10,
+      "matches": 0,
+      "baseline_median_ms": 80.0,
+      "implemented_index_median_ms": 0.809167,
+      "baseline_samples_ms": [
+        80.441667,
+        79.054875,
+        78.669334,
+        79.952958,
+        80.0,
+        82.347834,
+        83.376625
+      ],
+      "implemented_index_samples_ms": [
+        0.844791,
+        0.780333,
+        0.809167,
+        0.807375,
+        0.811792,
+        0.785583,
+        0.917375
+      ]
+    },
+    {
+      "controlled_query": "---",
+      "limit": 10,
+      "matches": 0,
+      "baseline_median_ms": 0.001792,
+      "implemented_index_median_ms": 0.001708,
+      "baseline_samples_ms": [
+        0.002916,
+        0.001792,
+        0.001667,
+        0.001791,
+        0.001875,
+        0.001792,
+        0.001458
+      ],
+      "implemented_index_samples_ms": [
+        0.002083,
+        0.001875,
+        0.001667,
+        0.001792,
+        0.001708,
+        0.001542,
+        0.0015
+      ]
+    }
+  ]
+}

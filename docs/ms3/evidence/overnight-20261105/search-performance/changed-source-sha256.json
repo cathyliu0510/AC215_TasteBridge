@@ -1,0 +1,10 @@
+{
+  "README.md": "254413751c76416a36b63ecb09ab78eaa1d84d9d8035f85244c35306e4018dba",
+  "SPEC.md": "d55c0e96552d4ee0ea3be1a241f9440c5db6d142af44e49b5e051877f516a10b",
+  "app/artifacts.py": "06c5969fb5824a00b3dde1fca711de9f255f4acd9b8146bb6df6708986365306",
+  "app/routers/books.py": "d18cfcff6312c0108bcf9178f446f1842f8a30299443a6867c36594e114ea0ba",
+  "app/search.py": "7660399687a03f2654eb5123d717811058d8aaf322c068d2d0e92c7807b83618",
+  "tests/test_artifact_identity.py": "ec60124bc623635a418fce94a51352d7a4cf7318a777b2553ff2825c5c2b9f05",
+  "tests/test_health_and_books.py": "9cffec248271a9adc0a52bf0f1ed672f531a52bc7be689803f1b59d13afd9a37",
+  "tests/test_search.py": "72ad5e728645485a30c5e331b983f23f07a0e77e9114a84d107382bf3e641b8d"
+}

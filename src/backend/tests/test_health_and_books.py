@@ -4,6 +4,7 @@ from urllib.parse import quote
 import numpy as np
 from fastapi.testclient import TestClient
 
+from app import search as catalogue_search
 from app.config import Settings
 from app.main import create_app
 from tests.conftest import make_books, write_artifacts
@@ -135,3 +136,23 @@ def test_book_search_and_detail_preserve_opaque_ids_and_display_text(tmp_path) -
         )
         assert response.status_code == 200
         assert response.json()["galaxy"]["reader_a"][0]["book_id"] == "opaque/A?"
+
+
+def test_search_route_uses_startup_keys_and_only_normalises_the_current_query(
+    client: TestClient, monkeypatch
+) -> None:
+    normalise = catalogue_search._search_text
+    calls = []
+
+    def observe_normalisation(value: str) -> str:
+        calls.append(value)
+        return normalise(value)
+
+    monkeypatch.setattr(catalogue_search, "_search_text", observe_normalisation)
+
+    for query in ("GILLIAN", "Mistborn", "GILLIAN"):
+        response = client.get("/books/search", params={"q": query})
+        assert response.status_code == 200
+        assert response.json()
+
+    assert calls == ["GILLIAN", "Mistborn", "GILLIAN"]

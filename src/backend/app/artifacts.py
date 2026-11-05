@@ -14,6 +14,7 @@ import numpy as np
 from pydantic import TypeAdapter, ValidationError
 
 from app.schemas import Book
+from app.search import BookSearchIndex
 
 BOOKS_FILE = "books.json"
 EMBEDDINGS_FILE = "item_embeddings.npy"
@@ -37,6 +38,7 @@ class ModelArtifacts:
     artifact_fingerprint: str  # SHA256 identity of the four original file bytes
     data_version: str | None  # dataset snapshot the model was trained on, if recorded
     index: dict[str, int] = field(repr=False)
+    search_index: BookSearchIndex = field(repr=False)
 
     def row_of(self, book_id: str) -> int | None:
         return self.index.get(book_id)
@@ -74,6 +76,7 @@ def load_artifacts(artifact_dir: str) -> ModelArtifacts:
         artifact_fingerprint=_artifact_fingerprint(contents),
         data_version=data_version,
         index=index,
+        search_index=BookSearchIndex.from_books(books),
     )
 
 

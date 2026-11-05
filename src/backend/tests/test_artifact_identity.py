@@ -74,3 +74,26 @@ def test_health_and_recommendation_report_the_loaded_snapshot_after_files_change
         }
         assert client.get("/health").json()["artifact_fingerprint"] == health["artifact_fingerprint"]
         assert load_artifacts(str(root)).artifact_fingerprint != health["artifact_fingerprint"]
+
+
+def test_model_load_builds_search_keys_for_the_same_fingerprinted_catalogue(tmp_path) -> None:
+    books = make_books(2)
+    books[0].update(title="Café—Tales", author="China Miéville")
+    root = write_artifacts(tmp_path / "m", books, np.ones((2, 4)), np.zeros((2, 2)))
+    loaded = load_artifacts(str(root))
+    original_fingerprint = loaded.artifact_fingerprint
+
+    [found] = loaded.search_index.search("cafe tales", 10)
+    assert found is loaded.books[0]
+    assert found.title == "Café—Tales"
+    assert loaded.search_index.search("Mieville", 10) == [found]
+
+    books[0].update(title="Different Title", author="Different Author")
+    (root / "books.json").write_text(json.dumps(books), encoding="utf-8")
+    replacement = load_artifacts(str(root))
+
+    assert loaded.artifact_fingerprint == original_fingerprint
+    assert loaded.search_index.search("cafe tales", 10) == [found]
+    assert replacement.artifact_fingerprint != original_fingerprint
+    assert replacement.search_index.search("cafe tales", 10) == []
+    assert replacement.search_index.search("Different Title", 10) == [replacement.books[0]]

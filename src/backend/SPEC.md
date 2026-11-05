@@ -68,6 +68,11 @@ Search the catalogue as the user types.
 | `limit` | int | 10 | 1–25 |
 
 **Ordering:** titles that *start with* `q` come first, then other matches, each in catalogue order.
+Normalized title/author keys are computed once for the loaded catalogue and kept
+in an immutable in-memory index. Each request normalizes only its current query;
+queries and search results are not cached or persisted. Original book objects and
+display text are returned. The pure `search_books(books, query, limit)` helper
+remains available for callers without a loaded model.
 
 **Response 200**
 ```json

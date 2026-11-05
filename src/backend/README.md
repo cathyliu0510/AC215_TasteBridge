@@ -59,6 +59,7 @@ curl -X POST http://localhost:9000/feedback -H "Content-Type: application/json" 
 | POST | `/feedback` | Anonymous "would read / not for us" vote |
 
 Search ignores accents and punctuation while preserving catalogue display text.
+Catalogue search keys are built once at model startup; user queries are not cached.
 URL-encode book IDs in detail paths. Feedback must use the loaded model version;
 a stale version returns 409 without recording a vote, so refresh recommendations before retrying.
 
