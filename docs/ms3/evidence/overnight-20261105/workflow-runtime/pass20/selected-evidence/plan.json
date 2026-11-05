@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-11-05T06:05:40+00:00",
+  "input": {
+    "approval_reference": "parent-pass20-local-synthetic-authorization",
+    "data_version": "synthetic-244f05111efd",
+    "files_sha256": {
+      "books.parquet": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+      "interactions.parquet": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+      "manifest.json": "65b2025273d1a10b76216946e90f0dadb0918bc4596ae089c2ed2015ae3ae475"
+    },
+    "input_kind": "synthetic",
+    "processed_uri": "gs://fixture-input-only/processed/synthetic-244f05111efd"
+  },
+  "parameters": {
+    "als": {
+      "alpha": 20.0,
+      "factors": 128,
+      "iterations": 15,
+      "regularization": 50.0,
+      "seed": 42
+    },
+    "evaluation": {
+      "aggregations": [
+        "average",
+        "least_misery",
+        "merged_seeds"
+      ],
+      "favorite_counts": [
+        5
+      ],
+      "k": 10,
+      "knn_neighbors": 100,
+      "models": [
+        "popularity",
+        "item_knn",
+        "als"
+      ],
+      "n_pairs": 300,
+      "split": "test"
+    }
+  },
+  "parameters_sha256": "012b5f1697443fd87175e31ff718144db54b9c642892f445c9181642beaeb7d6",
+  "run_id": "pass20-synthetic-wrapper-execution",
+  "schema_version": 1,
+  "source": {
+    "base_commit": "2a87e200430a4b8eb15810cae591fb0c7661151c",
+    "files_sha256": {
+      "deploy/vertex-ms3/Dockerfile": "e234be4d102b5de7c1bad37a4b50973b506698cfe8a73ffec74edfc638f2a965",
+      "deploy/vertex-ms3/workflow.py": "c9b8e66520c7b3eb07369ec2e25914113d93327c7612bf711f2cc8bc6c835b19",
+      "src/evaluation/.python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "src/evaluation/Dockerfile": "c889f28de9cbf715a95049965af4b1642a9f0cafd80c42082ec24c11b13b29c5",
+      "src/evaluation/evaluation/__init__.py": "9c67a729c2d6216a9c3f823fd90d5950c048eebdccfbda8a9c4ebadccd65a8d3",
+      "src/evaluation/evaluation/aggregate.py": "8c66cadf94708e7892bc3c7ee528c9bd1efb7b54a93e811f4dc51fbbaf013600",
+      "src/evaluation/evaluation/als.py": "de56fb4611e937b9dd1c919ee449469cc2b3c3e8e2e356feef265c9fb49848f1",
+      "src/evaluation/evaluation/data.py": "b3aed6c362855317353cf0c8aa365e8c094051ce992cfaaa329bef292fe96572",
+      "src/evaluation/evaluation/export.py": "3e17f3f28016d98e747ffa165ce0cdf717bb11180ab5a98dcab1fd099c779530",
+      "src/evaluation/evaluation/metrics.py": "94ab6590401e455c8a6bf8d7663347029c8ad2c8bef95ea096e3d37a2de8d3d0",
+      "src/evaluation/evaluation/models.py": "9779b74549a9b40a9d6bb2bc2b00ae9588ed1bdec978c2c5724be5316826adad",
+      "src/evaluation/evaluation/pairs.py": "5fd5e0d9a8bcc28d75ff3081efd89f38126161b15fdf5ac9662485f476c0f945",
+      "src/evaluation/evaluation/run.py": "69077e7b8ff8798b9d78d41a8300213595effbd577e98536fa48f8a573badab5",
+      "src/evaluation/evaluation/split.py": "710d4e8037bbc6b0472964e005c89385660f8cbb18418b39bcc39a9bad678d66",
+      "src/evaluation/evaluation/synthetic.py": "c84804fa35d2733b5779706b89245220cf9a6aaaf4ce8e84c0a1d83e9c2518d1",
+      "src/evaluation/pyproject.toml": "b180cc938e21873250af21355d9aa05df3b8537b2d52a32fac7c9ba12e68de17",
+      "src/evaluation/uv.lock": "5751e9a542c5c3541d61f064df283f7ffc3b7a5c313c9f1623bcbd6d8e27d446"
+    },
+    "fingerprint_sha256": "298c299401b3168653efd08c0b8005f2aa84ea49ba3967787a2ae87e9a9189be"
+  },
+  "status": "unexecuted_candidate",
+  "tracking": {
+    "acceptance": "pending_team_tf",
+    "backend": "local_structured_receipts",
+    "cloud_job_name": null,
+    "external_run_url": null
+  },
+  "vertex": {
+    "image_uri": "us-central1-docker.pkg.dev/review-project/fixture/worker@sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "machine_type": "n1-standard-4",
+    "output_uri": "gs://fixture-output-only/pass20-synthetic",
+    "project": "review-project",
+    "region": "us-central1",
+    "service_account": "ms3-worker@review-project.iam.gserviceaccount.com",
+    "timeout_seconds": 900
+  }
+}

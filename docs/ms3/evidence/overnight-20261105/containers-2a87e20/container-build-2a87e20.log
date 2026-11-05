@@ -1,0 +1,148 @@
+{
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "num_books": 5000,
+  "files": [
+    "books.json",
+    "item_embeddings.npy",
+    "coords_2d.npy",
+    "meta.json"
+  ],
+  "manifest": "/Users/hanzhenzhu/Documents/Codex/2026-11-04/task-3/ms3-delivery/deploy/cloud-run/.artifacts/manifest.json"
+}
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 892B 0.0s done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12-slim-bookworm
+#2 DONE 0.1s
+
+#3 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.19
+#3 DONE 0.1s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 125B done
+#4 DONE 0.0s
+
+#5 FROM ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424
+#5 resolve ghcr.io/astral-sh/uv:0.12.19@sha256:04d046b13e60d6bcec73cbc5e1cad25d680dea90c8573340950a0ac2d1aef424 0.0s done
+#5 DONE 0.0s
+
+#6 [stage-0 1/9] FROM docker.io/library/python:3.12-slim-bookworm@sha256:782412e85d0f0984994c290652577d4018aff08145c85b262bb63dc0c7522254
+#6 resolve docker.io/library/python:3.12-slim-bookworm@sha256:782412e85d0f0984994c290652577d4018aff08145c85b262bb63dc0c7522254 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 30.43kB done
+#7 DONE 0.0s
+
+#8 [stage-0 2/9] COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
+#8 CACHED
+
+#9 [stage-0 3/9] RUN useradd --create-home --uid 1000 app
+#9 CACHED
+
+#10 [stage-0 4/9] WORKDIR /app
+#10 CACHED
+
+#11 [stage-0 5/9] COPY pyproject.toml uv.lock .python-version ./
+#11 CACHED
+
+#12 [stage-0 6/9] RUN uv sync --frozen --no-dev --no-install-project
+#12 CACHED
+
+#13 [stage-0 7/9] COPY app ./app
+#13 DONE 0.0s
+
+#14 [stage-0 8/9] COPY sample_artifacts ./sample_artifacts
+#14 DONE 0.0s
+
+#15 [stage-0 9/9] RUN mkdir -p /app/feedback && chown app:app /app/feedback
+#15 DONE 0.5s
+
+#16 exporting to image
+#16 exporting layers 0.1s done
+#16 exporting manifest sha256:9c9cf60d97bd03397312f71ef15bf444532dc5c89f0cf30b293be7b098c4d658 done
+#16 exporting config sha256:d0b50896b81a5206c0de761efb967fa67768ae7b1f75d1c12ceec7f6ad774ca8 done
+#16 exporting attestation manifest sha256:9c5bf21d6837d71804bfa097c15e8b8cbdbb588ce04cf22fa4801e81a72e4b40 0.0s done
+#16 exporting manifest list sha256:e7c2ac22fa5a402b5b84c438b48de81c63c48ad7f40e81da03e23cb96cfd5d86
+#16 exporting manifest list sha256:e7c2ac22fa5a402b5b84c438b48de81c63c48ad7f40e81da03e23cb96cfd5d86 done
+#16 naming to docker.io/library/tastebridge-cloud-backend-base:2a87e200430a-cb4457b668e3 done
+#16 DONE 0.1s
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 246B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 114B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#4 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 0.0s done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 4.03MB 0.0s done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /app
+#6 CACHED
+
+#7 [3/4] COPY . .
+#7 CACHED
+
+#8 [4/4] RUN node scripts/build-prototype.mjs
+#8 CACHED
+
+#9 exporting to image
+#9 exporting layers done
+#9 exporting manifest sha256:8d6767bf3bb19a54096dfd405401c04967db30104e0fd11df2c55ee444bac97b done
+#9 exporting config sha256:6d640df7be034fa7fb00b638d3e25d1f6395bf35d34b4f0da76232f5a0b38229 done
+#9 exporting attestation manifest sha256:3f97b0b88b48ff04be958c9d2b3d139bc3c80edfe579cfcb869495468434c8a5 0.0s done
+#9 exporting manifest list sha256:62e8b859acd7fc0612287c679dd19006066e18f33a2ac4c1fe5b8852a19bde0e done
+#9 naming to docker.io/library/tastebridge-cloud-frontend:2a87e200430a-cb4457b668e3 done
+#9 DONE 0.0s
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.backend
+#1 transferring dockerfile: 452B done
+#1 WARN: InvalidDefaultArgInFrom: Default value for ARG ${BACKEND_IMAGE} results in empty or invalid base image name (line 3)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/tastebridge-cloud-backend-base:2a87e200430a-cb4457b668e3
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 252B done
+#3 DONE 0.0s
+
+#4 [1/2] FROM docker.io/library/tastebridge-cloud-backend-base:2a87e200430a-cb4457b668e3@sha256:e7c2ac22fa5a402b5b84c438b48de81c63c48ad7f40e81da03e23cb96cfd5d86
+#4 resolve docker.io/library/tastebridge-cloud-backend-base:2a87e200430a-cb4457b668e3@sha256:e7c2ac22fa5a402b5b84c438b48de81c63c48ad7f40e81da03e23cb96cfd5d86 0.0s done
+#4 DONE 0.1s
+
+#5 [internal] load build context
+#5 transferring context: 4.09MB 0.1s done
+#5 DONE 0.1s
+
+#6 [2/2] COPY --chown=0:0 .artifacts/books.json .artifacts/item_embeddings.npy .artifacts/coords_2d.npy .artifacts/meta.json /artifacts/current/
+#6 DONE 0.0s
+
+#7 exporting to image
+#7 exporting layers
+#7 exporting layers 0.2s done
+#7 exporting manifest sha256:8560c43a0ee18bca2ecdbd406748fa55025275e2fc9f36fa25f44bc4df3af62c done
+#7 exporting config sha256:6876ac84213f2f8a58177d44111fcce630a254965d1cd16b6de8e1fc3345a5e3 done
+#7 exporting attestation manifest sha256:b3a59a348c266175f6d18b9f52a9ad8654b69d2af91fcddabf37b57c2c95b2bd 0.0s done
+#7 exporting manifest list sha256:ce50cbfd6893fca3ec3b7b05d01c03c5b34d18f88a7f4d4bb03169cb22b9b01a done
+#7 naming to docker.io/library/tastebridge-cloud-backend:2a87e200430a-cb4457b668e3 done
+#7 DONE 0.2s
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - InvalidDefaultArgInFrom: Default value for ARG ${BACKEND_IMAGE} results in empty or invalid base image name (line 3)
+Built 2a87e200430a-cb4457b668e3. No cloud resources changed. Run smoke.py --local before publishing.

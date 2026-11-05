@@ -4,13 +4,13 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 [MS2 slides](https://docs.google.com/presentation/d/1JUz5bPlGqBAYeBMOLzO22sUbZ3DdYllxlPU6gF_tK54/edit) · [MS1 proposal](milestones/ms1/) · [Standalone frontend prototype](https://tastebridge-prototype.landenini.chatgpt.site/)
 
-## Milestone 3 preparation
+## Milestone 3
 
-The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. The local review package includes a one-command trained-model integration run, two-run reproducibility evidence, API checks, the refined Reading Desk and the existing Cloud Run preparation package. The reproducibility training runs use synthetic data. A later check also serves the existing 5,000-book team DVC model through the current frontend, without retraining; no new cloud training, live deployment, production monitoring or submission is claimed. The last remote check found no `milestone3` branch.
+[Current MS3 status and evidence](docs/ms3/) · [Run the existing model without retraining](docs/ms3/reproduce.md) · [12-slide review deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) · [Remaining operator actions](docs/ms3/operator-handoff.md).
 
-[Reproduce the trained model/API/UI path](docs/ms3/reproduce.md) · [saved evidence](docs/ms3/evidence/local-integration-20261104/) · [12-slide review deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) · [operator handoff](docs/ms3/operator-handoff.md).
+Reading Desk `20261105.1` restores favorites and a shared choice after a refresh in the same tab, supports accent-insensitive search and keeps model identity with saved responses. The original public Site now serves this release as a separate 23-book static demo. The existing 5,000-book team model passes clean-checkout API, desktop/mobile and current Linux/amd64 container checks. [Source-bound evidence and limits](docs/ms3/overnight-progress-20261105.md).
 
-The [current execution plan and handoff](docs/ms3/next-steps-20261104.md) integrate frontend `20261104.6`, add an existing-export serving verifier and prepare access-preserving Cloud Run verification. The [current team audit](docs/ms3/team-audit-20261105.md) records repository access, export provenance, cloud visibility and the preparation upload boundary. Use `python3 tools/check_ms3.py` to see the recorded evidence gaps. [Changes since MS2, exact reproduction commands, tests and team handoff](docs/ms3/README.md). The separate static UX preview does not count as the deployed model/API.
+The private `milestone3` preparation branch exists. Cloud training/workflow records, the deployed service and production logs remain unverified because the available account cannot read them. Reuse existing team work before starting another cloud job. No Google Cloud training/deployment/IAM write or Canvas submission occurred. The review slides retain these gaps.
 
 ## Milestone 2
 

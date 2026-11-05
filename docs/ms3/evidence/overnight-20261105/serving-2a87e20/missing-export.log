@@ -1,0 +1,36 @@
+INFO:     Started server process [83055]
+INFO:     Waiting for application startup.
+ERROR:    Traceback (most recent call last):
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-03/task-4/TasteBridge/src/backend/.venv/lib/python3.12/site-packages/starlette/routing.py", line 654, in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-03/task-4/TasteBridge/src/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 247, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-03/task-4/TasteBridge/src/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 247, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-03/task-4/TasteBridge/src/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 247, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-03/task-4/TasteBridge/src/backend/.venv/lib/python3.12/site-packages/fastapi/routing.py", line 247, in merged_lifespan
+    async with original_context(app) as maybe_original_state:
+  File "/opt/anaconda3/lib/python3.12/contextlib.py", line 210, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-04/task-3/overnight-ms3-20261105/clean-current-2a87e20/src/backend/app/main.py", line 30, in lifespan
+    artifacts = load_artifacts(settings.artifact_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/hanzhenzhu/Documents/Codex/2026-11-04/task-3/overnight-ms3-20261105/clean-current-2a87e20/src/backend/app/artifacts.py", line 58, in load_artifacts
+    raise ArtifactError(f"Artifact directory not found: {root}")
+app.artifacts.ArtifactError: Artifact directory not found: /Users/hanzhenzhu/Documents/Codex/2026-11-04/task-3/overnight-ms3-20261105/current-acceptance-2a87e20/does-not-exist
+
+ERROR:    Application startup failed. Exiting.

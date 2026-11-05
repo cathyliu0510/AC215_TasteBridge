@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "tag": "ccda4b606930-cb4457b668e3",
+  "checked_at": "2026-11-05T05:35:30.934181+00:00",
+  "base_url": "http://127.0.0.1:32768",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "recommendation_checks": [
+    {
+      "mode": "least_misery",
+      "ids": [
+        "4640799",
+        "1708725",
+        "1466917",
+        "21825181",
+        "6231171"
+      ]
+    },
+    {
+      "mode": "average",
+      "ids": [
+        "3204327",
+        "41107568",
+        "4640799",
+        "1466917",
+        "1708725"
+      ]
+    }
+  ],
+  "feedback_event": {
+    "book_id": "4640799",
+    "vote": "would_read",
+    "model_version": "b2-als-gr-317756d1a1ad"
+  },
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404",
+    "one matching feedback event on backend stdout"
+  ],
+  "feedback_log": {
+    "book_id": "4640799",
+    "vote": "would_read",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "timestamp": "2026-11-05T05:35:30.951844+00:00"
+  },
+  "image_ids": {
+    "frontend": "sha256:d28b4dabda057bcd898fc281ba173070aef43f339c0c8de094c61cc0aea6523d",
+    "backend-base": "sha256:b562de56e99a7b23ef57741f1916f430365432322a390fc601654fcb3e6e5454",
+    "backend": "sha256:687858740c00c656c78ed66907644580958650f8a763d402c60dd3290461d4cb"
+  },
+  "running_image_ids": {
+    "frontend": "sha256:d28b4dabda057bcd898fc281ba173070aef43f339c0c8de094c61cc0aea6523d",
+    "backend": "sha256:687858740c00c656c78ed66907644580958650f8a763d402c60dd3290461d4cb"
+  },
+  "transport": "Local linux/amd64 Docker containers, shared localhost network, private port"
+}

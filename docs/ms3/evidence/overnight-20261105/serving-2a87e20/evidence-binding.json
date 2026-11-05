@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "scope": "local serving evidence identity only",
+  "source_manifest_sha256": "a664194f2a7e3bd00189a42f668ea4a207fce031931e928fb10d9aedac1dea70",
+  "source_commit": "2a87e200430a4b8eb15810cae591fb0c7661151c",
+  "source_dirty": false,
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "data_version": "gr-317756d1a1ad",
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "evidence": [
+    {
+      "path": "api-check.json",
+      "role": "api",
+      "bytes": 1164,
+      "sha256": "da77414945d2631f7b3e39e5da8c85c7b417c31acd956b144001b517aeb26bfa"
+    },
+    {
+      "path": "backend-tests.txt",
+      "role": "test",
+      "bytes": 180,
+      "sha256": "e5e9654b2abaae735985b3f6d080c0737c7662bfee275529327b4148459fe4f1"
+    },
+    {
+      "path": "backend.log",
+      "role": "log",
+      "bytes": 12299,
+      "sha256": "3adc52684eb9efbcc83451aad07e03f24ceb28e58c66175888431eaef150d70c"
+    },
+    {
+      "path": "browser-checks.json",
+      "role": "browser_report",
+      "bytes": 1724,
+      "sha256": "37adbbc03fae36565e8efd73364fab8d8d6361ae4ba9b4244a4b0ddecd8b2600"
+    },
+    {
+      "path": "container-smoke-2a87e20.log",
+      "role": "log",
+      "bytes": 3116,
+      "sha256": "e99a98cb4a22058eac0e554ca159330fc18fe8517af11c88ff5e3a81e153bec6"
+    },
+    {
+      "path": "desktop-choice-restored.png",
+      "role": "screenshot",
+      "bytes": 61799,
+      "sha256": "f6b567644d482cf4c93f9dbf4f5a92c18761f2c9bd5a1b449ac43f832444fca5"
+    },
+    {
+      "path": "frontend-build.log",
+      "role": "log",
+      "bytes": 381,
+      "sha256": "ddabff7ff9523ca970cf642cdcbb9e0430ca0832fab62aeeb0fc6490922e823e"
+    },
+    {
+      "path": "frontend-tests.txt",
+      "role": "test",
+      "bytes": 10655,
+      "sha256": "e8d5cabaa18e3586eceba46e10881b909563d960a955734568e839884cfd2d6d"
+    },
+    {
+      "path": "frontend.log",
+      "role": "log",
+      "bytes": 2753,
+      "sha256": "2b5872e23a61c6ef5c9280c1c4af399d11583c01167591c97008f824ba68f13b"
+    },
+    {
+      "path": "invalid-input-checks.json",
+      "role": "report",
+      "bytes": 7922,
+      "sha256": "2cbac4f43c045719b3ab0ca11956978a1646aed5a47e50b4de5f97c039d57e86"
+    },
+    {
+      "path": "local-smoke.json",
+      "role": "report",
+      "bytes": 2092,
+      "sha256": "6fcfe50d71f7a90f27c97832715e57445dd64d47b6ebcd9717bbcd37d9a4ed4c"
+    },
+    {
+      "path": "mismatched-rows.log",
+      "role": "log",
+      "bytes": 2805,
+      "sha256": "7aad31d20ef6081b0a8dd350475edfc0a52bb47fec2bbc6e3a71eee666fb6145"
+    },
+    {
+      "path": "missing-export.log",
+      "role": "log",
+      "bytes": 2707,
+      "sha256": "c4fbb73527645493347f0c461f10d4c16fb8e07d152cf7f6237459d09e295b92"
+    },
+    {
+      "path": "phone-320-choice-restored.png",
+      "role": "screenshot",
+      "bytes": 37525,
+      "sha256": "f08ef3e3418818a657e2477abb4c503cc29132db4201b99eb0a171c83e63fa36"
+    },
+    {
+      "path": "release.json",
+      "role": "report",
+      "bytes": 1545,
+      "sha256": "7e0bde9363339b8ea661a47d4adafee2df58df6f0f3586003b96a9b695eeeba6"
+    },
+    {
+      "path": "run.json",
+      "role": "run",
+      "bytes": 16568,
+      "sha256": "ce1417ff294164c0b72d75b8d2fdaf86de5ba80896b5bf2ea37d6c2f730a87ea"
+    },
+    {
+      "path": "source-manifest.json",
+      "role": "source",
+      "bytes": 15013,
+      "sha256": "6628e764481cdcca073695d47b6883c30f4934d503564cbc84b97ddd7da58cb3"
+    }
+  ],
+  "browser_actions_verified": false,
+  "test_execution_verified": false,
+  "limits": "Hashes bind supplied bytes to the recorded source/model identity. They do not prove when or how a screenshot, log or test output was captured, nor independently verify its assertions. No training, cloud execution or deployment is established by this binding.",
+  "sha256": "f001cd2bdc25000d0c1e3f6397c65b927af11feb8cd6c4aa66815fa9ed268902"
+}

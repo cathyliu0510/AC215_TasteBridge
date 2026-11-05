@@ -1,5 +1,6 @@
 # MS3 team audit — November 5, 2026
 
+Historical interim snapshot. For the current frontend, container, branch and presentation status, use [overnight-progress-20261105.md](overnight-progress-20261105.md).
 The current frontend `20261104.6` works with the team's existing **5,000-book B2 model**, retrieved from the repository's pinned DVC snapshot. Both ranking modes, the API/relay contract, desktop recommendations, 320px book connections and shared-choice/return interactions passed. This reuses the October model; it is not a new training run, quality evaluation or deployed service.
 
 ## Repository and upload boundary

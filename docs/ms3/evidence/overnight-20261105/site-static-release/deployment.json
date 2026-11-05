@@ -1,0 +1,20 @@
+{
+  "project_id": "appgprj_6ac6ebc12cf88191a3f7e1a4fe6904fa",
+  "url": "https://tastebridge-prototype.landenini.chatgpt.site",
+  "audience": "public",
+  "current_user_role": "owner",
+  "access_revision": 2,
+  "site_version": 7,
+  "frontend_release": "20261105.1",
+  "saved_version_id": "appgprj_6ac6ebc12cf88191a3f7e1a4fe6904fa~appgver_f36ed1fce138819191404965c51c6c67",
+  "source_commit": "00cfb0a112ed8b73b987f32c004cb6d63a84c5df",
+  "deployment_id": "appgdep_6aec19aa8ec48191a6f2c592711b818c",
+  "status": "succeeded",
+  "static_demo_books": 23,
+  "model_api_deployment": false,
+  "sharing_changed": false,
+  "B_project_unchanged": true,
+  "browser_desktop_and_320px_refresh_verified": true,
+  "rollback_version": 6,
+  "rollback_version_id": "appgprj_6ac6ebc12cf88191a3f7e1a4fe6904fa~appgver_f639c9b4a5e481919271f0e1c371d920"
+}

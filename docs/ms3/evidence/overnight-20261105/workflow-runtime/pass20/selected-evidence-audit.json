@@ -1,0 +1,30 @@
+{
+  "actual_pairs": 126,
+  "actual_pairs_by_kind": {
+    "different": 63,
+    "similar": 63
+  },
+  "aggregate_metric_groups": 9,
+  "csv_rows": 27,
+  "files_checked": [
+    "evaluation-config.json",
+    "evaluation-summary.csv",
+    "evaluation-summary.md",
+    "export-meta.json",
+    "metrics.json",
+    "plan.json",
+    "receipt.json",
+    "tracking.jsonl"
+  ],
+  "findings": [],
+  "no_cloud_execution_or_tracker_success_claim": true,
+  "private_host_paths_found": false,
+  "reader_level_rows_or_favorite_lists_found": false,
+  "real_person_emails_found": false,
+  "requested_pairs": 300,
+  "sampler_caveat": "Requested 300 pairs; the existing sampler caps selection to its finite similar/different pools. With 23 eligible synthetic held-out readers it used 63 per pool, 126 total. This is synthetic integration evidence, not a 300-pair quality benchmark.",
+  "scope": "read-only audit of eight selected metadata/aggregate evidence files; no rerun or source edits",
+  "secrets_or_tokens_found": false,
+  "selected_evidence_hashes_match": true,
+  "status": "passed"
+}

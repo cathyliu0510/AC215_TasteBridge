@@ -1,0 +1,31 @@
+{
+  "checked_at": "2026-11-05T05:43:51.940582+00:00",
+  "frontend_release": "20261105.1",
+  "source_commit": "ccda4b6069305da738e3b262a1cf1ee8ca44c39e",
+  "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+  "catalogue_books": 5000,
+  "checks": [
+    "Desktop actual API shortlist and both reader-specific explanations rendered.",
+    "Both Interested responses, explicit choice, Back to shortlist and browser refresh restored the shared choice.",
+    "320px refresh restored favorites, shared choice and Book connections view.",
+    "Changing Reader2 to Pass revoked choice; a second refresh kept it revoked.",
+    "Average mode completed and changed actual ranked candidates.",
+    "Mi\u00e9ville and Mieville both showed seven actual catalogue matches.",
+    "Refreshing while editing kept favorites/editing stage and did not retain search text.",
+    "Start over confirmation cancel kept favorites; explicit clear followed by refresh left both shelves0/5.",
+    "A fresh manual UI flow selected five Mieville books and five AgathaChristie books, generated five real recommendations, and explicitly chose ThePrestige.",
+    "No horizontal overflow at1280px or320px."
+  ],
+  "browser": "ChatGPT in-app browser",
+  "console_errors_or_warnings": [],
+  "browser_feedback_sent": false,
+  "local_container_feedback_test": "One explicit local-only smoke event on owned container stdout; no production feedback",
+  "training_executed": false,
+  "cloud_execution": false,
+  "limitations": [
+    "Local Python/Node browser checks, not a deployed cloud service.",
+    "A separate actual Linux/amd64 container smoke passed; no browser claim is inferred from that smoke.",
+    "Known inherited catalogue year fields are not independently bibliographic-quality verified.",
+    "Invalid/malformed/unavailable-storage and model-mismatch variants are covered by source tests, not forced via browser state injection."
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "passed": true,
+  "tag": "overnight-serving-20261105",
+  "checked_at": "2026-11-05T05:34:33.398854+00:00",
+  "base_url": "http://127.0.0.1:51272",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "recommendation_checks": [
+    {
+      "mode": "least_misery",
+      "ids": [
+        "6231171",
+        "3046572",
+        "41335427",
+        "2963218",
+        "3007490"
+      ]
+    },
+    {
+      "mode": "average",
+      "ids": [
+        "6231171",
+        "3046572",
+        "41335427",
+        "2963218",
+        "1540236"
+      ]
+    }
+  ],
+  "feedback_event": null,
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ]
+}

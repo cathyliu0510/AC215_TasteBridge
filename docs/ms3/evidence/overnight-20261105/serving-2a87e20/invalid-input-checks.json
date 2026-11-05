@@ -1,0 +1,247 @@
+{
+  "checked_at": "2026-11-05T06:06:28.722248+00:00",
+  "source_commit": "2a87e200430a4b8eb15810cae591fb0c7661151c",
+  "source_manifest_sha256": "a664194f2a7e3bd00189a42f668ea4a207fce031931e928fb10d9aedac1dea70",
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+  "requests": [
+    {
+      "case": "health",
+      "path": "/api/health",
+      "status": 200,
+      "expected_status": 200,
+      "request_sha256": null,
+      "response_sha256": "3775c4c3fcba03ef3ac83985338ffb5703c6db4652a12faf4a1c268f79677928",
+      "response_detail": null
+    },
+    {
+      "case": "predict_least_misery",
+      "path": "/api/recommend",
+      "status": 200,
+      "expected_status": 200,
+      "request_sha256": "3bfa2bf33a30662123432a85e545c281557d75f6e7b0db0cd21e7eca814d953d",
+      "response_sha256": "a1e93f3c1c3ee14832619a212604e1fdb2efc509675efee5fb1cedb130e13b73",
+      "response_detail": null
+    },
+    {
+      "case": "predict_average",
+      "path": "/api/recommend",
+      "status": 200,
+      "expected_status": 200,
+      "request_sha256": "33ea67c2c25e50084ee5aa88bb32862f6c461b14c7d418f9e8bcef3617eda89f",
+      "response_sha256": "ceec6de18030da49d210fb5a75cd502fceec6b29a99a988ca4b86bc2af8ffc25",
+      "response_detail": null
+    },
+    {
+      "case": "empty_reader",
+      "path": "/api/recommend",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": "812842f3087ad1e7f9a65a813a1a85483c6fa603e075054870c60ccaea3b8f4e",
+      "response_sha256": "48ad45e1cf3dbf537294001652dc68a8dcdc86e6e22ae4db2d5dad05edd35d54",
+      "response_detail": [
+        {
+          "type": "too_short",
+          "loc": [
+            "body",
+            "reader_a"
+          ],
+          "msg": "List should have at least 1 item after validation, not 0",
+          "input": [],
+          "ctx": {
+            "field_type": "List",
+            "min_length": 1,
+            "actual_length": 0
+          }
+        }
+      ]
+    },
+    {
+      "case": "duplicate_ids",
+      "path": "/api/recommend",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": "d514eac266c6186eb995e71b42247b9430ccc85f51abccd36a4ed94ab7f49ee5",
+      "response_sha256": "d757e3ff172a2d3bfcd5443ca6e048d4b25de0a2c4bb5729aa42cef4d92db722",
+      "response_detail": [
+        {
+          "type": "value_error",
+          "loc": [
+            "body",
+            "reader_a"
+          ],
+          "msg": "Value error, each reader's books must be distinct",
+          "input": [
+            "4640799",
+            "4640799"
+          ],
+          "ctx": {
+            "error": {}
+          }
+        }
+      ]
+    },
+    {
+      "case": "six_favorites",
+      "path": "/api/recommend",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": "b9d4e528133fa1172d53e380a8381977e4b9ed00091084ac80e4bee1034826ca",
+      "response_sha256": "863b6c6352e2ba80956bdc5cac8fade3d779d5e56711438720cb960e191a1b2c",
+      "response_detail": [
+        {
+          "type": "too_long",
+          "loc": [
+            "body",
+            "reader_a"
+          ],
+          "msg": "List should have at most 5 items after validation, not 6",
+          "input": [
+            "4640799",
+            "3046572",
+            "2963218",
+            "6231171",
+            "41335427",
+            "2809203"
+          ],
+          "ctx": {
+            "field_type": "List",
+            "max_length": 5,
+            "actual_length": 6
+          }
+        }
+      ]
+    },
+    {
+      "case": "bad_k",
+      "path": "/api/recommend",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": "080619782a18533d6eabb6453068d4ac01c02ace4afb7f87bad623dd6e3c487e",
+      "response_sha256": "639b54dda09ea61fa47537369dcead0973fa7e1fae887f108c4cfdbef86814e3",
+      "response_detail": [
+        {
+          "type": "greater_than_equal",
+          "loc": [
+            "body",
+            "k"
+          ],
+          "msg": "Input should be greater than or equal to 1",
+          "input": 0,
+          "ctx": {
+            "ge": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": "bad_ranking",
+      "path": "/api/recommend",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": "d85cdf47d9e61cd5975c8825c2365c0b490f4f38d62c5ea155d22184101ee1db",
+      "response_sha256": "cc65cf7a7338e0aa5bc134cd6cd0f250e1bd659e728bf816b2e54150128e4b50",
+      "response_detail": [
+        {
+          "type": "literal_error",
+          "loc": [
+            "body",
+            "aggregation"
+          ],
+          "msg": "Input should be 'least_misery' or 'average'",
+          "input": "unsupported",
+          "ctx": {
+            "expected": "'least_misery' or 'average'"
+          }
+        }
+      ]
+    },
+    {
+      "case": "unknown_id",
+      "path": "/api/recommend",
+      "status": 404,
+      "expected_status": 404,
+      "request_sha256": "c74bef70c8e183926b182ae2f6ffa981c94c49254d7bda0bf01bf8a771dbdfa9",
+      "response_sha256": "79a1e6f1b03c6effaa3347c4af744b8a6d20108ed69ff94724c1aae8128170c8",
+      "response_detail": {
+        "message": "Unknown book_id values",
+        "unknown_ids": [
+          "nonexistent-test-id"
+        ]
+      }
+    },
+    {
+      "case": "search_too_long",
+      "path": "/api/books/search",
+      "status": 422,
+      "expected_status": 422,
+      "request_sha256": null,
+      "response_sha256": "1764e38e0fc2c1d1268b9ba073497add0f8b50fc770dca95d135f876a5cbbac3",
+      "response_detail": [
+        {
+          "type": "string_too_long",
+          "loc": [
+            "query",
+            "q"
+          ],
+          "msg": "String should have at most 100 characters",
+          "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "ctx": {
+            "max_length": 100
+          }
+        }
+      ]
+    },
+    {
+      "case": "private_artifacts",
+      "path": "/api/artifacts/current/meta.json",
+      "status": 404,
+      "expected_status": 404,
+      "request_sha256": null,
+      "response_sha256": "453b4c55be823bd07377663be251a419a4fe1c57c68cbdc5690850da84eaba74",
+      "response_detail": "Unknown API route."
+    },
+    {
+      "case": "stale_model_feedback",
+      "path": "/api/feedback",
+      "status": 409,
+      "expected_status": 409,
+      "request_sha256": "2f10068ff8f9aa209a921cee8b3b9f121fcca47cd39d9d1337b72f99e44b41dd",
+      "response_sha256": "36ee679951797b7edf86017de797dd0fdb6eee86e6909d3f57d32b51723c0924",
+      "response_detail": "Feedback model_version does not match the loaded model. Refresh recommendations and try again."
+    },
+    {
+      "case": "stale_fingerprint_feedback",
+      "path": "/api/feedback",
+      "status": 409,
+      "expected_status": 409,
+      "request_sha256": "df65df39ee77da381f420c3805571cc3733e4bd361a5fb1fa04e9b9c58480e13",
+      "response_sha256": "13cca72ce9f2b338bfc34de27cce88b427119f770b4fce13299061ecf9883d5e",
+      "response_detail": "Feedback artifact_fingerprint does not match the loaded model. Refresh recommendations and try again."
+    }
+  ],
+  "startup_failures": [
+    {
+      "case": "missing-export",
+      "exit_code": 3,
+      "port_open": false,
+      "fixture_fallback": false
+    },
+    {
+      "case": "mismatched-rows",
+      "exit_code": 3,
+      "port_open": false,
+      "fixture_fallback": false
+    }
+  ],
+  "feedback_events_written": false,
+  "browser_feedback_sent": false,
+  "training_executed": false,
+  "cloud_execution": false,
+  "clean_checkout": true
+}

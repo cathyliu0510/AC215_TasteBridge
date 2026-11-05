@@ -1,5 +1,6 @@
 # MS3 presentation evidence integration
 
+Historical interim snapshot. For the current frontend, container, branch and presentation status, use [overnight-progress-20261105.md](overnight-progress-20261105.md).
 This manuscript integrates the November 5 team-model evidence into the existing 12-slide review and preserves its **900-second** timing. The existing PPTX remains the earlier November 4 review draft. This file provides exact replacements and speaker notes; it does not claim the binary slides were updated or natively rendered. Keep the existing visual identity and slide count.
 
 | Slide | Seconds | Evidence/content integration |

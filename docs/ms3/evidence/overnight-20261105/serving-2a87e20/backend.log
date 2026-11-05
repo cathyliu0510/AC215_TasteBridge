@@ -1,0 +1,169 @@
+INFO:     Started server process [80281]
+INFO:     Waiting for application startup.
+2026-11-05 01:03:09,471 INFO tastebridge Loaded model b2-als-gr-317756d1a1ad (data gr-317756d1a1ad) with 5000 books from /Users/hanzhenzhu/Documents/Codex/2026-11-04/task-3/ms3-delivery/.integration-runtime/team-model-20261105/current
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:58806 (Press CTRL+C to quit)
+2026-11-05 01:03:09,560 INFO tastebridge.requests GET /health 200 2.1ms
+INFO:     127.0.0.1:58820 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:03:09,582 INFO tastebridge.requests GET /health 200 0.7ms
+INFO:     127.0.0.1:58823 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:03:09,591 INFO tastebridge.requests GET /books/4640799 200 3.3ms
+INFO:     127.0.0.1:58823 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:03:09,594 INFO tastebridge.requests GET /books/search 200 1.7ms
+INFO:     127.0.0.1:58823 - "GET /books/search?q=Harry+Potter+and+the+Sorcerer%27s+Stone+%28Harry+Potter%2C+%231%29 HTTP/1.1" 200 OK
+2026-11-05 01:03:09,596 INFO tastebridge.requests GET /books/2809203 200 0.6ms
+INFO:     127.0.0.1:58823 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:03:09,598 INFO tastebridge.requests GET /books/search 200 1.3ms
+INFO:     127.0.0.1:58823 - "GET /books/search?q=Harry+Potter+and+the+Order+of+the+Phoenix+%28Harry+Potter%2C+%235%29 HTTP/1.1" 200 OK
+2026-11-05 01:03:09,603 INFO tastebridge.requests POST /recommend 200 3.7ms
+INFO:     127.0.0.1:58823 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:03:09,607 INFO tastebridge.requests POST /recommend 200 2.2ms
+INFO:     127.0.0.1:58823 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:06:27,152 INFO tastebridge.requests GET /health 200 12.4ms
+INFO:     127.0.0.1:59649 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:06:27,194 INFO tastebridge.requests POST /recommend 200 33.3ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:06:27,198 INFO tastebridge.requests POST /recommend 200 2.3ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:06:27,203 INFO tastebridge.requests POST /recommend 422 2.7ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,206 INFO tastebridge.requests POST /recommend 422 1.8ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,209 INFO tastebridge.requests POST /recommend 422 0.9ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,211 INFO tastebridge.requests POST /recommend 422 1.3ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,213 INFO tastebridge.requests POST /recommend 422 0.6ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,215 INFO tastebridge.requests POST /recommend 404 0.9ms
+INFO:     127.0.0.1:59649 - "POST /recommend HTTP/1.1" 404 Not Found
+2026-11-05 01:06:27,220 INFO tastebridge.requests GET /books/search 422 2.3ms
+INFO:     127.0.0.1:59649 - "GET /books/search?q=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx HTTP/1.1" 422 Unprocessable Entity
+2026-11-05 01:06:27,234 INFO tastebridge.requests POST /feedback 409 10.7ms
+INFO:     127.0.0.1:59649 - "POST /feedback HTTP/1.1" 409 Conflict
+2026-11-05 01:06:27,239 INFO tastebridge.requests POST /feedback 409 3.4ms
+INFO:     127.0.0.1:59649 - "POST /feedback HTTP/1.1" 409 Conflict
+2026-11-05 01:07:10,934 INFO tastebridge.requests GET /health 200 5.1ms
+INFO:     127.0.0.1:59848 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:07:11,132 INFO tastebridge.requests GET /books/4640799 200 40.2ms
+INFO:     127.0.0.1:59848 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,135 INFO tastebridge.requests GET /books/3046572 200 38.7ms
+INFO:     127.0.0.1:59853 - "GET /books/3046572 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,135 INFO tastebridge.requests GET /books/2963218 200 38.1ms
+INFO:     127.0.0.1:59855 - "GET /books/2963218 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,136 INFO tastebridge.requests GET /books/41335427 200 35.2ms
+INFO:     127.0.0.1:59857 - "GET /books/41335427 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,137 INFO tastebridge.requests GET /books/6231171 200 38.4ms
+INFO:     127.0.0.1:59856 - "GET /books/6231171 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,138 INFO tastebridge.requests GET /books/2809203 200 15.3ms
+INFO:     127.0.0.1:59858 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,144 INFO tastebridge.requests GET /books/1540236 200 7.7ms
+INFO:     127.0.0.1:59848 - "GET /books/1540236 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,145 INFO tastebridge.requests GET /books/3212258 200 4.2ms
+INFO:     127.0.0.1:59857 - "GET /books/3212258 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,146 INFO tastebridge.requests GET /books/1466917 200 4.5ms
+INFO:     127.0.0.1:59853 - "GET /books/1466917 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,147 INFO tastebridge.requests GET /books/3204327 200 3.1ms
+INFO:     127.0.0.1:59858 - "GET /books/3204327 HTTP/1.1" 200 OK
+2026-11-05 01:07:11,174 INFO tastebridge.requests POST /recommend 200 19.4ms
+INFO:     127.0.0.1:59858 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:07:12,821 INFO tastebridge.requests GET /health 200 1.3ms
+INFO:     127.0.0.1:59858 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:07:12,853 INFO tastebridge.requests GET /books/2963218 200 5.9ms
+INFO:     127.0.0.1:59857 - "GET /books/2963218 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,853 INFO tastebridge.requests GET /books/4640799 200 7.5ms
+INFO:     127.0.0.1:59858 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,854 INFO tastebridge.requests GET /books/3046572 200 7.0ms
+INFO:     127.0.0.1:59853 - "GET /books/3046572 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,854 INFO tastebridge.requests GET /books/6231171 200 5.3ms
+INFO:     127.0.0.1:59848 - "GET /books/6231171 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,854 INFO tastebridge.requests GET /books/41335427 200 4.2ms
+INFO:     127.0.0.1:59856 - "GET /books/41335427 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,856 INFO tastebridge.requests GET /books/2809203 200 6.0ms
+INFO:     127.0.0.1:59855 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,862 INFO tastebridge.requests GET /books/1540236 200 3.6ms
+INFO:     127.0.0.1:59856 - "GET /books/1540236 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,863 INFO tastebridge.requests GET /books/3212258 200 3.3ms
+INFO:     127.0.0.1:59848 - "GET /books/3212258 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,863 INFO tastebridge.requests GET /books/3204327 200 2.4ms
+INFO:     127.0.0.1:59855 - "GET /books/3204327 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,864 INFO tastebridge.requests GET /books/1466917 200 4.3ms
+INFO:     127.0.0.1:59853 - "GET /books/1466917 HTTP/1.1" 200 OK
+2026-11-05 01:07:12,873 INFO tastebridge.requests POST /recommend 200 2.9ms
+INFO:     127.0.0.1:59853 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:07:13,378 INFO tastebridge.requests GET /health 200 1.1ms
+INFO:     127.0.0.1:59853 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:07:13,415 INFO tastebridge.requests GET /books/4640799 200 5.4ms
+INFO:     127.0.0.1:59853 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,416 INFO tastebridge.requests GET /books/2963218 200 5.8ms
+INFO:     127.0.0.1:59848 - "GET /books/2963218 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,417 INFO tastebridge.requests GET /books/3046572 200 7.5ms
+INFO:     127.0.0.1:59855 - "GET /books/3046572 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,419 INFO tastebridge.requests GET /books/6231171 200 8.5ms
+INFO:     127.0.0.1:59856 - "GET /books/6231171 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,420 INFO tastebridge.requests GET /books/41335427 200 9.0ms
+INFO:     127.0.0.1:59858 - "GET /books/41335427 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,421 INFO tastebridge.requests GET /books/2809203 200 9.3ms
+INFO:     127.0.0.1:59857 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,427 INFO tastebridge.requests GET /books/1540236 200 6.2ms
+INFO:     127.0.0.1:59853 - "GET /books/1540236 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,427 INFO tastebridge.requests GET /books/3212258 200 3.3ms
+INFO:     127.0.0.1:59858 - "GET /books/3212258 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,428 INFO tastebridge.requests GET /books/1466917 200 3.3ms
+INFO:     127.0.0.1:59857 - "GET /books/1466917 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,429 INFO tastebridge.requests GET /books/3204327 200 3.5ms
+INFO:     127.0.0.1:59848 - "GET /books/3204327 HTTP/1.1" 200 OK
+2026-11-05 01:07:13,440 INFO tastebridge.requests POST /recommend 200 4.1ms
+INFO:     127.0.0.1:59848 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:11:46,087 INFO tastebridge.requests GET /health 200 212.3ms
+INFO:     127.0.0.1:61008 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:11:46,128 INFO tastebridge.requests GET /books/4640799 200 16.3ms
+INFO:     127.0.0.1:61008 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,286 INFO tastebridge.requests GET /books/3046572 200 166.4ms
+INFO:     127.0.0.1:61014 - "GET /books/3046572 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,297 INFO tastebridge.requests GET /books/2963218 200 164.0ms
+INFO:     127.0.0.1:61015 - "GET /books/2963218 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,304 INFO tastebridge.requests GET /books/6231171 200 152.0ms
+INFO:     127.0.0.1:61016 - "GET /books/6231171 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,304 INFO tastebridge.requests GET /books/41335427 200 35.0ms
+INFO:     127.0.0.1:61017 - "GET /books/41335427 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,304 INFO tastebridge.requests GET /books/2809203 200 35.4ms
+INFO:     127.0.0.1:61008 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,308 INFO tastebridge.requests GET /books/1540236 200 33.1ms
+INFO:     127.0.0.1:61018 - "GET /books/1540236 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,333 INFO tastebridge.requests GET /books/3212258 200 34.8ms
+INFO:     127.0.0.1:61014 - "GET /books/3212258 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,344 INFO tastebridge.requests GET /books/1466917 200 36.4ms
+INFO:     127.0.0.1:61015 - "GET /books/1466917 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,348 INFO tastebridge.requests GET /books/3204327 200 30.8ms
+INFO:     127.0.0.1:61017 - "GET /books/3204327 HTTP/1.1" 200 OK
+2026-11-05 01:11:46,569 INFO tastebridge.requests POST /recommend 200 208.6ms
+INFO:     127.0.0.1:61017 - "POST /recommend HTTP/1.1" 200 OK
+2026-11-05 01:12:06,836 INFO tastebridge.requests GET /health 200 21.0ms
+INFO:     127.0.0.1:61106 - "GET /health HTTP/1.1" 200 OK
+2026-11-05 01:12:06,863 INFO tastebridge.requests GET /books/4640799 200 13.2ms
+INFO:     127.0.0.1:61106 - "GET /books/4640799 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,898 INFO tastebridge.requests GET /books/3046572 200 36.2ms
+INFO:     127.0.0.1:61112 - "GET /books/3046572 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,909 INFO tastebridge.requests GET /books/2963218 200 38.8ms
+INFO:     127.0.0.1:61113 - "GET /books/2963218 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,929 INFO tastebridge.requests GET /books/6231171 200 51.9ms
+INFO:     127.0.0.1:61114 - "GET /books/6231171 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,930 INFO tastebridge.requests GET /books/2809203 200 44.7ms
+INFO:     127.0.0.1:61106 - "GET /books/2809203 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,932 INFO tastebridge.requests GET /books/1540236 200 36.1ms
+INFO:     127.0.0.1:61116 - "GET /books/1540236 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,932 INFO tastebridge.requests GET /books/41335427 200 46.0ms
+INFO:     127.0.0.1:61115 - "GET /books/41335427 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,976 INFO tastebridge.requests GET /books/3212258 200 3.5ms
+INFO:     127.0.0.1:61115 - "GET /books/3212258 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,977 INFO tastebridge.requests GET /books/3204327 200 2.7ms
+INFO:     127.0.0.1:61106 - "GET /books/3204327 HTTP/1.1" 200 OK
+2026-11-05 01:12:06,987 INFO tastebridge.requests GET /books/1466917 200 12.8ms
+INFO:     127.0.0.1:61116 - "GET /books/1466917 HTTP/1.1" 200 OK
+2026-11-05 01:12:07,037 INFO tastebridge.requests POST /recommend 200 27.5ms
+INFO:     127.0.0.1:61116 - "POST /recommend HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [80281]

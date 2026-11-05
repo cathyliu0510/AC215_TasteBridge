@@ -1,0 +1,78 @@
+{
+  "input_kind": "synthetic",
+  "metrics": [
+    {
+      "aggregation": "average",
+      "long_tail_coverage": 0.0,
+      "mean_ndcg": 0.320628,
+      "min_recall": 0.152461,
+      "model": "popularity",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "least_misery",
+      "long_tail_coverage": 0.0,
+      "mean_ndcg": 0.320628,
+      "min_recall": 0.152461,
+      "model": "popularity",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "merged_seeds",
+      "long_tail_coverage": 0.0,
+      "mean_ndcg": 0.320628,
+      "min_recall": 0.152461,
+      "model": "popularity",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "average",
+      "long_tail_coverage": 0.070312,
+      "mean_ndcg": 0.435976,
+      "min_recall": 0.198264,
+      "model": "item_knn",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "least_misery",
+      "long_tail_coverage": 0.140625,
+      "mean_ndcg": 0.419055,
+      "min_recall": 0.181682,
+      "model": "item_knn",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "merged_seeds",
+      "long_tail_coverage": 0.070312,
+      "mean_ndcg": 0.442886,
+      "min_recall": 0.185174,
+      "model": "item_knn",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "average",
+      "long_tail_coverage": 0.320312,
+      "mean_ndcg": 0.34221,
+      "min_recall": 0.139852,
+      "model": "als",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "least_misery",
+      "long_tail_coverage": 0.34375,
+      "mean_ndcg": 0.316623,
+      "min_recall": 0.126087,
+      "model": "als",
+      "n_favorites": "5"
+    },
+    {
+      "aggregation": "merged_seeds",
+      "long_tail_coverage": 0.3125,
+      "mean_ndcg": 0.346052,
+      "min_recall": 0.140372,
+      "model": "als",
+      "n_favorites": "5"
+    }
+  ],
+  "scope": "held-out fits, separate from all-user serving export"
+}

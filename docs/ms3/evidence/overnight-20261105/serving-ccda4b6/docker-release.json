@@ -1,0 +1,32 @@
+{
+  "project": "tastebridge-511403",
+  "region": "us-central1",
+  "service": "tastebridge-staging",
+  "commit": "ccda4b6069305da738e3b262a1cf1ee8ca44c39e",
+  "source_trees": {
+    "src/backend": "96212ae3ec31f66526c30d4b05488557509b1e45",
+    "frontend/prototype": "662659966ddd803f0af0159ebc58292187ccec54",
+    "deploy/cloud-run": "b14eba76665fe366aca8eeaa97bf1de2a3f5717e"
+  },
+  "tag": "ccda4b606930-cb4457b668e3",
+  "images": {
+    "frontend": "tastebridge-cloud-frontend:ccda4b606930-cb4457b668e3",
+    "backend-base": "tastebridge-cloud-backend-base:ccda4b606930-cb4457b668e3",
+    "backend": "tastebridge-cloud-backend:ccda4b606930-cb4457b668e3"
+  },
+  "image_ids": {
+    "frontend": "sha256:d28b4dabda057bcd898fc281ba173070aef43f339c0c8de094c61cc0aea6523d",
+    "backend-base": "sha256:b562de56e99a7b23ef57741f1916f430365432322a390fc601654fcb3e6e5454",
+    "backend": "sha256:687858740c00c656c78ed66907644580958650f8a763d402c60dd3290461d4cb"
+  },
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "data_version": "gr-317756d1a1ad",
+  "num_books": 5000,
+  "reviewed_artifact_lock_sha256": "e159a70a01b3fd4e4ec88369267546aa4d2797c74bfbef16b677bde19f3de334"
+}

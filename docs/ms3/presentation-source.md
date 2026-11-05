@@ -1,9 +1,11 @@
-# TasteBridge
+Updated November 5, 2026. This manuscript matches the editable review deck and retains the cloud evidence gaps. Total timing: 900 seconds.
+
+# 1
 
 ::: notes
 Timing: 45 seconds.
 
-Local integration review, November 4, 2026. Cloud execution, deployment and monitoring remain unverified. This deck is a review draft, not a completed MS3 submission. The existing algorithm and model modules come from the team's MS2 work. This continuation adds orchestration, reproducibility checks, contract verification and frontend provenance. Sources: docs/ms3/README.md; official MS3 https://harvard-iacs.github.io/2026-AC215/milestone3/.
+The existing 5,000-book team model now works with Reading Desk release 20261105.1. We verified local HTTP, browser recovery and the current Linux/amd64 containers. Cloud training, the deployed service and production monitoring still need evidence. The separate public Site remains a 23-book static demo. The app source for the latest container check is 2a87e200430a4b8eb15810cae591fb0c7661151c. The initial milestone3 upload was verified at 59ef1a5; any later branch update requires a separate remote verification. No Canvas submission occurred. Sources: docs/ms3/evidence/overnight-20261105; docs/ms3/evidence/overnight-20261105/github-initial-upload.json; https://harvard-iacs.github.io/2026-AC215/milestone3/.
 :::
 
 # One export drives the API and interface
@@ -11,15 +13,15 @@ Local integration review, November 4, 2026. Cloud execution, deployment and moni
 ::: notes
 Timing: 75 seconds.
 
-Trace processed tables through evaluation.export to four files, then app.artifacts and the frontend relay. The served model reads the same versioned files together. The optional text-embedding index is a separate workflow, not consumed by B2 serving. Sources: docker-compose.yml; src/evaluation/evaluation/export.py; src/backend/app/artifacts.py; frontend/prototype/scripts/serve.mjs.
+The backend reads books.json, item_embeddings.npy, coords_2d.npy and meta.json together. Their hashes match the pinned team DVC directory. The API now reports a fingerprint calculated from the exact four file buffers loaded at startup. A model label alone is insufficient: the old Docker report used the same name with different vectors, coordinates and metadata. Sources: src/backend/app/artifacts.py; docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json; current container release record.
 :::
 
-# Two clean runs reproduce the same outputs
+# Two synthetic runs reproduce the same outputs
 
 ::: notes
 Timing: 75 seconds.
 
-Both saved runs use source commit e8a31285afc12b052b7f11f5b440358f89fa1b42. Both working trees were clean at run start. Hash comparison covers five generated gzip files, two processed tables, item vectors, coordinates and summary.csv. Full-shelf API rankings also match. This establishes same-environment reproducibility, not cross-platform bitwise equality. Sources: docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json; run-a/run.json; run-b/run.json. Initial run failed because the new verifier compared four-decimal API output at excessive precision; e8a3128 corrected the verifier and retained the failed run locally.
+These are two historical clean synthetic runs in the same environment at source e8a3128. Their recorded input, processed tables, model outputs, metrics and responses support the stated local reproducibility result. They are separate from the current 5,000-book serving check. The stronger comparator also checks catalogue, configuration, parameters and complete request/response semantics. No cross-platform bitwise reproduction or new model-quality result is claimed. Sources: local-integration-20261104/runs/reproducibility.json; tools/summarize_integration.py and its regressions.
 :::
 
 # Evaluation and serving use separate fits
@@ -27,7 +29,7 @@ Both saved runs use source commit e8a31285afc12b052b7f11f5b440358f89fa1b42. Both
 ::: notes
 Timing: 90 seconds.
 
-The exporter fits all retained synthetic users for serving. The evaluator independently fits training users only, then evaluates disjoint held-out users. There are 316 training, 40 tuning and 39 test users; 23 test readers have enough catalogue likes for simulated pairs. Favorites are excluded from ranking. The local smoke uses 16 factors and 8 iterations. The previous tuned MS2 configuration remains 128 factors and 15 iterations. No model replacement or quality improvement is claimed. Sources: src/evaluation/evaluation/run.py; export.py; als.py; saved evaluation-config.json and export-meta.json.
+The existing team serving export records 5,000 books, 9,896 users, 499,915 interactions, 128 factors and 15 iterations. The synthetic integration used 160 books, 395 retained users, 16 factors and 8 iterations. Evaluation fits training users and scores held-out readers; the serving export refits all retained users. The historical real-data split was 7,917/990/989. We did not retrain the real model. Sources: team-model-retrieval.json; historical-evaluation-context.json; evaluation/export.py and run.py.
 :::
 
 # The evaluator records both ranking rules
@@ -35,25 +37,23 @@ The exporter fits all retained synthetic users for serving. The evaluator indepe
 ::: notes
 Timing: 75 seconds.
 
-All numbers on this slide are from invented input and 20 simulated pairs. They verify metric generation and configuration coverage only. They do not rank models for Goodreads, and the local ALS smoke is not claimed to beat the baselines. Min-Recall@10 is the smaller of the two readers' hidden-like recalls. NDCG@10 averages the two readers' values. Source: saved evaluation-summary.csv and src/evaluation/evaluation/metrics.py.
+All visible metrics come from synthetic input and 20 simulated pairs. They test metric generation rather than Goodreads quality. For context, the historical tuned B2 average Min-Recall@10 was 0.0432 and least-misery 0.0236. The historical item-kNN baseline did better. Evaluation uses a training-user fit, while serving uses the all-reader export. Sources: docs/ms2/models/runs/test-tuned-f128-r50; saved synthetic evaluation-summary.csv. Keep those results separate.
 :::
 
-# The trained model reaches the Reading Desk
+# Existing team model in the Reading Desk
 
 ::: notes
 Timing: 120 seconds.
 
-Demonstration: open the actual model-backed UI, choose another recommendation, inspect each reader's reference, mark both Interested, explicitly choose, then change one reader to Pass. At 320px the choice is revoked, focus returns to Review & respond and no horizontal overflow appears. Switching to average changes the five titles. The footer explicitly identifies synthetic training data. Chrome remains limited by its extension error and blank native capture; actual interaction checks use supported local HTTP in the in-app browser. Sources: trained-ui-desktop.jpg, trained-choice-320.jpg, browser-checks.json; frontend/prototype/src/a/.
+The screenshots show the real team model through the current frontend. Desktop and 320px phone checks verified both reader reasons, Interested, explicit shared choice and return to the shortlist. Refresh restored the favorites and choice. A subsequent Pass revoked the choice, and it stayed revoked after another refresh. A separate manual flow chose five Mieville books and five Agatha Christie books, then selected The Prestige. Search works with and without accents. Search text is not saved. No browser feedback event was sent. These screenshots are bound to the ccda4b6 source manifest and all four model hashes; the later backend search index leaves frontend bytes unchanged. Sources: serving-ccda4b6/browser-checks.json and evidence-binding.json.
 :::
-
-![](evidence/local-integration-20261104/trained-ui-desktop.jpg)
 
 # The API contract checks actual responses
 
 ::: notes
 Timing: 75 seconds.
 
-The JSON is the actual five-seed request saved in api-examples.json. The verifier uses two known catalogue IDs for the minimal endpoint check and additionally records full-shelf responses. It checks signed finite similarities and four-decimal serialization tolerance, correct aggregation, unique non-seed results, reader-specific reasons, matching projection IDs/positions, model identity and private-route isolation. It sends no feedback. Sources: deploy/cloud-run/smoke.py; tools/verify_local_integration.py; saved api-check.json and api-examples.json.
+The actual model API passed both ranking modes, unique non-favorite results, reader-specific references, finite scores, aggregation ordering, map coordinates and private-route isolation. Health and recommendation responses share the exact artifact fingerprint. The small contract check uses two known IDs; browser flows use five favorites per reader. Clean-checkout acceptance adds malformed and unknown-ID requests and explicit model-startup failures. Source: current acceptance and container smoke records; src/backend/SPEC.md.
 :::
 
 # Tests cover each integration boundary
@@ -61,15 +61,15 @@ The JSON is the actual five-seed request saved in api-examples.json. The verifie
 ::: notes
 Timing: 60 seconds.
 
-Frontend, preprocessing and integration checks were rerun for this continuation. The unchanged backend's 77 and evaluation's 54 tests passed earlier the same day and are retained with their reports. New end-to-end training and HTTP checks ran twice after that. Test counts are not cloud evidence. Sources: docs/ms3/evidence/local-integration-20261104 test reports; docs/ms3/local-continuation-20261104/ backend and evaluation reports.
+These are dated checks for the current local candidate, rather than evidence of cloud execution. The frontend has 107 passing tests, backend 124, integration tools 68 and offline workflow candidate 36. The two complete training runs are the historical synthetic runs. Existing preprocessing122 and evaluation54 reports remain available from November 4; they are not presented as fresh tests here. Sources: frontend-tests.txt; search-performance/backend-tests.txt; tool and workflow receipts. Any later changed source must be verified again. A separate first actual worker invocation now completed local synthetic training and evaluation in a network-disabled Linux/amd64 container: 160 books, 128 factors, 15 iterations, and 126 sampled pairs from 23 eligible held-out readers. It requested 300 pairs, but the existing sampler capped the finite eligible combinations. This is runtime integration evidence, not real-data quality or cloud execution. Source: evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json.
 :::
 
-# Cloud Run preparation is ready for operator review
+# Current export and deployment evidence
 
 ::: notes
 Timing: 75 seconds.
 
-This is the existing prepared Cloud Run design, not a deployed diagram. Frontend port 8080 reaches the internal API at 9000. Images keep the model private. Build and smoke require a Docker daemon and a real approved export, now recovered from the existing pinned team DVC snapshot (November 5 audit). gcloud is also absent. The existing publish operator command uploads images and updates a service while preserving existing invocation settings, so it requires separate explicit authorization; the course also permits teaching-staff access with an authentication arrangement discussed with the TF. Sources: deploy/cloud-run/deploy.py; Dockerfile.backend; README.md; historical verification.local.json. Historical Docker evidence is not a current live deployment check.
+We built and tested the current Linux/amd64 images from app source 2a87e20, using the locked export fingerprint cb4457b668e3. The actual running image IDs match the release record. Search now uses catalogue keys built once at startup, preserving result order and display text without caching user queries. The old Docker result remains historical. The Cloud Run service, training jobs, pipelines and registry reads returned 403; absence is not established. Publication preserves invocation policy, requires a reviewed private registry and records actual prior traffic for rollback. Sources: containers-2a87e20; search-performance; deploy/cloud-run.
 :::
 
 # Production logging still needs cloud evidence
@@ -77,7 +77,7 @@ This is the existing prepared Cloud Run design, not a deployed diagram. Frontend
 ::: notes
 Timing: 60 seconds.
 
-The log excerpt is from the actual local trained-model run. Request logging records method, path, status and elapsed time. The values are examples, not a latency benchmark. Cloud Logging must still show the real service revision and an actual response/error or feedback event with access instructions. No external feedback was sent here. Sources: src/backend/app/main.py; saved backend.log; deploy/cloud-run/README.md.
+The displayed lines are actual local container requests, not a production latency benchmark. The local smoke sent one explicit test vote into its owned container stdout and removed its containers afterward. Browser QA sent no feedback. A bounded production-log query returned 403 without identifying the missing permission. We still need a real cloud revision, a matching request/error/performance event and approved log access. Sources: containers-2a87e20/container-smoke-2a87e20.log; cloud-readiness.json; backend request middleware.
 :::
 
 # MS3 evidence still has cloud requirements
@@ -85,13 +85,13 @@ The log excerpt is from the actual local trained-model run. Request logging reco
 ::: notes
 Timing: 75 seconds.
 
-The official rubric asks for at least one tracked reproducible serverless training run, an automated ML workflow, deployed model/API with staff access, basic production logging, documented/tested API, code/README/screenshots and a 15-minute presentation. Local automation and logs do not replace the cloud items. All unverified cells remain explicit in the evidence index. Source: https://harvard-iacs.github.io/2026-AC215/milestone3/ and docs/ms3/evidence/index.json.
+The rubric requires one successful tracked reproducible serverless run or an accepted equivalent. Multi-GPU is conditional. A qualifying automated workflow need not contain every stage. Authenticated teaching-staff service access is acceptable, and basic Cloud Logging or equivalent meets minimum monitoring. The new worker is a candidate pending team reconciliation, qualifying cloud execution evidence and acceptance of its tracking/workflow approach. Local receipts and test runs cannot close the cloud cells. Source: https://harvard-iacs.github.io/2026-AC215/milestone3/; evidence/index.json; deploy/vertex-ms3/README.md.
 :::
 
-# The remaining handoff has three gates
+# Remaining cloud evidence and team review
 
 ::: notes
 Timing: 75 seconds.
 
-First confirm the team's chosen tracking and cloud workflow and any prior cloud executions. Then the authorized operator collects real run, service and log evidence using the approved data and existing deployment package. Finally review the integrated branch, reconcile architecture PR 11, and have the authorized maintainer create/update milestone3 and submit its full hash on Canvas by November 12, 10pm ET. Security review has denied pushing this branch; no bypass or alternate remote publishing is authorized. This deck's placeholders require replacement before the graded presentation. Sources: docs/ms3/README.md; reproduce.md; official rubric.
+The milestone3 preparation branch exists and main remains unchanged. First collect and reuse existing cloud run, workflow and tracker records. Then an authorized operator verifies the current model images, cloud revision, staff access and production logs. Finish the team review and presentation, then submit the reviewed full commit hash on Canvas. Deadline: November 12 at 10pm Eastern, with a 15-minute team presentation. This deck remains a review draft while cloud evidence is missing. Sources: docs/ms3/evidence/overnight-20261105/github-initial-upload.json, current MS3 runbook and official rubric.
 :::

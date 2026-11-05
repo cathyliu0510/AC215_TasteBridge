@@ -1,0 +1,216 @@
+{
+  "actual_array_headers": {
+    "coords_2d.npy": {
+      "descr": "<f4",
+      "fortran_order": false,
+      "shape": [
+        160,
+        2
+      ]
+    },
+    "item_embeddings.npy": {
+      "descr": "<f4",
+      "fortran_order": false,
+      "shape": [
+        160,
+        128
+      ]
+    }
+  },
+  "actual_artifact_and_aggregate_hashes": {
+    "artifacts/current/books.json": "7e73c05e84cfed3940e97dba70faa1dc3f20548f4d3f240b1c9981ac215798aa",
+    "artifacts/current/coords_2d.npy": "10ef7e7100d5c4a77ff3de5e38104236d929475f0b18c4fa0f8ead8b17ac7abe",
+    "artifacts/current/item_embeddings.npy": "3d83c4aac48c8a3eff62e88c6bd0148cff09058055ba6a0c7341e39dad25944e",
+    "artifacts/current/meta.json": "1aa03c525bfc6aabbcc5f2ae8b127414c34033c5aed90ae8a056bfb37e3ba03a",
+    "evaluation/held-out/config.json": "32e6ea90da2d187f4aa8a4181ca799fa273339a4603d393ac5632322b61bca94",
+    "evaluation/held-out/summary.csv": "ef1c343dbd0c4b61425d6290f23e11a2d67e1ffd7bf54e1f6c8be45eaca46fc7",
+    "evaluation/held-out/summary.md": "641c99bd16104781c7848370049d0beb8d7fd333b025324db317ebc5001c8dd9",
+    "metrics.json": "6118689e28a5e268ff84e85e7f2251d95bfad2d81137f7e66c6509e88c13b8d8",
+    "plan.json": "5420220e6cad499470b86a117baed1653366c5c27795f8b9e0c46f441aff8830"
+  },
+  "actual_evaluation_counts": {
+    "catalogue_works": 160,
+    "eligible_readers": 23,
+    "interactions": 9072,
+    "long_tail_works": 128,
+    "pairs": {
+      "different": 63,
+      "similar": 63
+    },
+    "train_interactions": 7255,
+    "users": {
+      "test": 39,
+      "train": 316,
+      "tune": 40
+    }
+  },
+  "actual_export_counts": {
+    "books": 160,
+    "interactions": 9072,
+    "users": 395
+  },
+  "actual_model_version": "b2-als-synthetic-244f05111efd",
+  "actual_processed_counts": {
+    "catalogue_works": 160,
+    "editions_mapped": 305,
+    "interaction_lines_read": 10297,
+    "interactions": 9072,
+    "likes": 6631,
+    "users": 395,
+    "users_with_15_plus_likes": 221,
+    "works_by_genre": {
+      "both": 11,
+      "fantasy": 71,
+      "mystery": 78
+    },
+    "works_total": 160
+  },
+  "actual_receipt_status": "completed_local",
+  "aggregate_metric_rows": 9,
+  "cleanup_verified_empty": true,
+  "cloud_execution": false,
+  "cloud_upload_or_persistence": false,
+  "container_elapsed_seconds": 431.36,
+  "container_exit_code": 0,
+  "container_id": "c151f17c2dc8a7a30ae542507d0841dfda8b1976c91c88b2c5dffd799bea8c40",
+  "container_name": "tastebridge-ms3-workflow-pass19-pass20-synthetic-execution",
+  "container_state": "exited",
+  "cpu_limit": 2,
+  "created_at": "2026-11-05T06:07:25.719297+00:00",
+  "data_version": "synthetic-244f05111efd",
+  "excluded_from_selected_evidence": [
+    "reader-level per_pair.csv",
+    "sample favorites/recommendations",
+    "private export/evaluation logs",
+    "model arrays/catalogue copies"
+  ],
+  "finished_at": "2026-11-05T06:14:37.159483114Z",
+  "image_id": "sha256:2ce28e846ed28cb44330274ab5157bc03926fdf185012d4e327327ed46c6dce2",
+  "input_and_source_preserved": true,
+  "input_hashes_after": {
+    "books.parquet": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+    "interactions.parquet": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+    "manifest.json": "65b2025273d1a10b76216946e90f0dadb0918bc4596ae089c2ed2015ae3ae475"
+  },
+  "input_hashes_before": {
+    "books.parquet": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758",
+    "interactions.parquet": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551",
+    "manifest.json": "65b2025273d1a10b76216946e90f0dadb0918bc4596ae089c2ed2015ae3ae475"
+  },
+  "input_kind": "synthetic",
+  "local_image_retained": "tastebridge-ms3-workflow-pass19:local",
+  "memory_limit_bytes": 2147483648,
+  "online_tracking": false,
+  "oom_killed": false,
+  "overall_elapsed_seconds": 431.89,
+  "owned_container_removed": true,
+  "parameters": {
+    "als": {
+      "alpha": 20.0,
+      "factors": 128,
+      "iterations": 15,
+      "regularization": 50.0,
+      "seed": 42
+    },
+    "evaluation": {
+      "aggregations": [
+        "average",
+        "least_misery",
+        "merged_seeds"
+      ],
+      "favorite_counts": [
+        5
+      ],
+      "k": 10,
+      "knn_neighbors": 100,
+      "models": [
+        "popularity",
+        "item_knn",
+        "als"
+      ],
+      "n_pairs": 300,
+      "split": "test"
+    }
+  },
+  "parameters_sha256": "012b5f1697443fd87175e31ff718144db54b9c642892f445c9181642beaeb7d6",
+  "pass": 20,
+  "platform": "linux/amd64",
+  "real_data_used": false,
+  "requested_execute_count": 1,
+  "requested_pairs": 300,
+  "runtime_budget_seconds": 900,
+  "scope": "first actual local synthetic execution of the NEW wrapper/container",
+  "selected_evidence_sha256": {
+    "evaluation-config.json": "32e6ea90da2d187f4aa8a4181ca799fa273339a4603d393ac5632322b61bca94",
+    "evaluation-summary.csv": "ef1c343dbd0c4b61425d6290f23e11a2d67e1ffd7bf54e1f6c8be45eaca46fc7",
+    "evaluation-summary.md": "641c99bd16104781c7848370049d0beb8d7fd333b025324db317ebc5001c8dd9",
+    "export-meta.json": "1aa03c525bfc6aabbcc5f2ae8b127414c34033c5aed90ae8a056bfb37e3ba03a",
+    "metrics.json": "6118689e28a5e268ff84e85e7f2251d95bfad2d81137f7e66c6509e88c13b8d8",
+    "plan.json": "5420220e6cad499470b86a117baed1653366c5c27795f8b9e0c46f441aff8830",
+    "receipt.json": "78275abd809714f0b803498548b22122e9874a74eaca53ce62d9c694f07be07e",
+    "tracking.jsonl": "ca3c6e220ebd56d12b549614362fba589dcdf5e717b319cfb924e72ad18e45b9"
+  },
+  "source": {
+    "base_commit": "2a87e200430a4b8eb15810cae591fb0c7661151c",
+    "files_sha256": {
+      "deploy/vertex-ms3/Dockerfile": "e234be4d102b5de7c1bad37a4b50973b506698cfe8a73ffec74edfc638f2a965",
+      "deploy/vertex-ms3/workflow.py": "c9b8e66520c7b3eb07369ec2e25914113d93327c7612bf711f2cc8bc6c835b19",
+      "src/evaluation/.python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+      "src/evaluation/Dockerfile": "c889f28de9cbf715a95049965af4b1642a9f0cafd80c42082ec24c11b13b29c5",
+      "src/evaluation/evaluation/__init__.py": "9c67a729c2d6216a9c3f823fd90d5950c048eebdccfbda8a9c4ebadccd65a8d3",
+      "src/evaluation/evaluation/aggregate.py": "8c66cadf94708e7892bc3c7ee528c9bd1efb7b54a93e811f4dc51fbbaf013600",
+      "src/evaluation/evaluation/als.py": "de56fb4611e937b9dd1c919ee449469cc2b3c3e8e2e356feef265c9fb49848f1",
+      "src/evaluation/evaluation/data.py": "b3aed6c362855317353cf0c8aa365e8c094051ce992cfaaa329bef292fe96572",
+      "src/evaluation/evaluation/export.py": "3e17f3f28016d98e747ffa165ce0cdf717bb11180ab5a98dcab1fd099c779530",
+      "src/evaluation/evaluation/metrics.py": "94ab6590401e455c8a6bf8d7663347029c8ad2c8bef95ea096e3d37a2de8d3d0",
+      "src/evaluation/evaluation/models.py": "9779b74549a9b40a9d6bb2bc2b00ae9588ed1bdec978c2c5724be5316826adad",
+      "src/evaluation/evaluation/pairs.py": "5fd5e0d9a8bcc28d75ff3081efd89f38126161b15fdf5ac9662485f476c0f945",
+      "src/evaluation/evaluation/run.py": "69077e7b8ff8798b9d78d41a8300213595effbd577e98536fa48f8a573badab5",
+      "src/evaluation/evaluation/split.py": "710d4e8037bbc6b0472964e005c89385660f8cbb18418b39bcc39a9bad678d66",
+      "src/evaluation/evaluation/synthetic.py": "c84804fa35d2733b5779706b89245220cf9a6aaaf4ce8e84c0a1d83e9c2518d1",
+      "src/evaluation/pyproject.toml": "b180cc938e21873250af21355d9aa05df3b8537b2d52a32fac7c9ba12e68de17",
+      "src/evaluation/uv.lock": "5751e9a542c5c3541d61f064df283f7ffc3b7a5c313c9f1623bcbd6d8e27d446"
+    },
+    "fingerprint_sha256": "298c299401b3168653efd08c0b8005f2aa84ea49ba3967787a2ae87e9a9189be"
+  },
+  "source_edited": false,
+  "stages": [
+    {
+      "stage": "source_provenance",
+      "status": "verified"
+    },
+    {
+      "stage": "input_provenance",
+      "status": "verified"
+    },
+    {
+      "stage": "private_processed_snapshot",
+      "status": "verified"
+    },
+    {
+      "ended_at": "2026-11-05T06:13:11+00:00",
+      "returncode": 0,
+      "stage": "export",
+      "started_at": "2026-11-05T06:07:28+00:00",
+      "status": "completed",
+      "timeout_seconds": 779.912
+    },
+    {
+      "ended_at": "2026-11-05T06:14:36+00:00",
+      "returncode": 0,
+      "stage": "evaluate",
+      "started_at": "2026-11-05T06:13:11+00:00",
+      "status": "completed",
+      "timeout_seconds": 436.544
+    },
+    {
+      "stage": "output_provenance",
+      "status": "verified"
+    }
+  ],
+  "started_at": "2026-11-05T06:07:26.143456672Z",
+  "status": "actual_local_synthetic_wrapper_execution_passed",
+  "training_executed": true,
+  "unrelated_containers_or_colima_changed": false,
+  "summary_copy_note": "Private local runtime directory omitted; selected evidence bytes and their hashes are unchanged."
+}

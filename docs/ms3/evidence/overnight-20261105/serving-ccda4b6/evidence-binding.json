@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "scope": "local serving evidence identity only",
+  "source_manifest_sha256": "91e158974454029a053a528758a1728f4a495dc0118f592179501c358cd556ad",
+  "source_commit": "ccda4b6069305da738e3b262a1cf1ee8ca44c39e",
+  "source_dirty": false,
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "data_version": "gr-317756d1a1ad",
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "evidence": [
+    {
+      "path": "api-check.json",
+      "role": "api",
+      "bytes": 1164,
+      "sha256": "881a3322e3a1107f6fece557167a26b25fa5c09b6c3e47b5ab910eec2d1474da"
+    },
+    {
+      "path": "backend.log",
+      "role": "log",
+      "bytes": 12928,
+      "sha256": "4c668208fb53e1b4da4c1a23344004f11689fefb7ceb4ba377a4240d28ac34ed"
+    },
+    {
+      "path": "browser-checks.json",
+      "role": "browser_report",
+      "bytes": 1950,
+      "sha256": "252251ddad017cbd39700cef69106a760a04036434aab4db5be029b4b5351bd5"
+    },
+    {
+      "path": "desktop-choice-restored.png",
+      "role": "screenshot",
+      "bytes": 61052,
+      "sha256": "051fbf64efa2bff14bba19f78fa63fc7cacc5bfc49bf1b9a1a1555b2b7ffc613"
+    },
+    {
+      "path": "desktop-final-shared-choice.png",
+      "role": "screenshot",
+      "bytes": 53282,
+      "sha256": "111c247eb719369fca3b6789bb8cf6409447bd1f0b208a432065fff15f3a3571"
+    },
+    {
+      "path": "desktop-shortlist.png",
+      "role": "screenshot",
+      "bytes": 64724,
+      "sha256": "492896464d792dc54d7c7f1074b109b636368221f31aad1d4de9078047db6391"
+    },
+    {
+      "path": "docker-release.json",
+      "role": "report",
+      "bytes": 1545,
+      "sha256": "7a3296b6100d7ebd9575a51bbd92c39036a731c0252b6f5818664bacf89548d3"
+    },
+    {
+      "path": "docker-smoke.json",
+      "role": "report",
+      "bytes": 2092,
+      "sha256": "c6d303f0b26d92b40e0bc9846576b997d82796fd7da57353289a2931101f9869"
+    },
+    {
+      "path": "frontend-build.log",
+      "role": "log",
+      "bytes": 381,
+      "sha256": "ddabff7ff9523ca970cf642cdcbb9e0430ca0832fab62aeeb0fc6490922e823e"
+    },
+    {
+      "path": "frontend-tests.txt",
+      "role": "test",
+      "bytes": 10655,
+      "sha256": "e8d5cabaa18e3586eceba46e10881b909563d960a955734568e839884cfd2d6d"
+    },
+    {
+      "path": "frontend.log",
+      "role": "log",
+      "bytes": 2911,
+      "sha256": "fe81ec0489a77e7faa98890b1cf746c04943e749e488c1d6438c751645898c89"
+    },
+    {
+      "path": "phone-choice-restored.png",
+      "role": "screenshot",
+      "bytes": 38479,
+      "sha256": "f6a3f7e338a9feee53420bbfa27b81495d54517c3e35ca118dc6f4e3a0b9cfe3"
+    },
+    {
+      "path": "phone-choice-revoked-after-refresh.png",
+      "role": "screenshot",
+      "bytes": 38265,
+      "sha256": "8048408776ca991ced64c07be07759fae7dc5333a06d95f30b2e47b9f493060b"
+    },
+    {
+      "path": "phone-final-connections.png",
+      "role": "screenshot",
+      "bytes": 31429,
+      "sha256": "1fb970a637ba4a5660e7a69ca9a48d85bd622c4c91bda800cb2f3e5e4df23f50"
+    },
+    {
+      "path": "phone-search-accent.png",
+      "role": "screenshot",
+      "bytes": 33678,
+      "sha256": "02b78b82ac3354c01f5005b671060ed4c4806b5ec47bd8dadc19eaa82e4bac11"
+    },
+    {
+      "path": "phone-start-over.png",
+      "role": "screenshot",
+      "bytes": 28895,
+      "sha256": "31928dadd548f94a1be54296bc1e7e6e6e440d9c65b87a167ed4fad8af54a640"
+    },
+    {
+      "path": "run.json",
+      "role": "run",
+      "bytes": 16568,
+      "sha256": "22408543ea628f30f72e891936c9c4cc732f4277262a100aec0e65e6b27deb1a"
+    },
+    {
+      "path": "source-manifest.json",
+      "role": "source",
+      "bytes": 15013,
+      "sha256": "c56c71e3e7e578d0e13851cd8e566c838ca7ffdc79ecc8365a9e2b3ff528bd0f"
+    }
+  ],
+  "browser_actions_verified": false,
+  "test_execution_verified": false,
+  "limits": "Hashes bind supplied bytes to the recorded source/model identity. They do not prove when or how a screenshot, log or test output was captured, nor independently verify its assertions. No training, cloud execution or deployment is established by this binding.",
+  "sha256": "97f09a5c18a37aebd916c5d2b78684eaaf87187a15b7860f6f0792cc007359f3"
+}

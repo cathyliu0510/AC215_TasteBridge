@@ -1,5 +1,6 @@
 # MS3 deployment and evidence handoff
 
+Historical interim snapshot. For the current frontend, container, branch and presentation status, use [overnight-progress-20261105.md](overnight-progress-20261105.md).
 The current model-to-UI path is verified locally. The next step is to inspect and reuse the team's existing cloud execution, service and logging records. Five cloud reads are denied, so this package prepares exact identity checks and evidence intake without creating another training/deployment workflow or starting a job.
 
 ## Exact model identity

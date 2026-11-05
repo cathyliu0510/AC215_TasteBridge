@@ -1,0 +1,62 @@
+{
+  "run_id": "held-out",
+  "package_version": "0.1.0",
+  "git_commit": "source-sha256:298c299401b3168653efd08c0b8005f2aa84ea49ba3967787a2ae87e9a9189be",
+  "python": "3.12.14",
+  "arguments": {
+    "interactions": "/tmp/tastebridge-ms3-processed-j2ibupq1/interactions.parquet",
+    "books": "/tmp/tastebridge-ms3-processed-j2ibupq1/books.parquet",
+    "synthetic": false,
+    "out": "/tmp/workflow-output/evaluation",
+    "run_id": "held-out",
+    "split": "test",
+    "models": [
+      "popularity",
+      "item_knn",
+      "als"
+    ],
+    "aggregations": [
+      "average",
+      "least_misery",
+      "merged_seeds"
+    ],
+    "favorite_counts": [
+      5
+    ],
+    "n_pairs": 300,
+    "k": 10,
+    "knn_neighbors": 100,
+    "seed": 42,
+    "als_factors": 128,
+    "als_reg": 50.0,
+    "als_alpha": 20.0,
+    "als_iterations": 15
+  },
+  "data": {
+    "interactions": {
+      "path": "/tmp/tastebridge-ms3-processed-j2ibupq1/interactions.parquet",
+      "sha256": "a01921f822123bd678200db2d8f9abc2d2b2c9d19ffbdfdbd5770dd0e3eed551"
+    },
+    "books": {
+      "path": "/tmp/tastebridge-ms3-processed-j2ibupq1/books.parquet",
+      "sha256": "8d7f8b911a3d36a0ac9f36efc2e6afc9da46ee37971eb6f0494307ffcf709758"
+    }
+  },
+  "counts": {
+    "interactions": 9072,
+    "train_interactions": 7255,
+    "users": {
+      "train": 316,
+      "tune": 40,
+      "test": 39
+    },
+    "catalogue_works": 160,
+    "long_tail_works": 128,
+    "eligible_readers": 23,
+    "pairs": {
+      "similar": 63,
+      "different": 63
+    }
+  },
+  "seconds": 77.74
+}

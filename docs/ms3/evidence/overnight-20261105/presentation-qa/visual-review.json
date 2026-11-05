@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-05T06:18:55.402139+00:00",
+  "presentation_sha256": "e141b32c4126733ff054cbefa530569f89497251cc3f6d367d0fa68c1707a1bb",
+  "slides": 12,
+  "all_slides_rendered_and_individually_inspected": true,
+  "render_engine": "Artifact Tool",
+  "template_dimensions_emu": [
+    12192000,
+    6858000
+  ],
+  "native_tables_on_slides": [
+    3,
+    5,
+    8,
+    11
+  ],
+  "speaker_notes_seconds": 900,
+  "native_powerpoint_keynote_rendering_verified": false,
+  "cloud_evidence_complete": false,
+  "notes_only_repair": "Corrected initial GitHub evidence path and avoided an unverified future-publication claim. All12 new final rendered slides are byte-identical to the individually reviewed slides."
+}

@@ -1,8 +1,29 @@
-# Reproduce the served-model integration locally
+# Reproduce the model/API/UI locally
+
+## Reuse the existing export without retraining
+
+This is the default path for the current UI/API review. Obtain the already approved four-file export through the existing team DVC access, or use an existing authorized local export. The verifier itself downloads nothing and never trains, deploys or silently substitutes a fixture. The pinned team export has 5,000 books and fingerprint `cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164`.
+
+Requires Python 3.12, uv and Node 20+. From the repository root:
+
+```sh
+uv sync --frozen --project src/backend
+python3 tools/verify_serving_export.py \
+  --artifact-dir /absolute/path/to/approved/artifacts/current \
+  --out .integration-runtime/ms3-serving-review --serve
+```
+
+Choose a fresh output directory. The default backend interpreter is the environment just created. The tool builds the frontend, hashes its recursive source and the four export files, starts its own loopback API/relay, runs actual HTTP checks and prints a URL with valid catalogue favorites. Keep it running while reviewing; Ctrl-C stops only its owned services. A missing, malformed or row-mismatched export fails; no synthetic fallback is selected. Verify the model/count/fingerprint rather than relying on the label alone.
+
+Try both readers' reasons, both Interested responses, explicit choice, Back to shortlist and refresh. The same-tab session restores favorites and choice; Start over offers an explicit clear. Check 320px phone width and no horizontal overflow. Search accepts both `Mieville` and `Miéville`. Feedback is sent only through the separate explicit button; serving verification sends none.
+
+[Clean-checkout current acceptance](evidence/overnight-20261105/serving-2a87e20/) records this route plus invalid-input and startup failure cases. Dependency installation and a fresh DVC pull were not repeated in that acceptance; the existing locked backend environment and hash-verified approved export were reused. The literal `make app` path was not used for that proof. Actual current Linux/amd64 packaging and smoke have [separate evidence](evidence/overnight-20261105/containers-2a87e20/).
+
+## Optional local training exercise
 
 This workflow invokes the existing preprocessor, B2 exporter, held-out evaluator, backend and frontend relay. It records configuration, source and input hashes, logs, model identity and HTTP contract results. It does not contact Google Cloud, publish a service or replace the course's serverless-training requirement.
 
-## Fresh checkout
+### Fresh synthetic run
 
 Requires Python 3.12, uv and Node 20+. From the repository root:
 
@@ -61,4 +82,4 @@ Keep full run folders under the ignored `.integration-runtime/`. Only deliberate
 
 ## Remaining MS3 operator work
 
-The [runbook](README.md) and [evidence index](evidence/index.json) track the real tracked serverless training run, approved cloud workflow, live service, production logs and teaching-staff access still required. Use the existing Cloud Run package and confirm prior team executions before creating duplicates. GitHub push remains denied by security review; no alternate publishing path is authorized.
+The [runbook](README.md) and [evidence index](evidence/index.json) track the real tracked serverless training run, approved cloud workflow, live service, production logs and teaching-staff access still required. Use the existing Cloud Run package and confirm prior team executions before creating duplicates. The private milestone3 preparation branch exists; the publication receipt records its reviewed contents. No main or Canvas change is included.

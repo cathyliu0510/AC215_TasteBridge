@@ -1,0 +1,32 @@
+{
+  "checked_at": "2026-11-05T06:13:18.649163+00:00",
+  "source_commit": "2a87e200430a4b8eb15810cae591fb0c7661151c",
+  "source_clean": true,
+  "frontend_release": "20261105.1",
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+  "checks": [
+    "Actual team-model API shortlist and both reader explanations rendered.",
+    "Desktop: both Interested responses, explicit choice, return to shortlist, refresh restored favorites and The Tales of Beedle the Bard.",
+    "320px phone: both Interested responses, explicit choice, return to shortlist, refresh restored favorites and shared choice.",
+    "Phone DOM viewport and scroll width both 320; no horizontal overflow."
+  ],
+  "browser": "ChatGPT in-app browser",
+  "console_errors": [],
+  "browser_feedback_sent": false,
+  "invalid_feedback_requests_rejected": true,
+  "feedback_events_written": false,
+  "training_executed": false,
+  "cloud_execution": false,
+  "limitations": [
+    "Local clean-checkout Python/Node service, not cloud deployment.",
+    "Extended manual selection, ranking, search, revocation and clear flows are separately bound at ccda4b6; frontend bytes are unchanged.",
+    "phone-choice-restored.png was captured at desktop width and is excluded.",
+    "Inherited catalogue dates have not been independently validated."
+  ]
+}

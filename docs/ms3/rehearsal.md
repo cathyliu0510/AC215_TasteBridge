@@ -1,52 +1,43 @@
 # TF presentation rehearsal
 
-[Editable deck](presentation/TasteBridge-MS3-review.pptx) · [speaker-note manuscript](presentation-source.md).
+[Editable review deck](presentation/TasteBridge-MS3-review.pptx) · [Matching speaker notes](presentation-source.md) · [Final file/render verification](evidence/overnight-20261105/presentation-qa/visual-review.json).
 
-The [November 5 integration manuscript](presentation-integration-20261105.md) maps the recovered 5,000-book team model into this review. It leaves the binary PPTX as the earlier draft pending evidence replacement/rendering.
+The 12 slides total **900 seconds**. All final slides were rendered and individually inspected using Artifact Tool. Native PowerPoint/Keynote rendering remains unverified. Cloud cells remain incomplete; replace them with actual evidence before the graded presentation. Speaker allocation is a team decision.
 
-The review deck totals **900 seconds**. It is ready for team review, with cloud placeholders explicitly retained. Replace those with actual evidence before the graded presentation. Every teammate should understand each part; no speaker allocation is inferred here.
-
-| Slide | Time | Main point / file to navigate |
+| Slide | Time | Main point |
 | --- | --- | --- |
-| 1. Review scope | 0:45 | State local verification and cloud gaps immediately |
-| 2. Model-to-UI path | 1:15 | `evaluation/export.py`, backend artifact loader, frontend relay |
-| 3. Two clean runs | 1:15 | `runs/reproducibility.json`, source/input/artifact hashes |
-| 4. Serving vs evaluation | 1:30 | All-reader serving fit vs disjoint 316/40/39 evaluation users |
-| 5. Metric output | 1:15 | Synthetic 20-pair table; no Goodreads quality conclusion |
-| 6. Actual UI | 2:00 | Switch book, inspect reasons, both Interested, explicit choice, Pass revokes |
-| 7. API contract | 1:15 | Actual request/response; both aggregations, identity, references, coordinates |
-| 8. Tests | 1:00 | Current frontend/preprocessing/tools reports and earlier component suites |
-| 9. Deployment | 1:15 | Existing Cloud Run topology and operator requirements; no live deployment claim |
-| 10. Monitoring | 1:00 | Actual local request log, then required cloud revision/log access |
-| 11. Rubric status | 1:15 | Official requirement-to-evidence matrix |
-| 12. Handoff | 1:15 | Real data/cloud execution, operator proof, reviewed submission |
+| 1. Scope | 0:45 | Existing 5,000-book model works locally; cloud proof pending |
+| 2. Model-to-UI path | 1:15 | Four locked files drive the API and interface |
+| 3. Reproducibility | 1:15 | Two historical synthetic runs, exact source/input/output provenance |
+| 4. Fits | 1:30 | Evaluation fits training readers; serving refits all retained readers |
+| 5. Metrics | 1:15 | Historical synthetic 20-pair table, no Goodreads quality claim |
+| 6. Actual UI | 2:00 | Both reasons, Interested, explicit choice and refresh recovery |
+| 7. API | 1:15 | Both rankings, correct identity, references and coordinates |
+| 8. Verification | 1:00 | Current component checks and separate first local synthetic worker run |
+| 9. Deployment | 1:15 | Current exact-model local images; cloud revision/TF access pending |
+| 10. Monitoring | 1:00 | Actual local container requests; production-log visibility denied |
+| 11. Rubric | 1:15 | Requirement/evidence/gap matrix |
+| 12. Handoff | 1:15 | Reuse existing cloud work, verify deployment/logs, team review and Canvas |
 
 ## Demo setup
 
-Use `tools/verify_local_integration.py --synthetic --out <fresh-run> --serve` after the locked environment setup in [reproduce.md](reproduce.md). Use the printed URL, which contains actual IDs from that export. Keep the command running. This is a local trained-synthetic demonstration, not a hosted model service.
+Use the [existing-export route](reproduce.md#reuse-the-existing-export-without-retraining). Do not retrain the real team model for a UI demonstration. Run `tools/verify_serving_export.py --artifact-dir /approved/export --out .integration-runtime/fresh-demo --serve` after locked backend setup, then use its printed URL. It supplies five valid favorites per reader. Keep the process running; Ctrl-C stops only its two loopback services.
 
-If serving a retained run without retraining, from `frontend/prototype`:
+Open a recommendation and read both reasons. Mark Interested for each reader, choose together, return to the shortlist, then refresh to show the recovered choice. Change one response to Pass to revoke the choice; Start over offers a confirmation. Search accepts Mieville/Miéville. Feedback uses a separate explicit button; do not send a production test vote unintentionally.
 
-```sh
-ARTIFACT_DIR=../../.integration-runtime/ms3-synthetic-20261104-r2/artifacts/current \
-TASTEBRIDGE_UI_PORT=4182 TASTEBRIDGE_API_PORT=9920 node scripts/dev.mjs
-```
+The [original public Site](https://tastebridge-prototype.landenini.chatgpt.site/) is a separate static 23-book frontend demonstration, not the model service. Saved actual-model screenshots/logs/JSON support discussion when the local server is unavailable; they do not replace cloud evidence.
 
-Do not start a duplicate while those ports are occupied. The saved screenshots and actual JSON/log evidence support discussion when the local server is unavailable. They do not stand in for required cloud screenshots.
+## Questions
 
-## Questions to be ready for
-
-| Question | Grounded answer / source |
+| Question | Evidence-based answer |
 | --- | --- |
-| Why does serving use all readers while evaluation does not? | Export refits on all retained users; evaluation fits only training users and hides held-out likes. `evaluation/export.py`, `run.py`, `split.py` |
-| How does a reader profile determine ranking? | Unit-normalized mean of favorite vectors, cosine with each item; minimum or average combines readers. `backend/app/recommender.py` |
-| What does a line or position mean? | Lines trace each returned explanation reference. The projection shows approximate similarity, without geography or score-scale meaning. API coordinates are preserved |
-| Are the reasons generated by an LLM? | These reasons use actual reference books and shared shelves. No new LLM reasoning path was introduced |
-| Does this synthetic table show B2 is best? | No. It verifies evaluation output only. Existing tuned MS2 results and new real-data/cloud experiments must be presented separately |
-| How do we know an old response cannot change the new input? | Request-lane cancellation plus regression coverage and current UI checks. `desk-api.mjs`, `verify-ux.mjs` |
-| What failed in the first integration attempt? | The new verifier used a tolerance finer than the API's four-decimal serialization. The verifier changed, the API/model did not. Two later full runs passed |
-| What happens to feedback on Cloud Run? | The prepared image uses stdout for Cloud Logging. Actual deployed retention/access still requires verification; the local reviewer sent no feedback |
-| Is the ChatGPT Site the model deployment? | No. It is the separate static frontend review. The MS3 model/API service remains unverified |
-| What blocks submission? | Real cloud training/workflow/service/log proof, unverified existing cloud records, team integration and final reviewed milestone3 upload/submission. `operator-handoff.md` |
+| Which model is shown? | Existing team B2 ALS export, 5,000 works, exact fingerprint cb4457b668e3. No new real-data fit ran |
+| How is ranking computed? | Unit-normalized mean of favorites, cosine to books, minimum or average of reader scores. Serving math is unchanged |
+| What do reasons and lines mean? | Actual reference books/shared shelves; the optional projection is approximate similarity. No new LLM reason path |
+| Does the synthetic table establish quality? | It verifies metric output. Historical real-data evaluation and local synthetic runtime evidence retain separate labels |
+| Why only 126 pairs in the new worker run? | Requested 300 was capped by eligible combinations from 23 held-out simulated readers: 63 similar / 63 different |
+| How does recovery handle a new model? | Saved choice/votes carry the exact model fingerprint; changed bytes clear unverified opinions. IDs recover without saving full metadata or queries |
+| Does the worker satisfy cloud tracking/workflow? | Local image and one synthetic invocation passed. Qualifying cloud execution and acceptance of its tracker/workflow approach remain unverified |
+| What remains? | Existing job/tracker/workflow/service evidence, current revision/TF access, production logs, native/team slide review and authorized Canvas submission |
 
-The deck uses Georgia, Arial and Menlo. Structural and geometry checks and all 12 browser-review layouts passed. Keynote application control timed out, so native PowerPoint/Keynote rendering remains a required final check.
+[Operator handoff](operator-handoff.md) names the denied read operations and exact next inputs. The official deadline is November 12, 10pm Eastern. No Canvas submission is implied by the branch or deck.

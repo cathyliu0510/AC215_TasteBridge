@@ -1,6 +1,6 @@
 # Offline MS3 training/workflow candidate
 
-**Status: unexecuted candidate.** No image was built or published, no cloud job was submitted, and no online experiment was created. This directory prepares a small, reviewable wrapper around the existing B2 exporter and held-out evaluator. It does not establish that the team needs a second cloud workflow: existing team jobs and pipelines could not be verified with the available read access.
+**Status: locally executed candidate; cloud execution unverified.** The source-only Linux/amd64 image built successfully, passed its actual entrypoint dry run, and completed one network-disabled local synthetic training/evaluation invocation. No image was published, cloud job submitted or online experiment created. [Actual runtime evidence](../../docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json). This directory prepares a small, reviewable wrapper around the existing B2 exporter and held-out evaluator. It does not establish that the team needs a second cloud workflow: existing team jobs and pipelines could not be verified with the available read access.
 
 The [MS3 rubric](https://harvard-iacs.github.io/2026-AC215/milestone3/) asks for tracked, reproducible serverless training and an automated ML workflow using Vertex AI Pipelines or an equivalent. This candidate proposes one CPU CustomJob that runs input verification → serving export → held-out evaluation → output verification. It is **not a compiled Vertex AI Pipeline**, and its local JSON receipts are **not yet an accepted experiment-tracking equivalent**. Confirm both decisions with the team/TF before selecting or executing this approach. Reuse an existing team pipeline/tracker if one already exists.
 
@@ -74,7 +74,7 @@ python3.12 deploy/vertex-ms3/workflow.py context \
   --out .integration-runtime/ms3-source-context-001
 ```
 
-This stages files and their hash inventory only. After the team confirms the platform and authorizes the image operation, the context is suitable for `docker build -f deploy/vertex-ms3/Dockerfile <staged-context>`. Build, upload and obtain the real image digest through the team's existing process. Neither Docker daemon access nor an image build was tested in this pass. The final image digest pins the built environment; base-image tags alone do not promise identical future rebuilds.
+This stages files and their hash inventory only. After the team confirms the platform and authorizes the image operation, the context is suitable for `docker build -f deploy/vertex-ms3/Dockerfile <staged-context>`. Build, upload and obtain the real image digest through the team's existing process. The actual source-only image build and default-user entrypoint dry run are now verified locally. One subsequent run used the existing synthetic processed cache with network disabled, original 128/15/50/20/42 ALS parameters, two CPUs and 2 GB memory. It completed in about 431 seconds. The requested 300 pairs produced 126 actual pairs from 23 eligible held-out readers because the existing sampler caps the available combinations. These are local runtime results, not Goodreads-quality or cloud/tracker evidence. The final image digest pins the built environment; base-image tags alone do not promise identical future rebuilds.
 
 ## Activation and persistence require the operator decision
 
