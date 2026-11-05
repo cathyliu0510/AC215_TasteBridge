@@ -69,7 +69,7 @@ Frontend, preprocessing and integration checks were rerun for this continuation.
 ::: notes
 Timing: 75 seconds.
 
-This is the existing prepared Cloud Run design, not a deployed diagram. Frontend port 8080 reaches the internal API at 9000. Images keep the model private. Build and smoke require a Docker daemon and a real approved export, currently absent here. gcloud is also absent. The existing publish operator command uploads images and grants public invocation, so it requires separate explicit authorization; the course also permits teaching-staff access with an authentication arrangement discussed with the TF. Sources: deploy/cloud-run/deploy.py; Dockerfile.backend; README.md; historical verification.local.json. Historical Docker evidence is not a current live deployment check.
+This is the existing prepared Cloud Run design, not a deployed diagram. Frontend port 8080 reaches the internal API at 9000. Images keep the model private. Build and smoke require a Docker daemon and a real approved export, now recovered from the existing pinned team DVC snapshot (November 5 audit). gcloud is also absent. The existing publish operator command uploads images and updates a service while preserving existing invocation settings, so it requires separate explicit authorization; the course also permits teaching-staff access with an authentication arrangement discussed with the TF. Sources: deploy/cloud-run/deploy.py; Dockerfile.backend; README.md; historical verification.local.json. Historical Docker evidence is not a current live deployment check.
 :::
 
 # Production logging still needs cloud evidence

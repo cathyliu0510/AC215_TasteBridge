@@ -1,0 +1,21 @@
+{
+  "frontend_release": "20261104.6",
+  "model_version": "b2-als-synthetic-244f05111efd",
+  "input_kind": "trained_synthetic",
+  "checks": [
+    "1280px connected shortlist rendered five recommendations from the model API.",
+    "Switch to average ranking completed and changed the actual five returned titles.",
+    "320px Book connections displayed the returned reader-specific reference books and themes.",
+    "Both Interested responses, explicit confirmation and Back to shortlist succeeded.",
+    "The synthetic provenance label remained visible in page content.",
+    "No horizontal overflow at 1280px or 320px."
+  ],
+  "feedback_sent": false,
+  "feedback_file_present": false,
+  "console_errors_or_warnings": [],
+  "limits": [
+    "Browser verification used the in-app browser, not Chrome.",
+    "Local Python/Node services, not Docker images or Cloud Run.",
+    "No new model fit, model-quality evaluation, paid job or cloud API call."
+  ]
+}

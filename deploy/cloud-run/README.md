@@ -2,10 +2,10 @@
 
 **Status: cloud deployment unverified.** [Historical local Docker verification](verification.local.json) predates the current branch. The [current local integration evidence](../../docs/ms3/evidence/local-integration-20261104/) exercises Python/Node services, not the new container images. Rebuild and smoke-test the actual images before publication. This continuation did not publish a service.
 
-Prepares the current frontend and existing backend with the team's approved model export for **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. The historical configuration used the real 5,000-book model; that export is absent locally. Updating an existing service keeps its Cloud Run URL. This does not update the static prototype website.
+Prepares the current frontend and existing backend with the team's approved model export for **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. The historical configuration used the real 5,000-book model; that exact export has now been recovered into ignored local runtime storage and verified against the existing DVC index. See [the current audit](../../docs/ms3/team-audit-20261105.md). Updating an existing service keeps its Cloud Run URL. This does not update the static prototype website.
 
 ```text
-One public HTTPS link
+HTTPS link with approved access
         │
         ▼
 ┌──────────── Cloud Run service ──────────────┐
@@ -25,7 +25,7 @@ In [TasteBridge IAM](https://console.cloud.google.com/iam-admin/iam?project=tast
 
 | Role | Scope | Purpose |
 | --- | --- | --- |
-| Cloud Run Admin (`roles/run.admin`) | `tastebridge-511403` | Create/update the demo and allow teammates to open it |
+| Cloud Run Admin (`roles/run.admin`) | `tastebridge-511403` | Create/update the approved demo service |
 | Service Usage Consumer (`roles/serviceusage.serviceUsageConsumer`) | `tastebridge-511403` | Use enabled APIs and this project's quota |
 | Artifact Registry Writer (`roles/artifactregistry.writer`) | Docker repository `us-central1/tastebridge-app` | Upload app images |
 | Service Account User (`roles/iam.serviceAccountUser`) | `tastebridge-runtime@tastebridge-511403.iam.gserviceaccount.com` | Run the app with its dedicated identity |
@@ -41,7 +41,7 @@ cd TasteBridge-cloud-setup
 bash deploy/cloud-run/admin-setup.sh JENNY_GOOGLE_EMAIL
 ```
 
-Replace `JENNY_GOOGLE_EMAIL` with Jenny's actual Google account. The script adds these scoped grants, checks project/repository IAM for public bindings and leaves existing policies intact. An administrator should also confirm there is no inherited public Artifact Registry access from a folder or organization; those ancestor policies are not inspected by this script. If organization policy blocks a public demo, resolve that with the administrator before publication.
+Replace `JENNY_GOOGLE_EMAIL` with Jenny's actual Google account. The script adds these scoped grants, checks project/repository IAM for public bindings and leaves existing policies intact. An administrator should also confirm there is no inherited public Artifact Registry access from a folder or organization; those ancestor policies are not inspected by this script. Keep the agreed teaching-staff/public audience. Publication does not grant invocation or disable the Invoker IAM check; any access-policy change is a separate administrator decision.
 
 ## Build and check locally
 
@@ -65,7 +65,19 @@ export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$HOME/.config/gcloud/application_
 python3 deploy/cloud-run/deploy.py publish
 ```
 
-`publish` checks access before uploading, verifies the tested images, pushes to the private repository, deploys by image digest, enables public invocation, then tests the returned URL without login. It refuses to overwrite an existing service with a different owner label. The resulting URL is saved to `.state/url.txt`; keep sharing that URL for future updates.
+`publish` checks access before uploading, verifies the tested images, pushes to the private repository, deploys by image digest, and tests the returned URL. It preserves existing IAM, ingress, Invoker IAM-check and default-URL settings. It never adds `allUsers`, changes an invocation grant or disables authentication. A new service retains Cloud Run’s default authentication requirement. It refuses to overwrite an existing service with a different owner label. The resulting URL is saved to `.state/url.txt`; keep sharing that URL for future updates.
+
+For an already authorized operator verifying an authenticated service, use:
+
+```sh
+python3 deploy/cloud-run/deploy.py publish --authenticated
+```
+
+This uses the existing gcloud identity. Its ID token passes to the smoke process through stdin, stays in memory and is scoped to the returned HTTPS origin. It is absent from command arguments and saved evidence. Cross-origin redirects are rejected. A user invoking the service must already have the required invocation permission; this command grants none. [Google’s developer-authentication instructions](https://docs.cloud.google.com/run/docs/authenticating/developers) describe this testing flow.
+
+A synthetic/sample/toy model is refused before upload unless the operator explicitly passes `--allow-demo-model`. That flag permits a labeled demonstration; it does not establish real-data or MS3 training evidence. Other model identities remain operator supplied and unverified until provenance is reviewed.
+
+The deployment outcome is saved to `.state/deployment.json` before API verification. If verification fails, it remains `deployed_unverified`; the actual service update is not reported as though nothing happened. Successful API verification changes it to `deployed_and_api_verified`. Browser/staff-access/log checks are still separate. Anonymous verification requires the service’s existing access policy already to allow it.
 
 Before announcing the link, open it in a browser and check picking books, switching ranking modes, details and the map. Submit one explicit test feedback event and confirm its `book_id`, `vote`, `model_version` and timestamp in [Cloud Logging](https://console.cloud.google.com/logs/query?project=tastebridge-511403):
 
@@ -106,3 +118,14 @@ python3 deploy/cloud-run/smoke.py --url "$SERVICE_URL" \
 ```
 
 Supply both IDs. The verifier checks the served model identity, both ranking rules and their score calculation, seed exclusion, matching map coordinates and private-route isolation. Feedback remains opt-in for a deployed URL. The [local integration runner](../../docs/ms3/reproduce.md) reuses this check without Docker and without writing deployment state.
+
+## Verify an existing export before rebuilding or retraining
+
+The serving-only verifier reuses the current frontend, backend and smoke contract. It never downloads data, trains a model, creates a container, sends feedback or contacts cloud APIs:
+
+```sh
+python3 tools/verify_serving_export.py --artifact-dir data/artifacts/current \
+  --out .integration-runtime/ms3-serving-check --serve
+```
+
+The backend environment must already exist (`uv sync --frozen --project src/backend`). Use `--backend-python PATH` for an existing environment in another checkout. The command validates the export, starts two owned loopback services on free ports, checks the API and prints a UI URL with valid five-book shelves. Ctrl-C closes only those processes. A fresh output directory is required. `run.json` records source/artifact hashes, source dirtiness, model identity, input kind and explicit `training_executed=false` / `cloud_execution=false`. A model identifier alone does not certify real-data provenance. See the [current local evidence](../../docs/ms3/evidence/current-serving-20261104/).

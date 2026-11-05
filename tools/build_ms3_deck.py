@@ -148,7 +148,9 @@ class Slide:
 
     def picture(self, index, x, y, width, height):
         picture = self.pictures[index]
-        picture.find("p:nvPicPr/p:cNvPr", NS).set("id", str(self.counter))
+        nonvisual = picture.find("p:nvPicPr/p:cNvPr", NS)
+        nonvisual.set("id", str(self.counter))
+        nonvisual.set("descr", "TasteBridge local trained-synthetic integration screenshot")
         self.counter += 1
         properties = picture.find("p:spPr", NS)
         old = properties.find("a:xfrm", NS)

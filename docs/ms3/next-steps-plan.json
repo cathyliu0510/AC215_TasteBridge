@@ -1,0 +1,37 @@
+{
+  "goal": "A reviewable MS3 handoff that connects the current frontend to the served model and can be deployed without changing audience implicitly.",
+  "audience": "Jenny, the existing TasteBridge team and the authorized deployment operator.",
+  "baseline": "1872d1c61da2384c77408e658afd73204df3f721",
+  "steps": [
+    {
+      "priority": 0,
+      "task": "Verify official requirements and current remote references; distinguish finished local work from missing cloud proof.",
+      "acceptance": "Authoritative rubric linked; current refs recorded without push; no unsupported completion claim."
+    },
+    {
+      "priority": 1,
+      "task": "Integrate frontend 20261104.6 into an isolated full source copy and verify an existing model export without retraining.",
+      "acceptance": "Actual backend/relay/API contract and browser checks pass; synthetic input and no-cloud execution explicit."
+    },
+    {
+      "priority": 1,
+      "task": "Make Cloud Run publication preserve existing IAM; support verification with an existing authorized identity without persisting tokens.",
+      "acceptance": "Tests prove no IAM mutation, token redaction and same-origin token use; no cloud execution."
+    },
+    {
+      "priority": 2,
+      "task": "Produce source patch, operator sequence and requirement/evidence/dependency matrix.",
+      "acceptance": "Exact local test outputs and unchanged blockers are linked; original blocked GitHub flow untouched."
+    }
+  ],
+  "constraints": [
+    "Any requested GitHub preparation upload uses the same verified private repository and original safety review; no alternate destination or account.",
+    "No paid/cloud execution or sharing change.",
+    "Preserve original source checkout and team PR work.",
+    "Reuse completed synthetic fits; no new model-quality claim."
+  ],
+  "cloud_completion": false,
+  "local_steps_completed": true,
+  "result": "Frontend integrated, existing-export serving verified, access-preserving deployment preparation tested; cloud/submission dependencies remain.",
+  "superseded_by": "docs/ms3/team-audit-20261105.md"
+}

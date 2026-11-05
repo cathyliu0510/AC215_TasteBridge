@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import urllib.parse
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -23,8 +24,9 @@ OWNER = 'tastebridge-frontend'
 FILES = ('books.json', 'item_embeddings.npy', 'coords_2d.npy', 'meta.json')
 
 
-def run(*args, capture=False, env=None):
+def run(*args, capture=False, env=None, input=None):
     return subprocess.run(args, cwd=ROOT, check=True, text=True, env=env,
+                          input=input,
                           stdout=subprocess.PIPE if capture else None).stdout
 
 
@@ -61,21 +63,25 @@ def build(source):
     release = dict(project=PROJECT, region=REGION, service=SERVICE, commit=commit,
                    source_trees=source_trees(), tag=tag, images=images,
                    image_ids={name: inspect(image, '{{.Id}}') for name, image in images.items()},
-                   artifact_sha256=hashes, model_version=meta['model_version'], num_books=len(books))
+                   artifact_sha256=hashes, model_version=meta['model_version'],
+                   data_version=meta.get('data_version'), num_books=len(books))
     STATE.mkdir(exist_ok=True)
     (STATE / 'release.json').write_text(json.dumps(release, indent=2) + '\n')
     print(f'Built {tag}. No cloud resources changed. Run smoke.py --local before publishing.')
 
 
-def service_spec(images):
+def service_spec(images, current=None):
     def probe(path, port):
         return dict(httpGet=dict(path=path, port=port), periodSeconds=5, timeoutSeconds=3, failureThreshold=24)
     def env(**values):
         return [dict(name=k, value=v) for k, v in values.items()]
+    access_annotations = {key: value for key, value in (current or {}).get('metadata', {}).get('annotations', {}).items()
+                          if key in ('run.googleapis.com/ingress', 'run.googleapis.com/invoker-iam-disabled',
+                                     'run.googleapis.com/default-url-disabled')}
     return {
         'apiVersion': 'serving.knative.dev/v1', 'kind': 'Service',
         'metadata': {'name': SERVICE, 'labels': {'managed-by': OWNER},
-                     'annotations': {'run.googleapis.com/ingress': 'all', 'run.googleapis.com/maxScale': '1'}},
+                     'annotations': {'run.googleapis.com/ingress': 'all', 'run.googleapis.com/maxScale': '1', **access_annotations}},
         'spec': {'template': {
             'metadata': {'annotations': {
                 'run.googleapis.com/execution-environment': 'gen2',
@@ -97,8 +103,20 @@ def service_spec(images):
             'traffic': [{'latestRevision': True, 'percent': 100}]}}
 
 
-def publish():
+def publication_model_kind(release, allow_demo_model=False):
+    identity = str(release.get('model_version', ''))
+    if not identity:
+        raise SystemExit('Missing model identity; rebuild the release before publication.')
+    description = (identity + ' ' + str(release.get('data_version', ''))).lower()
+    demo = any(marker in description for marker in ('synthetic', 'sample', 'toy'))
+    if demo and not allow_demo_model:
+        raise SystemExit('Demo model detected. Use the approved export, or explicitly label a demo with --allow-demo-model.')
+    return 'demo_model' if demo else 'operator_supplied_export_not_independently_verified'
+
+
+def publish(authenticated=False, allow_demo_model=False):
     release = json.loads((STATE / 'release.json').read_text())
+    model_kind = publication_model_kind(release, allow_demo_model)
     proof = json.loads((STATE / 'local-smoke.json').read_text())
     if (proof.get('tag') != release['tag'] or proof.get('passed') is not True
             or proof.get('image_ids') != release['image_ids']):
@@ -134,29 +152,62 @@ def publish():
             digests = json.loads(inspect(remote, '{{json .RepoDigests}}'))
             remote_images[name] = next(d for d in digests if d.startswith(f'{REPOSITORY}/{name}@'))
     spec = STATE / 'service.json'  # JSON is also a valid YAML service document.
-    spec.write_text(json.dumps(service_spec(remote_images), indent=2) + '\n')
+    spec.write_text(json.dumps(service_spec(remote_images, current), indent=2) + '\n')
     run(gcloud, 'run', 'services', 'replace', str(spec), *flags, '--dry-run')
-    run(gcloud, 'run', 'services', 'replace', str(spec), *flags)
-    run(gcloud, 'run', 'services', 'add-iam-policy-binding', SERVICE, *flags, '--member=allUsers', '--role=roles/run.invoker')
-    live = json.loads(run(gcloud, 'run', 'services', 'describe', SERVICE, *flags, '--format=json', capture=True))
+    status = dict(status='update_outcome_uncertain', access_policy='preserved', model_kind=model_kind,
+                  project=PROJECT, region=REGION, service=SERVICE, tag=release['tag'])
+    (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
+    try:
+        run(gcloud, 'run', 'services', 'replace', str(spec), *flags)
+    except subprocess.CalledProcessError:
+        raise SystemExit('Service update command failed; its outcome is uncertain. Inspect the service before retrying; IAM was not changed.') from None
+    status['status'] = 'deployed_unverified'
+    (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
+    (STATE / 'url.txt').unlink(missing_ok=True)
+    try:
+        live = json.loads(run(gcloud, 'run', 'services', 'describe', SERVICE, *flags, '--format=json', capture=True))
+    except (subprocess.CalledProcessError, json.JSONDecodeError):
+        raise SystemExit('Service update succeeded, but its description could not be verified. Inspect .state/deployment.json; IAM was not changed.') from None
     (STATE / 'live-service.json').write_text(json.dumps(live, indent=2) + '\n')
-    url = live['status']['url']
-    run(sys.executable, str(HERE / 'smoke.py'), '--url', url)
+    url = live.get('status', {}).get('url')
+    status.update(url=url, revision=live.get('status', {}).get('latestReadyRevisionName'))
+    (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
+    parsed = urllib.parse.urlsplit(url if isinstance(url, str) else '')
+    if (parsed.scheme != 'https' or not parsed.hostname or not parsed.hostname.endswith('.run.app')
+            or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path not in ('', '/')):
+        raise SystemExit('Service updated, but its returned Cloud Run origin is unexpected. Verify manually; IAM is unchanged.')
     (STATE / 'url.txt').write_text(url + '\n')
+    command = [sys.executable, str(HERE / 'smoke.py'), '--url', url]
+    token = None
+    try:
+        if authenticated:
+            token = run(gcloud, 'auth', 'print-identity-token', capture=True).strip()
+            if not token:
+                raise SystemExit('Service updated, but the existing identity returned no token. IAM is unchanged; verify access separately.')
+            command.append('--identity-token-stdin')
+        run(*command, input=token + '\n' if token else None)
+    except subprocess.CalledProcessError:
+        raise SystemExit('Service updated, but verification failed. Inspect .state/deployment.json and existing invocation access; IAM was not changed.') from None
+    finally:
+        token = None
+    status['status'] = 'deployed_and_api_verified'
+    (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
     print(f'Published and API-checked: {url}')
-    print('Finish browser checks and confirm the feedback event in Cloud Logging before handoff.')
+    print('Existing IAM was preserved. Finish browser checks and confirm logs before handoff.')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     commands.add_parser('build').add_argument('artifact_dir', type=Path)
-    commands.add_parser('publish')
+    publication = commands.add_parser('publish')
+    publication.add_argument('--authenticated', action='store_true', help='Verify using the already authorized gcloud identity; no IAM changes')
+    publication.add_argument('--allow-demo-model', action='store_true', help='Explicitly permit a clearly labeled synthetic/sample model; not real-data evidence')
     args = parser.parse_args()
     try:
         if args.command == 'build':
             build(args.artifact_dir.resolve())
         else:
-            publish()
+            publish(authenticated=args.authenticated, allow_demo_model=args.allow_demo_model)
     except subprocess.CalledProcessError as error:
         raise SystemExit(f'Stopped: {error.cmd[0]} returned {error.returncode}. Resolve the error above before retrying.') from None

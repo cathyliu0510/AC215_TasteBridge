@@ -45,6 +45,6 @@ Do not start a duplicate while those ports are occupied. The saved screenshots a
 | What failed in the first integration attempt? | The new verifier used a tolerance finer than the API's four-decimal serialization. The verifier changed, the API/model did not. Two later full runs passed |
 | What happens to feedback on Cloud Run? | The prepared image uses stdout for Cloud Logging. Actual deployed retention/access still requires verification; the local reviewer sent no feedback |
 | Is the ChatGPT Site the model deployment? | No. It is the separate static frontend review. The MS3 model/API service remains unverified |
-| What blocks submission? | Real cloud training/workflow/service/log proof, missing real-data/export access, team integration and the reported GitHub push denial. `operator-handoff.md` |
+| What blocks submission? | Real cloud training/workflow/service/log proof, unverified existing cloud records, team integration and final reviewed milestone3 upload/submission. `operator-handoff.md` |
 
 The deck uses Georgia, Arial and Menlo. Structural and geometry checks and all 12 browser-review layouts passed. Keynote application control timed out, so native PowerPoint/Keynote rendering remains a required final check.

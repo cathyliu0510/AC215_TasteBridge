@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-11-05T02:10:21.775700+00:00",
+  "source": "existing team DVC snapshot",
+  "bucket": "tastebridge-dvc",
+  "index_md5": "d084e50dc63c3203fc81d7ba09128074",
+  "files": [
+    {
+      "name": "books.json",
+      "bytes": 1486399,
+      "md5": "4a97f9317b7e36a3c9adfaac5e0353cf",
+      "sha256": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+      "generation": 1792354368106136,
+      "updated": "2026-10-18T20:12:48.112000+00:00"
+    },
+    {
+      "name": "coords_2d.npy",
+      "bytes": 40128,
+      "md5": "f9fcb297eead101048912e10b8cd19b0",
+      "sha256": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+      "generation": 1792462184606120,
+      "updated": "2026-10-20T02:09:44.611000+00:00"
+    },
+    {
+      "name": "item_embeddings.npy",
+      "bytes": 2560128,
+      "md5": "42e7e43b608edef54bcdc3aac2c891f4",
+      "sha256": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+      "generation": 1792462184879397,
+      "updated": "2026-10-20T02:09:44.885000+00:00"
+    },
+    {
+      "name": "meta.json",
+      "bytes": 632,
+      "md5": "6d0bc9b9563092a3f14052e7252de981",
+      "sha256": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0",
+      "generation": 1792462184561009,
+      "updated": "2026-10-20T02:09:44.569000+00:00"
+    }
+  ],
+  "new_training": false,
+  "cloud_mutations": false,
+  "meta": {
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "data_version": "gr-317756d1a1ad",
+    "counts": {
+      "books": 5000,
+      "interactions": 499915,
+      "users": 9896
+    },
+    "created_at": "2026-10-20T02:05:41+00:00"
+  },
+  "catalogue_books": 5000
+}

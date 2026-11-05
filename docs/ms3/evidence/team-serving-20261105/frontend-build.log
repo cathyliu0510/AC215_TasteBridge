@@ -1,0 +1,5 @@
+Built A, B, and the project scope page from editable source.
+dist/index.html: inline JavaScript, metadata, and hosted navigation verified
+dist/a/index.html: inline JavaScript, metadata, and hosted navigation verified
+dist/b/index.html: inline JavaScript, metadata, and hosted navigation verified
+dist/project/index.html: inline JavaScript, metadata, and hosted navigation verified

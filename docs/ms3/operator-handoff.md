@@ -1,33 +1,21 @@
-# MS3 handoff
+# MS3 operator handoff
 
-The local deliverable is reviewable: two reproducible trained-synthetic runs, actual model-to-UI integration, source/input/output hashes, tests, selected evidence and a 12-slide review deck. It is **not** a completed MS3 submission.
+The latest [team audit](team-audit-20261105.md) verifies the private GitHub repository, existing team DVC export and actual model-to-frontend serving. This is a preparation deliverable; cloud execution and final submission remain incomplete.
 
-## Required work and inputs
+| Remaining gate | Verified state | Exact next action |
+| --- | --- | --- |
+| Existing cloud work | GCS reads succeed. Cloud Run service GET and Vertex job lists return IAM 403 | Obtain existing service/job/workflow/tracker links and sanitized evidence from the team, or appropriate read-only visibility. Check before duplicating work |
+| Tracked serverless training and workflow | Local synthetic runs reproduce; the October team model is retrievable | Verify any existing accepted cloud run/workflow. If absent, confirm the team platform, execution identity, locations and execution authorization before adapting/running the existing pipeline |
+| Deployment | Current frontend works locally with team B2 model `b2-als-gr-317756d1a1ad` | Use a working Docker/gcloud operator environment to build and smoke the exact images; authorized operator updates existing `tastebridge-staging` and records revision/digests/access |
+| Monitoring | Local request logs exist; production log visibility is unverified | Capture a request/error/performance event tied to the live revision and document approved log access |
+| Team review and submission | PR #11 remains open; requested MS3 preparation upload is separately tracked | Review integrated code, reconcile architecture work, close evidence gaps and verify final slides; authorized submitter sends the full milestone3 SHA to Canvas |
 
-| Gate | Input/access needed | Action | Evidence that closes it |
-| --- | --- | --- | --- |
-| Real input and export | Existing approved `data/processed` directory or team-authorized DVC retrieval; no files are present in either inspected checkout | Verify source/version and run the reproducible path with approved B2 parameters | Input manifest and hashes, export identity, actual API checks |
-| Tracked serverless training | Team/TF decision on tracker and Vertex or equivalent, approved project/service account, data/output locations and execution authorization | Implement/adapt and execute the approved cloud training path; record source, parameters, artifacts and metrics | Successful cloud execution ID/configuration, tracking record and screenshot |
-| Automated ML workflow | Selected Vertex pipeline or documented equivalent and required service permissions | Implement/adapt orchestration and run it on the approved data; the local runner is the tested component sequence | Successful workflow execution plus reproducible configuration |
-| Model/API deployment | Real export, working Docker daemon, `gcloud`, approved image registry/service access and a confirmed staff/public access policy | Use `deploy/cloud-run/` to build and smoke-test current images, then perform the authorized deployment | Actual HTTPS endpoint, image digests/revision/configuration, responding request screenshot |
-| Production monitoring | Deployed revision and approved log-reader access | Verify request/error or feedback logging and document access/retention | Real production log event and access instructions |
-| Submission | Team review, integration with architecture PR #11, and resolution of the push denial | Authorized maintainer updates remote `milestone3` and submits its full hash on Canvas | Remote branch/full SHA and confirmed submission; final slides with real cloud evidence |
+The four-file model was recovered from the existing pinned DVC snapshot and its hashes checked. It is kept under ignored `.integration-runtime`, outside Git. No raw reader histories were downloaded. Real processed input tables remain absent, but the course does not impose a separate blanket requirement to use real rather than synthetic data; it requires a running, tracked, reproducible cloud system and evidence. The recovered historical model alone does not establish a new cloud training run.
 
-The current environment lacks the Colima Docker socket, `gcloud`, and actual licensed processed tables/model export. This task did not test existing cloud credentials or create new ones. The exact location of any other local approved export remains a pending clarification.
+`deploy.py publish` uploads images and updates the existing service while preserving IAM, ingress and access annotations. `--authenticated` verifies an already authorized identity without adding access. `admin-setup.sh` changes IAM and was not executed. No cloud mutation, new credential, sharing change, paid job or Canvas submission was performed.
 
-The existing `publish` command uploads images, updates a service and grants public invocation. `admin-setup.sh` changes IAM. These are separate operator actions. The course permits teaching-staff access; confirm the access arrangement rather than assuming allUsers is required.
+The Keynote application-control card is unrelated to GitHub. Existing GitHub CLI/SSH authentication has write permission on the private team repo. Prior upload safety review must be handled with verified contents/audience through the original method; no alternative account or destination is a workaround.
 
-## Review boundaries
+The public [TasteBridge prototype](https://tastebridge-prototype.landenini.chatgpt.site/) remains frontend `20261104.6`, a separate 23-book static UX demonstration with unchanged public access. It is not the deployed model API.
 
-- Keep the existing B2 scoring/export implementation and team work. Local smoke parameters are smaller than the tuned MS2 model and imply no model selection decision.
-- Reconcile PR #11 through normal review. Do not merge or overwrite it as part of publishing this work.
-- The parent task reports that security review denied GitHub branch pushing. No push was attempted in this continuation, and no alternate account, branch, API or remote is a workaround. The parent did not provide a more detailed rejection reason. Publishing requires resolution through the original approval path.
-- The ChatGPT Site remains the earlier static UI review with unchanged sharing. It is not the required model deployment and was not republished here.
-
-## Final review sequence
-
-1. Inspect the exact branch diff and [saved evidence](evidence/local-integration-20261104/).
-2. Close the cloud and real-data gates above, updating [evidence/index.json](evidence/index.json) with real proof.
-3. Run `python3 tools/check_ms3.py`; its path/coverage check must pass, and a human must still verify screenshot contents and live access.
-4. Replace the deck's pending cloud evidence, check native presentation rendering and rehearse the [15-minute plan](rehearsal.md).
-5. Submit the reviewed full commit by **November 12, 10pm ET**. [Official instructions](https://harvard-iacs.github.io/2026-AC215/milestone3/).
+Finish the [evidence index](evidence/index.json), run `python3 tools/check_ms3.py`, replace pending cloud slides and complete a native slide check. [Official deadline](https://harvard-iacs.github.io/2026-AC215/milestone3/): **November 12, 10pm Eastern**, with a 15-minute team presentation. The checker verifies paths/coverage only, not authenticity or Canvas status.

@@ -1,0 +1,16 @@
+{
+  "full_name": "cathyliu0510/AC215_TasteBridge",
+  "private": true,
+  "default_branch": "main",
+  "pushed_at": "2026-10-21T00:01:05Z",
+  "permissions": {
+    "admin": false,
+    "maintain": false,
+    "push": true,
+    "triage": true,
+    "pull": true
+  },
+  "checked_at": "2026-11-05",
+  "transport": "existing SSH destination git@github.com:cathyliu0510/AC215_TasteBridge.git",
+  "sharing_changes": false
+}

@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-11-04",
+  "method": "git ls-remote --heads, read only via the existing origin; no push",
+  "repository": "https://github.com/cathyliu0510/AC215_TasteBridge",
+  "main": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+  "milestone2": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+  "milestone3_present": false,
+  "architecture_branch": "docs/architecture-lecture12",
+  "architecture_head": "744dc878c4c20e0883f8207adc3d53f78984a67a",
+  "cloud_staging_branch": "frontend/cloud-staging",
+  "cloud_staging_head": "df64cdbe0ac3dff72cda9bf64f251d1e89973e1b",
+  "pr_11": "https://github.com/cathyliu0510/AC215_TasteBridge/pull/11",
+  "limits": "The connector could not read this private repository. SSH reference reading succeeded. PR open/review state, teammates\u2019 unpushed work, existing cloud runs and Canvas remain unverified."
+}

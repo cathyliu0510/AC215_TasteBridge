@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-05",
+  "refs": {
+    "docs/architecture-lecture12": "744dc878c4c20e0883f8207adc3d53f78984a67a",
+    "docs/ms2-evidence": "ef866138159ae5766bad2fe8b4de8a0b30150d9d",
+    "docs/ms2-readme-final": "ef0f4f8c6752e95379b313a8384f53aa841a12ab",
+    "feature/backend": "a9f1620dc2ea3070c600f7cca5128805cc8b74a0",
+    "feature/backend-ms2": "5c4770911ad4ee8f80a75d54c01fc4f681c19f61",
+    "feature/datapipeline": "d7a6689b51a24f4bff9f206366e178bdb9223bb6",
+    "feature/datapipeline-embed": "25aacfd93c95f39cfe963f23a1c26d19395e539c",
+    "feature/embed-dvc-evidence": "0a02704060a31320b52da00076d8d12b5d986322",
+    "fix/ms2-e2e-pipeline": "be44a95f48d7670ae9390941daf59d1c2bafc2ae",
+    "frontend/cloud-staging": "df64cdbe0ac3dff72cda9bf64f251d1e89973e1b",
+    "frontend/ms2-catalogue-copy": "81ef30712786b4aee26137fdf8d22dd47d3a33d8",
+    "main": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+    "milestone2": "fccfbac53a96de18b71ca1c3f668a6bea115e51e",
+    "ms2/evaluation": "c0f800b2060bc961f4c2c89528ffb3891c94762c",
+    "prototype/ms1-scope-and-website": "536604826d39bd6c7bf23899b734d1d19fb3edbb"
+  },
+  "mode": "read-only; before any upload attempt"
+}

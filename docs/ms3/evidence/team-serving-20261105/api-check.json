@@ -1,0 +1,47 @@
+{
+  "passed": true,
+  "tag": "team-serving-20261105",
+  "checked_at": "2026-11-05T02:12:42.618223+00:00",
+  "base_url": "http://127.0.0.1:65071",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "recommendation_checks": [
+    {
+      "mode": "least_misery",
+      "ids": [
+        "6231171",
+        "3046572",
+        "41335427",
+        "2963218",
+        "3007490"
+      ]
+    },
+    {
+      "mode": "average",
+      "ids": [
+        "6231171",
+        "3046572",
+        "41335427",
+        "2963218",
+        "1540236"
+      ]
+    }
+  ],
+  "feedback_event": null,
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ]
+}

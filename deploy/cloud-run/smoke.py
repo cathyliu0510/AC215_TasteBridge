@@ -6,6 +6,7 @@ import json
 import math
 from pathlib import Path
 import subprocess
+import sys
 import time
 import urllib.error
 import urllib.parse
@@ -14,13 +15,47 @@ import uuid
 
 HERE = Path(__file__).resolve().parent
 STATE = HERE / '.state'
+_identity = None
+
+
+def origin(url):
+    parsed = urllib.parse.urlsplit(url)
+    return parsed.scheme, parsed.hostname, parsed.port or (443 if parsed.scheme == 'https' else 80)
+
+
+def configure_identity_token(base, token):
+    """Keep an operator-supplied ID token in memory and bind it to one HTTPS origin."""
+    global _identity
+    _identity = None
+    parsed = urllib.parse.urlsplit(base)
+    if (parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password
+            or parsed.query or parsed.fragment or parsed.path not in ('', '/')):
+        raise ValueError('Authenticated verification requires a credential-free HTTPS service origin')
+    token = token.strip()
+    if not token or len(token) > 16384 or any(character.isspace() for character in token):
+        raise ValueError('Provide one nonempty identity token through stdin')
+    _identity = (origin(base), token)
+
+
+class SameOriginRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if _identity is not None and origin(newurl) != _identity[0]:
+            raise ValueError('Cross-origin redirect refused during authenticated verification')
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
 
 
 def request(base, path, data=None):
     body = None if data is None else json.dumps(data).encode()
     req = urllib.request.Request(base + path, data=body,
                                  headers={'Content-Type': 'application/json'} if body else {})
-    with urllib.request.urlopen(req, timeout=60) as response:
+    if _identity is not None:
+        if origin(req.full_url) != _identity[0]:
+            raise ValueError('Identity token is restricted to its configured service origin')
+        req.add_header('Authorization', 'Bearer ' + _identity[1])
+        open_request = urllib.request.build_opener(SameOriginRedirect()).open
+    else:
+        open_request = urllib.request.urlopen
+    with open_request(req, timeout=60) as response:
         return response.geturl(), response.read()
 
 
@@ -161,11 +196,17 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument('--local', action='store_true')
-    mode.add_argument('--url', help='Explicit deployed URL to test without login')
+    mode.add_argument('--url', help='Explicit deployed service origin to test')
+    parser.add_argument('--identity-token-stdin', action='store_true',
+                        help='Read an existing authorized identity token from stdin; never save it')
     parser.add_argument('--feedback', action='store_true', help='Send one test feedback event to the supplied public URL')
     parser.add_argument('--reader-a-id', help='Known catalogue ID for Reader 1; supply both reader IDs')
     parser.add_argument('--reader-b-id', help='Known catalogue ID for Reader 2; supply both reader IDs')
     args = parser.parse_args()
+    if args.identity_token_stdin:
+        if args.local:
+            parser.error('Identity tokens are only accepted with --url')
+        configure_identity_token(args.url, sys.stdin.read(16385))
     if bool(args.reader_a_id) != bool(args.reader_b_id):
         parser.error('Supply both --reader-a-id and --reader-b-id')
     seed_ids = [args.reader_a_id, args.reader_b_id] if args.reader_a_id else None
@@ -174,5 +215,6 @@ if __name__ == '__main__':
         local(release, seed_ids=seed_ids)
     else:
         result = check(args.url.rstrip('/'), release, args.feedback, seed_ids=seed_ids)
-        (STATE / 'public-smoke.json').write_text(json.dumps(result, indent=2) + '\n')
+        result['verification_access'] = 'authorized_identity' if _identity else 'anonymous'
+        (STATE / 'live-smoke.json').write_text(json.dumps(result, indent=2) + '\n')
         print(json.dumps(result, indent=2))

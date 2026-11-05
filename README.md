@@ -6,11 +6,11 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 ## Milestone 3 preparation
 
-The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. The local review package includes a one-command trained-model integration run, two-run reproducibility evidence, API checks, the refined Reading Desk and the existing Cloud Run preparation package. The actual local runs use synthetic data; no cloud training, live deployment, production monitoring or submission is claimed. The last remote check found no `milestone3` branch.
+The [MS3 runbook and evidence matrix](docs/ms3/) map the current code to the official integration/deployment requirements. The local review package includes a one-command trained-model integration run, two-run reproducibility evidence, API checks, the refined Reading Desk and the existing Cloud Run preparation package. The reproducibility training runs use synthetic data. A later check also serves the existing 5,000-book team DVC model through the current frontend, without retraining; no new cloud training, live deployment, production monitoring or submission is claimed. The last remote check found no `milestone3` branch.
 
 [Reproduce the trained model/API/UI path](docs/ms3/reproduce.md) · [saved evidence](docs/ms3/evidence/local-integration-20261104/) · [12-slide review deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) · [operator handoff](docs/ms3/operator-handoff.md).
 
-Use `python3 tools/check_ms3.py` to see the recorded evidence gaps. [Changes since MS2, exact reproduction commands, tests and team handoff](docs/ms3/README.md). The separate static UX preview does not count as the deployed model/API.
+The [current execution plan and handoff](docs/ms3/next-steps-20261104.md) integrate frontend `20261104.6`, add an existing-export serving verifier and prepare access-preserving Cloud Run verification. The [current team audit](docs/ms3/team-audit-20261105.md) records repository access, export provenance, cloud visibility and the preparation upload boundary. Use `python3 tools/check_ms3.py` to see the recorded evidence gaps. [Changes since MS2, exact reproduction commands, tests and team handoff](docs/ms3/README.md). The separate static UX preview does not count as the deployed model/API.
 
 ## Milestone 2
 

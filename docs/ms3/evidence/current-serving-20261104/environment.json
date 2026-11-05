@@ -1,0 +1,8 @@
+{
+  "gcloud_on_path": false,
+  "docker_cli_on_path": true,
+  "approved_processed_files_present": false,
+  "approved_model_export_present": false,
+  "docker_context_transport": "unix_socket",
+  "configured_unix_socket_present": false
+}

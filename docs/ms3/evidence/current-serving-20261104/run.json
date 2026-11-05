@@ -1,0 +1,50 @@
+{
+  "status": "verified",
+  "started_at": "2026-11-04T23:46:02.983341+00:00",
+  "input_kind": "trained_synthetic",
+  "model_version": "b2-als-synthetic-244f05111efd",
+  "data_version": "synthetic-244f05111efd",
+  "books": 160,
+  "training_executed": false,
+  "cloud_execution": false,
+  "feedback_sent": false,
+  "artifact_sha256": {
+    "books.json": "7e73c05e84cfed3940e97dba70faa1dc3f20548f4d3f240b1c9981ac215798aa",
+    "item_embeddings.npy": "cc19de50efec2279b6f125a9a74603fbb97619dbb46c8a39e108d416418684a3",
+    "coords_2d.npy": "d3a38a6fcdeeb19982708645ed33d73889ad39b6be0768a5e1e3ed9f950970bd",
+    "meta.json": "72de6668de6077d880b0930efb23c6b61aa1e92ec3c8fd515e14f3d73199de51"
+  },
+  "source_commit": "1872d1c61da2384c77408e658afd73204df3f721",
+  "source_dirty": true,
+  "frontend_release": "20261104.6",
+  "source_sha256": {
+    "src/backend/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/backend/app/artifacts.py": "b0a7dec96662e960aaff800b3d7c4454cb7daef3caa0ede1f742c7780461ab8c",
+    "src/backend/app/config.py": "7c0f7d83b690fb99c76a2c95233e58265be672fafec8fea0545f1229ede56045",
+    "src/backend/app/dependencies.py": "297acdad639515986ff758e4e4508b1e907908175fd147c127d1368c8f58fc26",
+    "src/backend/app/explanations.py": "429169625a011f2b6a9448cdd3b99da1721fc28ad021c6765b74f43e77089327",
+    "src/backend/app/feedback.py": "a87ff5255613bf8994b32604f36440c6fe26ab9604a883b05363eea110bb348a",
+    "src/backend/app/main.py": "84df9b86f3c9d1c6739a3559bf7093156d8059896cdd2879ad45ad4a137e65dc",
+    "src/backend/app/recommend_service.py": "2261f9efef43210c517e6b241100b638c1c8028442ada51b2a662fedd25771c3",
+    "src/backend/app/recommender.py": "4019de15f0db24e3850bf21b9213d86a3d82c1471d12b873b2831622c50568c0",
+    "src/backend/app/schemas.py": "c84f60b9d20c0a2c9d2e8015e3f8467f701ea91b2dc94577714bb93ea6e5ad37",
+    "src/backend/app/search.py": "4c53999e6d256d875ddd17f26c927cf61f447595f82c4019aefa72feaf2dafc7",
+    "frontend/prototype/dist/a/index.html": "dba7998214238bfbe80246e300ddaa8eab8a033bfca0086fb10e4413022480e3",
+    "tools/verify_serving_export.py": "6ab44de1745339115fabadeb1dfdd649dfc8187cb19bdba1cc2c17a36c3f1cfa",
+    "deploy/cloud-run/smoke.py": "163ccf9b79553ddb978e8c1d897bb2c37427d46eedce2ea1df9f807b3e28054e"
+  },
+  "ui_url": "http://127.0.0.1:60829/a/?api=1&a=%5B%22500022%22%2C+%22500152%22%2C+%22500143%22%2C+%22500148%22%2C+%22500102%22%5D&b=%5B%22500134%22%2C+%22500036%22%2C+%22500110%22%2C+%22500039%22%2C+%22500087%22%5D&mode=least-misery",
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ],
+  "completed_at": "2026-11-04T23:46:04.343136+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "changed": [
+    {
+      "member": "ppt/slides/slide6.xml",
+      "descriptions_replaced": 2
+    }
+  ],
+  "all_other_members_byte_identical": true,
+  "changed_xml_identical_except_description_attributes": true,
+  "visual_content_changed": false,
+  "native_rendering_verified": false
+}

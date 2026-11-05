@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-11-05",
+  "frontend_release": "20261104.6",
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "catalogue_books": 5000,
+  "checks": [
+    "Actual team model recommendations rendered in the desktop browser.",
+    "Both reader-specific reasons match books from the supplied shelves.",
+    "Both Interested responses, Choose this book together and Back to shortlist succeeded.",
+    "320px Book connections displayed the team model and retained choice.",
+    "Changing to average ranking returned a different five-title list.",
+    "320px document scrollWidth equals viewport width; no horizontal overflow."
+  ],
+  "feedback_sent": false,
+  "console_errors_or_warnings": [],
+  "training_executed": false,
+  "cloud_mutations": false,
+  "limits": [
+    "In-app browser, local Python/Node services; not a Docker or Cloud Run check.",
+    "Existing historical MS2 model reused; no new MS3 training, quality evaluation or workflow execution.",
+    "Generic serving verifier does not independently certify provenance; see DVC retrieval ledger for source/hashes.",
+    "Catalogue metadata is inherited from the team export, including source year fields; no editorial correction or quality audit."
+  ]
+}

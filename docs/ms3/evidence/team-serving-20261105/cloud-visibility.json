@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-05",
+  "project": "tastebridge-511403",
+  "region": "us-central1",
+  "read_only": true,
+  "gcs_dvc_artifacts": "read succeeded; exact pinned current export hashes verified",
+  "cloud_run_service": {
+    "target": "tastebridge-staging",
+    "http_status": 403,
+    "status": "PERMISSION_DENIED",
+    "permission": "run.services.get"
+  },
+  "vertex_custom_jobs": {
+    "http_status": 403,
+    "status": "PERMISSION_DENIED",
+    "permission": "aiplatform.customJobs.list"
+  },
+  "vertex_pipeline_jobs": {
+    "http_status": 403,
+    "status": "PERMISSION_DENIED",
+    "permission": "aiplatform.pipelineJobs.list"
+  },
+  "conclusion": "Existing service/jobs cannot be verified with current read access. This is not evidence that they do not exist.",
+  "mutations": false
+}

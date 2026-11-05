@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-04",
+  "checked_at": "2026-11-05",
   "official_requirements": "https://harvard-iacs.github.io/2026-AC215/milestone3/",
   "requirements": [
     {
@@ -8,34 +8,41 @@
       "status": "local_only",
       "evidence": [
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
-        "docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json"
+        "docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json",
+        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json"
       ],
-      "note": "Two successful local synthetic fits with tracked configuration and reproducibility; no cloud execution or approved tracker evidence."
+      "note": "Two successful local synthetic fits with tracked configuration and reproducibility; no cloud execution or approved tracker evidence. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
     },
     {
       "id": "deployed_model_api",
       "status": "local_only",
       "evidence": [
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json"
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
+        "docs/ms3/evidence/team-serving-20261105/api-check.json",
+        "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
+        "docs/ms3/evidence/team-serving-20261105/browser-checks.json"
       ],
-      "note": "Actual trained-synthetic API/relay passed locally. Live model deployment remains unverified."
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied."
     },
     {
       "id": "automated_ml_workflow",
       "status": "local_only",
       "evidence": [
         "tools/verify_local_integration.py",
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json"
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
+        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json"
       ],
-      "note": "The automated local B2 path passed twice. An approved cloud workflow/equivalent still needs implementation/adaptation and execution."
+      "note": "The automated local B2 path passed twice. An approved cloud workflow/equivalent still needs implementation/adaptation and execution. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
     },
     {
       "id": "production_monitoring",
       "status": "local_only",
       "evidence": [
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log"
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log",
+        "docs/ms3/evidence/current-serving-20261104/backend.log",
+        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json"
       ],
-      "note": "Actual local model/API logs only; no production log or deployed access proof."
+      "note": "Actual local model/API logs only; no production log or deployed access proof. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
     },
     {
       "id": "working_api",
@@ -43,15 +50,23 @@
       "evidence": [
         "src/backend/SPEC.md",
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-examples.json",
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json"
+        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
+        "docs/ms3/evidence/current-serving-20261104/api-check.json",
+        "docs/ms3/evidence/current-serving-20261104/browser-checks.json",
+        "docs/ms3/evidence/team-serving-20261105/api-check.json",
+        "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
+        "docs/ms3/evidence/team-serving-20261105/browser-checks.json"
       ],
-      "note": "Documented API and actual local trained-model responses pass. Deployed endpoint verification remains required."
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied."
     },
     {
       "id": "milestone3_branch",
       "status": "pending",
-      "evidence": [],
-      "note": "Remote milestone3 remains absent. Local work is on jenny/ms3-readiness; pushing was denied by security review and was not retried."
+      "evidence": [
+        "docs/ms3/evidence/team-serving-20261105/remote-refs-before.json",
+        "docs/ms3/evidence/team-serving-20261105/github-audience.json"
+      ],
+      "note": "Before-upload snapshot: no milestone3; same private team repo and caller write permission verified. Requested preparation upload outcome must be checked separately. Keynote approval does not govern GitHub."
     },
     {
       "id": "presentation",
