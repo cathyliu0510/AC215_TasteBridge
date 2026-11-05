@@ -42,3 +42,5 @@ The [official rubric](https://harvard-iacs.github.io/2026-AC215/milestone3/) req
 The existing 82 frontend tests passed for this release, and all **27 current tool/configuration tests pass**. The new 5,000-book HTTP/browser checks passed without changes to model scoring or artifact files. Screenshots contain catalogue/demo content. The local preview processes were stopped after verification. Docker's configured socket and `gcloud` remain unavailable; local Python/Node checks do not substitute for image or live-service checks.
 
 `python3 tools/check_ms3.py` still reports incomplete cloud/submission evidence. It checks manifest coverage and file presence only. The separate public [original Site](https://tastebridge-prototype.landenini.chatgpt.site/) remains a 23-book static frontend demonstration at the same release, with public access unchanged. It is not the model API deployment.
+
+Latest independent continuation: [exact artifact identity, deployment/evidence sequence and read-access gaps](deployment-evidence-handoff-20261105.md), with [presentation integration manuscript](presentation-integration-20261105.md). GitHub push remains paused.

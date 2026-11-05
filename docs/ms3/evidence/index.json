@@ -20,9 +20,10 @@
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
         "docs/ms3/evidence/team-serving-20261105/api-check.json",
         "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
-        "docs/ms3/evidence/team-serving-20261105/browser-checks.json"
+        "docs/ms3/evidence/team-serving-20261105/browser-checks.json",
+        "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json"
       ],
-      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied."
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied. Exact artifact lock verified; historical Docker image/source identities differ and cannot verify this export."
     },
     {
       "id": "automated_ml_workflow",
@@ -40,9 +41,10 @@
       "evidence": [
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log",
         "docs/ms3/evidence/current-serving-20261104/backend.log",
-        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json"
+        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json",
+        "docs/ms3/evidence/identity-handoff-20261105/cloud-readiness.json"
       ],
-      "note": "Actual local model/API logs only; no production log or deployed access proof. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
+      "note": "Actual local model/API logs only; no production log or deployed access proof. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists. Bounded production-log read also returns 403; no precise permission identifier is present in its error."
     },
     {
       "id": "working_api",
@@ -55,9 +57,10 @@
         "docs/ms3/evidence/current-serving-20261104/browser-checks.json",
         "docs/ms3/evidence/team-serving-20261105/api-check.json",
         "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
-        "docs/ms3/evidence/team-serving-20261105/browser-checks.json"
+        "docs/ms3/evidence/team-serving-20261105/browser-checks.json",
+        "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json"
       ],
-      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied."
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied. Exact artifact lock verified; historical Docker image/source identities differ and cannot verify this export."
     },
     {
       "id": "milestone3_branch",
@@ -74,9 +77,10 @@
       "evidence": [
         "docs/ms3/presentation/TasteBridge-MS3-review.pptx",
         "docs/ms3/rehearsal.md",
-        "docs/ms3/evidence/local-integration-20261104/presentation-qa/geometry.json"
+        "docs/ms3/evidence/local-integration-20261104/presentation-qa/geometry.json",
+        "docs/ms3/presentation-integration-20261105.md"
       ],
-      "note": "12-slide, 15-minute review draft with sources and browser layout checks. Cloud evidence and native presentation rendering remain pending."
+      "note": "12-slide, 15-minute review draft with sources and browser layout checks. Cloud evidence and native presentation rendering remain pending. November 5 manuscript maps real team-model evidence into the existing 900-second outline; binary slides remain the earlier draft."
     }
   ]
 }

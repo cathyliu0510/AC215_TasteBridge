@@ -1,0 +1,72 @@
+{
+  "kind": "historical_MS2_evaluation_context",
+  "config_source": "docs/ms2/models/runs/test-tuned-f128-r50/config.json",
+  "evaluation_git_commit": "c4431c6bb36c083cf79a2917e274ea477b77acfd",
+  "recorded_export_git_commit": "a5ee615bce37340b4cbff3aea50de10583ebc631",
+  "evaluation_and_export_source_tree_match": true,
+  "hyperparameters_match_recorded_export": true,
+  "hyperparameters": {
+    "factors": 128,
+    "regularization": 50.0,
+    "alpha": 20.0,
+    "iterations": 15,
+    "seed": 42
+  },
+  "processed_input_hashes": {
+    "interactions": "ab2f71b4aa4f829587f68c2f8b5fe975b5888a3b8d8590cc00f45f2c22424824",
+    "books": "2068541233a9f01eab3e0ae265c81b1654fad6169f48e33194f511111137613b"
+  },
+  "counts": {
+    "interactions": 499915,
+    "train_interactions": 399269,
+    "users": {
+      "train": 7917,
+      "tune": 990,
+      "test": 989
+    },
+    "catalogue_works": 5000,
+    "long_tail_works": 4000,
+    "eligible_readers": 628,
+    "pairs": {
+      "similar": 150,
+      "different": 150
+    }
+  },
+  "rows": [
+    {
+      "model": "als",
+      "aggregation": "average",
+      "n_favorites": 5,
+      "n_pairs": 300,
+      "min_recall_at_10": "0.0432 \u00b1 0.0070",
+      "ndcg_at_10": "0.3551 \u00b1 0.0184",
+      "long_tail_coverage": 0.1568
+    },
+    {
+      "model": "als",
+      "aggregation": "least_misery",
+      "n_favorites": 5,
+      "n_pairs": 300,
+      "min_recall_at_10": "0.0236 \u00b1 0.0051",
+      "ndcg_at_10": "0.1686 \u00b1 0.0194",
+      "long_tail_coverage": 0.2057
+    },
+    {
+      "model": "als",
+      "aggregation": "merged_seeds",
+      "n_favorites": 5,
+      "n_pairs": 300,
+      "min_recall_at_10": "0.0365 \u00b1 0.0067",
+      "ndcg_at_10": "0.3490 \u00b1 0.0182",
+      "long_tail_coverage": 0.156
+    }
+  ],
+  "limits": [
+    "Historical held-out evaluation fits training users only; export refits all retained users.",
+    "Current export metadata does not itself store processed input hashes; the historical config does. Exact input linkage is not independently re-established.",
+    "These metrics are not from a new run and do not measure deployed service quality.",
+    "Tuned B2 is not the best model in the historical team evaluation; model replacement remains a team modeling decision."
+  ],
+  "new_training": false,
+  "new_quality_evaluation": false
+}

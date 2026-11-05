@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-11-05T04:13:55.946813+00:00",
+  "mode": "read-only existing credentials; no changes, no raw request bodies saved",
+  "project": "tastebridge-511403",
+  "checks": {
+    "artifact_registry": {
+      "http_status": 403,
+      "status": "PERMISSION_DENIED",
+      "permissions": [
+        "artifactregistry.repositories.get"
+      ],
+      "reasons": [
+        "IAM_PERMISSION_DENIED"
+      ]
+    },
+    "production_logs": {
+      "http_status": 403,
+      "status": "PERMISSION_DENIED",
+      "permissions": [],
+      "reasons": [],
+      "required_permission_from_api_contract": "logging.logEntries.list",
+      "note": "API returned denial without a permission identifier; permission above is the documented operation requirement, not an observed error field."
+    }
+  }
+}

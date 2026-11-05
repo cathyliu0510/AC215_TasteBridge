@@ -115,3 +115,5 @@ After an approved service deployment, capture a responding API and the correspon
 4. The authorized maintainer creates/updates `milestone3` from the reviewed state and submits the full hash on Canvas. Finalize the review slides with actual cloud evidence and a native presentation check. This document does not perform or confirm those actions.
 
 The [operator handoff](operator-handoff.md) lists exact inputs, missing access and the remaining implementation/evidence. GitHub audience and write access are now verified; see the current audit for the requested preparation branch publication status. The Keynote control card is unrelated. No main merge, sharing change or Canvas submission is included.
+
+Latest independent continuation: [exact artifact identity, deployment/evidence sequence and read-access gaps](deployment-evidence-handoff-20261105.md), with [presentation integration manuscript](presentation-integration-20261105.md). GitHub push remains paused.

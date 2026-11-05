@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "pending_team_cloud_evidence",
+  "project": "tastebridge-511403",
+  "region": "us-central1",
+  "existing_service": "tastebridge-staging",
+  "reviewed_export_lock": "docs/ms3/evidence/identity-handoff-20261105/artifact-lock.json",
+  "expected_deploy_model_hash": "cb4457b668e3",
+  "training": {
+    "execution_resource": null,
+    "status": null,
+    "source_commit": null,
+    "input_hash_manifest": null,
+    "parameters": null,
+    "output_hash_manifest": null,
+    "tracker_run": null,
+    "screenshot": null
+  },
+  "workflow": {
+    "execution_resource": null,
+    "status": null,
+    "configuration_source": null,
+    "completed_steps": null
+  },
+  "deployment": {
+    "service_url": null,
+    "ready_revision": null,
+    "image_digests": null,
+    "current_build_record": null,
+    "current_local_smoke_record": null,
+    "model_file_hashes": null,
+    "deployed_api_check": null,
+    "browser_screenshot": null,
+    "staff_access_verified": false,
+    "existing_access_preserved": null
+  },
+  "monitoring": {
+    "sanitized_revision_linked_event": null,
+    "log_query": null,
+    "approved_access_instructions": null
+  },
+  "submission": {
+    "remote_milestone3_commit": null,
+    "canvas_submitted": false
+  },
+  "acceptance": "Actual accessible records require human content review. Null values do not pass. Local or historical output does not close a cloud gate.",
+  "cloud_mutations_authorized_by_this_record": false
+}

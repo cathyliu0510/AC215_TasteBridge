@@ -19,3 +19,5 @@ The Keynote application-control card is unrelated to GitHub. Existing GitHub CLI
 The public [TasteBridge prototype](https://tastebridge-prototype.landenini.chatgpt.site/) remains frontend `20261104.6`, a separate 23-book static UX demonstration with unchanged public access. It is not the deployed model API.
 
 Finish the [evidence index](evidence/index.json), run `python3 tools/check_ms3.py`, replace pending cloud slides and complete a native slide check. [Official deadline](https://harvard-iacs.github.io/2026-AC215/milestone3/): **November 12, 10pm Eastern**, with a 15-minute team presentation. The checker verifies paths/coverage only, not authenticity or Canvas status.
+
+Latest independent continuation: [exact artifact identity, deployment/evidence sequence and read-access gaps](deployment-evidence-handoff-20261105.md), with [presentation integration manuscript](presentation-integration-20261105.md). GitHub push remains paused.

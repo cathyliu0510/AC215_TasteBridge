@@ -5,6 +5,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -39,7 +40,19 @@ def source_trees():
             for part in ('src/backend', 'frontend/prototype')}
 
 
-def build(source):
+def read_artifact_lock(path):
+    data = path.read_bytes()
+    lock = json.loads(data)
+    if lock.get('schema_version') != 1 or set(lock.get('files', {})) != set(FILES):
+        raise ValueError('Artifact lock must name exactly the four export files.')
+    hashes = {name: lock['files'][name].get('sha256') for name in FILES}
+    if any(not isinstance(value, str) or not re.fullmatch('[0-9a-f]{64}', value) for value in hashes.values()):
+        raise ValueError('Every artifact lock entry needs a SHA256 hash.')
+    return hashes, hashlib.sha256(data).hexdigest()
+
+
+def build(source, artifact_lock=None):
+    expected, lock_sha256 = read_artifact_lock(artifact_lock) if artifact_lock is not None else (None, None)
     # A reproducible release must point to committed app code.
     dirty = run('git', 'status', '--porcelain', '--', 'src/backend', 'frontend/prototype', capture=True)
     if dirty.strip():
@@ -47,6 +60,8 @@ def build(source):
     (STATE / 'local-smoke.json').unlink(missing_ok=True)
     run(sys.executable, str(HERE / 'prepare-artifacts.py'), str(source), str(HERE / '.artifacts'))
     hashes = {name: hashlib.sha256((HERE / '.artifacts' / name).read_bytes()).hexdigest() for name in FILES}
+    if expected is not None and hashes != expected:
+        raise SystemExit('Staged model differs from the reviewed artifact lock. No images were built; verify the exact export.')
     model_hash = hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest()[:12]
     commit = run('git', 'rev-parse', 'HEAD', capture=True).strip()
     tag = f'{commit[:12]}-{model_hash}'
@@ -65,6 +80,8 @@ def build(source):
                    image_ids={name: inspect(image, '{{.Id}}') for name, image in images.items()},
                    artifact_sha256=hashes, model_version=meta['model_version'],
                    data_version=meta.get('data_version'), num_books=len(books))
+    if lock_sha256 is not None:
+        release['reviewed_artifact_lock_sha256'] = lock_sha256
     STATE.mkdir(exist_ok=True)
     (STATE / 'release.json').write_text(json.dumps(release, indent=2) + '\n')
     print(f'Built {tag}. No cloud resources changed. Run smoke.py --local before publishing.')
@@ -199,14 +216,16 @@ def publish(authenticated=False, allow_demo_model=False):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
-    commands.add_parser('build').add_argument('artifact_dir', type=Path)
+    build_command = commands.add_parser('build')
+    build_command.add_argument('artifact_dir', type=Path)
+    build_command.add_argument('--artifact-lock', type=Path, help='Require exact reviewed model bytes before any Docker build')
     publication = commands.add_parser('publish')
     publication.add_argument('--authenticated', action='store_true', help='Verify using the already authorized gcloud identity; no IAM changes')
     publication.add_argument('--allow-demo-model', action='store_true', help='Explicitly permit a clearly labeled synthetic/sample model; not real-data evidence')
     args = parser.parse_args()
     try:
         if args.command == 'build':
-            build(args.artifact_dir.resolve())
+            build(args.artifact_dir.resolve(), artifact_lock=args.artifact_lock)
         else:
             publish(authenticated=args.authenticated, allow_demo_model=args.allow_demo_model)
     except subprocess.CalledProcessError as error:

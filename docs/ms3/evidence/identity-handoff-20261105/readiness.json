@@ -1,0 +1,42 @@
+{
+  "recorded_evidence_complete": false,
+  "errors": [],
+  "gaps": [
+    {
+      "id": "tracked_serverless_training",
+      "status": "local_only",
+      "note": "Two successful local synthetic fits with tracked configuration and reproducibility; no cloud execution or approved tracker evidence. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
+    },
+    {
+      "id": "deployed_model_api",
+      "status": "local_only",
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied. Exact artifact lock verified; historical Docker image/source identities differ and cannot verify this export."
+    },
+    {
+      "id": "automated_ml_workflow",
+      "status": "local_only",
+      "note": "The automated local B2 path passed twice. An approved cloud workflow/equivalent still needs implementation/adaptation and execution. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists."
+    },
+    {
+      "id": "production_monitoring",
+      "status": "local_only",
+      "note": "Actual local model/API logs only; no production log or deployed access proof. November 5: existing cloud records cannot be verified because service/job read permissions return 403; do not infer that no team run exists. Bounded production-log read also returns 403; no precise permission identifier is present in its error."
+    },
+    {
+      "id": "working_api",
+      "status": "local_only",
+      "note": "Current frontend and real historical team model pass local HTTP/relay and desktop/mobile checks. No live cloud endpoint proof; current service metadata is IAM-denied. Exact artifact lock verified; historical Docker image/source identities differ and cannot verify this export."
+    },
+    {
+      "id": "milestone3_branch",
+      "status": "pending",
+      "note": "Before-upload snapshot: no milestone3; same private team repo and caller write permission verified. Requested preparation upload outcome must be checked separately. Keynote approval does not govern GitHub."
+    },
+    {
+      "id": "presentation",
+      "status": "local_only",
+      "note": "12-slide, 15-minute review draft with sources and browser layout checks. Cloud evidence and native presentation rendering remain pending. November 5 manuscript maps real team-model evidence into the existing 900-second outline; binary slides remain the earlier draft."
+    }
+  ],
+  "scope": "Manifest coverage and file presence only; not cloud execution, content quality or Canvas submission verification."
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-05T04:13:06.958032+00:00",
+  "status": "locked_export_verified",
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "data_version": "gr-317756d1a1ad",
+  "num_books": 5000,
+  "hyperparameters": {
+    "factors": 128,
+    "regularization": 50.0,
+    "alpha": 20.0,
+    "iterations": 15,
+    "seed": 42
+  },
+  "recorded_export_source": "a5ee615bce37340b4cbff3aea50de10583ebc631",
+  "files": {
+    "books.json": {
+      "bytes": 1486399,
+      "sha256": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+      "md5": "4a97f9317b7e36a3c9adfaac5e0353cf"
+    },
+    "item_embeddings.npy": {
+      "bytes": 2560128,
+      "sha256": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+      "md5": "42e7e43b608edef54bcdc3aac2c891f4"
+    },
+    "coords_2d.npy": {
+      "bytes": 40128,
+      "sha256": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+      "md5": "f9fcb297eead101048912e10b8cd19b0"
+    },
+    "meta.json": {
+      "bytes": 632,
+      "sha256": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0",
+      "md5": "6d0bc9b9563092a3f14052e7252de981"
+    }
+  },
+  "matrices": {
+    "item_embeddings.npy": {
+      "shape": [
+        5000,
+        128
+      ],
+      "dtype": "<f4"
+    },
+    "coords_2d.npy": {
+      "shape": [
+        5000,
+        2
+      ],
+      "dtype": "<f4"
+    }
+  },
+  "dvc_index_verified": true,
+  "export_fingerprint_sha256": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+  "training_executed": false,
+  "services_started": false,
+  "cloud_execution": false,
+  "raw_input_reproduction_verified": false,
+  "cloud_deployment_verified": false,
+  "deploy_model_hash": "cb4457b668e3",
+  "historical_container_comparison": {
+    "same_artifact_bytes": false,
+    "different_files": [
+      "item_embeddings.npy",
+      "coords_2d.npy",
+      "meta.json"
+    ],
+    "same_app_sources": false,
+    "different_source_trees": [
+      "src/backend",
+      "frontend/prototype"
+    ],
+    "current_container_verification": false,
+    "note": "Matching bytes and source trees only; this does not independently verify image execution or deployment.",
+    "same_model_version_label": true
+  },
+  "current_app_source_trees": {
+    "src/backend": "31c35615d500054956d804993c3d1e5b52473331",
+    "frontend/prototype": "a3fa8ff4d42b1c3600aa139a4bf70b89e1a6307d"
+  },
+  "evaluation_source_comparison": {
+    "recorded_tree_available": true,
+    "same_committed_tree": true,
+    "recorded_tree": "89d86b55f92395124821b7339225e1c7ea1be9ce",
+    "current_tree": "89d86b55f92395124821b7339225e1c7ea1be9ce",
+    "limits": "Committed source identity only; no fresh model fit or environment reproducibility proof."
+  }
+}

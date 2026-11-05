@@ -2,7 +2,7 @@
 
 **Status: cloud deployment unverified.** [Historical local Docker verification](verification.local.json) predates the current branch. The [current local integration evidence](../../docs/ms3/evidence/local-integration-20261104/) exercises Python/Node services, not the new container images. Rebuild and smoke-test the actual images before publication. This continuation did not publish a service.
 
-Prepares the current frontend and existing backend with the team's approved model export for **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. The historical configuration used the real 5,000-book model; that exact export has now been recovered into ignored local runtime storage and verified against the existing DVC index. See [the current audit](../../docs/ms3/team-audit-20261105.md). Updating an existing service keeps its Cloud Run URL. This does not update the static prototype website.
+Prepares the current frontend and existing backend with the team's approved model export for **`tastebridge-511403`**, region **`us-central1`**, service **`tastebridge-staging`**. The historical configuration used the real 5,000-book model; the currently pinned export with the same model label has now been recovered into ignored local runtime storage and verified against the existing DVC index. Its vector/metadata hashes differ from the historical container check; rebuild and verify current images. See [the current audit](../../docs/ms3/team-audit-20261105.md). Updating an existing service keeps its Cloud Run URL. This does not update the static prototype website.
 
 ```text
 HTTPS link with approved access
@@ -129,3 +129,14 @@ python3 tools/verify_serving_export.py --artifact-dir data/artifacts/current \
 ```
 
 The backend environment must already exist (`uv sync --frozen --project src/backend`). Use `--backend-python PATH` for an existing environment in another checkout. The command validates the export, starts two owned loopback services on free ports, checks the API and prints a UI URL with valid five-book shelves. Ctrl-C closes only those processes. A fresh output directory is required. `run.json` records source/artifact hashes, source dirtiness, model identity, input kind and explicit `training_executed=false` / `cloud_execution=false`. A model identifier alone does not certify real-data provenance. See the [current local evidence](../../docs/ms3/evidence/current-serving-20261104/).
+
+## Require the reviewed export bytes
+
+The [current artifact handoff](../../docs/ms3/deployment-evidence-handoff-20261105.md) provides a reviewed SHA256 lock. Use it during the existing local build:
+
+```sh
+python3 deploy/cloud-run/deploy.py build /absolute/path/to/approved/current \
+  --artifact-lock docs/ms3/evidence/identity-handoff-20261105/artifact-lock.json
+```
+
+A mismatch aborts before any Docker build. A successful locked build records the lock SHA256 in `.state/release.json`. This does not execute a cloud deployment or grant invocation.

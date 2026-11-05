@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "model_version": "b2-als-gr-317756d1a1ad",
+  "data_version": "gr-317756d1a1ad",
+  "num_books": 5000,
+  "source": "existing team DVC snapshot; review ledger establishes source, not new training",
+  "source_dvc_directory_md5": "d084e50dc63c3203fc81d7ba09128074",
+  "files": {
+    "books.json": {
+      "bytes": 1486399,
+      "sha256": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+      "md5": "4a97f9317b7e36a3c9adfaac5e0353cf"
+    },
+    "coords_2d.npy": {
+      "bytes": 40128,
+      "sha256": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+      "md5": "f9fcb297eead101048912e10b8cd19b0"
+    },
+    "item_embeddings.npy": {
+      "bytes": 2560128,
+      "sha256": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+      "md5": "42e7e43b608edef54bcdc3aac2c891f4"
+    },
+    "meta.json": {
+      "bytes": 632,
+      "sha256": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0",
+      "md5": "6d0bc9b9563092a3f14052e7252de981"
+    }
+  }
+}

@@ -2,6 +2,8 @@
 
 [Editable deck](presentation/TasteBridge-MS3-review.pptx) · [speaker-note manuscript](presentation-source.md).
 
+The [November 5 integration manuscript](presentation-integration-20261105.md) maps the recovered 5,000-book team model into this review. It leaves the binary PPTX as the earlier draft pending evidence replacement/rendering.
+
 The review deck totals **900 seconds**. It is ready for team review, with cloud placeholders explicitly retained. Replace those with actual evidence before the graded presentation. Every teammate should understand each part; no speaker allocation is inferred here.
 
 | Slide | Time | Main point / file to navigate |
