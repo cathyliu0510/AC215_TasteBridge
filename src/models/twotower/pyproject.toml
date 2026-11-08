@@ -1,0 +1,91 @@
+[project]
+name = "tastebridge-twotower"
+version = "0.1.0"
+description = "TasteBridge M1: two-tower recommender with a set-Transformer reader tower (MS3)."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+# The team evaluator (src/evaluation) is reused as-is. It is not an installable package,
+# so it is put on the import path (PYTHONPATH in the image; twotower/_evaluation.py locally).
+# These are its runtime needs (scipy for B1/B2) plus ours.
+dependencies = [
+    "numpy>=2.5.4",
+    "pandas>=3.0.6",
+    "pyarrow>=26.0.0",
+    "scipy>=1.18.1",
+    "wandb>=0.22.0",
+    "google-cloud-secret-manager>=2.24.0",
+]
+
+# torch comes in three builds, chosen with an extra (exactly one):
+#   uv sync --extra cu128   GPU, CUDA 12.8 (default for training). Runs on the RTX 5090 (Blackwell,
+#                           needs CUDA >= 12.8) and on Vertex T4s; needs NVIDIA driver >= 570.
+#                           PyTorch stopped publishing cu128 wheels after torch 2.11, hence the cap.
+#   uv sync --extra cu130   GPU, CUDA 13.0, newest torch (what the local prototype used).
+#                           Needs NVIDIA driver >= 580; use it if the Vertex host driver allows.
+#   uv sync --extra cpu     CPU-only: small image for Cloud Run serving and CI.
+[project.optional-dependencies]
+cpu = ["torch>=2.11.0"]
+cu128 = ["torch>=2.11.0,<2.12"]
+cu130 = ["torch>=2.14.1"]
+
+[tool.uv]
+package = false
+conflicts = [[{ extra = "cpu" }, { extra = "cu128" }, { extra = "cu130" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu128", extra = "cu128" },
+    { index = "pytorch-cu130", extra = "cu130" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.14.0",
+    "mypy>=1.18.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "../../evaluation"]
+markers = ["slow: runs the full CLI on synthetic data (about a minute on CPU)"]
+
+[tool.coverage.run]
+source = ["twotower"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "N"]
+ignore = ["N812"]  # `import torch.nn.functional as F` is the PyTorch convention
+
+[tool.mypy]
+python_version = "3.12"
+files = ["twotower"]
+mypy_path = "../../evaluation"
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["evaluation", "evaluation.*"]
+follow_imports = "silent"  # the team evaluator is type-checked by its owners, not here
