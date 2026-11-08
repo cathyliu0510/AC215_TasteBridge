@@ -105,5 +105,7 @@ class ItemKNN:
 
 # B2 lives in als.py (Cathy); imported here so every model is registered in one place.
 from evaluation.als import ALS  # noqa: E402
+# M1 hybrid and ALS fold-in live in hybrid.py (Anhad).
+from evaluation.hybrid import ALSFoldIn, Hybrid  # noqa: E402
 
-MODELS = {"popularity": Popularity, "item_knn": ItemKNN, "als": ALS}
+MODELS = {"popularity": Popularity, "item_knn": ItemKNN, "als": ALS, "als_foldin": ALSFoldIn, "hybrid": Hybrid}

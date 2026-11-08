@@ -94,6 +94,9 @@ class ALS:
         self.items: tuple[str, ...] = ()
         self._row: dict[str, int] = {}
         self.item_vectors = np.zeros((0, self.params.factors), dtype=np.float32)  # unit rows
+        # Raw (un-normalised) work factors, kept for fold-in scoring in hybrid.py (M1).
+        # Their length carries the popularity signal that the unit rows above discard.
+        self.item_factors = np.zeros((0, self.params.factors), dtype=np.float64)
 
     def fit(self, interactions: pd.DataFrame) -> "ALS":
         p = self.params
@@ -120,6 +123,7 @@ class ALS:
             user_f = _solve_side(item_f, user_item, p.alpha, p.regularization)
             item_f = _solve_side(user_f, item_user, p.alpha, p.regularization)
 
+        self.item_factors = item_f
         norms = np.linalg.norm(item_f, axis=1, keepdims=True)
         unit = np.divide(item_f, norms, out=np.zeros_like(item_f), where=norms > 0)
         self.item_vectors = unit.astype(np.float32)

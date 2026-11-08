@@ -1,0 +1,267 @@
+[
+  {
+    "model": "hybrid",
+    "aggregation": "average",
+    "pair_kind": "similar",
+    "input": {
+      "reader_a_favorites": [
+        "Synthetic Work 1703",
+        "Synthetic Work 390",
+        "Synthetic Work 1606",
+        "Synthetic Work 1474",
+        "Synthetic Work 2120"
+      ],
+      "reader_b_favorites": [
+        "Synthetic Work 1638",
+        "Synthetic Work 2069",
+        "Synthetic Work 2236",
+        "Synthetic Work 1015",
+        "Synthetic Work 710"
+      ]
+    },
+    "output": [
+      {
+        "rank": 1,
+        "work_id": "w1171",
+        "title": "Synthetic Work 1171",
+        "hidden_like_of": [
+          "a"
+        ]
+      },
+      {
+        "rank": 2,
+        "work_id": "w2728",
+        "title": "Synthetic Work 2728",
+        "hidden_like_of": [
+          "b"
+        ]
+      },
+      {
+        "rank": 3,
+        "work_id": "w2107",
+        "title": "Synthetic Work 2107",
+        "hidden_like_of": [
+          "a"
+        ]
+      },
+      {
+        "rank": 4,
+        "work_id": "w2755",
+        "title": "Synthetic Work 2755",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 5,
+        "work_id": "w2021",
+        "title": "Synthetic Work 2021",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 6,
+        "work_id": "w1290",
+        "title": "Synthetic Work 1290",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 7,
+        "work_id": "w2677",
+        "title": "Synthetic Work 2677",
+        "hidden_like_of": [
+          "b"
+        ]
+      },
+      {
+        "rank": 8,
+        "work_id": "w2738",
+        "title": "Synthetic Work 2738",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 9,
+        "work_id": "w2559",
+        "title": "Synthetic Work 2559",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 10,
+        "work_id": "w2652",
+        "title": "Synthetic Work 2652",
+        "hidden_like_of": []
+      }
+    ]
+  },
+  {
+    "model": "hybrid",
+    "aggregation": "average",
+    "pair_kind": "similar",
+    "input": {
+      "reader_a_favorites": [
+        "Synthetic Work 2462",
+        "Synthetic Work 2016",
+        "Synthetic Work 984",
+        "Synthetic Work 2509",
+        "Synthetic Work 1615"
+      ],
+      "reader_b_favorites": [
+        "Synthetic Work 2306",
+        "Synthetic Work 758",
+        "Synthetic Work 641",
+        "Synthetic Work 1",
+        "Synthetic Work 780"
+      ]
+    },
+    "output": [
+      {
+        "rank": 1,
+        "work_id": "w2503",
+        "title": "Synthetic Work 2503",
+        "hidden_like_of": [
+          "b"
+        ]
+      },
+      {
+        "rank": 2,
+        "work_id": "w1864",
+        "title": "Synthetic Work 1864",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 3,
+        "work_id": "w2134",
+        "title": "Synthetic Work 2134",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 4,
+        "work_id": "w0470",
+        "title": "Synthetic Work 470",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 5,
+        "work_id": "w0077",
+        "title": "Synthetic Work 77",
+        "hidden_like_of": [
+          "a"
+        ]
+      },
+      {
+        "rank": 6,
+        "work_id": "w0230",
+        "title": "Synthetic Work 230",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 7,
+        "work_id": "w1996",
+        "title": "Synthetic Work 1996",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 8,
+        "work_id": "w0120",
+        "title": "Synthetic Work 120",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 9,
+        "work_id": "w1159",
+        "title": "Synthetic Work 1159",
+        "hidden_like_of": [
+          "a"
+        ]
+      },
+      {
+        "rank": 10,
+        "work_id": "w0578",
+        "title": "Synthetic Work 578",
+        "hidden_like_of": []
+      }
+    ]
+  },
+  {
+    "model": "hybrid",
+    "aggregation": "average",
+    "pair_kind": "similar",
+    "input": {
+      "reader_a_favorites": [
+        "Synthetic Work 2784",
+        "Synthetic Work 2998",
+        "Synthetic Work 1441",
+        "Synthetic Work 1569",
+        "Synthetic Work 2744"
+      ],
+      "reader_b_favorites": [
+        "Synthetic Work 2533",
+        "Synthetic Work 1938",
+        "Synthetic Work 1848",
+        "Synthetic Work 1510",
+        "Synthetic Work 1787"
+      ]
+    },
+    "output": [
+      {
+        "rank": 1,
+        "work_id": "w1894",
+        "title": "Synthetic Work 1894",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 2,
+        "work_id": "w1128",
+        "title": "Synthetic Work 1128",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 3,
+        "work_id": "w1502",
+        "title": "Synthetic Work 1502",
+        "hidden_like_of": [
+          "a"
+        ]
+      },
+      {
+        "rank": 4,
+        "work_id": "w0867",
+        "title": "Synthetic Work 867",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 5,
+        "work_id": "w2462",
+        "title": "Synthetic Work 2462",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 6,
+        "work_id": "w2600",
+        "title": "Synthetic Work 2600",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 7,
+        "work_id": "w1503",
+        "title": "Synthetic Work 1503",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 8,
+        "work_id": "w1081",
+        "title": "Synthetic Work 1081",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 9,
+        "work_id": "w1002",
+        "title": "Synthetic Work 1002",
+        "hidden_like_of": []
+      },
+      {
+        "rank": 10,
+        "work_id": "w0029",
+        "title": "Synthetic Work 29",
+        "hidden_like_of": []
+      }
+    ]
+  }
+]

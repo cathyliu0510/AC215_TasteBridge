@@ -1,0 +1,27 @@
+2026-11-06T01:25:58 INFO TasteBridge evaluation 0.1.0, run synthetic-10k-test
+2026-11-06T01:25:59 INFO Loaded 450317 interactions from 10000 users; 3000 books
+2026-11-06T01:25:59 INFO User split train/tune/test = 8000/1000/1000
+2026-11-06T01:25:59 INFO 999 test readers have >=15 likes in the 3000-work catalogue
+2026-11-06T01:25:59 INFO Sampled 300 pairs {'similar': 150, 'different': 150}
+2026-11-06T01:25:59 INFO Fitting popularity, item_knn, als, als_foldin, hybrid on 360086 training interactions; hybrid {'weight': 0.7, 'knn_neighbors': 50, 'als_scoring': 'cosine'}
+2026-11-06T01:25:59 INFO Ready popularity in 0.02s
+2026-11-06T01:26:00 INFO Ready item_knn in 0.41s
+2026-11-06T01:26:37 INFO Ready als in 37.71s
+2026-11-06T01:26:37 INFO Ready als_foldin in 0.00s
+2026-11-06T01:26:38 INFO Ready hybrid in 0.46s
+2026-11-06T01:26:41 INFO popularity average      Min-Recall@10 0.0141  NDCG@10 0.0952  long-tail cov 0.0000
+2026-11-06T01:26:41 INFO popularity least_misery Min-Recall@10 0.0141  NDCG@10 0.0952  long-tail cov 0.0000
+2026-11-06T01:26:41 INFO popularity merged_seeds Min-Recall@10 0.0141  NDCG@10 0.0952  long-tail cov 0.0000
+2026-11-06T01:26:41 INFO item_knn   average      Min-Recall@10 0.0284  NDCG@10 0.1750  long-tail cov 0.0325
+2026-11-06T01:26:41 INFO item_knn   least_misery Min-Recall@10 0.0229  NDCG@10 0.1448  long-tail cov 0.1546
+2026-11-06T01:26:41 INFO item_knn   merged_seeds Min-Recall@10 0.0270  NDCG@10 0.1760  long-tail cov 0.0246
+2026-11-06T01:26:41 INFO als        average      Min-Recall@10 0.0100  NDCG@10 0.0874  long-tail cov 0.3613
+2026-11-06T01:26:41 INFO als        least_misery Min-Recall@10 0.0068  NDCG@10 0.0662  long-tail cov 0.5133
+2026-11-06T01:26:41 INFO als        merged_seeds Min-Recall@10 0.0102  NDCG@10 0.0883  long-tail cov 0.3563
+2026-11-06T01:26:41 INFO als_foldin average      Min-Recall@10 0.0157  NDCG@10 0.1162  long-tail cov 0.1517
+2026-11-06T01:26:41 INFO als_foldin least_misery Min-Recall@10 0.0098  NDCG@10 0.0829  long-tail cov 0.3246
+2026-11-06T01:26:41 INFO als_foldin merged_seeds Min-Recall@10 0.0148  NDCG@10 0.1139  long-tail cov 0.1483
+2026-11-06T01:26:41 INFO hybrid     average      Min-Recall@10 0.0279  NDCG@10 0.1695  long-tail cov 0.0579
+2026-11-06T01:26:41 INFO hybrid     least_misery Min-Recall@10 0.0145  NDCG@10 0.1103  long-tail cov 0.3679
+2026-11-06T01:26:41 INFO hybrid     merged_seeds Min-Recall@10 0.0239  NDCG@10 0.1680  long-tail cov 0.0567
+2026-11-06T01:26:41 INFO Wrote results to results/synthetic-10k-test in 43.0s

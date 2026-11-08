@@ -1,0 +1,80 @@
+{
+  "run_id": "synthetic-10k-test",
+  "package_version": "0.1.0",
+  "git_commit": "draft (rerun after committing)",
+  "python": "3.12.3",
+  "arguments": {
+    "interactions": "input/interactions.csv",
+    "books": "input/books.csv",
+    "synthetic": false,
+    "out": "results",
+    "run_id": "synthetic-10k-test",
+    "split": "test",
+    "models": [
+      "popularity",
+      "item_knn",
+      "als",
+      "als_foldin",
+      "hybrid"
+    ],
+    "aggregations": [
+      "average",
+      "least_misery",
+      "merged_seeds"
+    ],
+    "favorite_counts": [
+      5
+    ],
+    "n_pairs": 300,
+    "k": 10,
+    "knn_neighbors": 100,
+    "seed": 42,
+    "als_factors": 128,
+    "als_reg": 50.0,
+    "als_alpha": 20.0,
+    "als_iterations": 15,
+    "hybrid_params": "results/synthetic-10k-tune/best.json",
+    "hybrid_weight": 0.5,
+    "hybrid_knn_neighbors": null,
+    "hybrid_als_scoring": "fold_in"
+  },
+  "hybrid": {
+    "weight": 0.7,
+    "knn_neighbors": 50,
+    "als_scoring": "cosine"
+  },
+  "als": {
+    "factors": 128,
+    "regularization": 50.0,
+    "alpha": 20.0,
+    "iterations": 15,
+    "seed": 42
+  },
+  "data": {
+    "interactions": {
+      "path": "input/interactions.csv",
+      "sha256": "bf16c523f468752d151e1d946b21e92934d3bc6884de977f02f1eb7b406f7956"
+    },
+    "books": {
+      "path": "input/books.csv",
+      "sha256": "a97511ecc4994c0617adb4ac6550e0e32e34b385e273b4ecfaf567d5c5d2f1f3"
+    }
+  },
+  "counts": {
+    "interactions": 450317,
+    "train_interactions": 360086,
+    "users": {
+      "train": 8000,
+      "tune": 1000,
+      "test": 1000
+    },
+    "catalogue_works": 3000,
+    "long_tail_works": 2400,
+    "eligible_readers": 999,
+    "pairs": {
+      "similar": 150,
+      "different": 150
+    }
+  },
+  "seconds": 43.01
+}

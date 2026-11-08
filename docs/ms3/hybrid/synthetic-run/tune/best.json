@@ -1,0 +1,66 @@
+{
+  "run_id": "synthetic-10k",
+  "hybrid": {
+    "weight": 0.7,
+    "knn_neighbors": 50,
+    "als_scoring": "cosine"
+  },
+  "tune": {
+    "split": "tune",
+    "pairs": 300,
+    "min_recall": 0.024638337135782132,
+    "min_recall_ci95": 0.0030162282640034343,
+    "mean_ndcg": 0.15896263131280508,
+    "min_recall_similar": 0.03106720635017988,
+    "min_recall_different": 0.018209467921384382,
+    "references": {
+      "B0 popularity": 0.012592158700466713,
+      "B1 item-kNN (100 neighbours)": 0.023273302958109015,
+      "B2 ALS (cosine, as served)": 0.009806572626975589,
+      "ALS fold-in": 0.014252819014315103
+    }
+  },
+  "als": {
+    "factors": 128,
+    "regularization": 50.0,
+    "alpha": 20.0,
+    "iterations": 15,
+    "seed": 42
+  },
+  "grid": {
+    "weights": [
+      0.0,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "neighbors": [
+      50,
+      100,
+      200
+    ],
+    "als_scorings": [
+      "fold_in",
+      "cosine"
+    ]
+  },
+  "data": {
+    "interactions": {
+      "path": "input/interactions.csv",
+      "sha256": "bf16c523f468752d151e1d946b21e92934d3bc6884de977f02f1eb7b406f7956"
+    },
+    "books": {
+      "path": "input/books.csv",
+      "sha256": "a97511ecc4994c0617adb4ac6550e0e32e34b385e273b4ecfaf567d5c5d2f1f3"
+    }
+  },
+  "git_commit": "draft (rerun after committing)",
+  "seconds": 48.01
+}
