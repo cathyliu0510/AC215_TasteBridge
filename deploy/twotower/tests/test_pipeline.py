@@ -80,3 +80,18 @@ def test_cli_refuses_a_placeholder_image(tmp_path: Path, capsys) -> None:
     with pytest.raises(SystemExit):
         pl.main(["--out", str(tmp_path / "x.yaml"), "--twotower-image", "img@sha256:REPLACE_WITH_DIGEST"])
     assert "set TWOTOWER_IMAGE" in capsys.readouterr().err
+
+
+def test_run_id_reaches_the_gpu_train_step_as_a_resolved_value(tmp_path: Path) -> None:
+    """Regression: the CustomJob wrapper doesn't resolve {{$.pipeline_job_name}}, so the first run
+    trained into runs/{{$.pipeline_job_name}}/ and evaluate failed. Only check-data may see the raw
+    placeholder; every other step must take run_id from check-data's output."""
+    _, spec = _compile(tmp_path, "twotower")
+    tasks = spec["root"]["dag"]["tasks"]
+    assert tasks["check-data"]["inputs"]["parameters"]["job_name"]["runtimeValue"]["constant"] == (
+        "{{$.pipeline_job_name}}"
+    )
+    from_check = {"taskOutputParameter": {"outputParameterKey": "run_id", "producerTask": "check-data"}}
+    for name in ("train", "evaluate"):
+        assert tasks[name]["inputs"]["parameters"]["run_id"] == from_check, name
+    assert tasks["condition-1"]["inputs"]["parameters"]["pipelinechannel--check-data-run_id"] == from_check

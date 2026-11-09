@@ -70,12 +70,26 @@ def build_pipeline(
             raise ValueError(f"pin images by digest (…@sha256:…), got {image}")
 
     @dsl.container_component
-    def check_data(data_dir: str, data_version: dsl.OutputPath(str)):  # type: ignore[valid-type]
+    def check_data(
+        data_dir: str,
+        job_name: str,
+        data_version: dsl.OutputPath(str),  # type: ignore[valid-type]
+        run_id: dsl.OutputPath(str),  # type: ignore[valid-type]
+    ):
+        # Also turns the pipeline job name into an ordinary output value (`run_id`). The GPU train
+        # step is wrapped by create_custom_training_job_from_component, which resolves normal inputs
+        # but NOT the special {{$.pipeline_job_name}} placeholder: the first pipeline run trained
+        # into runs/{{$.pipeline_job_name}}/ while evaluate looked in runs/<job name>/. Every later
+        # step therefore takes run_id from this output.
         return dsl.ContainerSpec(
             image=twotower_image,
-            command=ENTRY,
-            args=["steps", "check-data", "--data-dir", data_dir, "--data-version-out", data_version],
-        )
+            command=["sh", "-c"],
+            args=[
+                '/docker-entrypoint.sh steps check-data --data-dir "$0" --data-version-out "$1"'
+                ' && mkdir -p "$(dirname "$3")" && printf %s "$2" > "$3"',
+                data_dir, data_version, job_name, run_id,
+            ],
+        )  # fmt: skip
 
     if model == "twotower":
 
@@ -167,8 +181,11 @@ def build_pipeline(
         wandb_entity: str = WANDB_ENTITY,
         wandb_secret: str = WANDB_SECRET,
     ):
-        run_id = dsl.PIPELINE_JOB_NAME_PLACEHOLDER  # unique per pipeline run
-        checked = check_data(data_dir=data_dir).set_display_name("Check data")
+        # The pipeline job name (unique per run) becomes the run id, resolved once in check_data.
+        checked = check_data(data_dir=data_dir, job_name=dsl.PIPELINE_JOB_NAME_PLACEHOLDER).set_display_name(
+            "Check data"
+        )
+        run_id = checked.outputs["run_id"]
         trained = (
             train_job(
                 location=REGION,
