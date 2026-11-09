@@ -76,3 +76,14 @@ def tiny_model(tiny_data: tuple[DataPaths, pd.DataFrame], tiny_params: TwoTowerP
     torch.nn.init.normal_(net.reader.out.weight, std=0.5)
     model._cache()
     return model
+
+
+@pytest.fixture
+def synthetic_data(tmp_path: Path) -> DataPaths:
+    """The evaluator's synthetic catalogue in the pipeline's folder layout, plus random MiniLM."""
+    from evaluation import synthetic
+
+    inter, books = synthetic.generate(n_users=400, n_works=120, seed=42)
+    data = write_content(tmp_path / "data", list(books["work_id"]), books)
+    inter.to_parquet(data.interactions)
+    return data

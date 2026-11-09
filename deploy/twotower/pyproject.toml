@@ -1,0 +1,21 @@
+[project]
+name = "twotower-pipeline"
+version = "0.1.0"
+description = "Compile and submit the shared TasteBridge training pipeline (Vertex AI Pipelines, KFP v2)"
+requires-python = ">=3.12,<3.13"
+# Only what runs on your laptop: the KFP compiler, Google's pipeline components (CustomJob with a
+# GPU) and the Vertex AI SDK that submits the run. The steps themselves run in the training image.
+dependencies = [
+    "kfp>=2.7",
+    "google-cloud-pipeline-components>=2.14",
+    "google-cloud-aiplatform>=1.70",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,5 @@
+# local environment and compiled pipelines (regenerate with `uv run python pipeline.py`)
+.venv/
+train_pipeline_*.yaml
+__pycache__/
+.pytest_cache/

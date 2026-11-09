@@ -15,8 +15,6 @@ from twotower.data import DataPaths
 from twotower.model import multi_positive_loss, training_logits
 from twotower.recommender import sample_batches
 
-from .conftest import write_content
-
 
 def test_smoke_three_steps_reduce_the_loss(tiny_data, tiny_params) -> None:
     """L13 [19:33]: a few optimiser steps on one fixed batch must lower its loss."""
@@ -104,17 +102,6 @@ def test_save_and_load_round_trip(tiny_data, tiny_params, tmp_path: Path) -> Non
     np.testing.assert_allclose(loaded.score(["w01", "w02"]), model.score(["w01", "w02"]), rtol=1e-6)
     assert not (out / "item_embeddings.npy").exists()  # written by twotower.export, in catalogue order
     assert json.loads((out / "params.json").read_text())["note"] == "x"
-
-
-@pytest.fixture
-def synthetic_data(tmp_path: Path) -> DataPaths:
-    """The evaluator's synthetic catalogue in the pipeline's folder layout, plus random MiniLM."""
-    from evaluation import synthetic
-
-    inter, books = synthetic.generate(n_users=400, n_works=120, seed=42)
-    data = write_content(tmp_path / "data", list(books["work_id"]), books)
-    inter.to_parquet(data.interactions)
-    return data
 
 
 def test_evaluator_runs_with_two_tower_registered(synthetic_data: DataPaths, tmp_path: Path) -> None:

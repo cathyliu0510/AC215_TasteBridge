@@ -83,7 +83,7 @@ def register(model: TwoTower) -> None:
 
 
 def evaluate(
-    model: TwoTower,
+    model: TwoTower | None,
     data: DataPaths,
     out: str | Path,
     *,
@@ -92,9 +92,14 @@ def evaluate(
     n_pairs: int = 300,
     run_id: str = "test-eval",
 ) -> dict[str, Any]:
-    """TEST-split evaluation with the team harness; returns the metrics.json content."""
+    """TEST-split evaluation with the team harness; returns the metrics.json content.
+
+    With `model=None` nothing is registered: the harness fits only the models it already knows
+    (e.g. `models="popularity,item_knn,als"` for the pipeline's ALS branch).
+    """
     out = Path(out)
-    register(model)
+    if model is not None:
+        register(model)
     args = team_run.parse_args(
         [
             "--interactions",
