@@ -17,6 +17,11 @@ set -euo pipefail
 
 # Git Bash would rewrite /gcs/... into a Windows path before gcloud sees it.
 export MSYS_NO_PATHCONV=1
+# With that rewrite off, Git Bash's `gcloud` (a POSIX sh wrapper) hands Python a /c/Users/... path
+# it can't open ("E:/c/Users/.../gcloud.py: No such file"). On Windows, use the native launcher
+# gcloud.cmd instead: it uses the SDK's bundled Python and Windows paths, and passes the
+# arguments through unchanged. macOS/Linux/Cloud Shell have no gcloud.cmd and use plain gcloud.
+GCLOUD="${GCLOUD:-$(command -v gcloud.cmd >/dev/null 2>&1 && echo gcloud.cmd || echo gcloud)}"
 
 PROJECT="${PROJECT:-tastebridge-511403}"
 REGION="${REGION:-us-central1}"   # Harvard's org policy forbids "global": always set a region
@@ -56,7 +61,7 @@ for a in "${train_args[@]}"; do
 done
 args_csv="$(IFS=,; echo "${train_args[*]}")"
 
-cmd=(gcloud ai custom-jobs create
+cmd=("$GCLOUD" ai custom-jobs create
   --project="$PROJECT" --region="$REGION"
   --display-name="twotower-train-${RUN_ID}"
   --service-account="$SA"
@@ -74,4 +79,4 @@ if [[ "${DRY_RUN:-0}" == "1" ]]; then
 fi
 "${cmd[@]}"
 echo "Watch it: https://console.cloud.google.com/vertex-ai/training/custom-jobs?project=${PROJECT}"
-echo "   or:    gcloud ai custom-jobs stream-logs <JOB_ID from above> --region=${REGION} --project=${PROJECT}"
+echo "   or:    ${GCLOUD} ai custom-jobs stream-logs <JOB_ID from above> --region=${REGION} --project=${PROJECT}"
