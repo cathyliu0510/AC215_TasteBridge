@@ -25,8 +25,8 @@ GCLOUD="${GCLOUD:-$(command -v gcloud.cmd >/dev/null 2>&1 && echo gcloud.cmd || 
 
 PROJECT="${PROJECT:-tastebridge-511403}"
 REGION="${REGION:-us-central1}"   # Harvard's org policy forbids "global": always set a region
-# The image, pinned by digest (commit 68971cb: export + UMAP + T4 driver path). A digest cannot be moved like a tag.
-IMAGE_PINNED="${IMAGE_PINNED:-us-central1-docker.pkg.dev/tastebridge-511403/twotower/twotower-train@sha256:fc885eda0e7397d0b874e6a196cb7ee45ee2ac08918efad36c6bb4b280b2bf3f}"
+# The image, pinned by digest (commit b0cbaee: export + UMAP + T4 driver path + pipeline steps). A digest cannot be moved like a tag.
+IMAGE_PINNED="${IMAGE_PINNED:-us-central1-docker.pkg.dev/tastebridge-511403/twotower/twotower-train@sha256:94e4c1212112a79bc46f6133b9d756ede4e64c95ab6508780fcf8df9ee429f68}"
 # The identity the job runs as: the bucket, the W&B secret, Vertex and logging are granted to it.
 SA="${SA:-twotower-trainer@tastebridge-511403.iam.gserviceaccount.com}"
 BUCKET="${BUCKET:-tastebridge-twotower}"

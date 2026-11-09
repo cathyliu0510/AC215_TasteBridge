@@ -68,7 +68,15 @@ def test_bad_inputs_are_refused(kwargs: dict, message: str) -> None:
         pl.build_pipeline(model, **{"twotower_image": TT, **kwargs})
 
 
-def test_cli_refuses_the_placeholder_image(tmp_path: Path, capsys) -> None:
+def test_cli_compiles_with_the_pinned_default_image(tmp_path: Path) -> None:
+    """`python pipeline.py` (no --run) only compiles; the default image is pinned by digest."""
+    assert "@sha256:" in pl.TWOTOWER_IMAGE and "REPLACE_WITH" not in pl.TWOTOWER_IMAGE
+    out = tmp_path / "x.yaml"
+    assert pl.main(["--out", str(out)]) == 0
+    assert pl.TWOTOWER_IMAGE in out.read_text()
+
+
+def test_cli_refuses_a_placeholder_image(tmp_path: Path, capsys) -> None:
     with pytest.raises(SystemExit):
-        pl.main(["--out", str(tmp_path / "x.yaml")])
+        pl.main(["--out", str(tmp_path / "x.yaml"), "--twotower-image", "img@sha256:REPLACE_WITH_DIGEST"])
     assert "set TWOTOWER_IMAGE" in capsys.readouterr().err

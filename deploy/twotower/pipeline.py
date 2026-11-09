@@ -33,11 +33,11 @@ PROJECT = "tastebridge-511403"
 REGION = "us-central1"  # Harvard's org policy forbids "global"
 BUCKET = "tastebridge-twotower"
 SA = f"twotower-trainer@{PROJECT}.iam.gserviceaccount.com"
-# The twotower image: M1 training and every shared step. Must contain twotower.steps (commit with
-# steps.py or later). Update after each rebuild, like IMAGE_PINNED in vertex-train.sh.
+# The twotower image: M1 training and every shared step (commit b0cbaee: steps + export + UMAP +
+# T4 driver path). Update after each rebuild, together with IMAGE_PINNED in vertex-train.sh.
 TWOTOWER_IMAGE = (
     "us-central1-docker.pkg.dev/tastebridge-511403/twotower/twotower-train"
-    "@sha256:REPLACE_WITH_THE_DIGEST_OF_THE_IMAGE_THAT_CONTAINS_STEPS_PY"
+    "@sha256:94e4c1212112a79bc46f6133b9d756ede4e64c95ab6508780fcf8df9ee429f68"
 )
 WANDB_ENTITY = "TasteBridge"
 WANDB_SECRET = f"projects/{PROJECT}/secrets/wandb-api-key/versions/latest"
