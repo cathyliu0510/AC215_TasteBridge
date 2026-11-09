@@ -36,6 +36,16 @@ COPY evaluation/evaluation ./evaluation/evaluation
 COPY models/twotower/twotower ./twotower
 COPY --chmod=755 models/twotower/docker-entrypoint.sh /docker-entrypoint.sh
 
+# GPU on Vertex AI: the node mounts the NVIDIA driver libraries (libcuda.so) under /usr/local/nvidia.
+# The nvidia/cuda base images point the loader there; python:slim doesn't, so torch silently saw no
+# GPU on the first T4 job (job 6137552598636429312 ran on CPU). The CUDA runtime itself comes with
+# the torch wheel. Harmless locally (Docker Desktop/WSL injects the driver elsewhere) and on CPU.
+# Placed after the dependency layer so changing it doesn't invalidate the cached torch layer.
+ENV LD_LIBRARY_PATH="/usr/local/nvidia/lib64:/usr/local/nvidia/lib" \
+    PATH="/usr/local/nvidia/bin:$PATH" \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility
+
 # Provenance: which commit and which torch build this image holds (logged into every run's config)
 ARG GIT_COMMIT=unknown
 ENV GIT_COMMIT=${GIT_COMMIT} \

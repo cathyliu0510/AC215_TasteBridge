@@ -39,8 +39,10 @@ RUN_ID="${RUN_ID:-m1-vertex-$(date -u +%Y%m%dT%H%M%SZ)-$(openssl rand -hex 3)}"
 
 pool="machine-type=${MACHINE},replica-count=1"
 case "$GPU" in
-  t4)   pool+=",accelerator-type=NVIDIA_TESLA_T4,accelerator-count=1" ;;
-  none) ;;
+  # --device=cuda: fail within seconds if the GPU isn't visible, instead of silently training on
+  # the CPU of a paid GPU machine (what happened to job 6137552598636429312).
+  t4)   pool+=",accelerator-type=NVIDIA_TESLA_T4,accelerator-count=1"; device=cuda ;;
+  none) device=cpu ;;
   *)    echo "GPU must be t4 or none, got '$GPU'" >&2; exit 2 ;;
 esac
 pool+=",container-image-uri=${IMAGE_PINNED}"
@@ -54,6 +56,7 @@ train_args=(
   "--run-id=${RUN_ID}"
   "--wandb-entity=${WANDB_ENTITY}"
   "--wandb-secret=${WANDB_SECRET}"
+  "--device=${device}"
   "$@"
 )
 for a in "${train_args[@]}"; do

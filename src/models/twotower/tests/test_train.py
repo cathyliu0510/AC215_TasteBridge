@@ -229,3 +229,25 @@ def test_train_cli_end_to_end(synthetic_data: DataPaths, tmp_path: Path) -> None
     again = json.loads((tmp_path / "re-eval" / "metrics.json").read_text())
     for agg, values in trained["models"]["two_tower"].items():
         assert again["models"]["two_tower"][agg] == pytest.approx(values), agg
+
+
+def test_check_device_fails_fast_when_a_gpu_is_requested_but_missing(monkeypatch, caplog) -> None:
+    """Vertex job 6137552598636429312 asked for a T4 but trained on the CPU: `cuda` must stop at once."""
+    from twotower.train import check_device
+
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    with pytest.raises(RuntimeError, match="torch sees no GPU"):
+        check_device("cuda")
+    with caplog.at_level("INFO", logger="twotower.train"):
+        assert check_device("auto").type == "cpu"  # auto still falls back, but says so
+        assert check_device("cpu").type == "cpu"
+    assert "device: cpu (CUDA available: False)" in caplog.text
+
+
+def test_train_cli_stops_before_any_work_without_the_gpu(synthetic_data, tmp_path: Path, monkeypatch) -> None:
+    from twotower import train as tt_train
+
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False)
+    with pytest.raises(RuntimeError, match="--device cuda was requested"):
+        tt_train.main(["--data-dir", str(synthetic_data.root), "--out", str(tmp_path / "runs"), "--device", "cuda"])
+    assert not (tmp_path / "runs").exists()  # nothing written, no W&B run started

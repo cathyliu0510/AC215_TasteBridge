@@ -101,9 +101,33 @@ def environment() -> dict[str, Any]:
     }
 
 
+def check_device(requested: str) -> torch.device:
+    """Log the device, and stop at once if a GPU was asked for but isn't visible.
+
+    `auto` quietly falls back to the CPU. On a paid GPU machine that turns a few-minute job into a
+    25-minute one (Vertex job 6137552598636429312), so GPU submissions pass `--device cuda`.
+    """
+    cuda = torch.cuda.is_available()
+    if requested.startswith("cuda") and not cuda:
+        raise RuntimeError(
+            "--device cuda was requested but torch sees no GPU "
+            f"(torch {torch.__version__}, CUDA build {torch.version.cuda}, "
+            f"LD_LIBRARY_PATH={os.environ.get('LD_LIBRARY_PATH')!r}, "
+            f"/usr/local/nvidia present: {Path('/usr/local/nvidia').exists()}). "
+            "Check the NVIDIA driver mount, or submit with GPU=none."
+        )
+    device = torch.device(requested if requested != "auto" else ("cuda" if cuda else "cpu"))
+    if device.type == "cuda":
+        log.info("device: %s (%s)", device, torch.cuda.get_device_name(device))
+    else:
+        log.info("device: cpu (CUDA available: %s)", cuda)
+    return device
+
+
 def main(argv: list[str] | None = None) -> Path:
     a = parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    check_device(a.device)
     data = DataPaths(Path(a.data_dir))
     data.check()
     params = TwoTowerParams(seed=a.seed, device=a.device).override(a.set)
