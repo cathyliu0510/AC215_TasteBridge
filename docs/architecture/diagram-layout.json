@@ -1,0 +1,2494 @@
+{
+  "solution-architecture": [
+    {
+      "kind": "text",
+      "id": "text-0",
+      "x": 40,
+      "y": 36,
+      "text": "Solution architecture",
+      "size": 36,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-1",
+      "x": 42,
+      "y": 83,
+      "text": "Find a book you both want to read.",
+      "size": 20,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-2",
+      "x": 1326,
+      "y": 52,
+      "text": "TASTEBRIDGE / MS2",
+      "size": 17,
+      "bold": true,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "process",
+      "x": 30,
+      "y": 123,
+      "w": 1540,
+      "h": 145,
+      "fill": "#FCEEF0",
+      "stroke": "#E6B9C2",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "rect",
+      "id": "execution",
+      "x": 30,
+      "y": 284,
+      "w": 1540,
+      "h": 326,
+      "fill": "#EDF5FC",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "rect",
+      "id": "state",
+      "x": 30,
+      "y": 627,
+      "w": 1540,
+      "h": 224,
+      "fill": "#EEF7F0",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "icon",
+      "id": "people-layer-icon",
+      "x": 50,
+      "y": 145,
+      "size": 34,
+      "symbol": "people",
+      "color": "#A34D67"
+    },
+    {
+      "kind": "text",
+      "id": "text-7",
+      "x": 50,
+      "y": 187,
+      "text": "PROCESS",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-8",
+      "x": 50,
+      "y": 217,
+      "text": "People",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "icon",
+      "id": "code-layer-icon",
+      "x": 50,
+      "y": 311,
+      "size": 34,
+      "symbol": "laptop",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-10",
+      "x": 50,
+      "y": 354,
+      "text": "EXECUTION",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-11",
+      "x": 50,
+      "y": 384,
+      "text": "Code",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "icon",
+      "id": "state-layer-icon",
+      "x": 50,
+      "y": 666,
+      "size": 34,
+      "symbol": "database",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-13",
+      "x": 50,
+      "y": 708,
+      "text": "STATE",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-14",
+      "x": 50,
+      "y": 738,
+      "text": "Source, Data,",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-15",
+      "x": 50,
+      "y": 763,
+      "text": "Models",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "developers",
+      "x": 250,
+      "y": 157,
+      "w": 210,
+      "h": 80,
+      "fill": "#FFFFFF",
+      "stroke": "#E6B9C2",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "developers-icon",
+      "x": 267,
+      "y": 173,
+      "size": 32,
+      "symbol": "laptop",
+      "color": "#A34D67"
+    },
+    {
+      "kind": "text",
+      "id": "text-18",
+      "x": 312,
+      "y": 176,
+      "text": "Developers",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 132,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-19",
+      "x": 268,
+      "y": 209,
+      "text": "Build \u00b7 test",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 174,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "ml-team",
+      "x": 490,
+      "y": 157,
+      "w": 505,
+      "h": 80,
+      "fill": "#FFFFFF",
+      "stroke": "#E6B9C2",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "ml-team-icon",
+      "x": 507,
+      "y": 173,
+      "size": 32,
+      "symbol": "network",
+      "color": "#A34D67"
+    },
+    {
+      "kind": "text",
+      "id": "text-22",
+      "x": 552,
+      "y": 176,
+      "text": "Data & ML team",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 427,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-23",
+      "x": 508,
+      "y": 209,
+      "text": "Prepare \u00b7 train \u00b7 evaluate",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 469,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "readers",
+      "x": 1030,
+      "y": 157,
+      "w": 510,
+      "h": 80,
+      "fill": "#FFFFFF",
+      "stroke": "#E6B9C2",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "readers-icon",
+      "x": 1047,
+      "y": 173,
+      "size": 32,
+      "symbol": "people",
+      "color": "#A34D67"
+    },
+    {
+      "kind": "text",
+      "id": "text-26",
+      "x": 1092,
+      "y": 176,
+      "text": "Two readers",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 432,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-27",
+      "x": 1048,
+      "y": 209,
+      "text": "Choose 5 favorites each \u2192 find a shared read",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 474,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "development-group",
+      "x": 240,
+      "y": 300,
+      "w": 230,
+      "h": 297,
+      "fill": "#F7FBFF",
+      "stroke": "#D7E5EF",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "rect",
+      "id": "data-model-group",
+      "x": 480,
+      "y": 300,
+      "w": 525,
+      "h": 297,
+      "fill": "#F7FBFF",
+      "stroke": "#D7E5EF",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "rect",
+      "id": "reader-app-group",
+      "x": 1020,
+      "y": 300,
+      "w": 530,
+      "h": 297,
+      "fill": "#F7FBFF",
+      "stroke": "#D7E5EF",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "text",
+      "id": "text-31",
+      "x": 250,
+      "y": 312,
+      "text": "DEVELOPMENT",
+      "size": 15,
+      "bold": true,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-32",
+      "x": 490,
+      "y": 312,
+      "text": "DATA & MODEL WORKFLOWS",
+      "size": 15,
+      "bold": true,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-33",
+      "x": 1030,
+      "y": 312,
+      "text": "READER APPLICATION",
+      "size": 15,
+      "bold": true,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "build",
+      "x": 250,
+      "y": 350,
+      "w": 210,
+      "h": 132,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "build-icon",
+      "x": 267,
+      "y": 366,
+      "size": 32,
+      "symbol": "check",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-36",
+      "x": 312,
+      "y": 369,
+      "text": "Build & test",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 132,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-37",
+      "x": 268,
+      "y": 407,
+      "text": "Code \u00b7 containers",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 174,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-38",
+      "x": 268,
+      "y": 432,
+      "text": "Run checks",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 174,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "prep",
+      "x": 490,
+      "y": 350,
+      "w": 220,
+      "h": 112,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "prep-icon",
+      "x": 507,
+      "y": 366,
+      "size": 32,
+      "symbol": "database",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-41",
+      "x": 552,
+      "y": 369,
+      "text": "Prepare data",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 142,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-42",
+      "x": 508,
+      "y": 407,
+      "text": "Collect \u00b7 clean \u00b7 version",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 184,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "models",
+      "x": 760,
+      "y": 350,
+      "w": 235,
+      "h": 112,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "models-icon",
+      "x": 777,
+      "y": 366,
+      "size": 32,
+      "symbol": "network",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-45",
+      "x": 822,
+      "y": 369,
+      "text": "Baselines",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 157,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-46",
+      "x": 778,
+      "y": 405,
+      "text": "Compare B0 \u00b7 B1 \u00b7 B2",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 199,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-47",
+      "x": 778,
+      "y": 430,
+      "text": "Export B2 ALS",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 199,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "text-retrieval",
+      "x": 490,
+      "y": 500,
+      "w": 505,
+      "h": 82,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "text-retrieval-icon",
+      "x": 507,
+      "y": 516,
+      "size": 32,
+      "symbol": "search",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-50",
+      "x": 552,
+      "y": 519,
+      "text": "Offline text retrieval",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 427,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-51",
+      "x": 508,
+      "y": 553,
+      "text": "Descriptions \u2192 vectors \u2192 index \u2192 query",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 469,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "frontend",
+      "x": 1030,
+      "y": 350,
+      "w": 225,
+      "h": 112,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "frontend-icon",
+      "x": 1047,
+      "y": 366,
+      "size": 32,
+      "symbol": "browser",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-54",
+      "x": 1092,
+      "y": 369,
+      "text": "Web app",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 147,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-55",
+      "x": 1048,
+      "y": 405,
+      "text": "Pick 5 books each",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 189,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-56",
+      "x": 1048,
+      "y": 430,
+      "text": "Explore 5 shared reads",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 189,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "backend",
+      "x": 1310,
+      "y": 350,
+      "w": 230,
+      "h": 132,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "backend-icon",
+      "x": 1327,
+      "y": 366,
+      "size": 32,
+      "symbol": "server",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-59",
+      "x": 1372,
+      "y": 369,
+      "text": "Book API",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 152,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-60",
+      "x": 1328,
+      "y": 407,
+      "text": "Search \u00b7 rank \u00b7 explain",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 194,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-61",
+      "x": 1328,
+      "y": 432,
+      "text": "Save shared feedback",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 194,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "git",
+      "x": 250,
+      "y": 719,
+      "w": 210,
+      "h": 106,
+      "fill": "#FFFFFF",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "git-icon",
+      "x": 267,
+      "y": 735,
+      "size": 32,
+      "symbol": "branch",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-64",
+      "x": 312,
+      "y": 738,
+      "text": "Source",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 132,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-65",
+      "x": 268,
+      "y": 783,
+      "text": "Code + evidence",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 174,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "datasets",
+      "x": 490,
+      "y": 719,
+      "w": 220,
+      "h": 106,
+      "fill": "#FFFFFF",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "datasets-icon",
+      "x": 507,
+      "y": 735,
+      "size": 32,
+      "symbol": "database",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-68",
+      "x": 552,
+      "y": 738,
+      "text": "Datasets",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 142,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-69",
+      "x": 508,
+      "y": 783,
+      "text": "Raw + processed",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 184,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "text-index",
+      "x": 760,
+      "y": 719,
+      "w": 235,
+      "h": 106,
+      "fill": "#FFFFFF",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "text-index-icon",
+      "x": 777,
+      "y": 735,
+      "size": 32,
+      "symbol": "search",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-72",
+      "x": 822,
+      "y": 738,
+      "text": "Text index",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 157,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-73",
+      "x": 778,
+      "y": 783,
+      "text": "Vectors + index",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 199,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "model-files",
+      "x": 1030,
+      "y": 719,
+      "w": 225,
+      "h": 106,
+      "fill": "#FFFFFF",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "model-files-icon",
+      "x": 1047,
+      "y": 735,
+      "size": 32,
+      "symbol": "cube",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-76",
+      "x": 1092,
+      "y": 738,
+      "text": "ALS model",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 147,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-77",
+      "x": 1048,
+      "y": 783,
+      "text": "Factors \u00b7 books \u00b7 map",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 189,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "feedback",
+      "x": 1310,
+      "y": 719,
+      "w": 230,
+      "h": 106,
+      "fill": "#FFFFFF",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "feedback-icon",
+      "x": 1327,
+      "y": 735,
+      "size": 32,
+      "symbol": "chat",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-80",
+      "x": 1372,
+      "y": 738,
+      "text": "Feedback",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 152,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-81",
+      "x": 1328,
+      "y": 783,
+      "text": "Shared votes",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": 194,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "dev-build",
+      "points": [
+        [
+          355,
+          237
+        ],
+        [
+          355,
+          300
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "ml-data",
+      "points": [
+        [
+          742,
+          237
+        ],
+        [
+          742,
+          300
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "reader-interface",
+      "points": [
+        [
+          1142,
+          237
+        ],
+        [
+          1142,
+          300
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#256C9F",
+      "weight": 3
+    },
+    {
+      "kind": "edge",
+      "id": "tables-to-models",
+      "points": [
+        [
+          710,
+          406
+        ],
+        [
+          760,
+          406
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "books-to-encoder",
+      "points": [
+        [
+          600,
+          462
+        ],
+        [
+          600,
+          500
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "app-api",
+      "points": [
+        [
+          1255,
+          406
+        ],
+        [
+          1310,
+          406
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#256C9F",
+      "weight": 3
+    },
+    {
+      "kind": "text",
+      "id": "text-88",
+      "x": 1269,
+      "y": 379,
+      "text": "API",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "source-build",
+      "points": [
+        [
+          355,
+          719
+        ],
+        [
+          355,
+          482
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-90",
+      "x": 367,
+      "y": 648,
+      "text": "source",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "data-store",
+      "points": [
+        [
+          490,
+          416
+        ],
+        [
+          475,
+          416
+        ],
+        [
+          475,
+          682
+        ],
+        [
+          600,
+          682
+        ],
+        [
+          600,
+          719
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-92",
+      "x": 505,
+      "y": 650,
+      "text": "read / write",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "index-retrieval",
+      "points": [
+        [
+          877,
+          582
+        ],
+        [
+          877,
+          719
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-94",
+      "x": 770,
+      "y": 650,
+      "text": "index / query",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "export-model",
+      "points": [
+        [
+          995,
+          430
+        ],
+        [
+          1012,
+          430
+        ],
+        [
+          1012,
+          686
+        ],
+        [
+          1100,
+          686
+        ],
+        [
+          1100,
+          719
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-96",
+      "x": 1020,
+      "y": 651,
+      "text": "export",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "load-model",
+      "points": [
+        [
+          1190,
+          719
+        ],
+        [
+          1190,
+          659
+        ],
+        [
+          1425,
+          659
+        ],
+        [
+          1425,
+          482
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#3A8058",
+      "weight": 2.5
+    },
+    {
+      "kind": "text",
+      "id": "text-98",
+      "x": 1270,
+      "y": 633,
+      "text": "load model",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "save-feedback",
+      "points": [
+        [
+          1508,
+          482
+        ],
+        [
+          1508,
+          719
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-100",
+      "x": 1465,
+      "y": 690,
+      "text": "save",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-101",
+      "x": 42,
+      "y": 866,
+      "text": "Current implementation \u00b7 Text retrieval remains offline.",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    }
+  ],
+  "technical-architecture": [
+    {
+      "kind": "text",
+      "id": "text-0",
+      "x": 40,
+      "y": 36,
+      "text": "Technical architecture",
+      "size": 36,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-1",
+      "x": 42,
+      "y": 83,
+      "text": "Local app \u00b7 Offline ML \u00b7 Versioned cloud storage",
+      "size": 20,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-2",
+      "x": 1326,
+      "y": 52,
+      "text": "TASTEBRIDGE / MS2",
+      "size": 17,
+      "bold": true,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "local",
+      "x": 30,
+      "y": 128,
+      "w": 1095,
+      "h": 724,
+      "fill": "#F7F9FB",
+      "stroke": "#D4DFE7",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "icon",
+      "id": "local-environment-icon",
+      "x": 50,
+      "y": 143,
+      "size": 28,
+      "symbol": "laptop",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-5",
+      "x": 90,
+      "y": 143,
+      "text": "DEVELOPER MACHINE",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-6",
+      "x": 50,
+      "y": 174,
+      "text": "Git \u00b7 DVC CLI \u00b7 Make \u00b7 Docker Compose",
+      "size": 19,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-7",
+      "x": 1180,
+      "y": 139,
+      "text": "EXTERNAL SERVICES",
+      "size": 21,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "app-group",
+      "x": 52,
+      "y": 227,
+      "w": 1048,
+      "h": 285,
+      "fill": "#EDF5FC",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "text",
+      "id": "text-9",
+      "x": 72,
+      "y": 242,
+      "text": "01   CONNECTED APP",
+      "size": 19,
+      "bold": true,
+      "color": "#256C9F",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "browser",
+      "x": 80,
+      "y": 299,
+      "w": 180,
+      "h": 120,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "browser-icon",
+      "x": 97,
+      "y": 315,
+      "size": 32,
+      "symbol": "browser",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-12",
+      "x": 142,
+      "y": 318,
+      "text": "Browser",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 102,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-13",
+      "x": 98,
+      "y": 356,
+      "text": "Version A",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 144,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-14",
+      "x": 98,
+      "y": 381,
+      "text": "HTML \u00b7 CSS \u00b7 JS",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 144,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "node",
+      "x": 370,
+      "y": 299,
+      "w": 230,
+      "h": 120,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "node-icon",
+      "x": 387,
+      "y": 315,
+      "size": 32,
+      "symbol": "server",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-17",
+      "x": 432,
+      "y": 318,
+      "text": "Node.js 24",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 152,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-18",
+      "x": 388,
+      "y": 356,
+      "text": "UI + /api proxy",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 194,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-19",
+      "x": 388,
+      "y": 381,
+      "text": "Container :8080",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 194,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "fastapi",
+      "x": 720,
+      "y": 299,
+      "w": 355,
+      "h": 120,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "fastapi-icon",
+      "x": 737,
+      "y": 315,
+      "size": 32,
+      "symbol": "network",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-22",
+      "x": 782,
+      "y": 318,
+      "text": "FastAPI + Uvicorn",
+      "size": 23,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 277,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-23",
+      "x": 738,
+      "y": 356,
+      "text": "ALS ranking \u00b7 :9000",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 319,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-24",
+      "x": 738,
+      "y": 381,
+      "text": "Search \u00b7 explain \u00b7 feedback",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 319,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "artifact-files",
+      "x": 370,
+      "y": 445,
+      "w": 360,
+      "h": 52,
+      "fill": "#EEF7F0",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "artifact-files-icon",
+      "x": 387,
+      "y": 458,
+      "size": 26,
+      "symbol": "cube",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-27",
+      "x": 425,
+      "y": 460,
+      "text": "ALS export",
+      "size": 19,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 289,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-28",
+      "x": 548,
+      "y": 462,
+      "text": "JSON + NPY",
+      "size": 17,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "feedback-volume",
+      "x": 815,
+      "y": 445,
+      "w": 260,
+      "h": 52,
+      "fill": "#EEF7F0",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "feedback-volume-icon",
+      "x": 832,
+      "y": 458,
+      "size": 26,
+      "symbol": "chat",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-31",
+      "x": 870,
+      "y": 460,
+      "text": "Feedback \u00b7 JSONL",
+      "size": 18,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 189,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "browser-http",
+      "points": [
+        [
+          260,
+          358
+        ],
+        [
+          370,
+          358
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#256C9F",
+      "weight": 3
+    },
+    {
+      "kind": "text",
+      "id": "text-33",
+      "x": 269,
+      "y": 329,
+      "text": "HTTP :4176",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "proxy-http",
+      "points": [
+        [
+          600,
+          358
+        ],
+        [
+          720,
+          358
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#256C9F",
+      "weight": 3
+    },
+    {
+      "kind": "text",
+      "id": "text-35",
+      "x": 614,
+      "y": 329,
+      "text": "HTTP :9000",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "startup-load",
+      "points": [
+        [
+          700,
+          445
+        ],
+        [
+          700,
+          433
+        ],
+        [
+          790,
+          433
+        ],
+        [
+          790,
+          419
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#3A8058",
+      "weight": 2.5
+    },
+    {
+      "kind": "text",
+      "id": "text-37",
+      "x": 564,
+      "y": 420,
+      "text": "read-only mount",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "feedback-write",
+      "points": [
+        [
+          962,
+          419
+        ],
+        [
+          962,
+          445
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "rect",
+      "id": "jobs",
+      "x": 52,
+      "y": 566,
+      "w": 1048,
+      "h": 152,
+      "fill": "#EDF5FC",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "text",
+      "id": "text-40",
+      "x": 72,
+      "y": 581,
+      "text": "02   OFFLINE ML JOBS",
+      "size": 19,
+      "bold": true,
+      "color": "#256C9F",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "data-jobs",
+      "x": 80,
+      "y": 626,
+      "w": 260,
+      "h": 82,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "data-jobs-icon",
+      "x": 97,
+      "y": 642,
+      "size": 32,
+      "symbol": "database",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-43",
+      "x": 142,
+      "y": 645,
+      "text": "Data pipeline",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 182,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-44",
+      "x": 98,
+      "y": 679,
+      "text": "Ingest \u2192 preprocess",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 224,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "model-jobs",
+      "x": 390,
+      "y": 626,
+      "w": 310,
+      "h": 82,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "model-jobs-icon",
+      "x": 407,
+      "y": 642,
+      "size": 32,
+      "symbol": "network",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-47",
+      "x": 452,
+      "y": 645,
+      "text": "Train + evaluate",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 232,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-48",
+      "x": 408,
+      "y": 679,
+      "text": "B0 \u00b7 B1 \u00b7 B2 ALS",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 274,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "embedding-job",
+      "x": 750,
+      "y": 626,
+      "w": 325,
+      "h": 82,
+      "fill": "#FFFFFF",
+      "stroke": "#B6D2E8",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "embedding-job-icon",
+      "x": 767,
+      "y": 642,
+      "size": 32,
+      "symbol": "search",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-51",
+      "x": 812,
+      "y": 645,
+      "text": "Text retrieval",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 247,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-52",
+      "x": 768,
+      "y": 679,
+      "text": "MiniLM \u2192 Chroma \u2192 query",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 289,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "disk",
+      "x": 80,
+      "y": 751,
+      "w": 995,
+      "h": 76,
+      "fill": "#EEF7F0",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "local-data-icon",
+      "x": 98,
+      "y": 766,
+      "size": 32,
+      "symbol": "database",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-55",
+      "x": 145,
+      "y": 761,
+      "text": "Local data + models",
+      "size": 22,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-56",
+      "x": 145,
+      "y": 795,
+      "text": "Raw files \u00b7 Parquet \u00b7 Chroma \u00b7 ALS artifacts",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 900,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "data-disk",
+      "points": [
+        [
+          210,
+          708
+        ],
+        [
+          210,
+          751
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "model-disk",
+      "points": [
+        [
+          545,
+          751
+        ],
+        [
+          545,
+          708
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "text-disk",
+      "points": [
+        [
+          910,
+          751
+        ],
+        [
+          910,
+          708
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "edge",
+      "id": "model-export",
+      "points": [
+        [
+          545,
+          626
+        ],
+        [
+          545,
+          497
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-61",
+      "x": 554,
+      "y": 505,
+      "text": "B2 export",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "github",
+      "x": 1180,
+      "y": 184,
+      "w": 390,
+      "h": 103,
+      "fill": "#FFFFFF",
+      "stroke": "#D4DFE7",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "github-icon",
+      "x": 1197,
+      "y": 200,
+      "size": 32,
+      "symbol": "branch",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-64",
+      "x": 1242,
+      "y": 203,
+      "text": "GitHub",
+      "size": 24,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 312,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-65",
+      "x": 1198,
+      "y": 241,
+      "text": "Code \u00b7 DVC pointers \u00b7 evidence",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 354,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "git-sync",
+      "points": [
+        [
+          1125,
+          202
+        ],
+        [
+          1150,
+          202
+        ],
+        [
+          1150,
+          235
+        ],
+        [
+          1180,
+          235
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-67",
+      "x": 1094,
+      "y": 174,
+      "text": "Git",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "goodreads",
+      "x": 1180,
+      "y": 315,
+      "w": 390,
+      "h": 88,
+      "fill": "#FFFFFF",
+      "stroke": "#D4DFE7",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "goodreads-icon",
+      "x": 1197,
+      "y": 331,
+      "size": 32,
+      "symbol": "book",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-70",
+      "x": 1242,
+      "y": 334,
+      "text": "UCSD Goodreads",
+      "size": 24,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 312,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-71",
+      "x": 1198,
+      "y": 372,
+      "text": "Books + reader interactions",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 354,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "hugging-face",
+      "x": 1180,
+      "y": 429,
+      "w": 390,
+      "h": 88,
+      "fill": "#FFFFFF",
+      "stroke": "#D4DFE7",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "hugging-face-icon",
+      "x": 1197,
+      "y": 445,
+      "size": 32,
+      "symbol": "cube",
+      "color": "#256C9F"
+    },
+    {
+      "kind": "text",
+      "id": "text-74",
+      "x": 1242,
+      "y": 448,
+      "text": "Hugging Face",
+      "size": 24,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 312,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-75",
+      "x": 1198,
+      "y": 486,
+      "text": "Pinned MiniLM encoder",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 354,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "goodreads-download",
+      "points": [
+        [
+          1180,
+          359
+        ],
+        [
+          1147,
+          359
+        ],
+        [
+          1147,
+          543
+        ],
+        [
+          65,
+          543
+        ],
+        [
+          65,
+          663
+        ],
+        [
+          80,
+          663
+        ]
+      ],
+      "double": false,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-77",
+      "x": 905,
+      "y": 517,
+      "text": "HTTPS download",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "weights-build",
+      "points": [
+        [
+          1180,
+          474
+        ],
+        [
+          1133,
+          474
+        ],
+        [
+          1133,
+          557
+        ],
+        [
+          910,
+          557
+        ],
+        [
+          910,
+          626
+        ]
+      ],
+      "double": false,
+      "dashed": true,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-79",
+      "x": 935,
+      "y": 582,
+      "text": "build-time weights",
+      "size": 15,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "gcp-boundary",
+      "x": 1180,
+      "y": 579,
+      "w": 390,
+      "h": 273,
+      "fill": "#F7F9FB",
+      "stroke": "#D4DFE7",
+      "radius": 14,
+      "dashed": false,
+      "background": true
+    },
+    {
+      "kind": "text",
+      "id": "text-81",
+      "x": 1200,
+      "y": 595,
+      "text": "GOOGLE CLOUD",
+      "size": 20,
+      "bold": true,
+      "color": "#172B3A",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "rect",
+      "id": "gcs",
+      "x": 1200,
+      "y": 643,
+      "w": 350,
+      "h": 182,
+      "fill": "#EEF7F0",
+      "stroke": "#B8D7C0",
+      "radius": 14,
+      "dashed": false,
+      "background": false
+    },
+    {
+      "kind": "icon",
+      "id": "gcs-icon",
+      "x": 1217,
+      "y": 659,
+      "size": 32,
+      "symbol": "cloud",
+      "color": "#3A8058"
+    },
+    {
+      "kind": "text",
+      "id": "text-84",
+      "x": 1262,
+      "y": 662,
+      "text": "Cloud Storage",
+      "size": 25,
+      "bold": true,
+      "color": "#172B3A",
+      "width": 272,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-85",
+      "x": 1218,
+      "y": 700,
+      "text": "gs://tastebridge-dvc",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 314,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-86",
+      "x": 1218,
+      "y": 733,
+      "text": "Versioned data + models",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 314,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-87",
+      "x": 1218,
+      "y": 766,
+      "text": "DVC pull / push",
+      "size": 18,
+      "bold": false,
+      "color": "#526575",
+      "width": 314,
+      "align": "left"
+    },
+    {
+      "kind": "edge",
+      "id": "dvc-sync",
+      "points": [
+        [
+          1075,
+          790
+        ],
+        [
+          1148,
+          790
+        ],
+        [
+          1148,
+          741
+        ],
+        [
+          1200,
+          741
+        ]
+      ],
+      "double": true,
+      "dashed": false,
+      "color": "#8A9EAE",
+      "weight": 2
+    },
+    {
+      "kind": "text",
+      "id": "text-89",
+      "x": 1087,
+      "y": 803,
+      "text": "DVC",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    },
+    {
+      "kind": "text",
+      "id": "text-90",
+      "x": 42,
+      "y": 866,
+      "text": "Solid: runtime / files   \u00b7   Dashed: image-build download   \u00b7   Planned work: see notes.",
+      "size": 16,
+      "bold": false,
+      "color": "#526575",
+      "width": null,
+      "align": "left"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+<title id="title">Solution Architecture — TasteBridge</title>
+<desc id="desc">Source-grounded architecture of the implemented TasteBridge MS2 system. See architecture-notes.md for evidence and planned features.</desc>
+<rect width="1600" height="900" fill="white"/>
+<defs><marker id="arrow-256C9F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#256C9F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<defs><marker id="arrow-3A8058" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#3A8058" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<defs><marker id="arrow-8A9EAE" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#8A9EAE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect id="process" x="30" y="123" width="1540" height="145" rx="14" fill="#FCEEF0" stroke="#E6B9C2" stroke-width="1.5"/>
+<rect id="execution" x="30" y="284" width="1540" height="326" rx="14" fill="#EDF5FC" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="state" x="30" y="627" width="1540" height="224" rx="14" fill="#EEF7F0" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="development-group" x="240" y="300" width="230" height="297" rx="14" fill="#F7FBFF" stroke="#D7E5EF" stroke-width="1.5"/>
+<rect id="data-model-group" x="480" y="300" width="525" height="297" rx="14" fill="#F7FBFF" stroke="#D7E5EF" stroke-width="1.5"/>
+<rect id="reader-app-group" x="1020" y="300" width="530" height="297" rx="14" fill="#F7FBFF" stroke="#D7E5EF" stroke-width="1.5"/>
+<path id="dev-build" d="M355 237 L355 300" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="ml-data" d="M742 237 L742 300" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="reader-interface" d="M1142 237 L1142 300" fill="none" stroke="#256C9F" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow-256C9F)" marker-start="url(#arrow-256C9F)"/>
+<path id="tables-to-models" d="M710 406 L760 406" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="books-to-encoder" d="M600 462 L600 500" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="app-api" d="M1255 406 L1310 406" fill="none" stroke="#256C9F" stroke-width="3" stroke-linejoin="round" marker-end="url(#arrow-256C9F)" marker-start="url(#arrow-256C9F)"/>
+<path id="source-build" d="M355 719 L355 482" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="data-store" d="M490 416 L475 416 L475 682 L600 682 L600 719" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="index-retrieval" d="M877 582 L877 719" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)" marker-start="url(#arrow-8A9EAE)"/>
+<path id="export-model" d="M995 430 L1012 430 L1012 686 L1100 686 L1100 719" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<path id="load-model" d="M1190 719 L1190 659 L1425 659 L1425 482" fill="none" stroke="#3A8058" stroke-width="2.5" stroke-linejoin="round" marker-end="url(#arrow-3A8058)"/>
+<path id="save-feedback" d="M1508 482 L1508 719" fill="none" stroke="#8A9EAE" stroke-width="2" stroke-linejoin="round" marker-end="url(#arrow-8A9EAE)"/>
+<rect id="developers" x="250" y="157" width="210" height="80" rx="14" fill="#FFFFFF" stroke="#E6B9C2" stroke-width="1.5"/>
+<rect id="ml-team" x="490" y="157" width="505" height="80" rx="14" fill="#FFFFFF" stroke="#E6B9C2" stroke-width="1.5"/>
+<rect id="readers" x="1030" y="157" width="510" height="80" rx="14" fill="#FFFFFF" stroke="#E6B9C2" stroke-width="1.5"/>
+<rect id="build" x="250" y="350" width="210" height="132" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="prep" x="490" y="350" width="220" height="112" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="models" x="760" y="350" width="235" height="112" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="text-retrieval" x="490" y="500" width="505" height="82" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="frontend" x="1030" y="350" width="225" height="112" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="backend" x="1310" y="350" width="230" height="132" rx="14" fill="#FFFFFF" stroke="#B6D2E8" stroke-width="1.5"/>
+<rect id="git" x="250" y="719" width="210" height="106" rx="14" fill="#FFFFFF" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="datasets" x="490" y="719" width="220" height="106" rx="14" fill="#FFFFFF" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="text-index" x="760" y="719" width="235" height="106" rx="14" fill="#FFFFFF" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="model-files" x="1030" y="719" width="225" height="106" rx="14" fill="#FFFFFF" stroke="#B8D7C0" stroke-width="1.5"/>
+<rect id="feedback" x="1310" y="719" width="230" height="106" rx="14" fill="#FFFFFF" stroke="#B8D7C0" stroke-width="1.5"/>
+<text x="40" y="72" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#172B3A">Solution architecture</text>
+<text x="42" y="103" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" fill="#526575">Find a book you both want to read.</text>
+<text x="1326" y="69" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#526575">TASTEBRIDGE / MS2</text>
+<g id="people-layer-icon" transform="translate(50 145) scale(1.4166666666666667)" fill="none" stroke="#A34D67" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><circle cx="18" cy="8" r="2.5"/><path d="M2 21v-3a6 6 0 0 1 12 0v3M16 15a4 4 0 0 1 6 3v3"/></g>
+<text x="50" y="208" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">PROCESS</text>
+<text x="50" y="235" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">People</text>
+<g id="code-layer-icon" transform="translate(50 311) scale(1.4166666666666667)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M1 21h22M9 7l-3 3 3 3m6-6 3 3-3 3"/></g>
+<text x="50" y="375" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">EXECUTION</text>
+<text x="50" y="402" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Code</text>
+<g id="state-layer-icon" transform="translate(50 666) scale(1.4166666666666667)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></g>
+<text x="50" y="729" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">STATE</text>
+<text x="50" y="756" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Source, Data,</text>
+<text x="50" y="781" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Models</text>
+<g id="developers-icon" transform="translate(267 173) scale(1.3333333333333333)" fill="none" stroke="#A34D67" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M1 21h22M9 7l-3 3 3 3m6-6 3 3-3 3"/></g>
+<text x="312" y="197" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">Developers</text>
+<text x="268" y="227" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Build · test</text>
+<g id="ml-team-icon" transform="translate(507 173) scale(1.3333333333333333)" fill="none" stroke="#A34D67" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="12" cy="20" r="3"/><path d="M8 5h8M6 8l5 9m7-9-5 9"/></g>
+<text x="552" y="199" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">Data &amp; ML team</text>
+<text x="508" y="227" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Prepare · train · evaluate</text>
+<g id="readers-icon" transform="translate(1047 173) scale(1.3333333333333333)" fill="none" stroke="#A34D67" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><circle cx="18" cy="8" r="2.5"/><path d="M2 21v-3a6 6 0 0 1 12 0v3M16 15a4 4 0 0 1 6 3v3"/></g>
+<text x="1092" y="199" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">Two readers</text>
+<text x="1048" y="227" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Choose 5 favorites each → find a shared read</text>
+<text x="250" y="327" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#526575">DEVELOPMENT</text>
+<text x="490" y="327" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#526575">DATA &amp; MODEL WORKFLOWS</text>
+<text x="1030" y="327" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#526575">READER APPLICATION</text>
+<g id="build-icon" transform="translate(267 366) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m7 12 3 3 7-7"/></g>
+<text x="312" y="390" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">Build &amp; test</text>
+<text x="268" y="425" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Code · containers</text>
+<text x="268" y="450" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Run checks</text>
+<g id="prep-icon" transform="translate(507 366) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></g>
+<text x="552" y="390" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#172B3A">Prepare data</text>
+<text x="508" y="424" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Collect · clean · version</text>
+<g id="models-icon" transform="translate(777 366) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="5" r="3"/><circle cx="19" cy="5" r="3"/><circle cx="12" cy="20" r="3"/><path d="M8 5h8M6 8l5 9m7-9-5 9"/></g>
+<text x="822" y="391" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Baselines</text>
+<text x="778" y="423" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Compare B0 · B1 · B2</text>
+<text x="778" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Export B2 ALS</text>
+<g id="text-retrieval-icon" transform="translate(507 516) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="m15 15 7 7"/></g>
+<text x="552" y="541" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Offline text retrieval</text>
+<text x="508" y="571" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Descriptions → vectors → index → query</text>
+<g id="frontend-icon" transform="translate(1047 366) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 8h20M5 5.5h.1M8 5.5h.1M11 5.5h.1"/></g>
+<text x="1092" y="392" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">Web app</text>
+<text x="1048" y="423" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Pick 5 books each</text>
+<text x="1048" y="448" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#526575">Explore 5 shared reads</text>
+<g id="backend-icon" transform="translate(1327 366) scale(1.3333333333333333)" fill="none" stroke="#256C9F" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M12 6h6M12 18h6"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></g>
+<text x="1372" y="392" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" fill="#172B3A">Book API</text>
+<text x="1328" y="424" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Search · rank · explain</text>
+<text x="1328" y="449" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Save shared feedback</text>
+<g id="git-icon" transform="translate(267 735) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="4" r="2"/><circle cx="6" cy="20" r="2"/><circle cx="19" cy="4" r="2"/><path d="M6 6v12m13-12v3c0 6-13 3-13 9"/></g>
+<text x="312" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Source</text>
+<text x="268" y="800" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Code + evidence</text>
+<g id="datasets-icon" transform="translate(507 735) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"/></g>
+<text x="552" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Datasets</text>
+<text x="508" y="800" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Raw + processed</text>
+<g id="text-index-icon" transform="translate(777 735) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7"/><path d="m15 15 7 7"/></g>
+<text x="822" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Text index</text>
+<text x="778" y="800" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Vectors + index</text>
+<g id="model-files-icon" transform="translate(1047 735) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 7v11l-10 5-10-5V7zm0 10L2 7m10 5 10-5M12 12v11M7 4.5l10 5"/></g>
+<text x="1092" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">ALS model</text>
+<text x="1048" y="800" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Factors · books · map</text>
+<g id="feedback-icon" transform="translate(1327 735) scale(1.3333333333333333)" fill="none" stroke="#3A8058" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-7l-6 4v-4H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM7 8h10M7 12h7"/></g>
+<text x="1372" y="760" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#172B3A">Feedback</text>
+<text x="1328" y="800" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#526575">Shared votes</text>
+<text x="1269" y="395" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">API</text>
+<text x="367" y="664" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">source</text>
+<text x="505" y="666" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">read / write</text>
+<text x="770" y="666" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">index / query</text>
+<text x="1020" y="667" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">export</text>
+<text x="1270" y="649" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">load model</text>
+<text x="1465" y="706" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">save</text>
+<text x="42" y="882" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#526575">Current implementation · Text retrieval remains offline.</text>
+</svg>
