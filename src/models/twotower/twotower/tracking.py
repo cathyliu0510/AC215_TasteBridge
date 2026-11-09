@@ -101,6 +101,11 @@ class Tracker:
     def url(self) -> str | None:
         return getattr(self.run, "url", None) if self.run is not None else None
 
+    @property
+    def wandb_run_id(self) -> str | None:
+        """The W&B run id (e.g. 508d957g) for meta.json; None when tracking is JSONL-only."""
+        return getattr(self.run, "id", None) if self.run is not None else None
+
     def log(self, row: dict[str, Any]) -> None:
         self._jsonl.write(json.dumps(row) + "\n")
         self._jsonl.flush()

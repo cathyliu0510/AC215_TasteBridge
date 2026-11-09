@@ -291,10 +291,14 @@ class TwoTower:
 
     # ------------------------------------------------------------------ persistence
     def save(self, out: str | Path, extra_meta: dict[str, Any] | None = None) -> Path:
+        """M1's own files: two_tower.pt, items.json (network row order) and params.json.
+
+        The backend contract (books.json, item_embeddings.npy in catalogue order, coords_2d.npy,
+        meta.json) is written separately by twotower.export.write_contract.
+        """
         out = Path(out)
         out.mkdir(parents=True, exist_ok=True)
         torch.save(self._require_net().state_dict(), out / "two_tower.pt")
-        np.save(out / "item_embeddings.npy", self.item_vectors())
         (out / "items.json").write_text(json.dumps(list(self.items)))
         meta = {**self.p.as_dict(), "best_tune_min_recall@10": self.best_tune, **(extra_meta or {})}
         (out / "params.json").write_text(json.dumps(meta, indent=2))

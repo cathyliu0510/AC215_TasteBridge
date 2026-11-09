@@ -38,7 +38,15 @@ def tiny_data(tmp_path: Path) -> tuple[DataPaths, pd.DataFrame]:
     work_ids = [f"w{i:02d}" for i in range(N_ITEMS)]
     genre = np.array(["fantasy", "mystery", "both"])[np.arange(N_ITEMS) % 3]
     books = pd.DataFrame(
-        {"work_id": work_ids, "title": work_ids, "author": "a", "genre": genre, "genres": [[g] for g in genre]}
+        {
+            "work_id": work_ids,
+            "title": work_ids,
+            "author": "a",
+            "year": [2000 + i for i in range(N_ITEMS)],
+            "shelves": [[g, "to-read"] for g in genre],
+            "genre": genre,
+            "genres": [[g] for g in genre],
+        }
     )
     data = write_content(tmp_path / "data", work_ids, books)
     rows = []

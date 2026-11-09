@@ -102,7 +102,7 @@ def test_save_and_load_round_trip(tiny_data, tiny_params, tmp_path: Path) -> Non
     loaded = TwoTower.load(out, device="cpu")
     assert loaded.items == model.items and loaded.p == model.p
     np.testing.assert_allclose(loaded.score(["w01", "w02"]), model.score(["w01", "w02"]), rtol=1e-6)
-    np.testing.assert_allclose(np.load(out / "item_embeddings.npy"), model.item_vectors())
+    assert not (out / "item_embeddings.npy").exists()  # written by twotower.export, in catalogue order
     assert json.loads((out / "params.json").read_text())["note"] == "x"
 
 
@@ -194,10 +194,19 @@ def test_train_cli_end_to_end(synthetic_data: DataPaths, tmp_path: Path) -> None
         "metrics.json",
         "model/two_tower.pt",
         "model/items.json",
+        "model/books.json",
+        "model/item_embeddings.npy",
+        "model/coords_2d.npy",
+        "model/meta.json",
         "checkpoints/last.pt",
         "test-eval/summary.csv",
     ):
         assert (run_dir / name).exists(), name
+    from twotower.export import check_contract
+
+    meta = check_contract(run_dir / "model")  # the interface both pipeline train images must meet
+    assert meta["run_id"] == "cli" and meta["wandb_run_id"] is None  # --tracker off
+    assert meta["model_version"] == f"m1-tt-{meta['data_version']}-cli"
     rows = [json.loads(line) for line in (run_dir / "tracking.jsonl").read_text().splitlines()]
     assert [r["epoch"] for r in rows] == [1, 2] and "tune/min_recall@10" in rows[-1]
     config = json.loads((run_dir / "config.json").read_text())

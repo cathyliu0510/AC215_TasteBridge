@@ -19,6 +19,7 @@ It trains with full-catalogue softmax and multi-positive targets. `TwoTower` imp
 | `twotower/tracking.py` | JSONL always, plus W&B when a key is available (env var, key file or Secret Manager) |
 | `twotower/train.py` | CLI: train, save, then TEST-evaluate (the lecture-13 `task.py`) |
 | `twotower/evaluate.py` | CLI: score a saved model with the team evaluator; writes `metrics.json` |
+| `twotower/export.py` | the backend's 4-file contract (`books.json`, `item_embeddings.npy`, `coords_2d.npy`, `meta.json`), shared with the ALS image; CLI `export write \| check \| publish` (the pipeline's export step) |
 | `tests/` | tiny synthetic fixtures, invariants, smoke test, resume, save/load, integration |
 | `Dockerfile`, `docker-entrypoint.sh`, `docker-shell.sh` | the image and how to run it |
 
@@ -67,7 +68,10 @@ bash src/models/twotower/docker-shell.sh evaluate --data-dir /data --model-dir /
 - `tracking.jsonl`;
 - `summary.json`;
 - `checkpoints/last.pt`;
-- `model/`: `two_tower.pt`, `item_embeddings.npy`, `items.json`, `params.json`;
+- `model/`:
+  - M1's own files: `two_tower.pt`, `items.json` (network row order), `params.json`;
+  - the backend contract: `books.json`, `item_embeddings.npy` (catalogue order, row *i* ↔ `books.json[i]`), `coords_2d.npy`, `meta.json` (`model_version`, `data_version`, `wandb_run_id`);
+  - check it with `python -m twotower.export check runs/<run-id>/model`;
 - `test-eval/`: the evaluator's own output;
 - `headline.csv` and `metrics.json`.
 

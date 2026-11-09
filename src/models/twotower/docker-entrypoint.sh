@@ -4,6 +4,7 @@
 #   (no args)              -> interactive bash (use `docker run -it ...`)
 #   train    [flags...]    -> python -m twotower.train    [flags...]
 #   evaluate [flags...]    -> python -m twotower.evaluate [flags...]
+#   export   write|check|publish [flags...] -> python -m twotower.export ...
 #   anything else          -> run it as a command, e.g. `pytest` or `python -c ...`
 set -euo pipefail
 
@@ -11,7 +12,7 @@ case "${1:-}" in
   "")
     exec /bin/bash
     ;;
-  train|evaluate)
+  train|evaluate|export)
     cmd="$1"
     shift
     exec python -m "twotower.${cmd}" "$@"

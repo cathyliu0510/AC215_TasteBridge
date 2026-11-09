@@ -9,7 +9,9 @@ Output, <out>/<run-id>/:
     config.json        every setting plus data lineage, git commit and library versions
     tracking.jsonl     one row per epoch (also sent to W&B when a key is available)
     checkpoints/last.pt  resumable state, written every --checkpoint-every epochs (--resume)
-    model/             two_tower.pt, item_embeddings.npy, items.json, params.json
+    model/             M1's own files: two_tower.pt, items.json, params.json
+                       + the backend contract: books.json, item_embeddings.npy, coords_2d.npy, meta.json
+                       (twotower.export; the same 4 files the B2 ALS image writes)
     test-eval/, headline.csv, metrics.json   from twotower.evaluate (skip with --no-evaluate)
 """
 
@@ -28,6 +30,7 @@ import torch
 
 from twotower.data import DataPaths
 from twotower.evaluate import DEFAULT_MODELS, evaluate, train_and_tune
+from twotower.export import write_contract
 from twotower.model import TwoTowerParams
 from twotower.recommender import TwoTower
 from twotower.tracking import Tracker
@@ -143,6 +146,15 @@ def main(argv: list[str] | None = None) -> Path:
         fit_s = round(time.perf_counter() - tic, 1)
         n_params = sum(p.numel() for p in model._require_net().parameters() if p.requires_grad)
         model_dir = model.save(run_dir / "model", {"fit_seconds": fit_s, "run_id": run_id, **data.version()})
+        contract = write_contract(
+            model,
+            data.books,
+            model_dir,
+            data_version=data.version().get("data_version") or "unknown",
+            run_id=run_id,
+            wandb_run_id=tracker.wandb_run_id,
+            extra_meta={"fit_seconds": fit_s, "best_tune_min_recall@10": model.best_tune},
+        )
         tracker.summary(
             {
                 "fit_seconds": fit_s,
@@ -150,6 +162,7 @@ def main(argv: list[str] | None = None) -> Path:
                 "best_tune/min_recall@10": model.best_tune,
                 "epochs_run": model.history[-1]["epoch"] if model.history else 0,
                 "missing_content_items": model.missing_content,
+                "model_version": contract["model_version"],
             }
         )
         tracker.artifact(model_dir, name="two-tower-model", kind="model", metadata={"run_id": run_id})
