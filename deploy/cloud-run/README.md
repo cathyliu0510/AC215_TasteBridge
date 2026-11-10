@@ -45,6 +45,19 @@ bash deploy/cloud-run/admin-setup.sh JENNY_GOOGLE_EMAIL
 
 Replace `JENNY_GOOGLE_EMAIL` with Jenny's actual Google account. The script adds these scoped grants, checks project/repository IAM for public bindings and leaves existing policies intact. It creates a repository or service account only after an explicit `NOT_FOUND` lookup result; permission and transient failures stop the script. An administrator should also confirm there is no inherited public Artifact Registry access from a folder or organization; those ancestor policies are not inspected by this script. Keep the agreed teaching-staff/public audience. Publication does not grant invocation or disable the Invoker IAM check; any access-policy change is a separate administrator decision.
 
+## Use an existing runtime service account
+
+When the team has already provisioned `tastebridge-api@tastebridge-511403.iam.gserviceaccount.com`, select that existing identity explicitly at publication:
+
+```sh
+python3 deploy/cloud-run/deploy.py publish --authenticated \
+  --runtime-service-account tastebridge-api@tastebridge-511403.iam.gserviceaccount.com
+```
+
+This command uploads images and deploys the service; it is not a readiness check and requires approval for publication and cloud spending. The option creates no account or IAM grants. Confirm the selected identity exists and the authorized publisher can act as it. Do not run `admin-setup.sh` to create the legacy `tastebridge-runtime` identity when the team is using `tastebridge-api`.
+
+The legacy default remains `tastebridge-runtime` for existing operators. The selected identity must belong to `tastebridge-511403`; invalid values fail before publication reads state or runs subprocesses. The chosen account is recorded in the service spec and deployment outcome. Existing access settings are preserved. After integrating packaging changes, rebuild and locally smoke-test a clean, committed checkout as described below; an older build receipt cannot stand in for this changed packaging.
+
 ## Build and check locally
 
 Requires Docker with Buildx, Python 3.10+ and the already downloaded four-file model export. Run from the repository root:
@@ -57,6 +70,8 @@ python3 deploy/cloud-run/smoke.py --local
 The build targets **linux/amd64**, including on an Apple Silicon Mac. Commit changes in `src/backend`, `frontend/prototype` and `deploy/cloud-run` before building: both application and deployment packaging trees are recorded and must remain clean through publication. Older release records without the packaging tree must be rebuilt and retested. The smoke check uses temporary containers sharing a localhost network, like Cloud Run. It checks the exact image IDs, model identity/count, search, both ranking modes, reader-specific reasons, map coordinates, one feedback event and blocked private routes. It removes its temporary containers and leaves any existing app running.
 
 Build records and test evidence stay in ignored `.state/`; staged model files stay in ignored `.artifacts/`. No cloud resources are created by these commands. The actual model used for the October 18 test was `b2-als-gr-317756d1a1ad` (B2 ALS, 5,000 books, 128 factors).
+
+Serving verification derives the full artifact fingerprint from the release's four `artifact_sha256` values, using the same format as the backend. Health must report that fingerprint and the expected `data_version`; both recommendation modes must report the same fingerprint. A model name and book count alone cannot identify the export. The contract check rejects missing or malformed expected identity before its first HTTP request; the local container runner has a separate startup readiness poll. Rebuild incomplete release records rather than treating a missing identity as a wildcard. An export without a recorded data version uses an explicit JSON `null` on both sides. The local export/integration verifiers pass hashes from their input files and the data version from export metadata, never from the service being checked.
 
 ## Publish after access is granted
 

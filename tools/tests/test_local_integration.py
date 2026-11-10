@@ -1,3 +1,4 @@
+import copy
 import importlib.util
 import json
 from pathlib import Path
@@ -54,9 +55,20 @@ class CatalogueIndependentSmoke(unittest.TestCase):
         cls.smoke = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(cls.smoke)
 
+    def setUp(self):
+        self.release = {"num_books": 20, "model_version": "synthetic-model", "tag": "local",
+                        "artifact_sha256": {"books.json": "1" * 64, "item_embeddings.npy": "2" * 64,
+                                            "coords_2d.npy": "3" * 64, "meta.json": "4" * 64},
+                        "data_version": "synthetic-data"}
+        # Reference fingerprint for this four-file hash map, shared by health and recommendations.
+        self.fingerprint = "14456c5a44acbe7f31c70d956e2aafabddae8e929a21d560ddf1e0751c421fb0"
+        self.health = {"status": "ok", "num_books": 20, "model_version": "synthetic-model",
+                       "artifact_fingerprint": self.fingerprint, "data_version": "synthetic-data"}
+        self.searches = []
+
     def fake_read(self, base, path, data=None):
         if path == "/api/health":
-            return {"status": "ok", "num_books": 20, "model_version": "synthetic-model"}
+            return dict(self.health)
         if path == "/healthz":
             return {"status": "ok"}
         if path.startswith("/api/books/search?"):
@@ -77,9 +89,13 @@ class CatalogueIndependentSmoke(unittest.TestCase):
                 items[0]["score"] = -2
             if getattr(self, "rounded_score", False) and data["aggregation"] == "average":
                 items[0].update(fit_a=.9001, fit_b=.5, score=.7)
-            return {"model_version": "synthetic-model", "aggregation": data["aggregation"],
-                    "galaxy": {"bridges": [{"book_id": str(i), "x": i*.1, "y": i*.2} for i in range(5)]},
-                    "recommendations": items}
+            fingerprint = "0" * 64 if data["aggregation"] == getattr(self, "wrong_artifact_mode", None) else self.fingerprint
+            response = {"model_version": "synthetic-model", "artifact_fingerprint": fingerprint, "aggregation": data["aggregation"],
+                        "galaxy": {"bridges": [{"book_id": str(i), "x": i*.1, "y": i*.2} for i in range(5)]},
+                        "recommendations": items}
+            if data['aggregation'] == getattr(self, 'missing_artifact_mode', None):
+                response.pop('artifact_fingerprint')
+            return response
         self.fail("Unexpected API call")
 
     def fake_request(self, base, path, data=None):
@@ -90,7 +106,7 @@ class CatalogueIndependentSmoke(unittest.TestCase):
     def test_explicit_opaque_catalogue_ids_work_without_fixture_titles(self):
         self.searches = []
         with patch.object(self.smoke, "read_json", self.fake_read), patch.object(self.smoke, "request", self.fake_request):
-            result = self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
+            result = self.smoke.check("http://local.test", self.release,
                                       feedback=False, seed_ids=["opaque/A?", "other&book"])
         self.assertTrue(result["passed"])
         self.assertEqual(len(result["recommendation_checks"]), 2)
@@ -102,19 +118,91 @@ class CatalogueIndependentSmoke(unittest.TestCase):
         self.searches = []
         with patch.object(self.smoke, "read_json", self.fake_read), patch.object(self.smoke, "request", self.fake_request):
             with self.assertRaisesRegex(RuntimeError, "distinct"):
-                self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
+                self.smoke.check("http://local.test", self.release,
                                  feedback=False, seed_ids=["same", "same"])
 
     def test_a_responding_service_with_wrong_ranking_scores_fails_the_contract(self):
         self.searches, self.bad_score = [], True
         with patch.object(self.smoke, "read_json", self.fake_read), patch.object(self.smoke, "request", self.fake_request):
             with self.assertRaisesRegex(RuntimeError, "score/ordering"):
-                self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
+                self.smoke.check("http://local.test", self.release,
                                  feedback=False, seed_ids=["a", "b"])
 
     def test_valid_four_decimal_api_serialization_is_accepted(self):
         self.searches, self.rounded_score = [], True
         with patch.object(self.smoke, "read_json", self.fake_read), patch.object(self.smoke, "request", self.fake_request):
-            result = self.smoke.check("http://local.test", {"num_books": 20, "model_version": "synthetic-model", "tag": "local"},
+            result = self.smoke.check("http://local.test", self.release,
                                       feedback=False, seed_ids=["a", "b"])
         self.assertTrue(result["passed"])
+
+    def test_same_name_and_count_cannot_hide_a_different_or_missing_artifact(self):
+        for fingerprint in ("0" * 64, None):
+            with self.subTest(fingerprint=fingerprint):
+                self.health['artifact_fingerprint'] = fingerprint
+                with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request') as request:
+                    with self.assertRaisesRegex(RuntimeError, 'artifact fingerprint'):
+                        self.smoke.check('http://local.test', self.release, feedback=True)
+                request.assert_not_called()
+        self.health.pop('artifact_fingerprint')
+        with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request') as request:
+            with self.assertRaisesRegex(RuntimeError, 'artifact fingerprint'):
+                self.smoke.check('http://local.test', self.release, feedback=True)
+        request.assert_not_called()
+
+    def test_wrong_or_missing_data_version_stops_before_further_requests(self):
+        for version in ('another-data-snapshot', None):
+            with self.subTest(data_version=version):
+                self.health['data_version'] = version
+                with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request') as request:
+                    with self.assertRaisesRegex(RuntimeError, 'data_version'):
+                        self.smoke.check('http://local.test', self.release, feedback=True)
+                request.assert_not_called()
+        self.health.pop('data_version')
+        with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request') as request:
+            with self.assertRaisesRegex(RuntimeError, 'data_version'):
+                self.smoke.check('http://local.test', self.release, feedback=True)
+        request.assert_not_called()
+
+    def test_missing_or_invalid_expected_identity_stops_before_http(self):
+        candidates = []
+        for field in ('artifact_sha256', 'data_version'):
+            release = copy.deepcopy(self.release)
+            release.pop(field)
+            candidates.append(release)
+        for hashes in ({}, {'books.json': '1' * 64},
+                       {**self.release['artifact_sha256'], 'unexpected.json': 'a' * 64},
+                       {**self.release['artifact_sha256'], 'meta.json': 'not-a-hash'}):
+            candidates.append({**self.release, 'artifact_sha256': hashes})
+        for release in candidates:
+            with self.subTest(release=release), patch.object(self.smoke, 'read_json') as read, patch.object(self.smoke, 'request') as request:
+                with self.assertRaisesRegex(RuntimeError, 'Release needs'):
+                    self.smoke.check('http://local.test', release, feedback=True)
+                read.assert_not_called()
+                request.assert_not_called()
+
+    def test_each_recommendation_mode_must_match_the_expected_artifact(self):
+        for mode in ('least_misery', 'average'):
+            with self.subTest(mode=mode):
+                self.wrong_artifact_mode = mode
+                with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request', self.fake_request):
+                    with self.assertRaisesRegex(RuntimeError, 'Recommendation artifact fingerprint'):
+                        self.smoke.check('http://local.test', self.release, feedback=False, seed_ids=['a', 'b'])
+
+    def test_each_recommendation_mode_rejects_a_missing_artifact_identity(self):
+        for mode in ('least_misery', 'average'):
+            with self.subTest(mode=mode):
+                self.missing_artifact_mode = mode
+                with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request', self.fake_request):
+                    with self.assertRaisesRegex(RuntimeError, 'Recommendation artifact fingerprint'):
+                        self.smoke.check('http://local.test', self.release, feedback=False, seed_ids=['a', 'b'])
+
+    def test_unrecorded_data_version_must_be_explicit_on_both_sides(self):
+        self.release['data_version'] = self.health['data_version'] = None
+        with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request', self.fake_request):
+            result = self.smoke.check('http://local.test', self.release, feedback=False, seed_ids=['a', 'b'])
+        self.assertTrue(result['passed'])
+        self.health.pop('data_version')
+        with patch.object(self.smoke, 'read_json', self.fake_read), patch.object(self.smoke, 'request') as request:
+            with self.assertRaisesRegex(RuntimeError, 'data_version'):
+                self.smoke.check('http://local.test', self.release, feedback=False)
+        request.assert_not_called()

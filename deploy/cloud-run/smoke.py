@@ -2,9 +2,11 @@
 """Exercise the packaged app locally or an explicitly supplied public URL."""
 import argparse
 from datetime import datetime, timezone
+import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import subprocess
 import sys
 import time
@@ -16,6 +18,7 @@ import uuid
 HERE = Path(__file__).resolve().parent
 STATE = HERE / '.state'
 _identity = None
+ARTIFACT_FILES = ('books.json', 'item_embeddings.npy', 'coords_2d.npy', 'meta.json')
 
 
 def origin(url):
@@ -72,10 +75,29 @@ def require(condition, message):
         raise RuntimeError(message)
 
 
+def release_identity(release):
+    """Derive serving identity from the reviewed export/build, never the live API."""
+    hashes = release.get('artifact_sha256')
+    require(isinstance(hashes, dict) and set(hashes) == set(ARTIFACT_FILES) and
+            all(isinstance(value, str) and re.fullmatch('[0-9a-f]{64}', value)
+                for value in hashes.values()),
+            'Release needs SHA256 hashes for exactly the four artifact files; rebuild or supply the reviewed export identity')
+    require('data_version' in release and
+            (release['data_version'] is None or
+             (isinstance(release['data_version'], str) and bool(release['data_version']))),
+            'Release needs an explicit data_version (null is allowed when unrecorded)')
+    fingerprint = hashlib.sha256(json.dumps(hashes, sort_keys=True).encode('utf-8')).hexdigest()
+    return fingerprint, release['data_version']
+
+
 def check(base, release, feedback, seed_ids=None):
+    fingerprint, data_version = release_identity(release)
     health = read_json(base, '/api/health')
     require(health['status'] == 'ok' and health['num_books'] == release['num_books']
             and health['model_version'] == release['model_version'], f'Wrong model: {health}')
+    require(health.get('artifact_fingerprint') == fingerprint, 'Wrong or missing artifact fingerprint in health')
+    require('data_version' in health and health['data_version'] == data_version,
+            'Wrong or missing data_version in health')
     final_url, html = request(base, '/')
     require(urllib.parse.urlparse(final_url).path == '/a/' and
             urllib.parse.parse_qs(urllib.parse.urlparse(final_url).query).get('api') == ['1'],
@@ -104,6 +126,8 @@ def check(base, release, feedback, seed_ids=None):
     for mode in ('least_misery', 'average'):
         result = read_json(base, '/api/recommend', dict(reader_a=picks[:1], reader_b=picks[1:], k=5, aggregation=mode))
         require(result['model_version'] == release['model_version'], 'Recommendation model mismatch')
+        require(result.get('artifact_fingerprint') == fingerprint,
+                'Recommendation artifact fingerprint mismatch or missing')
         require(result['aggregation'] == mode and len(result['recommendations']) == 5, 'Recommendation count/mode failed')
         require(len(result['galaxy']['bridges']) == 5, 'Missing map coordinates')
         ids = [item['book']['book_id'] for item in result['recommendations']]
@@ -143,6 +167,7 @@ def check(base, release, feedback, seed_ids=None):
     return dict(passed=True, tag=release['tag'], checked_at=datetime.now(timezone.utc).isoformat(),
                 base_url=base, health=health, recommendation_checks=outputs, feedback_event=event,
                 checks=['root enters real API mode', 'frontend health', 'model identity and count',
+                        'exact artifact fingerprint and data version',
                         'search and book details', 'both ranking modes', 'per-reader reasons',
                         'favorites excluded and unique recommendations', 'finite scores and aggregation/ordering parity',
                         'matching map IDs and coordinates', 'private artifact and unsupported routes return 404'])

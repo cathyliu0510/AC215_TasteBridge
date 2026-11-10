@@ -178,7 +178,15 @@ def build(source, artifact_lock=None):
     print(f'Built {tag}. No cloud resources changed. Run smoke.py --local before publishing.')
 
 
-def service_spec(images, current=None):
+def validated_runtime_identity(value):
+    pattern = r'[a-z][a-z0-9-]{4,28}[a-z0-9]@' + re.escape(PROJECT) + r'\.iam\.gserviceaccount\.com'
+    if not isinstance(value, str) or not re.fullmatch(pattern, value):
+        raise ValueError(f'Use an existing service account email in {PROJECT}; this option creates no identity or permissions.')
+    return value
+
+
+def service_spec(images, current=None, runtime_identity=None):
+    identity = validated_runtime_identity(IDENTITY if runtime_identity is None else runtime_identity)
     def probe(path, port):
         return dict(httpGet=dict(path=path, port=port), periodSeconds=5, timeoutSeconds=3, failureThreshold=24)
     def env(**values):
@@ -197,7 +205,7 @@ def service_spec(images, current=None):
                 'autoscaling.knative.dev/minScale': '0',
                 'autoscaling.knative.dev/maxScale': '1',
                 'run.googleapis.com/container-dependencies': '{"frontend":["backend"]}'}},
-            'spec': {'serviceAccountName': IDENTITY, 'containerConcurrency': 8, 'timeoutSeconds': 60,
+            'spec': {'serviceAccountName': identity, 'containerConcurrency': 8, 'timeoutSeconds': 60,
                      'containers': [
                          {'name': 'frontend', 'image': images['frontend'],
                           'ports': [{'containerPort': 8080}],
@@ -222,7 +230,8 @@ def publication_model_kind(release, allow_demo_model=False):
     return 'demo_model' if demo else 'operator_supplied_export_not_independently_verified'
 
 
-def publish(authenticated=False, allow_demo_model=False):
+def publish(authenticated=False, allow_demo_model=False, runtime_identity=None):
+    identity = validated_runtime_identity(IDENTITY if runtime_identity is None else runtime_identity)
     release = json.loads((STATE / 'release.json').read_text())
     model_kind = publication_model_kind(release, allow_demo_model)
     proof = json.loads((STATE / 'local-smoke.json').read_text())
@@ -270,10 +279,11 @@ def publish(authenticated=False, allow_demo_model=False):
     privacy_checks.append(private_registry_proof(gcloud))
     (attempt / 'registry-privacy.json').write_text(json.dumps(privacy_checks, indent=2) + '\n')
     spec = STATE / 'service.json'  # JSON is also a valid YAML service document.
-    spec.write_text(json.dumps(service_spec(remote_images, current), indent=2) + '\n')
+    spec.write_text(json.dumps(service_spec(remote_images, current, runtime_identity=identity), indent=2) + '\n')
     run(gcloud, 'run', 'services', 'replace', str(spec), *flags, '--dry-run')
     status = dict(status='update_outcome_uncertain', access_policy='preserved', model_kind=model_kind,
                   project=PROJECT, region=REGION, service=SERVICE, tag=release['tag'],
+                  runtime_service_account=identity,
                   attempt=str(attempt), registry_privacy=privacy_checks[-1])
     (STATE / 'deployment.json').write_text(json.dumps(status, indent=2) + '\n')
     try:
@@ -315,7 +325,7 @@ def publish(authenticated=False, allow_demo_model=False):
     print('Existing IAM was preserved. Finish browser checks and confirm logs before handoff.')
 
 
-if __name__ == '__main__':
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     build_command = commands.add_parser('build')
@@ -324,11 +334,18 @@ if __name__ == '__main__':
     publication = commands.add_parser('publish')
     publication.add_argument('--authenticated', action='store_true', help='Verify using the already authorized gcloud identity; no IAM changes')
     publication.add_argument('--allow-demo-model', action='store_true', help='Explicitly permit a clearly labeled synthetic/sample model; not real-data evidence')
-    args = parser.parse_args()
+    publication.add_argument('--runtime-service-account', type=validated_runtime_identity, default=IDENTITY,
+                             help='Existing runtime service account in this project; creates no account or IAM grants')
+    args = parser.parse_args(argv)
     try:
         if args.command == 'build':
             build(args.artifact_dir.resolve(), artifact_lock=args.artifact_lock)
         else:
-            publish(authenticated=args.authenticated, allow_demo_model=args.allow_demo_model)
+            publish(authenticated=args.authenticated, allow_demo_model=args.allow_demo_model,
+                    runtime_identity=args.runtime_service_account)
     except subprocess.CalledProcessError as error:
         raise SystemExit(f'Stopped: {error.cmd[0]} returned {error.returncode}. Resolve the error above before retrying.') from None
+
+
+if __name__ == '__main__':
+    main()

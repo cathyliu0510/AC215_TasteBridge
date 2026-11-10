@@ -163,11 +163,15 @@ class CatalogueTitleSmoke(unittest.TestCase):
         smoke = load('catalogue_title_smoke', 'smoke.py')
         title = 'A very long catalogue title ' * 8
         queries = []
-        release = dict(tag='test', num_books=7, model_version='test-model')
+        release = dict(tag='test', num_books=7, model_version='test-model', data_version=None,
+                       artifact_sha256={'books.json': '1' * 64, 'item_embeddings.npy': '2' * 64,
+                                        'coords_2d.npy': '3' * 64, 'meta.json': '4' * 64})
+        fingerprint = '14456c5a44acbe7f31c70d956e2aafabddae8e929a21d560ddf1e0751c421fb0'
 
         def read_json(base, path, data=None):
             if path == '/api/health':
-                return dict(status='ok', num_books=7, model_version='test-model')
+                return dict(status='ok', num_books=7, model_version='test-model',
+                            artifact_fingerprint=fingerprint, data_version=None)
             if path == '/healthz':
                 return dict(status='ok')
             if path.startswith('/api/books/search?'):
@@ -185,7 +189,8 @@ class CatalogueTitleSmoke(unittest.TestCase):
                         score=.6 if data['aggregation'] == 'least_misery' else .7,
                         position=dict(x=index, y=index),
                         reasons={'reader_a': {'seed_id': 'reader-a'}, 'reader_b': {'seed_id': 'reader-b'}}))
-                return dict(model_version='test-model', aggregation=data['aggregation'], recommendations=recommendations,
+                return dict(model_version='test-model', artifact_fingerprint=fingerprint,
+                            aggregation=data['aggregation'], recommendations=recommendations,
                             galaxy={'bridges': [dict(book_id=str(index), x=index, y=index) for index in range(5)]})
             raise AssertionError(path)
 

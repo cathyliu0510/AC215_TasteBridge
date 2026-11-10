@@ -203,7 +203,8 @@ def run(args: argparse.Namespace) -> Path:
         write_json(out / "run.json", record)
         try:
             api_check = smoke.check(ui_base, {"num_books": len(books), "model_version": meta["model_version"],
-                                            "tag": out.name}, feedback=False,
+                                            "tag": out.name, "artifact_sha256": record["export_sha256"],
+                                            "data_version": meta.get("data_version")}, feedback=False,
                                     seed_ids=[books[0]["book_id"], books[5]["book_id"]])
             examples = []
             for mode in ("least_misery", "average"):

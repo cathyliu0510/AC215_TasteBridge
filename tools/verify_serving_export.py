@@ -98,7 +98,8 @@ def verify(args):
         spec = importlib.util.spec_from_file_location('serving_contract', ROOT / 'deploy/cloud-run/smoke.py')
         smoke = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(smoke)
-        proof = smoke.check(ui_base, {'num_books': len(books), 'model_version': meta['model_version'], 'tag': out.name},
+        proof = smoke.check(ui_base, {'num_books': len(books), 'model_version': meta['model_version'], 'tag': out.name,
+                                     'artifact_sha256': record['artifact_sha256'], 'data_version': meta.get('data_version')},
                             feedback=False, seed_ids=[books[0]['book_id'], books[5]['book_id']])
         write_json(out / 'api-check.json', proof)
         query = {'api': '1', 'a': json.dumps([book['book_id'] for book in books[:5]]),

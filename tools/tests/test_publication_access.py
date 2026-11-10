@@ -1,5 +1,5 @@
 import importlib.util
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 import json
 from pathlib import Path
@@ -95,6 +95,46 @@ class PublicationAccess(unittest.TestCase):
         service = self.deploy.service_spec({'frontend': 'front', 'backend': 'back'}, current)
         for key, value in current['metadata']['annotations'].items():
             self.assertEqual(service['metadata']['annotations'][key], value)
+
+    def test_existing_runtime_account_reaches_spec_and_deployment_receipt(self):
+        identity = 'tastebridge-api@tastebridge-511403.iam.gserviceaccount.com'
+        self.publish(runtime_identity=identity)
+        service = json.loads((self.state / 'service.json').read_text())
+        self.assertEqual(service['spec']['template']['spec']['serviceAccountName'], identity)
+        record = json.loads((self.state / 'deployment.json').read_text())
+        self.assertEqual(record['runtime_service_account'], identity)
+        commands = ' '.join(str(argument) for args, _ in self.calls for argument in args)
+        for forbidden in ('add-iam-policy-binding', 'set-iam-policy', 'service-accounts create'):
+            self.assertNotIn(forbidden, commands)
+
+    def test_default_runtime_identity_remains_compatible(self):
+        service = self.deploy.service_spec({'frontend': 'front', 'backend': 'back'})
+        self.assertEqual(service['spec']['template']['spec']['serviceAccountName'],
+                         'tastebridge-runtime@tastebridge-511403.iam.gserviceaccount.com')
+
+    def test_cli_dispatches_selected_existing_identity_without_executing_publication(self):
+        identity = 'tastebridge-api@tastebridge-511403.iam.gserviceaccount.com'
+        with patch.object(self.deploy, 'publish') as publish:
+            self.deploy.main(['publish', '--authenticated', '--runtime-service-account', identity])
+        publish.assert_called_once_with(authenticated=True, allow_demo_model=False, runtime_identity=identity)
+
+    def test_cli_rejects_an_identity_in_another_project_before_publication(self):
+        with patch.object(self.deploy, 'publish') as publish, redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit) as error:
+                self.deploy.main(['publish', '--runtime-service-account',
+                                  'tastebridge-api@other-project.iam.gserviceaccount.com'])
+        self.assertEqual(error.exception.code, 2)
+        publish.assert_not_called()
+
+    def test_invalid_runtime_identity_stops_before_subprocesses_or_state_changes(self):
+        for identity in ('', 'tastebridge-api', 'tastebridge-api@other-project.iam.gserviceaccount.com',
+                         'tastebridge-api@tastebridge-511403.iam.gserviceaccount.com\n'):
+            with self.subTest(identity=identity), patch.object(self.deploy, 'run') as command:
+                before = {p.name: p.read_bytes() for p in self.state.iterdir()}
+                with self.assertRaisesRegex(ValueError, 'existing service account'):
+                    self.deploy.publish(runtime_identity=identity)
+                command.assert_not_called()
+                self.assertEqual({p.name: p.read_bytes() for p in self.state.iterdir()}, before)
 
     def test_authorized_token_uses_stdin_and_is_absent_from_argv_and_files(self):
         self.publish(authenticated=True)
