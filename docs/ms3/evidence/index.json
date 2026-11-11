@@ -15,7 +15,7 @@
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
       ],
-      "note": "Team PR #13 at d05a6be documents a successful standalone Vertex training run and W&B tracking. Direct job/tracker screenshot and provenance still need final verification and integration; local synthetic evidence does not close this requirement."
+      "note": "Execution complete in PR #13 at 8bb0a750a161142298654bcd641b93813ea98b8e: Vertex job 3911991530436427776, W&B zijfiixh, pinned reproducibility record and job/tracker screenshots. Pending now denotes final source/evidence integration, not a missing training run. Replace historical local-context paths with the actual integrated team evidence and verify the final milestone3 source after PR #13 then PR #14 merge."
     },
     {
       "id": "deployed_model_api",
@@ -42,7 +42,7 @@
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
       ],
-      "note": "Team shared KFP pipeline and run-ID fix exist on PR #13, but a successful full qualifying cloud workflow is not established. Current local worker receipts remain local only."
+      "note": "Both branches executed: M1 tastebridge-train-twotower-20261109172259 passed the 0.042 least-misery gate (0.0468) and published; ALS tastebridge-train-als-20261110212016 scored 0.0236 and intentionally skipped publication. PR #13 at 8bb0a750 supplies complete run instructions/M1 screenshots; PR #14 at 3749ed90 supplies ALS source/screenshots. Pending denotes their final ordered integration and repository-evidence check, not an unrun cloud workflow. M1 is not served; the live app remains B2 ALS."
     },
     {
       "id": "production_monitoring",
@@ -89,5 +89,5 @@
       "note": "November 5 12-slide deck remains a historical review draft. Added a current three-minute Jenny speaking insert; it is not a refreshed rendered deck or final team review. Live evidence and new team training content still need integration."
     }
   ],
-  "review_scope": "Serving execution and documentation reconciliation. Current live evidence is original sanitized execution evidence; historical local receipts retain their earlier scope. Team training/workflow, staff account access, final deck and Canvas are not certified."
+  "review_scope": "Serving evidence retained; training/workflow completion reconciled to pinned team PR evidence. Their final source/evidence integration is pending PR #13 then PR #14; staff invocation, final deck and Canvas remain separate and are not certified by this manifest."
 }
