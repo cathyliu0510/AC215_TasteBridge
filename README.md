@@ -6,11 +6,27 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 ## Milestone 3
 
-[Current MS3 status and evidence](docs/ms3/) · [Run the existing model without retraining](docs/ms3/reproduce.md) · [12-slide review deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) · [Remaining operator actions](docs/ms3/operator-handoff.md).
+[Current requirements and evidence](docs/ms3/) · [Jenny's deployment and evidence checklist](docs/ms3/jenny-serving-handoff-20261111.md) · [Existing-model reproduction](docs/ms3/reproduce.md) · [API contract](src/backend/SPEC.md) · [Deploy and redeploy](deploy/cloud-run/README.md).
 
-Reading Desk `20261105.1` restores favorites and a shared choice after a refresh in the same tab, supports accent-insensitive search and keeps model identity with saved responses. The original public Site now serves this release as a separate 23-book static demo. The existing 5,000-book team model passes clean-checkout API, desktop/mobile and current Linux/amd64 container checks. [Source-bound evidence and limits](docs/ms3/overnight-progress-20261105.md).
+**Updated November 11, 2026: the private staging service is deployed and verified.** [TasteBridge staging](https://tastebridge-staging-fbii3egyuq-uc.a.run.app) serves the locked 5,000-book B2 ALS export at revision `tastebridge-staging-00002-vzn`. [Live API, prediction screenshots and cloud logs](docs/ms3/evidence/deployed-serving-20261111/). Authentication is preserved; the teaching-staff account's own access still needs confirmation. Full team training/pipeline integration and Canvas submission remain separate.
 
-The private `milestone3` preparation branch exists. Cloud training/workflow records, the deployed service and production logs remain unverified because the available account cannot read them. Reuse existing team work before starting another cloud job. No Google Cloud training/deployment/IAM write or Canvas submission occurred. The review slides retain these gaps.
+### Changes since MS2
+
+- Added a tested frontend API adapter, stale-response protection, same-tab recovery and fingerprint checks so saved responses cannot silently attach to a different model.
+- Added startup validation and exact four-file model identity, plus a catalogue search index that preserves the backend's result order and scoring.
+- Added Cloud Run frontend/backend packaging, startup probes, access-preserving publication, artifact checks and rollback records. Fresh local container and live cloud smoke passed with the existing 5,000-book ALS export. [Deployment verification](docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json).
+- Team training work is on [draft PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13): M1 two-tower training with W&B, a documented Vertex reference run, and a shared KFP pipeline. It is not merged into `milestone3`; a successful full pipeline and its evidence still need verification. The app currently uses B2 ALS, not the full M1 reader tower.
+
+### Runbook entry points
+
+- Training and experiment tracking: [team reference-run configuration and reproduction](https://github.com/cathyliu0510/AC215_TasteBridge/blob/d05a6be2404555cee3cc872f4ce971c55ed2d332/deploy/twotower/README.md). Follow the pinned branch; these files are not yet on `milestone3`.
+- Automated workflow: [team pipeline code and command flags](https://github.com/cathyliu0510/AC215_TasteBridge/blob/d05a6be2404555cee3cc872f4ce971c55ed2d332/deploy/twotower/pipeline.py). Its README still needs completed execution instructions and a matching successful-run record. Do not start a duplicate paid run to replace missing evidence.
+- Deployment: [build, local smoke, publish and rollback](deploy/cloud-run/README.md). Deployment succeeded with existing permissions. Direct project/repository checks passed and the operator confirmed inherited privacy; no IAM changes were made.
+- API access and monitoring: [actual routed endpoints, authenticated browser access, curl capture and revision-linked logs](docs/ms3/jenny-serving-handoff-20261111.md). The deployed prediction, exact model identity and revision-linked logs are recorded in the live evidence bundle.
+
+The [12-slide deck](docs/ms3/presentation/TasteBridge-MS3-review.pptx) is a November 5 historical review draft. Use [Jenny's updated speaking notes](docs/ms3/jenny-presentation-notes-20261111.md) and refresh team training/deployment claims before presenting. The public prototype remains a separate 23-book static demo.
+
+Submit all final work on `milestone3` and its **full commit hash on Canvas by November 12, 10 PM ET**. The TF meeting scheduled the presentation for November 16; that does not extend the submission deadline. No submission receipt is established by this repository.
 
 ## Milestone 2
 

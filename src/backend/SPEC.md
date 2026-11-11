@@ -1,6 +1,6 @@
 # TasteBridge API Service — Specification
 
-**Status:** DRAFT v0.4 — needs sign-off from frontend and modeling leads
+**Status:** DRAFT v0.5 — documentation updated against November 11 staging evidence; modeling sign-off remains separate
 **Owner:** Nikhil (backend & deployment)
 **Lives in:** `src/backend/`
 **Source of truth for scope:** MS1 proposal (Statement of Work)
@@ -27,16 +27,16 @@ modeling pipeline, which hands the API a folder of artifacts (see §5).
 | Frontend (screen 2: Pick your five) | `GET /books/search` |
 | Frontend (screens 3–4: galaxy + explanation card) | `POST /recommend` |
 | Frontend (feedback buttons) | `POST /feedback` |
-| Deployment / monitoring / TFs | `GET /health`, `GET /docs` |
+| Deployment / monitoring / TFs | Exposed `GET /api/health`; direct internal/local FastAPI `/docs` only |
 
 ## 3. Conventions
 
 - **Framework:** FastAPI with Pydantic models for every request and response.
 - **Format:** JSON in, JSON out. Field names in `snake_case`.
 - **Port:** `9000` (course convention). In production, use `$PORT` if set (Cloud Run).
-- **CORS:** allow all origins during development. Restrict to the deployed frontend URL at MS3.
+- **CORS:** the backend currently defaults to wildcard origins. In the deployed Cloud Run service, only the frontend container is ingress; browsers use its same-origin `/api` relay to the internal backend. No origin-restriction change is claimed here. A future directly exposed backend would require a separate origin/access review.
 - **IDs:** `book_id` is a **string** and refers to a **work** (editions already merged), not a single edition. *(Confirm with modeling — see §9.)*
-- **Auto docs:** FastAPI's `/docs` page must stay working. It serves as our API documentation for MS3.
+- **Auto docs:** FastAPI exposes `/docs` and `/openapi.json` on its direct internal/local address. The Cloud Run frontend relay intentionally does not forward those routes. For external callers, this SPEC and the [MS3 access examples](../../docs/ms3/jenny-serving-handoff-20261111.md) document the API. Public-facing paths use `/api/health`, `/api/books/search`, `/api/books/{book_id}`, `/api/recommend` and `/api/feedback`. Do not advertise `/api/docs` as an available endpoint.
 - **Unknown request fields:** request bodies reject fields not listed here (422). This catches typos and keeps personal data out of `/feedback`.
 
 ## 4. Endpoints
@@ -131,7 +131,7 @@ cannot be used reliably as IDs; the current numeric Goodreads IDs are unaffected
 |---|---|
 | `reader_a`, `reader_b` | 1–5 book IDs each, no duplicates within a reader. 1–4 is allowed so we can run the proposal's robustness test. The UI still asks for 5. |
 | `k` | optional, default 5, range 1–20. Fewer than `k` results are returned only if the catalogue runs out of non-seed books. |
-| `aggregation` | optional, `"least_misery"` (default) or `"average"`. `"least-misery"` (the prototype's spelling) is also accepted. The response always uses `"least_misery"`. |
+| `aggregation` | optional, `"least_misery"` (default) or `"average"`. `"least-misery"` (the prototype's spelling) is also accepted. The alias is normalized to `"least_misery"` in the response; `"average"` remains `"average"`. |
 
 The same book appearing for both readers is allowed.
 
@@ -235,7 +235,7 @@ existing clients compatible. It is validated but is not added to stored events.
 
 **Privacy (from the proposal's ethics section):** store **only** `book_id`, `vote`,
 `model_version` and a timestamp. No names, IP addresses, reading lists or session IDs.
-For MS2 this goes to a local JSON-lines log (`FEEDBACK_PATH`). Where it's stored at MS3 is still open (§9).
+Local development uses a JSON-lines file (`FEEDBACK_PATH`). The deployed Cloud Run service sets `FEEDBACK_PATH=/dev/stdout` for cloud log collection. This is demo feedback logging, not a durable feedback database; production ingestion is verified in the [live evidence](../../docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json); exclusions and retention remain unaudited (§9).
 
 ## 5. Model artifact contract (hand-off from modeling → backend)
 
@@ -261,23 +261,22 @@ The training pipeline writes one folder per model version. The API loads it at s
   The default JSON separators (including spaces) are part of this formula.
 - **Producer:** `src/evaluation/evaluation/export.py` (Cathy, B2 ALS) writes this folder to `data/artifacts/<model_version>/` and `data/artifacts/current/`. `make serve` mounts `data/artifacts` into the backend and sets `ARTIFACT_DIR=/artifacts/current`.
 
-- `ARTIFACT_DIR` is set by an environment variable: a local path for MS2, a GCS path for MS3.
-- Any model (B0 popularity, B1 item-kNN, B2 ALS/BPR, M1 hybrid) can be served if it exports this format. Swapping models means pointing at a new folder, with no code change.
+- `ARTIFACT_DIR` is a filesystem path. The deployed MS3 image bundles the approved four-file export and sets `ARTIFACT_DIR=/artifacts/current`; it does not download from GCS at request time. GCS/DVC retrieval occurs before packaging.
+- The current scorer uses normalized item vectors and a mean-of-favorites reader vector. A compatible four-file export makes a catalogue loadable, but does not implement an arbitrary model's inference algorithm. B0/B1 are offline baselines without this export. Full M1 two-tower serving also needs its reader-network weights and inference logic; swapping item vectors alone is not full M1 serving.
 - The API must **fail fast at startup** if the three files have different row counts. It also refuses
   to start on: a missing file, duplicate `book_id`s, an empty catalogue, NaN/infinite values,
   values that overflow or collapse to zero on float32 conversion, embeddings with zero factor columns,
   `coords_2d.npy` without exactly 2 columns, or a `meta.json` without `model_version`.
   Finite float32 rows are normalized using float64 norms to preserve direction at extreme magnitudes;
   an all-zero embedding row remains zero.
-- **Until the modeling lead delivers real artifacts, the backend ships a small sample artifact set**
-  (`src/backend/sample_artifacts/`, 52 books with toy shelf-tag embeddings) so the frontend can integrate.
+- The backend retains a 52-book toy sample in `src/backend/sample_artifacts/` for isolated development. The deployed real-model service instead uses the locked 5,000-book B2 ALS export. Sample, static-demo and real-model evidence must stay separately labeled.
 
 ## 6. Non-functional requirements
 
 | Requirement | Target | Source |
 |---|---|---|
 | Latency of `/recommend` | < 0.5 s per request | Proposal, objective 4 |
-| One-command run | `docker compose up` brings up the API (with the frontend) | MS2 |
+| One-command run | `docker compose -f compose.integration.yml up --build` starts frontend + API; plain `docker compose up` starts the backend only | MS2 |
 | Package management | `uv` only: `pyproject.toml` + `uv.lock` | MS2 / course |
 | Containerised | Dockerfile in the course style (non-root user, `uv sync --frozen`) | MS2 |
 | Logging | Every request logs method, path, status and duration in ms | MS3 monitoring |
@@ -293,11 +292,15 @@ The training pipeline writes one folder per model version. The API loads it at s
 - [x] Frontend successfully calls `/recommend` (evidence: `docs/ms2/frontend-api/`)
 - [x] Serves the trained B2 ALS artifacts and reports their `data_version` (evidence: `docs/ms2/backend/`)
 
-**MS3 (due Nov 12) — real model, deployed**
-- [ ] Loads real baseline/M1 artifacts from GCS
-- [ ] Deployed on Cloud Run, reachable by TFs; `curl` screenshot in `docs/`
-- [ ] Cloud Logging set up and documented
-- [ ] Endpoints documented in the README (plus `/docs`); pytest suite passing
+**MS3 (due Nov 12) — deployed and tested; teaching-staff access confirmation pending**
+- [x] Loads the approved 5,000-book B2 ALS export from the packaged filesystem path, with exact fingerprint verification
+- [x] API and relay documented; 311 unique tests, local/live smoke and independent curl passed at deployed source `5184a6c836b2988f18f1f9586bb0ebf1a43f2731`
+- [x] Cloud Run revision `tastebridge-staging-00002-vzn` Ready, 100% traffic, with real browser prediction screenshots and actual curl output
+- [ ] Teaching-staff account can invoke the authenticated service; verify before marking the audience requirement complete
+- [x] Revision-linked Cloud Logging request and one explicit demo feedback event captured; log access verified
+- [ ] Final integrated source, deployment evidence and access instructions present on `milestone3`
+
+See the [actual deployed verification bundle](../../docs/ms3/evidence/deployed-serving-20261111/). This does not certify team training, the full pipeline, teaching-staff invocation, or Canvas submission.
 
 **Later (MS4–MS5):** CI on GitHub Actions, coverage targets, Kubernetes scaling, optional LLM rephrasing of reasons, groups of 3–5 readers.
 
@@ -325,11 +328,13 @@ The training pipeline writes one folder per model version. The API loads it at s
 |---|---|---|
 | 4 | Do we want cover images? If so, where do the URLs come from? | Frontend + modeling |
 | 5 | Default aggregation: `least_misery` or `average`? On real data least-misery lowers Min-Recall@10 for every model but adds long-tail books (`docs/ms2/models/README.md`). | Team, using eval results |
-| 6 | Where should feedback votes be stored at MS3 (GCS file, Firestore, BigQuery)? | Team |
+| 6 | Cloud Run is configured to send demo feedback to stdout. Cloud ingestion is verified; audit retention/exclusions and decide whether a durable store is needed later. | Backend + deployment |
 | 7 | Search: is simple substring matching enough for 5,000 books, or do we want typo tolerance? | Product/UX lead |
 | 8 | Serving rule: cosine on unit vectors drops ALS's popularity signal. Add a popularity term, serve item-kNN, or use raw dot products? Needs one extra artifact field. | Modeling + backend (MS3) |
 
 ## 10. Changelog
+
+- **v0.5 (2026-11-11):** aligned external `/api` paths, internal auto docs, packaged model location, vector-scorer limits, Compose commands and MS3 evidence status with the current implementation. No endpoint, scoring, deployment or access-policy changes.
 
 - **v0.4 (2026-10-18):** `/health` and the startup log report `data_version` from `meta.json` (optional: `null` if absent, and a malformed value stops startup). Documented the B2 ALS producer (`export.py`) and `make serve`. Answered open questions 1–3; added question 8 (serving rule).
 - **v0.3 (2026-10-11):** aligned with the frontend prototype (`origin/prototype/ms1-scope-and-website`). `aggregation` also accepts `"least-misery"`. Reasons are now objects (`seed_id`, `seed_title`, `same_author`, `shared_shelves`, `text`) instead of plain strings. Added `top_shelves` to the `/recommend` response, and an optional `year` to books. JSON field names stay snake_case; the frontend maps them in its API client.

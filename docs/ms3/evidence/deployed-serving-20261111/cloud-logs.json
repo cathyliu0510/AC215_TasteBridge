@@ -1,0 +1,128 @@
+{
+  "checked_at": "2026-11-11T03:02:48.920981+00:00",
+  "query": "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"tastebridge-staging\" AND resource.labels.revision_name=\"tastebridge-staging-00002-vzn\"",
+  "source": "gcloud logging read --project=tastebridge-511403 --freshness=15m --limit=200 --format=json",
+  "note": "Selected actual returned entries. Unnecessary identity, IP and user-agent fields omitted. Demo feedback is one test event, not a real participant response.",
+  "entries": [
+    {
+      "timestamp": "2026-11-11T03:02:24.696040Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "event": {
+        "book_id": "2809203",
+        "model_version": "b2-als-gr-317756d1a1ad",
+        "timestamp": "2026-11-11T03:02:24.695563+00:00",
+        "vote": "would_read"
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:01:45.350290Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:01:45,349 INFO tastebridge.requests POST /recommend 200 5.1ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:01:45.340883Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.009699641s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:01:45.152245Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:01:45,151 INFO tastebridge.requests POST /recommend 200 6.8ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:01:45.136513Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.011921802s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:01:44.319523Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.001916270s",
+        "requestMethod": "GET",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/frontend/health",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:01:42.772307Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:01:42,771 INFO tastebridge.requests POST /recommend 200 3.7ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:01:42.754643Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.008774451s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:01:17.728559Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:01:17,728 INFO tastebridge.requests POST /recommend 200 3.3ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:01:17.715343Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.007419299s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:00:21.929025Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:00:21,929 INFO tastebridge.requests POST /recommend 200 3.5ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:00:21.921333Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.007942770s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:00:21.748300Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "text": "2026-11-11 03:00:21,748 INFO tastebridge.requests POST /recommend 200 42.7ms"
+    },
+    {
+      "timestamp": "2026-11-11T03:00:21.700833Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.047470041s",
+        "requestMethod": "POST",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/api/recommend",
+        "status": 200
+      }
+    },
+    {
+      "timestamp": "2026-11-11T03:00:20.530522Z",
+      "revision": "tastebridge-staging-00002-vzn",
+      "request": {
+        "latency": "0.002359861s",
+        "requestMethod": "GET",
+        "requestUrl": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app/frontend/health",
+        "status": 200
+      }
+    }
+  ]
+}

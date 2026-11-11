@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "kind": "sanitized_execution_summary",
+  "source_commit": "46cdbffb936ee2aa049d659fa75b04b8bc943c18",
+  "checked_at": "2026-11-11T01:45:52.525652+00:00",
+  "provenance": "Summary of original release.json, local-smoke.json and test logs inspected on the execution computer. This summary is not a copy of those originals, a cloud receipt, or independent reexecution.",
+  "local_smoke_passed": true,
+  "cloud_execution": false,
+  "cloud_service_url": null,
+  "cloud_monitoring_evidence": false,
+  "tag": "46cdbffb936e-cb4457b668e3",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000,
+    "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164"
+  },
+  "local_docker_image_ids": {
+    "frontend": "sha256:8166bb294385d4e302c016c181a7bc6511d49d1816eebef9b665257070ee181c",
+    "backend-base": "sha256:1bbb2c36c412bbd30672740c63fdb0469fbdd87db6b9d7e521002c52b7f85655",
+    "backend": "sha256:fd9ffb55e354a181211d2361e1d60445e255ecac046fdf5ad1f3516d5b4dc73d"
+  },
+  "image_id_scope": "Local Docker IDs, not Artifact Registry digests. Running frontend/backend IDs matched the release record.",
+  "tests": {
+    "frontend_passed": 107,
+    "frontend_failed": 0,
+    "frontend_release_routes_verified": 4,
+    "backend_passed": 124,
+    "integration_tools_passed": 79,
+    "integration_tools_failed": 0,
+    "targeted_subset_already_included": 51
+  },
+  "checks": [
+    "exact model fingerprint and data version",
+    "5000-book count",
+    "search and book details",
+    "both ranking rules",
+    "reader-specific reasons",
+    "matching map coordinates",
+    "private-route isolation",
+    "one local stdout feedback event"
+  ],
+  "working_tree_clean_after_build": true,
+  "cloud_preflight": {
+    "project": "tastebridge-511403",
+    "region": "us-central1",
+    "services": [],
+    "project_and_repository_public_bindings_detected": false,
+    "ancestor_policy_verification": "denied; publication blocked",
+    "permissions_verified": [
+      "runtime actAs",
+      "service create",
+      "service update",
+      "invoke",
+      "logging read",
+      "service usage"
+    ]
+  },
+  "limits": [
+    "No live URL, deployed screenshot, teaching-staff access test, or production log evidence.",
+    "No training or full pipeline execution is certified by these local tests.",
+    "No cloud feedback was sent.",
+    "No cloud writes, IAM changes, branch merge, or Canvas submission in this continuation."
+  ],
+  "browser_verification": {
+    "checked_at": "2026-11-11T01:53:07Z",
+    "transport": "browser to real local API; not deployed",
+    "checks": [
+      "ranking rule switching",
+      "separate-reader reasons",
+      "joint-interest choice gating",
+      "choice and shelves restored after reload",
+      "undo",
+      "cancel reset",
+      "no-match recovery"
+    ],
+    "console_warnings_and_errors": 0,
+    "narrow_viewport_px": 520,
+    "document_width_px": 520,
+    "fresh_390px_or_320px_visual_claim": false,
+    "services_stopped": true,
+    "original_evidence": [
+      "browser-checks.json",
+      "browser-serving/api-check.json",
+      "browser-serving/run.json",
+      "local-desktop-average.jpg",
+      "local-narrow-connections.jpg"
+    ]
+  },
+  "snapshot_scope": "Historical predeployment checks at 01:45 UTC; superseded for current deployment status.",
+  "superseded_by": "deployed-serving-20261111/deployment-summary.json"
+}

@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "tag": "5184a6c836b2-cb4457b668e3",
+  "checked_at": "2026-11-11T03:00:22.621348+00:00",
+  "base_url": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "recommendation_checks": [
+    {
+      "mode": "least_misery",
+      "ids": [
+        "4640799",
+        "1708725",
+        "1466917",
+        "21825181",
+        "6231171"
+      ]
+    },
+    {
+      "mode": "average",
+      "ids": [
+        "3204327",
+        "41107568",
+        "4640799",
+        "1466917",
+        "1708725"
+      ]
+    }
+  ],
+  "feedback_event": null,
+  "checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "exact artifact fingerprint and data version",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ],
+  "verification_access": "authorized_identity"
+}

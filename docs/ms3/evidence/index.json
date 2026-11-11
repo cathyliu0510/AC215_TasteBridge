@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "checked_at": "2026-11-05T06:18:55.412794+00:00",
+  "checked_at": "2026-11-11",
   "official_requirements": "https://harvard-iacs.github.io/2026-AC215/milestone3/",
   "requirements": [
     {
       "id": "tracked_serverless_training",
-      "status": "local_only",
+      "status": "pending",
       "evidence": [
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
         "docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json",
@@ -15,11 +15,11 @@
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
       ],
-      "note": "Two historical local synthetic reproducibility runs, plus first actual new worker/container invocation completed local synthetic training/evaluation with original 128/15 ALS parameters and 126 actual pairs. Network disabled, no cloud/persistence/online tracking. Existing cloud jobs remain unreadable; confirm accepted tracking/workflow and qualifying cloud execution."
+      "note": "Team PR #13 at d05a6be documents a successful standalone Vertex training run and W&B tracking. Direct job/tracker screenshot and provenance still need final verification and integration; local synthetic evidence does not close this requirement."
     },
     {
       "id": "deployed_model_api",
-      "status": "local_only",
+      "status": "pending",
       "evidence": [
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
         "docs/ms3/evidence/team-serving-20261105/api-check.json",
@@ -28,13 +28,20 @@
         "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json",
         "docs/ms3/evidence/overnight-20261105/serving-2a87e20/evidence-binding.json",
         "docs/ms3/evidence/overnight-20261105/serving-2a87e20/invalid-input-checks.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json"
+        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json",
+        "docs/ms3/evidence/serving-readiness-20261111.json",
+        "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
+        "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
+        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
       ],
-      "note": "Current clean source 2a87e20, exact four-file real team model, local HTTP/UI and Linux/amd64 images pass. 13 extra HTTP cases and missing/mismatched export startup probes pass. No live cloud revision or deployed endpoint proof; cloud read visibility denied. Historical images remain historical."
+      "note": "Ready private Cloud Run revision, exact model/images, full live smoke and browser prediction screenshots verified. Teaching-staff account invocation remains unverified; this audience requirement is not marked complete."
     },
     {
       "id": "automated_ml_workflow",
-      "status": "local_only",
+      "status": "pending",
       "evidence": [
         "tools/verify_local_integration.py",
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
@@ -44,23 +51,30 @@
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
         "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
       ],
-      "note": "Two historical local synthetic reproducibility runs, plus first actual new worker/container invocation completed local synthetic training/evaluation with original 128/15 ALS parameters and 126 actual pairs. Network disabled, no cloud/persistence/online tracking. Existing cloud jobs remain unreadable; confirm accepted tracking/workflow and qualifying cloud execution."
+      "note": "Team shared KFP pipeline and run-ID fix exist on PR #13, but a successful full qualifying cloud workflow is not established. Current local worker receipts remain local only."
     },
     {
       "id": "production_monitoring",
-      "status": "local_only",
+      "status": "verified",
       "evidence": [
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log",
         "docs/ms3/evidence/current-serving-20261104/backend.log",
         "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json",
         "docs/ms3/evidence/identity-handoff-20261105/cloud-readiness.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/container-smoke-2a87e20.log"
+        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/container-smoke-2a87e20.log",
+        "docs/ms3/evidence/serving-readiness-20261111.json",
+        "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
+        "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
+        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
       ],
-      "note": "Actual current local container request log and one explicit local smoke feedback event only. No production revision/log proof. Bounded production-log read returned 403 without a precise missing-grant identifier."
+      "note": "Actual same-revision Cloud Logging request records and one explicit demo feedback event verified. Query/access instructions documented; retention/exclusion configuration was not audited."
     },
     {
       "id": "working_api",
-      "status": "local_only",
+      "status": "verified",
       "evidence": [
         "src/backend/SPEC.md",
         "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-examples.json",
@@ -73,9 +87,16 @@
         "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json",
         "docs/ms3/evidence/overnight-20261105/serving-2a87e20/evidence-binding.json",
         "docs/ms3/evidence/overnight-20261105/serving-2a87e20/invalid-input-checks.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json"
+        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json",
+        "docs/ms3/evidence/serving-readiness-20261111.json",
+        "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
+        "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
+        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
+        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
       ],
-      "note": "Current clean source 2a87e20, exact four-file real team model, local HTTP/UI and Linux/amd64 images pass. 13 extra HTTP cases and missing/mismatched export startup probes pass. No live cloud revision or deployed endpoint proof; cloud read visibility denied. Historical images remain historical."
+      "note": "Documented external /api routes, 311 unique tests, exact-model local/live smoke and independent curl all passed, including both ranking modes, private-route404 and anonymous403."
     },
     {
       "id": "milestone3_branch",
@@ -83,9 +104,10 @@
       "evidence": [
         "docs/ms3/evidence/team-serving-20261105/remote-refs-before.json",
         "docs/ms3/evidence/team-serving-20261105/github-audience.json",
-        "docs/ms3/evidence/overnight-20261105/github-initial-upload.json"
+        "docs/ms3/evidence/overnight-20261105/github-initial-upload.json",
+        "docs/ms3/evidence/remote-refs-20261111.json"
       ],
-      "note": "Initial private team milestone3 branch upload verified at 59ef1a5. Later reviewed updates are recorded separately; no main merge, audience change or Canvas submission."
+      "note": "Remote milestone3 verified at 46f6622d9ca9e211113df63b122349af1c708b1a. Serving fix remains separate at 46cdbff; PR13 is open/draft at d05a6be. Branch existence does not establish final integration or Canvas submission."
     },
     {
       "id": "presentation",
@@ -96,9 +118,11 @@
         "docs/ms3/evidence/local-integration-20261104/presentation-qa/geometry.json",
         "docs/ms3/presentation-integration-20261105.md",
         "docs/ms3/evidence/overnight-20261105/presentation-qa/visual-review.json",
-        "docs/ms3/evidence/overnight-20261105/presentation-qa/validation.json"
+        "docs/ms3/evidence/overnight-20261105/presentation-qa/validation.json",
+        "docs/ms3/jenny-presentation-notes-20261111.md"
       ],
-      "note": "Updated editable 12-slide/900-second review draft includes current real-model UI, local image/log proof and explicitly missing cloud cells. Final package/layout/import and every rendered slide checked. Native PowerPoint/Keynote and final team/cloud presentation review remain pending."
+      "note": "November 5 12-slide deck remains a historical review draft. Added a current three-minute Jenny speaking insert; it is not a refreshed rendered deck or final team review. Live evidence and new team training content still need integration."
     }
-  ]
+  ],
+  "review_scope": "Serving execution and documentation reconciliation. Current live evidence is original sanitized execution evidence; historical local receipts retain their earlier scope. Team training/workflow, staff account access, final deck and Canvas are not certified."
 }

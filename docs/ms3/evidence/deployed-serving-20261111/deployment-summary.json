@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-11-11T03:01:46.311898+00:00",
+  "source_commit": "5184a6c836b2988f18f1f9586bb0ebf1a43f2731",
+  "deployment_status": "deployed_and_api_verified",
+  "project": "tastebridge-511403",
+  "region": "us-central1",
+  "service": "tastebridge-staging",
+  "service_url": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app",
+  "revision": "tastebridge-staging-00002-vzn",
+  "traffic": [
+    {
+      "latestRevision": true,
+      "percent": 100,
+      "revisionName": "tastebridge-staging-00002-vzn"
+    }
+  ],
+  "runtime_service_account": "tastebridge-runtime@tastebridge-511403.iam.gserviceaccount.com",
+  "remote_images": {
+    "frontend": "us-central1-docker.pkg.dev/tastebridge-511403/tastebridge-app/frontend@sha256:2808581a400b032860ad3757cc03cabe1ecd456f431942fdf925e7096dd176b1",
+    "backend": "us-central1-docker.pkg.dev/tastebridge-511403/tastebridge-app/backend@sha256:ac3cf6866345d7f195dc8a690054837185de06abe73ee68b60198af6c9737d0a"
+  },
+  "local_image_ids": {
+    "frontend": "sha256:2808581a400b032860ad3757cc03cabe1ecd456f431942fdf925e7096dd176b1",
+    "backend-base": "sha256:91259c33ec2f038214a499a40ecdc01c39187affad218ed3cbf70f27ad9e0bd6",
+    "backend": "sha256:ac3cf6866345d7f195dc8a690054837185de06abe73ee68b60198af6c9737d0a"
+  },
+  "tag": "5184a6c836b2-cb4457b668e3",
+  "artifact_sha256": {
+    "books.json": "f93e7b3d2725d2d3c3bbee1e5d65aa5407a26c6e0e5d5fa19b1efe49550e0d89",
+    "item_embeddings.npy": "98fb66c695358300e1d256977f5514639ec7ba12f869a77b66cd772dbd17dbd1",
+    "coords_2d.npy": "85b4f1dcf523e82589e78b9605a20b9547de829c21aa041fcd411f2cb3e5ed96",
+    "meta.json": "947de5814b9437af9ffac9200e4d9771119301825e8367284a61c66079e0d9c0"
+  },
+  "reviewed_artifact_lock_sha256": "e159a70a01b3fd4e4ec88369267546aa4d2797c74bfbef16b677bde19f3de334",
+  "health": {
+    "status": "ok",
+    "model_version": "b2-als-gr-317756d1a1ad",
+    "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+    "data_version": "gr-317756d1a1ad",
+    "num_books": 5000
+  },
+  "local_smoke_passed": true,
+  "local_smoke_checked_at": "2026-11-11T02:58:13.895761+00:00",
+  "live_smoke_passed": true,
+  "live_smoke_checked_at": "2026-11-11T03:00:22.621348+00:00",
+  "live_checks": [
+    "root enters real API mode",
+    "frontend health",
+    "model identity and count",
+    "exact artifact fingerprint and data version",
+    "search and book details",
+    "both ranking modes",
+    "per-reader reasons",
+    "favorites excluded and unique recommendations",
+    "finite scores and aggregation/ordering parity",
+    "matching map IDs and coordinates",
+    "private artifact and unsupported routes return 404"
+  ],
+  "auth_policy_changed": false,
+  "anonymous_health_http_status": 403,
+  "project_repository_public_bindings_found": false,
+  "inherited_privacy_basis": "Operator explicitly confirmed no public access and compliance before publication; ancestor IAM was not independently read.",
+  "tests": {
+    "frontend": 108,
+    "backend": 124,
+    "tools": 79,
+    "total_unique": 311,
+    "release_routes": 4
+  },
+  "staff_account_access": "Not independently verified. Administrator must grant/confirm the agreed teaching-staff invocation access; no public access change was made.",
+  "training_executed_in_this_delivery": false,
+  "previous_revision": "tastebridge-staging-00001-r9g",
+  "initial_verification_issue": "First revision served the correct API but external /healthz returned Google-generated 404. A namespaced /frontend/health alias fixed external verification; internal startup probe was preserved.",
+  "limits": [
+    "Serving correctness is not model quality, training, a full pipeline run, or a Canvas submission.",
+    "Remote source commit may later be followed by documentation-only commits; this record pins the actual deployed application."
+  ]
+}

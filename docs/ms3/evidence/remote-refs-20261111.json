@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-11-11T01:55:23.019Z",
+  "method": "Read-only GitHub API through connected GitHub tool",
+  "source_url": "https://api.github.com/repos/cathyliu0510/AC215_TasteBridge/branches",
+  "repository": "cathyliu0510/AC215_TasteBridge",
+  "branches": [
+    {
+      "name": "feature/ms3-two-tower",
+      "sha": "d05a6be2404555cee3cc872f4ce971c55ed2d332"
+    },
+    {
+      "name": "fix/ms3-serving-readiness",
+      "sha": "46cdbffb936ee2aa049d659fa75b04b8bc943c18"
+    },
+    {
+      "name": "main",
+      "sha": "37ea20bd0b57523c1f5715c8de61aea4584648fc"
+    },
+    {
+      "name": "milestone3",
+      "sha": "46f6622d9ca9e211113df63b122349af1c708b1a"
+    }
+  ],
+  "limits": [
+    "Branch refs only, not merged-code verification, CI or Canvas submission.",
+    "No remote changes made."
+  ]
+}

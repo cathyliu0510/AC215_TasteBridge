@@ -1,0 +1,185 @@
+{
+  "checked_at": "2026-11-11T03:01:46.311898+00:00",
+  "tool": "curl",
+  "service_url": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app",
+  "revision": "tastebridge-staging-00002-vzn",
+  "passed": true,
+  "checks": [
+    {
+      "path": "/frontend/health",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 200,
+      "response": {
+        "status": "ok",
+        "service": "frontend"
+      }
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 200,
+      "response": {
+        "status": "ok",
+        "model_version": "b2-als-gr-317756d1a1ad",
+        "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+        "data_version": "gr-317756d1a1ad",
+        "num_books": 5000
+      }
+    },
+    {
+      "path": "/api/books/search?q=The+Hobbit",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 200
+    },
+    {
+      "path": "/api/books/search?q=Gone+Girl",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 200
+    },
+    {
+      "path": "/api/recommend",
+      "method": "POST",
+      "authorized": true,
+      "http_status": 200,
+      "request": {
+        "reader_a": [
+          "1540236"
+        ],
+        "reader_b": [
+          "13306276"
+        ],
+        "k": 5,
+        "aggregation": "least_misery"
+      },
+      "response": {
+        "model_version": "b2-als-gr-317756d1a1ad",
+        "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+        "aggregation": "least_misery"
+      },
+      "predictions": [
+        {
+          "book_id": "4640799",
+          "title": "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)",
+          "score": 0.2765,
+          "fit_a": 0.4284,
+          "fit_b": 0.2765
+        },
+        {
+          "book_id": "1708725",
+          "title": "The Girl with the Dragon Tattoo (Millennium, #1)",
+          "score": 0.2708,
+          "fit_a": 0.2708,
+          "fit_b": 0.3853
+        },
+        {
+          "book_id": "1466917",
+          "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+          "score": 0.257,
+          "fit_a": 0.4225,
+          "fit_b": 0.257
+        },
+        {
+          "book_id": "21825181",
+          "title": "The Martian",
+          "score": 0.2195,
+          "fit_a": 0.2195,
+          "fit_b": 0.3421
+        },
+        {
+          "book_id": "6231171",
+          "title": "Harry Potter and the Chamber of Secrets (Harry Potter, #2)",
+          "score": 0.2146,
+          "fit_a": 0.3296,
+          "fit_b": 0.2146
+        }
+      ]
+    },
+    {
+      "path": "/api/recommend",
+      "method": "POST",
+      "authorized": true,
+      "http_status": 200,
+      "request": {
+        "reader_a": [
+          "1540236"
+        ],
+        "reader_b": [
+          "13306276"
+        ],
+        "k": 5,
+        "aggregation": "average"
+      },
+      "response": {
+        "model_version": "b2-als-gr-317756d1a1ad",
+        "artifact_fingerprint": "cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164",
+        "aggregation": "average"
+      },
+      "predictions": [
+        {
+          "book_id": "3204327",
+          "title": "The Fellowship of the Ring (The Lord of the Rings, #1)",
+          "score": 0.5106,
+          "fit_a": 0.919,
+          "fit_b": 0.1022
+        },
+        {
+          "book_id": "41107568",
+          "title": "The Girl on the Train",
+          "score": 0.4121,
+          "fit_a": 0.1156,
+          "fit_b": 0.7086
+        },
+        {
+          "book_id": "4640799",
+          "title": "Harry Potter and the Sorcerer's Stone (Harry Potter, #1)",
+          "score": 0.3524,
+          "fit_a": 0.4284,
+          "fit_b": 0.2765
+        },
+        {
+          "book_id": "1466917",
+          "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+          "score": 0.3398,
+          "fit_a": 0.4225,
+          "fit_b": 0.257
+        },
+        {
+          "book_id": "1708725",
+          "title": "The Girl with the Dragon Tattoo (Millennium, #1)",
+          "score": 0.328,
+          "fit_a": 0.2708,
+          "fit_b": 0.3853
+        }
+      ]
+    },
+    {
+      "path": "/artifacts/current/meta.json",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 404
+    },
+    {
+      "path": "/api/docs",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 404
+    },
+    {
+      "path": "/.env",
+      "method": "GET",
+      "authorized": true,
+      "http_status": 404
+    },
+    {
+      "path": "/api/health",
+      "method": "GET",
+      "authorized": false,
+      "http_status": 403,
+      "response": "\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>403 Forbidden</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Forbidden</h1>\n<h2>Your client does"
+    }
+  ]
+}

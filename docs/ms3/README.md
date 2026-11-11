@@ -1,56 +1,45 @@
-# Milestone 3: current status
+# Milestone 3 requirements and current evidence
 
-Checked November 5, 2026 against the [official rubric](https://harvard-iacs.github.io/2026-AC215/milestone3/). The private `milestone3` preparation branch exists. The current application source is `2a87e200430a4b8eb15810cae591fb0c7661151c`; publication receipts distinguish it from the initial uploaded `59ef1a5`. The final documentation commit may be newer without changing these application bytes. Main and Canvas remain unchanged.
+Reviewed November 11, 2026 against the [official course instructions](https://harvard-iacs.github.io/2026-AC215/milestone3/) and their [source](https://github.com/Harvard-IACS/2026-AC215/blob/main/milestone3.md). The deployed application is pinned to commit `5184a6c836b2988f18f1f9586bb0ebf1a43f2731`; later documentation commits do not change its runtime bytes.
 
-[Latest work and exact evidence](overnight-progress-20261105.md) · [Reproduce without retraining](reproduce.md) · [Review deck](presentation/TasteBridge-MS3-review.pptx) · [15-minute rehearsal](rehearsal.md) · [Operator handoff](operator-handoff.md).
+## Jenny's responsibility
 
-## Requirement and evidence
+The November 9 TF meeting assigned Jenny and Nikhil the Cloud Run backend deployment, followed by a deployed curl screenshot and cloud monitoring evidence. Jenny's completed work covers the frontend/API boundary, exact-model validation, containers, deployed prediction and cloud logs. The private service is live; the teaching-staff account's own invocation access remains to be confirmed. Team training and pipeline ownership stay with the teammates already doing that work; everyone still needs to understand the complete system for individual questions.
 
-| Requirement | Verified locally | Remaining requirement |
+## Requirement check
+
+| Requirement | Evidence now | What is still needed |
 | --- | --- | --- |
-| Tracked, reproducible serverless training | Two historical synthetic runs reproduce. Existing real team export retrieved and locked. New worker has offline tests and separate local runtime evidence | One successful serverless run or accepted equivalent, with execution, tracking and reproduction evidence. Existing team jobs are unreadable, so absence is unknown |
-| Automated ML workflow | Existing Compose pipeline, local integration runner and [reviewable CPU-worker candidate](../../deploy/vertex-ms3/) | Reconcile existing team workflow and confirm any equivalent with the TF, then show a successful qualifying run |
-| Deployed model/API | Exact 5,000-book export through current clean-checkout API, UI and local Linux/amd64 containers | Authorized live revision, matching model/image identities and teaching-staff access |
-| Production monitoring | Actual local request and explicit local smoke-feedback logs | Revision-linked production request/error/performance evidence and log-access instructions |
-| Documented, tested prediction API | [SPEC](../../src/backend/SPEC.md), both ranking rules, malformed inputs, missing/mismatched-model startup failure | Run the same checks against the authorized deployed endpoint |
-| Code and presentation | Private preparation branch, updated frontend, source-bound evidence and editable 12-slide/900-second review deck | Close cloud gaps, team/native presentation review and submit reviewed full SHA on Canvas |
+| Tracked reproducible serverless training | PR #13 documents Vertex job `3911991530436427776` and W&B run `zijfiixh` | Direct successful-job/tracker evidence and required screenshot, tied to code, image, data and settings; integrate team files into final branch |
+| Automated ML workflow | Shared KFP code at `d05a6be`, including run-ID fix | Successful qualifying execution and matching graph/output evidence; README run instructions remain incomplete |
+| Deployed model/API | Ready revision `tastebridge-staging-00002-vzn`, full live smoke, model/image identity and real prediction screenshots | Teaching-staff account invocation confirmation |
+| Production monitoring | Actual revision-linked request and one explicit test feedback log; access/query instructions | No extra setup required for basic logging evidence; retention was not audited |
+| Documented and tested prediction API | SPEC, 108 frontend, 124 backend, 79 tools tests; local and live smoke, independent curl | Preserve exact evidence when integrating team changes |
+| README and evidence | MS2 changes and runbook links now explicit in this candidate | Final merged source, required screenshots and removal of stale completion claims |
+| Submission and presentation | `milestone3` exists; November 5 review deck available | Final reviewed full SHA on Canvas by November 12 at 10 PM ET, and refreshed 15-minute team slides |
 
-The rubric permits equivalents, makes multi-GPU conditional and does not require every stage in one workflow. An authenticated service with arranged TF access is acceptable. Basic Cloud Logging or equivalent meets minimum monitoring. A local run or static Site does not establish these cloud requirements.
+The rubric allows one successful training run, a workflow covering any of preprocessing/training/evaluation, and authenticated teaching-staff access. Multi-GPU is conditional. The TF accepted selecting one serving model if the team explains the choice. A new GPU job, public access or serving all models is not required to close Jenny's part.
 
-## Current implementation
+## What has actually passed
 
-- Reading Desk `20261105.1`: favorites, responses, choice and view recover in the same origin/tab for up to 24 idle hours. Start over clears saved state after confirmation. Search text, full book metadata, credentials and sent-feedback status are not saved. Explicit shared URLs take priority. Saved opinions are discarded when the model fingerprint changes.
-- Title/author search ignores accents and common punctuation differences. A frozen search index is built once when the model loads. Original text, result order and scoring remain unchanged; user queries are not cached.
-- The backend hashes the same four model buffers it loads. Health and recommendations expose the fingerprint; feedback rejects stale model identity before writing. Invalid factors and malformed exports fail startup clearly.
-- Local container packaging validates the reviewed model lock. Future publication checks private registry/project policy and preserves invocation settings and records prior traffic for rollback. No Google Cloud deployment or IAM command was executed.
-- Evidence binding records a recursive 124-file source manifest and all four artifact hashes. A binding verifies file bytes, not that a screenshot action or test actually ran; separate reports record those actions.
+[Live November 11 evidence](evidence/deployed-serving-20261111/): clean deployed commit `5184a6c836b2988f18f1f9586bb0ebf1a43f2731`, 108 frontend tests, four release routes, 124 backend tests and 79 tool tests (311 unique tests). Both local container smoke and authenticated live smoke passed. Independent curl verified both ranking modes, exact fingerprint, private-route 404s and anonymous 403. Real browser checks verified the five-pick flow, reasons, shared choice, reload recovery and connections. The earlier 51 targeted tests are included in 79, not additional.
+The locked export is B2 ALS `b2-als-gr-317756d1a1ad`, data `gr-317756d1a1ad`, 5,000 books, fingerprint `cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164`. [Original DVC ledger](evidence/team-serving-20261105/team-model-retrieval.json) · [artifact lock](evidence/identity-handoff-20261105/artifact-lock.json).
 
-## Exact-model validation
+The published summary is derived from original release/deployment/smoke receipts, actual curl responses and Cloud Logging records. It distinguishes local image IDs from immutable registry digests. Historical local-only evidence is retained with its original scope.
 
-The recovered team export is `b2-als-gr-317756d1a1ad`, data `gr-317756d1a1ad`, 5,000 works, 9,896 readers and 499,915 interactions. Its canonical four-file fingerprint is `cb4457b668e3561692d557a44a54378966fc400719120162c2838a76258e0164`. [Reviewed artifact lock](evidence/identity-handoff-20261105/artifact-lock.json) · [DVC retrieval ledger](evidence/team-serving-20261105/team-model-retrieval.json).
+## Current cloud and branch facts
 
-[Clean current source acceptance](evidence/overnight-20261105/serving-2a87e20/evidence-binding.json) covers API/relay checks, 13 additional HTTP cases, two fail-closed startup probes and actual desktop/320px choice recovery. [Current local images](evidence/overnight-20261105/containers-2a87e20/local-smoke.json) match the release image IDs. The [extended browser pass](evidence/overnight-20261105/serving-ccda4b6/browser-checks.json) records manual five-favorite selection, both ranking rules, choice revocation, accented search and clear/recovery at earlier source `ccda4b6`; its frontend bytes match current source. Do not relabel earlier screenshots as later executions.
+- Project/repository IAM checks now pass with no public bindings. Runtime identity and required serving permissions were verified. Older November 5 blanket-permission statements are historical.
+- `tastebridge-staging` is Ready with 100% traffic on `tastebridge-staging-00002-vzn`. See the live evidence above. Teaching-staff account access is not yet independently verified.
+- Ancestor IAM reads were not retried. The operator explicitly confirmed no public access and compliance before publication. Direct project/repository checks passed before each image push and service update. No policy changes were made.
+- Final serving integration is based on remote `milestone3` at `46f6622d9ca9e211113df63b122349af1c708b1a`, with the existing serving-readiness fix and the namespaced health-route repair. Final remote publication must be checked after push; a local commit is not a submission receipt.
+- [PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13) remains open/draft at `d05a6be2404555cee3cc872f4ce971c55ed2d332`. Its standalone training success does not prove the full pipeline succeeded or that M1 is served.
+- [Architecture PR #11](https://github.com/cathyliu0510/AC215_TasteBridge/pull/11) merged to `main` on November 9 at `37ea20bd0b57523c1f5715c8de61aea4584648fc`. It is not a still-open PR, and main is not the submission branch.
 
-Latest suites: **107 frontend, 124 backend, 68 integration-tool and 36 offline-worker tests passed**. Historical November 4 preprocessing/evaluation reports remain 122/54; they are not new runs. The bounded native search benchmark is an in-process comparison, not production latency. Inherited catalogue year fields have not been independently validated.
+## Finish without overstating progress
 
-## Reproduce and review
+Use [Jenny's serving and evidence handoff](jenny-serving-handoff-20261111.md). Deployment, actual predictions and cloud logs are complete. Confirm teaching-staff invocation access without making the service public. Keep any new logs free of tokens and reader history.
 
-Use [reproduce.md](reproduce.md) first. It separates existing-export serving from optional synthetic training. Model/data files remain ignored and are not included in Git or the public Site.
+Use the existing training owner's evidence rather than rerunning training. Review and integrate the team branches; retest the actual final combined source. Refresh the old deck using [current speaking notes](jenny-presentation-notes-20261111.md). Verify the full remote `milestone3` SHA and Canvas receipt separately. The November 16 presentation meeting does not move the November 12 submission deadline.
 
-```sh
-node --test frontend/prototype/tools/verify-*.mjs
-uv --directory src/backend run --frozen pytest -q
-python3 -m unittest discover -s tools/tests
-python3 -m unittest discover -s deploy/vertex-ms3/tests
-python3 tools/check_ms3.py
-```
-
-The final checker intentionally reports incomplete cloud/presentation/submission evidence. It validates coverage and file presence only. A green path check cannot certify cloud execution or Canvas submission.
-
-## Hosted frontend and next actions
-
-The [original public Site](https://tastebridge-prototype.landenini.chatgpt.site/) is now Site version **7**, frontend **20261105.1**, with its established public audience and ownership unchanged. It contains only the 23-book static demo; model weights, reader histories, team documents and private API credentials are excluded. [Deployment and rollback receipt](evidence/overnight-20261105/site-static-release/deployment.json). Version 6 remains available for rollback.
-
-Existing ADC permits the team GCS export read, but service/job/pipeline/registry reads and a bounded production-log read returned 403. No cloud-state absence was established. [Read-access evidence and exact remaining operator actions](operator-handoff.md). Check the existing team run/service/tracker first; do not duplicate training merely to fill a checklist.
-
-[Architecture PR #11](https://github.com/cathyliu0510/AC215_TasteBridge/pull/11) remains a separate review stream. Do not overwrite it. Finish the evidence and team review, then submit the reviewed full `milestone3` SHA by **November 12, 10pm Eastern**, with a 15-minute presentation. No main merge or Canvas submission is included here.
+`python3 tools/check_ms3.py` checks manifest coverage and file presence only. It should continue reporting incomplete team training/workflow/presentation or staff-access evidence until those specific gaps are closed. Do not turn its cells green because documentation or a screenshot placeholder exists.

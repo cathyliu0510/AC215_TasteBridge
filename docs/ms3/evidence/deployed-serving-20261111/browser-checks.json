@@ -1,0 +1,34 @@
+{
+  "checked_at": "2026-11-11T03:06:30.254419+00:00",
+  "service_url": "https://tastebridge-staging-fbii3egyuq-uc.a.run.app",
+  "revision": "tastebridge-staging-00002-vzn",
+  "browser_origin": "http://127.0.0.1:8127",
+  "transport": "Google Cloud Run authenticated proxy to the deployed cloud service; no local frontend or model server",
+  "passed": true,
+  "checks": [
+    "searched and selected five real catalogue books for each reader",
+    "generated five recommendations",
+    "switched least-misery to average with updated results",
+    "opened separate-reader reasons",
+    "required both interests before explicit shared choice",
+    "sent exactly one explicit demo feedback event and confirmed matching cloud log",
+    "restored favorites and shared choice after reload",
+    "opened book connections",
+    "cancelled start-over without losing saved selections"
+  ],
+  "console_warning_error_count": 0,
+  "narrow_layout": {
+    "requested_width": 520,
+    "actual_viewport_width": 693,
+    "document_width": 693,
+    "horizontal_overflow": false,
+    "limitation": "Browser enforced a wider effective viewport. This run does not prove 520px, 390px or 320px behavior."
+  },
+  "screenshots": [
+    "live-shortlist-least-misery.jpg",
+    "live-shortlist-average.jpg",
+    "live-book-connections.jpg",
+    "live-narrow-connections.jpg"
+  ],
+  "staff_access_verified": false
+}
