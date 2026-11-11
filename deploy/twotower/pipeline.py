@@ -165,7 +165,7 @@ def build_pipeline(
         train,
         display_name=f"train-{model}",
         service_account=SA,
-        labels={"owner": "yitong", "component": f"pipeline-{model}"},
+        labels={"owner": "team", "component": f"pipeline-{model}"},  # shared pipeline: both branches
         **resources,
     )
 
@@ -229,6 +229,14 @@ def compile_pipeline(model: str, out: str | Path, **kwargs) -> Path:
 def submit(template: Path, model: str, *, enable_caching: bool, parameters: dict) -> str:
     import google.cloud.aiplatform as aip
 
+    # Known, harmless log on submit: 'ValueError: Output artifacts bucket "tastebridge-twotower" exists
+    # but does not belong to project ...'. PipelineJob.submit() always runs an anti-bucket-squatting
+    # check on pipeline_root (gcs_utils._verify_bucket_ownership). That check returns False on ANY error,
+    # e.g. a submitter without project-level Resource Manager / Storage read access (we only hold
+    # bucket-level roles), and submit() catches and logs the ValueError, then submits anyway. The bucket
+    # is ours. Not fixable via aip.init(): in google-cloud-aiplatform 1.165.1 init() has no
+    # output_artifacts_gcs_dir parameter (passing it raises TypeError), and pipeline_root is already
+    # explicit below.
     aip.init(project=PROJECT, location=REGION)
     stamp = dt.datetime.now(dt.UTC).strftime("%Y%m%d-%H%M%S")
     job = aip.PipelineJob(
@@ -237,7 +245,7 @@ def submit(template: Path, model: str, *, enable_caching: bool, parameters: dict
         pipeline_root=DEFAULTS["pipeline_root"],
         parameter_values=parameters,
         enable_caching=enable_caching,
-        labels={"owner": "yitong", "component": f"pipeline-{model}"},
+        labels={"owner": "team", "component": f"pipeline-{model}"},  # shared pipeline: both branches
     )
     job.submit(service_account=SA)  # returns once submitted; the run continues on Vertex
     return job.resource_name

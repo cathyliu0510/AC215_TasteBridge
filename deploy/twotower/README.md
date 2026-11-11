@@ -1,6 +1,6 @@
 # M1 two-tower: serverless training on Vertex AI (MS3)
 
-*Owner: Yitong Li. Model code: [`src/models/twotower/`](../../src/models/twotower/README.md). Pipeline: section "ML pipeline" below (in progress).*
+*Owner: Yitong Li. Model code: [`src/models/twotower/`](../../src/models/twotower/README.md). Pipeline: section "ML pipeline" below. Evidence screenshots: [`docs/ms3/two-tower/`](../../docs/ms3/two-tower/) (training) and [`docs/ms3/pipeline/`](../../docs/ms3/pipeline/) (pipeline).*
 
 ## In plain words
 
@@ -131,7 +131,86 @@ TEST Min-Recall@10 (300 pairs, team evaluator, ± = 95% CI):
 
 ## ML pipeline (Vertex AI Pipelines)
 
-_In progress._ One shared KFP pipeline for all models: check_data → train(`model=twotower|als`) → evaluate → gate(least-misery ≥ threshold) → export to `gs://tastebridge-twotower/models/<model_version>/`. `pipeline.py` and run instructions will be added here. The ALS branch uses the same interface: the same arguments, and the same 4 output files.
+*Owners: Yitong (pipeline, shared steps, M1 branch), Cathy (ALS branch). Code: [`pipeline.py`](pipeline.py) (KFP v2, the lecture-15 workflow), the shared steps in [`src/models/twotower/twotower/steps.py`](../../src/models/twotower/twotower/steps.py), and the ALS train step in `src/evaluation/evaluation/pipeline_train.py`.*
+
+### In plain words
+
+Training a model by hand means doing five chores in order: check the data, train, score the model, decide whether it is good enough, and file it away. The pipeline is a written recipe for those chores. We hand the recipe to Google (Vertex AI Pipelines), which runs each chore on a rented machine as soon as the one before it finishes, records what every chore produced, and draws the whole run as a graph with a green tick per finished step.
+
+The recipe has one interchangeable station: the training step can cook either of two models, our new **M1 two-tower** or the app's current **ALS** model. Every other station is shared, so both models are checked, scored and filed by exactly the same rules.
+
+There is one safety rule: **a model is only filed for use if it scores at least as well as a bar we set in advance.** The bar is the score of our strongest simple baseline (item-kNN). M1 clears it and gets filed. ALS doesn't clear it, so its run stops before filing. That's the safety rule doing its job, and it's the expected outcome.
+
+### Technical
+
+```text
+check_data ──► train[model] ──► evaluate ──► gate: TEST least-misery Min-Recall@10 ≥ 0.042 ──► publish
+               ├─ model=twotower: twotower image, Vertex CustomJob, n1-standard-4 + 1× T4   (Yitong)
+               └─ model=als:      als-train image, Vertex CustomJob, n1-standard-4, CPU     (Cathy)
+```
+
+| Step | Runs in | What it does | Outputs |
+|---|---|---|---|
+| `check_data` | twotower image | checks every input file exists, reads `data_version` from `processed/manifest.json`, and checks every book has a description vector. It also turns the pipeline job name into an ordinary output, `run_id` (see the note below). | `data_version`, `run_id` |
+| `train` | the branch's image, as a Vertex **CustomJob** (`create_custom_training_job_from_component`), as `twotower-trainer` | `train --data-dir --out --run-id --wandb-entity --wandb-secret` writes `runs/<run_id>/model/` in the shared 4-file format. M1 also logs its training curves to W&B; `--no-evaluate` leaves scoring to the next step. | files in `gs://tastebridge-twotower/runs/<run_id>/` |
+| `evaluate` | twotower image (4 CPU, 16 GB) | the **team evaluator** (`src/evaluation`), unchanged, on the TEST split: 300 pairs, K = 10, 5 favourites, seed 42. TEST metrics go into the training W&B run (M1) or a new W&B run (ALS). | `min_recall_lm`, `min_recall_avg` |
+| gate `gate-least-misery` | KFP `dsl.If` | runs `publish` only if `min_recall_lm ≥ threshold` | — |
+| `publish` | twotower image | checks the 4-file format and copies it to `gs://tastebridge-twotower/models/<model_version>/`, `meta.json` last. A published version is never overwritten. | `model_version` |
+
+- **Threshold 0.042** is B1 item-kNN's TEST least-misery Min-Recall@10 (0.0421), fixed before any pipeline run: "never publish something worse than the strongest baseline". We gate on least misery because it is the rule that protects the less-served reader of a pair.
+- **The ALS branch stopping at the gate is intended.** ALS scores 0.024 least misery, below 0.042, so its run shows 4/5 steps and a skipped gate. That demonstrates the gate blocking a weaker model. The app still serves that ALS export; publishing here is a separate, quality-gated channel.
+- **What evaluate scores for `model=als`.** For M1, evaluate loads the trained model from `runs/<run_id>/model/` and scores exactly that file. For ALS, the team evaluator **refits** ALS (with the same tuned settings) on the TRAIN readers and scores that, together with B0 and B1. This is how B2 was scored in MS2, and it keeps test readers out of training. The train step, by contrast, exports ALS fitted on all readers, the version the app serves. So for ALS the gate judges a train-split refit with identical settings, not the exact exported file. Both use the same deterministic settings, which is why the scores match MS2 to the last digit.
+- **Run id.** The run id is the pipeline job's own name, so every run writes to fresh folders. The GPU train step is wrapped as a CustomJob, which does not resolve KFP's `{{$.pipeline_job_name}}` placeholder. The first run, `tastebridge-train-twotower-20261109112116`, failed at evaluate for that reason. Since commit `d05a6be`, `check_data` resolves the name once and every later step takes `run_id` from it.
+- **Images are pinned by digest** (`pipeline.py` refuses a tag), so a run can always be traced to the exact code.
+
+### Run it
+
+From `deploy/twotower/`, which has its own small environment (KFP, pipeline components, the Vertex AI SDK); nothing in it goes into an image. Submitting needs `gcloud auth application-default login` once, and Service Account User on `twotower-trainer`.
+
+```bash
+cd deploy/twotower
+uv sync
+uv run pytest -q                                   # compile-only tests: no cloud, no Docker
+
+# M1 two-tower branch (T4). The twotower image digest is TWOTOWER_IMAGE in pipeline.py.
+uv run python pipeline.py                          # compile only -> train_pipeline_twotower.yaml
+uv run python pipeline.py --run                    # compile + submit to Vertex AI Pipelines
+uv run python pipeline.py --gpu none --run         # same branch on CPU (no GPU quota needed)
+
+# ALS branch (Cathy's image, CPU)
+uv run python pipeline.py --model als \
+  --als-image us-central1-docker.pkg.dev/tastebridge-511403/twotower/als-train@sha256:6d8aed0e68727db2373aa75e093fe7bf9c7f2a5d806777217e8d0d5df1d53edb \
+  --run
+
+# Optional flags: --threshold 0.042   --cache (reuse finished steps of an identical earlier run)
+```
+
+Watch the run under Console → Vertex AI → Pipelines → Runs. Click a node to see its inputs and outputs, and use **View logs** for its Cloud Logging output.
+
+**Known harmless warning.** Submitting logs `ValueError: Output artifacts bucket "tastebridge-twotower" exists but does not belong to project ...`, and the job is created anyway:
+- *Cause.* `PipelineJob.submit()` always runs the SDK's anti-bucket-squatting check on the pipeline root. That check reports "not ours" on **any** error, such as a submitter who has only bucket-level roles and no project-wide read access. `submit()` then logs the error and continues.
+- *Why there's no fix.* The bucket is ours. `aip.init()` in google-cloud-aiplatform 1.165.1 has no `output_artifacts_gcs_dir` parameter (passing it raises `TypeError`), and `pipeline_root` is already explicit. A test (`test_submit_uses_only_supported_init_arguments`) guards this.
+
+### Completed runs (evidence)
+
+| | M1 two-tower | ALS |
+|---|---|---|
+| Pipeline run | `tastebridge-train-twotower-20261109172259` | `tastebridge-train-als-20261110212016` |
+| Result | **5/5 steps**: gate passed, model published | **4/5 steps**: gate not triggered (intended) |
+| Duration | 23 min 21 s (train on T4; evaluate 9 min 1 s) | 23 min |
+| Train image | `twotower-train@sha256:94e4c121…` (commit `b0cbaee`) | `als-train@sha256:6d8aed0e…` (commit `3d292f9`) |
+| Pipeline code | commit `d05a6be` | commit `d05a6be` + PR #14 |
+| TEST Min-Recall@10, least misery / average | **0.0468** / 0.062 | 0.0236 / 0.0432 (identical to MS2) |
+| Published | `models/m1-tt-gr-317756d1a1ad-tastebridge-train-twotower-20261109172259/` | — (blocked by the gate) |
+| Screenshots | [run graph](../../docs/ms3/pipeline/twotower-pipeline-run.png) · [evaluate outputs](../../docs/ms3/pipeline/twotower-pipeline-evaluate.png) · [publish output](../../docs/ms3/pipeline/twotower-pipeline-publish.png) · W&B [loss](../../docs/ms3/pipeline/twotower-pipeline-wandb-train-loss.png), [TUNE metric](../../docs/ms3/pipeline/twotower-pipeline-wandb-tune-min-recall.png) | [run graph](../../docs/ms3/pipeline/als-pipeline-run.png) · [evaluate outputs](../../docs/ms3/pipeline/als-pipeline-evaluate.png) (PR #14) |
+
+In both runs the baselines (B0 0.0378, B1 0.0706 / 0.0421, B2 0.0432 / 0.0236) are identical to the standalone runs, so the evaluator is deterministic across machines and runs. M1's pipeline score is within the 95% CI of the three standalone runs in "Reproducibility record" above. All runs use the same `data_version`, `gr-317756d1a1ad`.
+
+**Standalone training evidence** (section "Reproducibility record"): [Vertex custom jobs](../../docs/ms3/two-tower/vertex-custom-jobs.png) · [T4 job details](../../docs/ms3/two-tower/vertex-t4-job-details.png) · W&B [loss](../../docs/ms3/two-tower/wandb-t4-train-loss.png), [TUNE metric](../../docs/ms3/two-tower/wandb-t4-tune-min-recall.png).
+
+**Not in the pipeline (future work).**
+- The CPU-only steps run in the 4.4 GB CUDA training image. A slim CPU image would start them faster.
+- There is no deploy step: the app keeps serving B2 ALS, and switching models is a team decision.
 
 ## Cost and cleanup
 

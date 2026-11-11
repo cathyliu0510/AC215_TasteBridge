@@ -95,3 +95,40 @@ def test_run_id_reaches_the_gpu_train_step_as_a_resolved_value(tmp_path: Path) -
     for name in ("train", "evaluate"):
         assert tasks[name]["inputs"]["parameters"]["run_id"] == from_check, name
     assert tasks["condition-1"]["inputs"]["parameters"]["pipelinechannel--check-data-run_id"] == from_check
+
+
+@pytest.mark.parametrize("model", ["twotower", "als"])
+def test_shared_pipeline_is_labelled_for_the_team(tmp_path: Path, model: str) -> None:
+    text, _ = _compile(tmp_path, model, **({"als_image": ALS} if model == "als" else {}))
+    assert "owner: team" in text and "owner: yitong" not in text
+
+
+def test_submit_uses_only_supported_init_arguments(tmp_path: Path, monkeypatch) -> None:
+    """aip.init() has no output_artifacts_gcs_dir (TypeError); submit must not pass it."""
+    import inspect
+
+    import google.cloud.aiplatform as aip
+
+    accepted = set(inspect.signature(aip.init).parameters)
+    seen: dict = {}
+
+    def fake_init(**kwargs):
+        assert set(kwargs) <= accepted, f"unsupported aip.init arguments: {set(kwargs) - accepted}"
+        seen["init"] = kwargs
+
+    class FakeJob:
+        resource_name = "projects/p/locations/us-central1/pipelineJobs/x"
+
+        def __init__(self, **kwargs):
+            seen["job"] = kwargs
+
+        def submit(self, service_account):
+            seen["sa"] = service_account
+
+    monkeypatch.setattr(aip, "init", fake_init)
+    monkeypatch.setattr(aip, "PipelineJob", FakeJob)
+    pl.submit(tmp_path / "t.yaml", "als", enable_caching=False, parameters={"threshold": 0.042})
+    assert seen["init"] == {"project": pl.PROJECT, "location": pl.REGION}
+    assert seen["job"]["pipeline_root"] == pl.DEFAULTS["pipeline_root"]
+    assert seen["job"]["labels"] == {"owner": "team", "component": "pipeline-als"}
+    assert seen["sa"] == pl.SA
