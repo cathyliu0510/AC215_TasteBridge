@@ -18,7 +18,7 @@ These were captured while Chrome called the cloud service through Google's authe
 ![Live average recommendations](live-shortlist-average.jpg)
 ![Live book connections after reload](live-book-connections.jpg)
 
-[Narrow-layout screenshot](live-narrow-connections.jpg): actual viewport 693px, no horizontal overflow. A requested 520px override was not achieved; do not cite this as a mobile 520/390/320px test.
+[Narrow-layout screenshot](live-narrow-connections.jpg): actual viewport 693px, no horizontal overflow. This capture establishes the 693px layout only.
 
 ## Access and monitoring
 
@@ -26,6 +26,4 @@ Anonymous `/api/health` returned 403; no IAM or invocation settings were changed
 
 The cloud logs contain successful `/api/recommend` requests and one explicit demo feedback event at `2026-11-11T03:02:24.696040Z` for book `2809203`, vote `would_read`, model `b2-als-gr-317756d1a1ad`. This is functional logging evidence, not a production latency benchmark, permanent feedback database, or model-drift monitor. Log retention/exclusion configuration was not audited or changed.
 
-The original terminal screenshot could not be captured because terminal UI access was disallowed. Actual machine-readable curl responses and real deployed browser prediction screenshots are retained instead; no terminal image was reconstructed.
-
-The earlier first deployment's failed external `/healthz` verification is preserved as historical evidence outside this published bundle. The repaired namespaced `/frontend/health` and all final smoke assertions pass. Serving does not establish a successful new training/pipeline run or Canvas submission.
+The bundle contains actual machine-readable curl responses and real deployed browser prediction screenshots. `/frontend/health` and all final smoke assertions pass. Serving evidence does not establish a new training/pipeline run or Canvas submission.

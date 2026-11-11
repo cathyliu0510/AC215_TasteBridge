@@ -21,21 +21,12 @@
       "id": "deployed_model_api",
       "status": "pending",
       "evidence": [
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
-        "docs/ms3/evidence/team-serving-20261105/api-check.json",
-        "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
-        "docs/ms3/evidence/team-serving-20261105/browser-checks.json",
-        "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json",
-        "docs/ms3/evidence/overnight-20261105/serving-2a87e20/evidence-binding.json",
-        "docs/ms3/evidence/overnight-20261105/serving-2a87e20/invalid-input-checks.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json",
-        "docs/ms3/evidence/serving-readiness-20261111.json",
         "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
         "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
         "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
-        "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
         "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
-        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
+        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg",
+        "docs/ms3/evidence/identity-handoff-20261105/artifact-lock.json"
       ],
       "note": "Ready private Cloud Run revision, exact model/images, full live smoke and browser prediction screenshots verified. Teaching-staff account invocation remains unverified; this audience requirement is not marked complete."
     },
@@ -57,18 +48,9 @@
       "id": "production_monitoring",
       "status": "verified",
       "evidence": [
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/backend.log",
-        "docs/ms3/evidence/current-serving-20261104/backend.log",
-        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json",
-        "docs/ms3/evidence/identity-handoff-20261105/cloud-readiness.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/container-smoke-2a87e20.log",
-        "docs/ms3/evidence/serving-readiness-20261111.json",
         "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
-        "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
-        "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
         "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
-        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
-        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
+        "docs/ms3/jenny-serving-handoff-20261111.md"
       ],
       "note": "Actual same-revision Cloud Logging request records and one explicit demo feedback event verified. Query/access instructions documented; retention/exclusion configuration was not audited."
     },
@@ -77,24 +59,10 @@
       "status": "verified",
       "evidence": [
         "src/backend/SPEC.md",
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-examples.json",
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/api-check.json",
-        "docs/ms3/evidence/current-serving-20261104/api-check.json",
-        "docs/ms3/evidence/current-serving-20261104/browser-checks.json",
-        "docs/ms3/evidence/team-serving-20261105/api-check.json",
-        "docs/ms3/evidence/team-serving-20261105/team-model-retrieval.json",
-        "docs/ms3/evidence/team-serving-20261105/browser-checks.json",
-        "docs/ms3/evidence/identity-handoff-20261105/identity-audit-v2.json",
-        "docs/ms3/evidence/overnight-20261105/serving-2a87e20/evidence-binding.json",
-        "docs/ms3/evidence/overnight-20261105/serving-2a87e20/invalid-input-checks.json",
-        "docs/ms3/evidence/overnight-20261105/containers-2a87e20/local-smoke.json",
-        "docs/ms3/evidence/serving-readiness-20261111.json",
         "docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json",
         "docs/ms3/evidence/deployed-serving-20261111/live-smoke.json",
         "docs/ms3/evidence/deployed-serving-20261111/curl-checks.json",
-        "docs/ms3/evidence/deployed-serving-20261111/cloud-logs.json",
-        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json",
-        "docs/ms3/evidence/deployed-serving-20261111/live-shortlist-average.jpg"
+        "docs/ms3/evidence/deployed-serving-20261111/browser-checks.json"
       ],
       "note": "Documented external /api routes, 311 unique tests, exact-model local/live smoke and independent curl all passed, including both ranking modes, private-route404 and anonymous403."
     },
@@ -102,12 +70,9 @@
       "id": "milestone3_branch",
       "status": "verified",
       "evidence": [
-        "docs/ms3/evidence/team-serving-20261105/remote-refs-before.json",
-        "docs/ms3/evidence/team-serving-20261105/github-audience.json",
-        "docs/ms3/evidence/overnight-20261105/github-initial-upload.json",
         "docs/ms3/evidence/remote-refs-20261111.json"
       ],
-      "note": "Remote milestone3 verified at 46f6622d9ca9e211113df63b122349af1c708b1a. Serving fix remains separate at 46cdbff; PR13 is open/draft at d05a6be. Branch existence does not establish final integration or Canvas submission."
+      "note": "Published serving integration and live evidence verified on milestone3 at 73d60fbb37f89fb619cfc04b9f2b6907e75421df. Later documentation-only cleanup does not alter deployed source. Team training integration and Canvas submission are separate."
     },
     {
       "id": "presentation",

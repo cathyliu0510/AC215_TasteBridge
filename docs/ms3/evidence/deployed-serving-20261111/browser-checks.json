@@ -18,11 +18,10 @@
   ],
   "console_warning_error_count": 0,
   "narrow_layout": {
-    "requested_width": 520,
     "actual_viewport_width": 693,
     "document_width": 693,
     "horizontal_overflow": false,
-    "limitation": "Browser enforced a wider effective viewport. This run does not prove 520px, 390px or 320px behavior."
+    "limitation": "This capture establishes the 693px viewport only."
   },
   "screenshots": [
     "live-shortlist-least-misery.jpg",

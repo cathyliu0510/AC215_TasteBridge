@@ -29,10 +29,10 @@ The published summary is derived from original release/deployment/smoke receipts
 
 ## Current cloud and branch facts
 
-- Project/repository IAM checks now pass with no public bindings. Runtime identity and required serving permissions were verified. Older November 5 blanket-permission statements are historical.
+- Direct project/repository checks found no public bindings. Runtime identity and required serving permissions were verified; authentication remains required.
 - `tastebridge-staging` is Ready with 100% traffic on `tastebridge-staging-00002-vzn`. See the live evidence above. Teaching-staff account access is not yet independently verified.
-- Ancestor IAM reads were not retried. The operator explicitly confirmed no public access and compliance before publication. Direct project/repository checks passed before each image push and service update. No policy changes were made.
-- Final serving integration is based on remote `milestone3` at `46f6622d9ca9e211113df63b122349af1c708b1a`, with the existing serving-readiness fix and the namespaced health-route repair. Final remote publication must be checked after push; a local commit is not a submission receipt.
+- Inherited privacy is operator-confirmed; direct project/repository policies were checked. No policy changes were made.
+- Serving integration and live evidence are published on `milestone3` at `73d60fbb37f89fb619cfc04b9f2b6907e75421df`. [Remote verification](evidence/remote-refs-20261111.json). Documentation-only updates do not change the deployed application. Verify the final team SHA separately for Canvas submission.
 - [PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13) remains open/draft at `d05a6be2404555cee3cc872f4ce971c55ed2d332`. Its standalone training success does not prove the full pipeline succeeded or that M1 is served.
 - [Architecture PR #11](https://github.com/cathyliu0510/AC215_TasteBridge/pull/11) merged to `main` on November 9 at `37ea20bd0b57523c1f5715c8de61aea4584648fc`. It is not a still-open PR, and main is not the submission branch.
 

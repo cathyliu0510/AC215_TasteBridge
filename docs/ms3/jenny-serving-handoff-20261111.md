@@ -32,7 +32,7 @@ gcloud run services proxy tastebridge-staging \
   --project=tastebridge-511403 --region=us-central1 --port=8080
 ```
 
-Then open `http://localhost:8080/a/?api=1`. The CLI uses the active authorized account. The service must be reachable under its existing ingress policy. This proxy is a route to the cloud service, not a local model server; label it that way in evidence. Verify the agreed teaching-staff account can invoke it before marking staff access complete. Any missing access grant needs the separately authorized administrator action.
+Then open `http://localhost:8080/a/?api=1`. The CLI uses the active authorized account. The caller needs `run.routes.invoke` (for example, Cloud Run Invoker) on this service; the standard proxy also reads service details and needs `run.services.get`. Grant only service-scoped access through the authorized administrator. No project-wide administrator role or public invocation is needed. The service must be reachable under its existing ingress policy. This proxy is a route to the cloud service, not a local model server; label it that way in evidence. Verify the agreed teaching-staff account can invoke it before marking staff access complete. Any missing access grant needs the separately authorized administrator action.
 
 Sources: [Google authentication guide](https://docs.cloud.google.com/run/docs/authenticating/developers) and [proxy reference](https://docs.cloud.google.com/sdk/gcloud/reference/run/services/proxy). The execution checks used this authenticated proxy to the live service. No new account login or permission change was performed.
 
@@ -100,8 +100,8 @@ Capture only the needed operational lines. Exclude tokens, credential fields, re
 
 ## 6 Final evidence bundle and stopping rules
 
-Keep originals and a short index with: source commit; deployed service URL and region; exact ready revision and traffic; immutable remote image digests; four-file model fingerprint; health and both recommendation responses; timestamped deployed curl screenshot; production log screenshot/query; teaching-staff access result; and test commands/results for the final source.
+Keep originals and a short index with: source commit; deployed service URL and region; exact ready revision and traffic; immutable remote image digests; four-file model fingerprint; health and both recommendation responses; real deployed prediction screenshot and timestamped curl responses; production logs/query; teaching-staff access result; and test commands/results for the final source.
 
 The required screenshot must show a real prediction, not health alone, a static Site or a fabricated output. Do not expose raw model files to obtain evidence. The 23-book public prototype and the 52-book toy catalogue are separate from the 5,000-book model.
 
-Stop and report any failed identity match, unavailable access, unsuccessful revision or unresolved privacy check. A publish command can create a revision before a later check fails; inspect the saved deployment outcome before retrying. Keep failed outcomes in the record.
+Stop and report any failed identity match, unavailable access, unsuccessful revision or unresolved privacy check. A publish command can create a revision before a later check fails; inspect the saved deployment outcome before retrying. Keep diagnostic attempts locally. Publish final successful evidence with any unresolved limitations clearly stated.

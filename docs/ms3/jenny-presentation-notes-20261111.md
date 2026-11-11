@@ -46,7 +46,7 @@ The evidence bundle now contains real prediction screenshots, the URL, revision,
 
 ## Refresh the old team deck before presenting
 
-- Replace the old blanket statement that cloud reads fail. The service is now live and exact-model checks pass. Preserve the explicit distinction between directly checked project/repository policies and operator-confirmed inherited privacy.
+- Present the verified live service and exact-model checks. Distinguish directly checked project/repository policies from operator-confirmed inherited privacy.
 - Use the team's November 9 tracked Vertex run for the training section, with the actual tracker screenshot and provenance. Keep historical local synthetic reproducibility as backup rather than presenting it as serverless execution.
 - Confirm the full KFP execution separately. A compiled pipeline, standalone successful job, or run-ID fix does not prove a green full run.
 - Architecture PR #11 is merged into main, not still open. PR #13 remains separate; the serving changes and evidence are being integrated without overwriting teammates.

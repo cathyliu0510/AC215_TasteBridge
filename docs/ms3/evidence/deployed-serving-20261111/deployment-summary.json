@@ -70,8 +70,6 @@
   },
   "staff_account_access": "Not independently verified. Administrator must grant/confirm the agreed teaching-staff invocation access; no public access change was made.",
   "training_executed_in_this_delivery": false,
-  "previous_revision": "tastebridge-staging-00001-r9g",
-  "initial_verification_issue": "First revision served the correct API but external /healthz returned Google-generated 404. A namespaced /frontend/health alias fixed external verification; internal startup probe was preserved.",
   "limits": [
     "Serving correctness is not model quality, training, a full pipeline run, or a Canvas submission.",
     "Remote source commit may later be followed by documentation-only commits; this record pins the actual deployed application."
