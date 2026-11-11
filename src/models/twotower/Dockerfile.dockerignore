@@ -1,0 +1,10 @@
+# Used instead of a .dockerignore because the build context is src/ (Docker picks up
+# <Dockerfile name>.dockerignore next to the Dockerfile). Only what the image copies is sent.
+**
+!evaluation/evaluation/**
+!models/twotower/pyproject.toml
+!models/twotower/uv.lock
+!models/twotower/.python-version
+!models/twotower/twotower/**
+!models/twotower/docker-entrypoint.sh
+**/__pycache__

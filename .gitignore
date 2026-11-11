@@ -19,3 +19,4 @@ __pycache__/
 /data/artifacts/
 deploy/cloud-run/.artifacts/
 deploy/cloud-run/.state/
+/runs/

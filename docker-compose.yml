@@ -128,5 +128,28 @@ services:
       train:
         condition: service_completed_successfully
 
+  # MS3 M1 two-tower (YiTong): train on ./data, early-stop on TUNE pairs, score TEST next to
+  # B0/B1/B2. Results go to ./runs/<run-id>/ (git-ignored). Same image as the Vertex AI job.
+  #   docker compose --profile twotower build
+  #   docker compose --profile twotower run --rm twotower train --data-dir /data --out /runs
+  # CPU by default (any laptop, about 10-20 min). With an NVIDIA GPU, add `--gpus all` via
+  # src/models/twotower/docker-shell.sh instead (about 2 min). W&B is used only if WANDB_API_KEY
+  # is set in your shell; otherwise the run is tracked in runs/<run-id>/tracking.jsonl.
+  twotower:
+    build:
+      context: ./src
+      dockerfile: models/twotower/Dockerfile
+      args:
+        TORCH: ${TWOTOWER_TORCH:-cpu}
+        GIT_COMMIT: ${GIT_COMMIT:-unknown}
+    profiles: ["twotower"]
+    environment:
+      WANDB_API_KEY: ${WANDB_API_KEY:-}
+      WANDB_PROJECT: ${WANDB_PROJECT:-tastebridge-two-tower}
+      WANDB_ENTITY: ${WANDB_ENTITY:-}
+    volumes:
+      - ./data:/data:ro
+      - ./runs:/runs
+
 volumes:
   feedback:
