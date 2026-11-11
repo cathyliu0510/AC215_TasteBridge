@@ -69,8 +69,8 @@ class CatalogueIndependentSmoke(unittest.TestCase):
     def fake_read(self, base, path, data=None):
         if path == "/api/health":
             return dict(self.health)
-        if path == "/healthz":
-            return {"status": "ok"}
+        if path == "/frontend/health":
+            return {"status": "ok", "service": "frontend"}
         if path.startswith("/api/books/search?"):
             self.searches.append(path)
             return [{"book_id": "some-catalogue-match"}]

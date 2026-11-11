@@ -172,8 +172,8 @@ class CatalogueTitleSmoke(unittest.TestCase):
             if path == '/api/health':
                 return dict(status='ok', num_books=7, model_version='test-model',
                             artifact_fingerprint=fingerprint, data_version=None)
-            if path == '/healthz':
-                return dict(status='ok')
+            if path == '/frontend/health':
+                return dict(status='ok', service='frontend')
             if path.startswith('/api/books/search?'):
                 query = urllib.parse.parse_qs(urllib.parse.urlsplit(path).query)['q'][0]
                 queries.append(query)

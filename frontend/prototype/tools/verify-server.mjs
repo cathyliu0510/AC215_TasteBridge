@@ -49,3 +49,19 @@ test('static serving defaults to connected A and never exposes files outside the
   assert.equal((await fetch(`${base}/api/recommend`,{method:'POST',body:'x'.repeat(65537)})).status,413);
  }finally{frontend.closeAllConnections();await new Promise(resolve=>frontend.close(resolve));await rm(root,{recursive:true,force:true});}
 });
+
+
+test('frontend health has a namespaced external route and retains the internal startup probe',async()=>{
+ const frontend=createFrontendServer({apiBase:'http://127.0.0.1:9'});
+ await new Promise(resolve=>frontend.listen(0,'127.0.0.1',resolve));
+ const base=`http://127.0.0.1:${frontend.address().port}`;
+ try{
+  for(const path of ['/frontend/health','/healthz']){
+   const reply=await fetch(base+path);
+   assert.equal(reply.status,200);
+   assert.equal(reply.headers.get('cache-control'),'no-store');
+   assert.deepEqual(await reply.json(),{status:'ok',service:'frontend'});
+  }
+  assert.equal((await fetch(base+'/frontend/private')).status,404);
+ }finally{frontend.closeAllConnections();await new Promise(resolve=>frontend.close(resolve));}
+});

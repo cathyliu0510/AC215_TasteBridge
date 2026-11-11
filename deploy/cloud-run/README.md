@@ -159,3 +159,8 @@ python3 deploy/cloud-run/deploy.py build /absolute/path/to/approved/current \
 ```
 
 A mismatch aborts before any Docker build. A successful locked build records the lock SHA256 in `.state/release.json`. This does not execute a cloud deployment or grant invocation.
+
+
+## Frontend health verification
+
+Use `/frontend/health` for external checks. It returns `{"status":"ok","service":"frontend"}` without contacting the backend. `/healthz` remains the internal Cloud Run startup probe. In the November 11 staging deployment, the external `/healthz` URL returned a Google-generated 404 while the container's startup probe succeeded; the namespaced route avoids that observed edge-path collision. `/api/health` independently verifies the served model identity. Neither route grants invocation access.

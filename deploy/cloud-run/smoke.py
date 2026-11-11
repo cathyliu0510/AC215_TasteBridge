@@ -103,7 +103,9 @@ def check(base, release, feedback, seed_ids=None):
             urllib.parse.parse_qs(urllib.parse.urlparse(final_url).query).get('api') == ['1'],
             f'Root did not enter the API-backed UI: {final_url}')
     require(b'TasteBridge' in html, 'Missing frontend HTML')
-    require(read_json(base, '/healthz')['status'] == 'ok', 'Frontend health failed')
+    frontend_health = read_json(base, '/frontend/health')
+    require(frontend_health.get('status') == 'ok' and frontend_health.get('service') == 'frontend',
+            'Frontend health failed')
     picks = []
     require(seed_ids is None or len(seed_ids) == 2, 'Supply exactly one book ID per reader')
     for index, query in enumerate(('The Hobbit', 'Gone Girl')):

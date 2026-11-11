@@ -20,7 +20,8 @@ export function createFrontendServer({root=resolve(here,'../dist'),apiBase,log=(
  return createServer(async(req,res)=>{
   const started=Date.now(),url=new URL(req.url,'http://frontend.invalid');
   res.on('finish',()=>log(`${req.method} ${url.pathname} ${res.statusCode} ${Date.now()-started}ms`));
-  if(url.pathname==='/healthz'){json(res,200,{status:'ok',service:'frontend'});return;}
+  // Keep the internal startup probe, with a namespaced route for external verification.
+  if(url.pathname==='/healthz'||url.pathname==='/frontend/health'){json(res,200,{status:'ok',service:'frontend'});return;}
   if(url.pathname.startsWith('/api/')){
    const path=url.pathname.slice(4);
    const allowed=(req.method==='GET'&&(path==='/health'||path==='/books/search'||/^\/books\/[^/]+$/.test(path)))||
