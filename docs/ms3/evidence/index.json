@@ -5,17 +5,16 @@
   "requirements": [
     {
       "id": "tracked_serverless_training",
-      "status": "pending",
+      "status": "verified",
       "evidence": [
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
-        "docs/ms3/evidence/local-integration-20261104/runs/reproducibility.json",
-        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json",
-        "deploy/vertex-ms3/README.md",
-        "deploy/vertex-ms3/offline-verification.json",
-        "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
-        "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
+        "deploy/twotower/README.md",
+        "deploy/twotower/vertex-train.sh",
+        "docs/ms3/two-tower/vertex-custom-jobs.png",
+        "docs/ms3/two-tower/vertex-t4-job-details.png",
+        "docs/ms3/two-tower/wandb-t4-train-loss.png",
+        "docs/ms3/two-tower/wandb-t4-tune-min-recall.png"
       ],
-      "note": "Team PR #13 at d05a6be documents a successful standalone Vertex training run and W&B tracking. Direct job/tracker screenshot and provenance still need final verification and integration; local synthetic evidence does not close this requirement."
+      "note": "PR #13 head 8bb0a750 is merged into actual milestone3 commit 5c04926f1656228dc05361f18c5e204327b1cdee. Its reproducibility record and captured screenshots show finished Vertex job 3911991530436427776, configured T4, image digest, run/data arguments and W&B loss/TUNE curves. The README associates the curves with W&B zijfiixh; the curve crops do not display that run ID. Configured T4 and the CUDA argument do not independently prove actual GPU use. This reconciliation binds integrated source to existing captures only; no new training, live cloud lookup or artifact-provenance audit was performed, and no final combined-team validation is claimed."
     },
     {
       "id": "deployed_model_api",
@@ -32,17 +31,19 @@
     },
     {
       "id": "automated_ml_workflow",
-      "status": "pending",
+      "status": "verified",
       "evidence": [
-        "tools/verify_local_integration.py",
-        "docs/ms3/evidence/local-integration-20261104/runs/run-a/run.json",
-        "docs/ms3/evidence/team-serving-20261105/cloud-visibility.json",
-        "deploy/vertex-ms3/README.md",
-        "deploy/vertex-ms3/offline-verification.json",
-        "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/runtime-verification.json",
-        "docs/ms3/evidence/overnight-20261105/workflow-runtime/pass20/selected-evidence/receipt.json"
+        "deploy/twotower/README.md",
+        "deploy/twotower/pipeline.py",
+        "src/models/twotower/twotower/steps.py",
+        "docs/ms3/pipeline/twotower-pipeline-run.png",
+        "docs/ms3/pipeline/twotower-pipeline-evaluate.png",
+        "docs/ms3/pipeline/twotower-pipeline-publish.png",
+        "src/evaluation/evaluation/pipeline_train.py",
+        "docs/ms3/pipeline/als-pipeline-run.png",
+        "docs/ms3/pipeline/als-pipeline-evaluate.png"
       ],
-      "note": "Team shared KFP pipeline and run-ID fix exist on PR #13, but a successful full qualifying cloud workflow is not established. Current local worker receipts remain local only."
+      "note": "Recorded shared Vertex workflow and captures are integrated by PR #13 and PR #14. M1 tastebridge-train-twotower-20261109172259 completed 5/5 and published after least-misery 0.04676 >= 0.042; ALS tastebridge-train-als-20261110212016 completed 4/5 with least-misery 0.023599 and intentionally skipped publication. ALS evaluation is the documented TRAIN-reader refit, not exact all-reader-export scoring. These are reviewed captured records, not a new cloud run or serving-model switch."
     },
     {
       "id": "production_monitoring",
@@ -89,5 +90,5 @@
       "note": "November 5 12-slide deck remains a historical review draft. Added a current three-minute Jenny speaking insert; it is not a refreshed rendered deck or final team review. Live evidence and new team training content still need integration."
     }
   ],
-  "review_scope": "Serving execution and documentation reconciliation. Current live evidence is original sanitized execution evidence; historical local receipts retain their earlier scope. Team training/workflow, staff account access, final deck and Canvas are not certified."
+  "review_scope": "Evidence reconciliation after PR13 and PR14 merged into milestone3 at 0964874b155b4842cf24e6fa1f0a6a53ad5bc314. Training/workflow coverage uses tracked pinned records and previously reviewed captures, not new provider, tracker or GPU-utilization verification. Teaching-staff invocation, refreshed team presentation and Canvas submission are not certified. Record the actual published team SHA and checker result separately."
 }
