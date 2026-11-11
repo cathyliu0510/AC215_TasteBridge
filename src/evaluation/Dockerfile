@@ -21,6 +21,15 @@ RUN uv sync --frozen --no-dev --no-install-project
 COPY evaluation ./evaluation
 RUN mkdir -p /app/results /app/data /app/artifacts && chown app:app /app/results /app/data /app/artifacts
 
+# MS3: entry point for the ALS branch of the Vertex AI pipeline (deploy/twotower/pipeline.py runs
+# `/docker-entrypoint.sh train ...`). The default ENTRYPOINT below is unchanged for compose.
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 755 /docker-entrypoint.sh
+
+# Provenance: recorded as code_version in meta.json (evaluation.run.git_commit reads GIT_COMMIT)
+ARG GIT_COMMIT=unknown
+ENV GIT_COMMIT=${GIT_COMMIT}
+
 USER app
 
 # Same image also trains + exports B2 for the backend:
