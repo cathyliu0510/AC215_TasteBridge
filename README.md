@@ -8,19 +8,23 @@ A book recommender for two readers. Each picks five favorites; TasteBridge sugge
 
 [Current requirements and evidence](docs/ms3/) · [Jenny's deployment and evidence checklist](docs/ms3/jenny-serving-handoff-20261111.md) · [Existing-model reproduction](docs/ms3/reproduce.md) · [API contract](src/backend/SPEC.md) · [Deploy and redeploy](deploy/cloud-run/README.md).
 
-**Updated November 11, 2026: the private staging service is deployed and verified.** [TasteBridge staging](https://tastebridge-staging-fbii3egyuq-uc.a.run.app) serves the locked 5,000-book B2 ALS export at revision `tastebridge-staging-00002-vzn`. [Live API, prediction screenshots and cloud logs](docs/ms3/evidence/deployed-serving-20261111/). Authentication is preserved; the teaching-staff account's own access still needs confirmation. Full team training/pipeline integration and Canvas submission remain separate.
+**Updated November 11, 2026: the private staging service is deployed and verified.** [TasteBridge staging](https://tastebridge-staging-fbii3egyuq-uc.a.run.app) serves the locked 5,000-book B2 ALS export at revision `tastebridge-staging-00002-vzn`. [Live API, prediction screenshots and cloud logs](docs/ms3/evidence/deployed-serving-20261111/). Authentication is preserved; the teaching-staff account's own access still needs confirmation. Team training, the Vertex AI pipeline and the kNN + ALS hybrid are merged into `milestone3` (PRs #13, #14 and #15).
 
 ### Changes since MS2
 
 - Added a tested frontend API adapter, stale-response protection, same-tab recovery and fingerprint checks so saved responses cannot silently attach to a different model.
 - Added startup validation and exact four-file model identity, plus a catalogue search index that preserves the backend's result order and scoring.
 - Added Cloud Run frontend/backend packaging, startup probes, access-preserving publication, artifact checks and rollback records. Fresh local container and live cloud smoke passed with the existing 5,000-book ALS export. [Deployment verification](docs/ms3/evidence/deployed-serving-20261111/deployment-summary.json).
-- Team training work is on [draft PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13): M1 two-tower training with W&B, a documented Vertex reference run, and a shared KFP pipeline. It is not merged into `milestone3`; a successful full pipeline and its evidence still need verification. The app currently uses B2 ALS, not the full M1 reader tower.
+- Added M1 two-tower training on Vertex AI (T4 GPU) with W&B experiment tracking ([PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13), [training record](deploy/twotower/README.md#reproduce-a-training-run)).
+- Added a shared Vertex AI pipeline (check data → train → evaluate → gate → publish) with an M1 branch and an ALS branch ([PR #13](https://github.com/cathyliu0510/AC215_TasteBridge/pull/13), [PR #14](https://github.com/cathyliu0510/AC215_TasteBridge/pull/14), [pipeline runs](deploy/twotower/README.md#completed-runs-evidence)). M1 passed the 0.042 least-misery gate and was published as a candidate; ALS scored 0.0236 and publication was intentionally skipped.
+- Added an item-kNN + ALS hybrid with ALS fold-in, tuned on the tune split and evaluated offline ([PR #15](https://github.com/cathyliu0510/AC215_TasteBridge/pull/15), [hybrid notes](docs/ms3/hybrid/README.md)).
+- The app still serves B2 ALS. Serving M1 needs reader-tower inference, and serving the hybrid needs two extra artifact files; both are next steps.
 
 ### Runbook entry points
 
-- Training and experiment tracking: [team reference-run configuration and reproduction](https://github.com/cathyliu0510/AC215_TasteBridge/blob/d05a6be2404555cee3cc872f4ce971c55ed2d332/deploy/twotower/README.md). Follow the pinned branch; these files are not yet on `milestone3`.
-- Automated workflow: [team pipeline code and command flags](https://github.com/cathyliu0510/AC215_TasteBridge/blob/d05a6be2404555cee3cc872f4ce971c55ed2d332/deploy/twotower/pipeline.py). Its README still needs completed execution instructions and a matching successful-run record. Do not start a duplicate paid run to replace missing evidence.
+- Training and experiment tracking: [reproduce a Vertex AI training run with W&B](deploy/twotower/README.md#reproduce-a-training-run).
+- Automated workflow: [run the Vertex AI pipeline](deploy/twotower/README.md#run-it) ([`pipeline.py`](deploy/twotower/pipeline.py); ALS step in [`pipeline_train.py`](src/evaluation/evaluation/pipeline_train.py)). Completed runs are recorded, so there is no need to start a new paid run.
+- Hybrid model: [tune and evaluate with `make tune-hybrid`](docs/ms3/hybrid/README.md#run-it).
 - Deployment: [build, local smoke, publish and rollback](deploy/cloud-run/README.md). The final deployed revision, immutable images and exact serving-model identity are recorded in the live evidence bundle. Authentication is required.
 - API access and monitoring: [actual routed endpoints, authenticated browser access, curl capture and revision-linked logs](docs/ms3/jenny-serving-handoff-20261111.md). The deployed prediction, exact model identity and revision-linked logs are recorded in the live evidence bundle.
 
