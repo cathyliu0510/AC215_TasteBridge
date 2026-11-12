@@ -4,7 +4,8 @@
 #   make sample     fast demo:  same, first SAMPLE_LINES lines of each interaction file
 #   make data       ingest + preprocess only (no 3 GB embed image)
 #   make demo       fully offline: invented Goodreads-shaped data -> preprocess -> evaluation
-#   make evaluate   evaluation (B0, B1, B2) on whatever is in data/processed
+#   make evaluate   evaluation (B0, B1, B2, ALS fold-in, M1 hybrid) on whatever is in data/processed
+#   make tune-hybrid  M1 hybrid: choose its settings on the tune split, then one test-split evaluation
 #   make train      train B2 ALS on data/processed and export data/artifacts/current
 #   make serve      backend API serving the trained model (http://localhost:9000/docs)
 #   make app        frontend + backend with the trained model (http://localhost:4176)
@@ -23,7 +24,7 @@ export GIT_COMMIT
 export MSYS_NO_PATHCONV := 1
 export MSYS2_ARG_CONV_EXCL := *
 
-.PHONY: pipeline sample data demo evaluate train serve app test dvc-push clean-processed
+.PHONY: pipeline sample data demo evaluate tune-hybrid train serve app test dvc-push clean-processed
 
 # The compose service `pipeline` waits for embed and train (which wait for preprocess,
 # which waits for ingest), then evaluates; see docker-compose.yml.
@@ -52,7 +53,19 @@ evaluate:
 	EVAL_DATA=$(EVAL_DATA) docker compose --profile evaluation run --rm --build evaluation \
 		--interactions /app/processed/interactions.parquet \
 		--books /app/processed/books.parquet \
-		--out /app/results --favorite-counts 1,2,3,4,5 --run-id $(RUN_ID)
+		--out /app/results --favorite-counts 1,2,3,4,5 --run-id $(RUN_ID) \
+		$(if $(HYBRID_PARAMS),--hybrid-params $(HYBRID_PARAMS))
+
+# M1 hybrid (src/evaluation/evaluation/hybrid.py). Writes results/hybrid-<RUN_ID>-tune/best.json,
+# then the standard results folder results/hybrid-<RUN_ID>-test/. Reuse the chosen settings later with
+#   make evaluate HYBRID_PARAMS=/app/results/hybrid-<RUN_ID>-tune/best.json
+tune-hybrid:
+	mkdir -p src/evaluation/results
+	EVAL_DATA=$(EVAL_DATA) docker compose --profile evaluation run --rm --build --entrypoint python evaluation \
+		-m evaluation.tune_hybrid \
+		--interactions /app/processed/interactions.parquet \
+		--books /app/processed/books.parquet \
+		--out /app/results --run-id hybrid-$(RUN_ID)
 
 train:
 	mkdir -p data/artifacts

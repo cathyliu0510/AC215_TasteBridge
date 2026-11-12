@@ -1,0 +1,75 @@
+2026-11-06T01:25:10 INFO M1 hybrid tuning, run synthetic-10k
+2026-11-06T01:25:11 INFO Tune split: 1000 readers, 300 pairs; 360086 training interactions
+2026-11-06T01:25:48 INFO Fitted ALS {'factors': 128, 'regularization': 50.0, 'alpha': 20.0, 'iterations': 15, 'seed': 42} in 36.3s
+2026-11-06T01:25:49 INFO nbrs 50   fold_in  w 0.00  Min-Recall@10 0.0154
+2026-11-06T01:25:49 INFO nbrs 50   fold_in  w 0.10  Min-Recall@10 0.0184
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.20  Min-Recall@10 0.0201
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.30  Min-Recall@10 0.0215
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.40  Min-Recall@10 0.0235
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.50  Min-Recall@10 0.0234
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.60  Min-Recall@10 0.0243
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.70  Min-Recall@10 0.0242
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.80  Min-Recall@10 0.0239
+2026-11-06T01:25:50 INFO nbrs 50   fold_in  w 0.90  Min-Recall@10 0.0238
+2026-11-06T01:25:51 INFO nbrs 50   fold_in  w 1.00  Min-Recall@10 0.0242
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.00  Min-Recall@10 0.0111
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.10  Min-Recall@10 0.0148
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.20  Min-Recall@10 0.0185
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.30  Min-Recall@10 0.0211
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.40  Min-Recall@10 0.0229
+2026-11-06T01:25:51 INFO nbrs 50   cosine   w 0.50  Min-Recall@10 0.0237
+2026-11-06T01:25:52 INFO nbrs 50   cosine   w 0.60  Min-Recall@10 0.0241
+2026-11-06T01:25:52 INFO nbrs 50   cosine   w 0.70  Min-Recall@10 0.0246
+2026-11-06T01:25:52 INFO nbrs 50   cosine   w 0.80  Min-Recall@10 0.0240
+2026-11-06T01:25:52 INFO nbrs 50   cosine   w 0.90  Min-Recall@10 0.0240
+2026-11-06T01:25:52 INFO nbrs 50   cosine   w 1.00  Min-Recall@10 0.0242
+2026-11-06T01:25:52 INFO nbrs 100  fold_in  w 0.00  Min-Recall@10 0.0154
+2026-11-06T01:25:52 INFO nbrs 100  fold_in  w 0.10  Min-Recall@10 0.0178
+2026-11-06T01:25:52 INFO nbrs 100  fold_in  w 0.20  Min-Recall@10 0.0199
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.30  Min-Recall@10 0.0209
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.40  Min-Recall@10 0.0223
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.50  Min-Recall@10 0.0236
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.60  Min-Recall@10 0.0242
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.70  Min-Recall@10 0.0243
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.80  Min-Recall@10 0.0239
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 0.90  Min-Recall@10 0.0236
+2026-11-06T01:25:53 INFO nbrs 100  fold_in  w 1.00  Min-Recall@10 0.0233
+2026-11-06T01:25:53 INFO nbrs 100  cosine   w 0.00  Min-Recall@10 0.0111
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.10  Min-Recall@10 0.0144
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.20  Min-Recall@10 0.0178
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.30  Min-Recall@10 0.0203
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.40  Min-Recall@10 0.0226
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.50  Min-Recall@10 0.0239
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.60  Min-Recall@10 0.0240
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.70  Min-Recall@10 0.0242
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.80  Min-Recall@10 0.0239
+2026-11-06T01:25:54 INFO nbrs 100  cosine   w 0.90  Min-Recall@10 0.0233
+2026-11-06T01:25:55 INFO nbrs 100  cosine   w 1.00  Min-Recall@10 0.0233
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.00  Min-Recall@10 0.0154
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.10  Min-Recall@10 0.0174
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.20  Min-Recall@10 0.0194
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.30  Min-Recall@10 0.0210
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.40  Min-Recall@10 0.0220
+2026-11-06T01:25:55 INFO nbrs 200  fold_in  w 0.50  Min-Recall@10 0.0227
+2026-11-06T01:25:56 INFO nbrs 200  fold_in  w 0.60  Min-Recall@10 0.0237
+2026-11-06T01:25:56 INFO nbrs 200  fold_in  w 0.70  Min-Recall@10 0.0234
+2026-11-06T01:25:56 INFO nbrs 200  fold_in  w 0.80  Min-Recall@10 0.0232
+2026-11-06T01:25:56 INFO nbrs 200  fold_in  w 0.90  Min-Recall@10 0.0237
+2026-11-06T01:25:56 INFO nbrs 200  fold_in  w 1.00  Min-Recall@10 0.0235
+2026-11-06T01:25:56 INFO nbrs 200  cosine   w 0.00  Min-Recall@10 0.0111
+2026-11-06T01:25:56 INFO nbrs 200  cosine   w 0.10  Min-Recall@10 0.0142
+2026-11-06T01:25:56 INFO nbrs 200  cosine   w 0.20  Min-Recall@10 0.0168
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.30  Min-Recall@10 0.0197
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.40  Min-Recall@10 0.0219
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.50  Min-Recall@10 0.0219
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.60  Min-Recall@10 0.0230
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.70  Min-Recall@10 0.0235
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.80  Min-Recall@10 0.0233
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 0.90  Min-Recall@10 0.0234
+2026-11-06T01:25:57 INFO nbrs 200  cosine   w 1.00  Min-Recall@10 0.0235
+2026-11-06T01:25:58 INFO Reference B0 popularity                    Min-Recall@10 0.0126
+2026-11-06T01:25:58 INFO Reference B1 item-kNN (100 neighbours)     Min-Recall@10 0.0233
+2026-11-06T01:25:58 INFO Reference B2 ALS (cosine, as served)       Min-Recall@10 0.0098
+2026-11-06T01:25:58 INFO Reference ALS fold-in                      Min-Recall@10 0.0143
+2026-11-06T01:25:58 INFO Chosen on the tune split: {'weight': 0.7, 'knn_neighbors': 50, 'als_scoring': 'cosine'}, Min-Recall@10 0.0246 (B1 0.0233)
+2026-11-06T01:25:58 INFO Wrote results/synthetic-10k-tune

@@ -83,6 +83,8 @@ A committed example run is in [docs/ms2/evaluation](../../docs/ms2/evaluation/).
 
 `popularity` (B0) and `item_knn` (B1, cosine on the binary like matrix, top-100 neighbours) are reference implementations so the harness can be checked end to end. Any model plugs in by implementing `Recommender` in [`evaluation/models.py`](evaluation/models.py): `fit(train_interactions)`, `items`, and `score(favorites)` returning one [0, 1] score per item. That covers the team's B0–B2 baselines and the M1 hybrid.
 
+**M1 hybrid** (`hybrid.py`): `als_foldin` scores ALS by solving the reader's vector from their favorites (raw dot products, no length normalisation), and `hybrid` blends it with item-kNN, `w · kNN + (1 − w) · ALS`. `python -m evaluation.tune_hybrid` (or `make tune-hybrid`) chooses w, the neighbour count and the ALS scoring rule on the tune split, then evaluates once on the test split. Method, results and serving plan: [docs/ms3/hybrid](../../docs/ms3/hybrid/README.md).
+
 ## Tests
 
 The tests check metrics against hand-calculated values. They also check that the split is disjoint, readers and pairs are deterministic, aggregation rules are correct, favorites are never recommended, and no evaluated reader was a training user. As a whole-harness sanity check, item-kNN must beat popularity on structured synthetic data.

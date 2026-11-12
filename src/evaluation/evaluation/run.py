@@ -31,8 +31,9 @@ from evaluation import __version__, synthetic
 from evaluation.aggregate import AGGREGATIONS, recommend_pair
 from evaluation.data import data_version, likes, load_books, load_interactions
 from evaluation.metrics import coverage, long_tail, pair_metrics
-from evaluation.als import ALS, ALSParams
-from evaluation.models import MODELS, ItemKNN
+from evaluation.als import ALSParams
+from evaluation.hybrid import ALS_SCORINGS, HybridParams, build_models
+from evaluation.models import MODELS
 from evaluation.pairs import sample_pairs
 from evaluation.split import make_eval_readers, split_users
 
@@ -50,7 +51,7 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     p.add_argument("--out", default="results")
     p.add_argument("--run-id", default=None)
     p.add_argument("--split", choices=("tune", "test"), default="test")
-    p.add_argument("--models", type=csv, default=["popularity", "item_knn", "als"])
+    p.add_argument("--models", type=csv, default=["popularity", "item_knn", "als", "als_foldin", "hybrid"])
     p.add_argument("--aggregations", type=csv, default=list(AGGREGATIONS))
     p.add_argument("--favorite-counts", type=csv, default=["5"], help="e.g. 1,2,3,4,5 for robustness")
     p.add_argument("--n-pairs", type=int, default=300)
@@ -62,6 +63,11 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     p.add_argument("--als-reg", type=float, default=ALSParams.regularization)
     p.add_argument("--als-alpha", type=float, default=ALSParams.alpha)
     p.add_argument("--als-iterations", type=int, default=ALSParams.iterations)
+    # M1 hybrid (evaluation/hybrid.py). Normally set from tune_hybrid.py's best.json.
+    p.add_argument("--hybrid-params", help="best.json written by evaluation.tune_hybrid (overrides the three flags below)")
+    p.add_argument("--hybrid-weight", type=float, default=HybridParams.weight, help="share of item-kNN, 0-1")
+    p.add_argument("--hybrid-knn-neighbors", type=int, default=None, help="default: --knn-neighbors")
+    p.add_argument("--hybrid-als-scoring", choices=ALS_SCORINGS, default=HybridParams.als_scoring)
     args = p.parse_args(argv)
     if not args.synthetic and not (args.interactions and args.books):
         p.error("give --interactions and --books, or --synthetic")
@@ -74,12 +80,25 @@ def parse_args(argv: list[str] | None) -> argparse.Namespace:
     args.favorite_counts = sorted({int(n) for n in args.favorite_counts}, reverse=True)
     if not all(1 <= n <= 5 for n in args.favorite_counts):
         p.error("--favorite-counts must be between 1 and 5")
+    try:
+        args.hybrid = hybrid_params(args)
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        p.error(f"bad hybrid settings: {exc}")
     return args
 
 
 def als_params(args: argparse.Namespace) -> ALSParams:
     return ALSParams(factors=args.als_factors, regularization=args.als_reg, alpha=args.als_alpha,
                      iterations=args.als_iterations, seed=args.seed)
+
+
+def hybrid_params(args: argparse.Namespace) -> HybridParams:
+    if args.hybrid_params:
+        chosen = json.loads(Path(args.hybrid_params).read_text())["hybrid"]
+        return HybridParams(weight=float(chosen["weight"]), knn_neighbors=int(chosen["knn_neighbors"]),
+                            als_scoring=str(chosen["als_scoring"]))
+    neighbors = args.hybrid_knn_neighbors if args.hybrid_knn_neighbors is not None else args.knn_neighbors
+    return HybridParams(weight=args.hybrid_weight, knn_neighbors=neighbors, als_scoring=args.hybrid_als_scoring)
 
 
 def git_commit() -> str | None:
@@ -177,17 +196,9 @@ def run(args: argparse.Namespace) -> Path:
     kinds = pd.Series([p.kind for p in pairs]).value_counts().to_dict()
     log.info("Sampled %d pairs %s", len(pairs), kinds)
 
-    models = {}
-    for name in args.models:
-        tic = time.perf_counter()
-        if name == "item_knn":
-            model = ItemKNN(args.knn_neighbors)
-        elif name == "als":
-            model = ALS(als_params(args))
-        else:
-            model = MODELS[name]()
-        models[name] = model.fit(train)
-        log.info("Fitted %s on %d training interactions in %.2fs", name, len(train), time.perf_counter() - tic)
+    log.info("Fitting %s on %d training interactions; hybrid %s", ", ".join(args.models), len(train),
+             args.hybrid.as_dict())
+    models = build_models(args.models, train, args.knn_neighbors, als_params(args), args.hybrid, log=log)
 
     rows, lists = [], {}
     for name, model in models.items():
@@ -226,7 +237,8 @@ def run(args: argparse.Namespace) -> Path:
 
     config = {
         "run_id": run_id, "package_version": __version__, "git_commit": git_commit(),
-        "python": platform.python_version(), "arguments": {k: v for k, v in vars(args).items()},
+        "python": platform.python_version(), "arguments": {k: v for k, v in vars(args).items() if k != "hybrid"},
+        "hybrid": args.hybrid.as_dict(), "als": als_params(args).as_dict(),
         "data": {"interactions": data_version(interactions_path), "books": data_version(books_path)},
         "counts": {"interactions": len(interactions), "train_interactions": len(train),
                    "users": {"train": len(split.train), "tune": len(split.tune), "test": len(split.test)},
